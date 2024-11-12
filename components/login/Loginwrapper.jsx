@@ -1,13 +1,13 @@
 'use client'
 import React from 'react'
 
-import logo from '@/assets/logo.png'
+import logo from '@/public/assets/logo.png'
 import Image from 'next/image'
-import apartment from '@/assets/apartment.jpg'
-import apartment1 from '@/assets/apartment1.jpg'
-import apartment2 from '@/assets/apartment2.jpg'
-import apartment3 from '@/assets/apartment3.jpg'
-import apartment4 from '@/assets/apartment4.jpg'
+import apartment from '@/public/assets/apartment.jpg'
+import apartment1 from '@/public/assets/apartment1.jpg'
+import apartment2 from '@/public/assets/apartment2.jpg'
+import apartment3 from '@/public/assets/apartment3.jpg'
+import apartment4 from '@/public/assets/apartment4.jpg'
 import { useState } from 'react';
 import { IconEye, IconEyeOff } from '@tabler/icons-react';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -85,7 +85,7 @@ function Loginwrapper() {
                 <input type="text" id="username" placeholder="Enter email" className=" border  rounded-lg h-11 pl-2 focus:outline focus:outline-black" />
               </div>
               <div>
-                <label  className="text-gray-700 font-[500]">Password*</label>
+                <label className="text-gray-700 font-[500]">Password*</label>
                 <div className="relative">
                   <input
                     type={showPassword ? 'text' : 'password'}
