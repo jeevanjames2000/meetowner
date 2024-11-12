@@ -1,0 +1,19 @@
+.swiper-pagination-bullet {
+    background-color: #ffff;
+    width: 10px;
+    height: 10px;
+    opacity: 0.7;
+
+}
+
+.swiper-pagination-bullet-active {
+    background-color: #FBAF01;
+
+
+}
+
+input::placeholder {
+    font-size: 14px;
+    font-weight: 200;
+    color: #888;
+}
