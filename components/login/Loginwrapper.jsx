@@ -22,7 +22,7 @@ function Loginwrapper() {
   return (
     <div className='w-full'>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 h-screen  ">
-        <div className="flex gap-4 col-span-1 login">
+        <div className="flex gap-4 col-span-1 ">
           <Swiper
             modules={[Pagination]}
             pagination={{ clickable: true }}
@@ -85,7 +85,7 @@ function Loginwrapper() {
                 <input type="text" id="username" placeholder="Enter email" className=" border  rounded-lg h-11 pl-2 focus:outline focus:outline-black" />
               </div>
               <div>
-                <label htmlFor="password" className="text-gray-700 font-[500]">Password*</label>
+                <label  className="text-gray-700 font-[500]">Password*</label>
                 <div className="relative">
                   <input
                     type={showPassword ? 'text' : 'password'}
@@ -96,9 +96,9 @@ function Loginwrapper() {
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute inset-y-0 right-3 flex items-center font-thin text-[#006666]"
+                    className="absolute inset-y-0 right-3 flex items-center font-thin "
                   >
-                    {showPassword ? <IconEyeOff className='text-[#FBAF01]' /> : <IconEye className='text-[#FBAF01]' />}
+                    {showPassword ? <IconEye className='text-[#FBAF01]' /> : <IconEyeOff className='text-[#FBAF01]' />}
                   </button>
                 </div>
               </div>
@@ -127,10 +127,6 @@ function Loginwrapper() {
         </div>
       </div>
     </div>
-
-
-
-
   )
 }
 
