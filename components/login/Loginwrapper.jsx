@@ -1,13 +1,13 @@
 'use client'
 import React from 'react'
 
-import logo from '@/assets/logo.png'
+import logo from '@/public/assets/logo.png'
 import Image from 'next/image'
-import apartment from '@/assets/apartment.jpg'
-import apartment1 from '@/assets/apartment1.jpg'
-import apartment2 from '@/assets/apartment2.jpg'
-import apartment3 from '@/assets/apartment3.jpg'
-import apartment4 from '@/assets/apartment4.jpg'
+import apartment from '@/public/assets/apartment.jpg'
+import apartment1 from '@/public/assets/apartment1.jpg'
+import apartment2 from '@/public/assets/apartment2.jpg'
+import apartment3 from '@/public/assets/apartment3.jpg'
+import apartment4 from '@/public/assets/apartment4.jpg'
 import { useState } from 'react';
 import { IconEye, IconEyeOff } from '@tabler/icons-react';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -82,7 +82,8 @@ function Loginwrapper() {
             <div className=' space-y-4'>
               <div className="flex flex-col space-y-1">
                 <label className=" font-[500]  text-[16px]">Email*</label>
-                <input type="text" id="username" placeholder="Enter email" className=" border  rounded-lg h-11 pl-2 focus:outline focus:outline-black" />
+                <input type="text" id="username" placeholder="Enter email" className=" border  rounded-sm h-9
+ pl-2 focus:outline focus:outline-black" />
               </div>
               <div>
                 <label  className="text-gray-700 font-[500]">Password*</label>
@@ -91,14 +92,14 @@ function Loginwrapper() {
                     type={showPassword ? 'text' : 'password'}
                     id="password"
                     placeholder=" Enter password"
-                    className="w-full border border-gray-300 rounded-lg h-11 pl-2 text-gray-700 focus:outline focus:outline-black "
+                    className="w-full border border-gray-300 rounded-sm h-9 pl-2 text-gray-700 focus:outline focus:outline-black "
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute inset-y-0 right-3 flex items-center font-thin "
                   >
-                    {showPassword ? <IconEye className='text-[#FBAF01]' /> : <IconEyeOff className='text-[#FBAF01]' />}
+                    {showPassword ? <IconEye  size={18}  color='#6B7280' /> : <IconEyeOff  size={16} color='#6B7280'/>}
                   </button>
                 </div>
               </div>
@@ -107,18 +108,18 @@ function Loginwrapper() {
                   <div className="flex items-center">
                     <input
                       type="checkbox"
-                      className=" h-4 w-4  mr-2 border  border-[#FBAF01]"
+                      className=" h-3 w-3  mr-2 border  border-[#FBAF01]"
                     />
                     <p className=" text-[14px] font-[200]">Remember me</p>
                   </div>
-                  <Link href="#" className=' text-[#FBAF01] text-[14px] font-[200] underline'>Forgot Password?</Link>
+                  <Link href="/forgotpassword" className=' text-[#FBAF01] text-[14px] font-[200] '>Forgot Password?</Link>
                 </div>
-                <div>
-                  <button className=' h-11  w-full font-bold border rounded-md bg-[#FBAF01] text-[#ffffff]'>
+                <div className=' space-y-2'>
+                  <button className=' h-9 w-full font-medium border rounded-sm bg-[#FBAF01] text-[#ffffff]'>
                     Log In
                   </button>
-                  <p className=' text-[16px] text-[#898989] text-center pt-6'>
-                    Don't have an account? <Link href='#' className=' text-black ml-4 underline font-semibold'>Sign up</Link>
+                  <p className=' text-[14px] text-[#898989] text-center '>
+                    Don't have an account? <Link href='/signup' className=' text-black   font-medium'>Sign up</Link>
                   </p>
                 </div>
               </div>
