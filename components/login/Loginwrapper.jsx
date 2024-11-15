@@ -86,7 +86,7 @@ function Loginwrapper() {
  pl-2 focus:outline focus:outline-black" />
               </div>
               <div>
-                <label  className="text-gray-700 font-[500]">Password*</label>
+                <label className="text-gray-700 font-[500]">Password*</label>
                 <div className="relative">
                   <input
                     type={showPassword ? 'text' : 'password'}
