@@ -101,9 +101,6 @@ function Signupwrapper() {
                                 <p className=' text-[14px] text-[#898989] text-center '>
                                     Have an account? <Link href='/' className=' text-[#FBAF01]  font-medium'>Login</Link>
                                 </p>
-
-
-
                             </div>
                         </div>
                     </div>

@@ -82,8 +82,7 @@ function Loginwrapper() {
             <div className=' space-y-4'>
               <div className="flex flex-col space-y-1">
                 <label className=" font-[500]  text-[16px]">Email*</label>
-                <input type="text" id="username" placeholder="Enter email" className=" border  rounded-sm h-9
- pl-2 focus:outline focus:outline-black" />
+                <input type="text" id="username" placeholder="Enter email" className=" border  rounded-sm h-9 pl-2 focus:outline focus:outline-black" />
               </div>
               <div>
                 <label className="text-gray-700 font-[500]">Password*</label>
