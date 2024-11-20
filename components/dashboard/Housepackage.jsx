@@ -1,3 +1,4 @@
+'use client '
 import Image from 'next/image'
 import React from 'react'
 import housepackage from '@/public/assets/house_package.png'
@@ -11,73 +12,90 @@ function Housepackage() {
                 </p>
                 <Image src={housepackage} alt='logo' className='object-cover object-center' />
             </div>
-            <div className="w-[70%] grid grid-cols-1 md:grid-cols-2 gap-6 mt-8 p-4  bg-[#F4EBD7] border rounded-[10px] border-[#699BA0]">
+            <div className="w-[70%] grid grid-cols-1 md:grid-cols-3 gap-2 mt-8 p-4  bg-[#F4EBD7] border rounded-[10px] border-[#699BA0]">
 
-                <div className="col-span-1 rounded-lg  bg-[#ffffff] items-center justify-center" >
-                    <div className="grid grid-cols-2 gap-y-1 gap-x-1 w-full">
-                        {/* Row 1 */}
-                        <div className="text-[#6d6c6c] bg-[#f5f5f5] text-sm font-medium pl-2 py-2"></div>
-                        <div className="text-[16px] font-semibold bg-[#f5f5f5] text-center py-2">Free</div>
+                <div className="col-span-2 rounded-lg  bg-[#ffffff] " >
 
-                        {/* Row 2 */}
-                        <div  className="text-[#6d6c6c] bg-[#f5f5f5] text-[12px] font-medium pl-2 py-1">Assured Contacts</div>
-                        <div className="text-[#6d6c6c] bg-[#f5f5f5] text-sm font-medium  text-center">10</div>
+                    <table className="w-full    border-separate border-spacing-1 table-auto">
+                        <tbody>
+                            {/* Row 1 */}
+                            <tr className="bg-[#f5f5f5]">
+                                <th className="text-[#6d6c6c] text-sm font-medium  text-left pl-2 py-2"></th>
+                                <td className="text-[#6d6c6c] text-[16px] font-semibold text-center py-2">Free</td>
+                            </tr>
 
-                        {/* Row 3 */}
-                        <div className="text-[#6d6c6c] bg-[#f5f5f5] text-sm font-medium pl-2 py-1">Enquiries</div>
-                        <div className="text-[#6d6c6c] bg-[#f5f5f5] text-sm font-medium  text-center">3</div>
+                            {/* Row 2 */}
+                            <tr className="bg-[#f5f5f5]">
+                                <th className="text-[#6d6c6c] text-sm font-medium  text-left pl-2 py-1">Assured Contacts</th>
+                                <td className="text-[#6d6c6c] text-sm font-medium text-center">10</td>
+                            </tr>
 
-                        {/* Row 4 */}
-                        <div className="text-[#6d6c6c] bg-[#f5f5f5] text-sm font-medium pl-2 py-1">Visibility</div>
-                        <div className="text-[#6d6c6c] bg-[#f5f5f5] text-sm font-medium  text-center">Low</div>
+                            {/* Row 3 */}
+                            <tr className="bg-[#f5f5f5]">
+                                <th className="text-[#6d6c6c] text-sm font-medium  text-left pl-2 py-1">Enquiries</th>
+                                <td className="text-[#6d6c6c] text-sm font-medium text-center">3</td>
+                            </tr>
 
-                        {/* Row 5 */}
-                        <div className="text-[#6d6c6c] bg-[#f5f5f5] text-sm font-medium pl-2 py-1">Listing Expiry</div>
-                        <div className="text-[#6d6c6c] bg-[#f5f5f5] text-sm font-medium  text-center">15 Days</div>
+                            {/* Row 4 */}
+                            <tr className="bg-[#f5f5f5]">
+                                <th className="text-[#6d6c6c] text-sm font-medium  text-left pl-2 py-1">Visibility</th>
+                                <td className="text-[#6d6c6c] text-sm font-medium text-center">Low</td>
+                            </tr>
 
-                        {/* Row 6 */}
-                        <div></div>
-                        <div>
-                            <div
-                                className="text-[#53C0AC] font-[600] text-sm cursor-pointer mt-2"
-                             
-                            >
-                                Know More
-                            </div>
-                        </div>
-                    </div>
+                            {/* Row 5 */}
+                            <tr className="bg-[#f5f5f5]">
+                                <th className="text-[#6d6c6c] text-sm font-medium pl-2 py-1 text-left">Listing Expiry</th>
+                                <td className="text-[#6d6c6c] text-sm font-medium text-center">15 Days</td>
+                            </tr>
+
+                            {/* Row 6 */}
+                            <tr className="bg-[#f5f5f5]">
+                                <th className="text-[#6d6c6c] text-sm font-medium pl-2 py-1"></th>
+                                <td className=' text-center'>
+                                    <button
+                                        className=" text-[#53C0AC]   my-2  h-7 py-1 px-4 text-[14px] font-[400] rounded-md focus:outline-none "
+                                    >
+                                        Know more
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
 
                 </div>
                 <div className="col-span-1 border border-gray-300 rounded-lg  bg-white" >
-                    <table className="w-full text-center">
+                    <div className=" bg-[#699BA0] pb-3 text-[#ffffff]  text-[16px] font-semibold rounded-tr-lg rounded-tl-lg text-center py-2">
+                        House Package
+                    </div>
+                    <table className="w-full border-separate border-spacing-y-1 table-auto  text-center px-1 pb-1">
+
                         <tbody>
-                            <tr>
-                                <td>
-                                    <div className="housepackage-table text-lg font-semibold text-gray-800">
-                                        House Package
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
+                            <tr className="bg-[#f5f5f5]">
+
                                 <td id="house-contacts" className="text-[#6d6c6c] bg-[#f5f5f5] text-sm font-medium pl-2 py-1">10</td>
                             </tr>
-                            <tr>
+                            <tr className="bg-[#f5f5f5]">
+
                                 <td className="text-[#6d6c6c] bg-[#f5f5f5] text-sm font-medium pl-2 py-1">Unlimited</td>
                             </tr>
-                            <tr>
+                            <tr className="bg-[#f5f5f5]">
+
                                 <td className="text-[#6d6c6c] bg-[#f5f5f5] text-sm font-medium pl-2 py-1">High</td>
                             </tr>
-                            <tr>
+                            <tr className="bg-[#f5f5f5]">
+
                                 <td className="text-[#6d6c6c] bg-[#f5f5f5] text-sm font-medium pl-2 py-1">60 Days</td>
                             </tr>
-                            <tr>
+                            <tr className="bg-[#f5f5f5]">
+
                                 <td>
                                     <button
-                                        className="package-btn bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none mt-4"
-                                        onclick="redirectToPackages()"
+                                        className="package-btn bg-[#53c0ac] text-white  font-[400] my-2  h-7 py-1 px-4 text-[12px] rounded-md focus:outline-none "
+
                                     >
                                         Try Now!
                                     </button>
+
                                 </td>
                             </tr>
                         </tbody>

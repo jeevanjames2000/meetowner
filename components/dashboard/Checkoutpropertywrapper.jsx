@@ -57,31 +57,30 @@ function Checkoutpropertywrapper() {
     ];
 
     return (
-        <div className="bg-white rounded-[10px] mt-4 p-4 ">
-            {/* Header Section */}
-            <div className="flex flex-row justify-between items-center">
-                <p className="text-[#1D3A76] text-sm font-semibold">Checkout your property</p>
-                <button
-                    className="text-[#287DB0] border-[2px] border-[#287DB0] px-4 py-1 rounded-md text-[12px] font-semibold"
-                    aria-label="View all properties"
-                >
-                    View All
-                </button>
-            </div>
-
-            {/* Swiper Section */}
-            <div className="relative">
-                <Swiper
-                    modules={[Navigation]}
-                    spaceBetween={50}
-                    slidesPerView={1}
-                    loop={true}
-                    className="w-[800px] h-full"
-                    onSwiper={(swiper) => (swiperRef.current = swiper)}
-                    // onSlideChange={() => console.log('Slide changed')}
-                    // navigation
-                >
-                    {property.map((item, index) => (
+        <div className="bg-white rounded-[10px] mt-4 p-4">
+        {/* Header Section */}
+        <div className="flex flex-row justify-between items-center">
+            <p className="text-[#1D3A76] text-sm font-semibold">Checkout your property</p>
+            <button
+                className="text-[#287DB0] border-[2px] border-[#287DB0] px-4 py-1 rounded-md text-[12px] font-semibold"
+                aria-label="View all properties"
+            >
+                View All
+            </button>
+        </div>
+    
+        {/* Swiper Section */}
+        <div className="relative">
+            <Swiper
+                modules={[Navigation]}
+                spaceBetween={30} // Adjust spacing dynamically
+                slidesPerView={1} // Adjust slides dynamically
+                loop={true}
+                className="w-full h-full" // Adjust Swiper to fit parent container
+                onSwiper={(swiper) => (swiperRef.current = swiper)}
+            >
+                {property.length !== 0 ? (
+                    property.map((item, index) => (
                         <SwiperSlide key={index}>
                             <Checkoutpropertywrappercard
                                 image={item.image}
@@ -90,27 +89,32 @@ function Checkoutpropertywrapper() {
                                 area={item.area}
                             />
                         </SwiperSlide>
-                    ))}
-                </Swiper>
-
-                {/* Custom Navigation Buttons */}
-                <button
-                    onClick={() => swiperRef.current?.slidePrev()}
-                    className="absolute top-28 -left-2.5 z-10 transform -translate-y-1/2 bg-[#1D3A76] rounded-full p-1 focus:outline-none border border-gray-300"
-                    aria-label="Previous slide"
-                >
-                    <IconChevronLeft className="h-3 w-3 text-[#ffffff]" />
-                </button>
-
-                <button
-                    onClick={() => swiperRef.current?.slideNext()}
-                    className="absolute top-28 -right-2.5 z-10 transform -translate-y-1/2 bg-[#1D3A76] rounded-full p-1 focus:outline-none border border-gray-300"
-                    aria-label="Next slide"
-                >
-                    <IconChevronRight className="h-3 w-3 text-[#ffffff]" />
-                </button>
-            </div>
+                    ))
+                ) : (
+                    <p>No properties available</p> // Fallback message
+                )}
+            </Swiper>
+    
+            {/* Custom Navigation Buttons */}
+            <button
+                onClick={() => swiperRef.current?.slidePrev()}
+                className="absolute top-32 -left-2 z-10 transform -translate-y-1/2 bg-[#1D3A76] rounded-full p-1 focus:outline-none"
+                aria-label="Previous slide"
+            >
+                <IconChevronLeft className="h-3 w-3 text-[#ffffff]" />
+            </button>
+    
+            <button
+                onClick={() => swiperRef.current?.slideNext()}
+                className="absolute top-32 -right-2 z-10 transform -translate-y-1/2 bg-[#1D3A76] rounded-full p-1 focus:outline-none"
+                aria-label="Next slide"
+            >
+                <IconChevronRight className="h-3 w-3 text-[#ffffff]" />
+            </button>
         </div>
+    </div>
+    
+    
     );
 }
 

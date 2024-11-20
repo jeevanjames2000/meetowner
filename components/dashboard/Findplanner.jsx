@@ -4,7 +4,7 @@ import React from 'react'
 
 function Planfinder() {
     return (
-        <div className=' bg-[#F4EBD7] w-full h-fit flex flex-row   rounded-[10px] pl-5 pt-5 gap-10'>
+        <div className=' bg-[#F4EBD7] w-full h-fit flex flex-row   rounded-[10px] pl-5 pt-5 gap-2'>
             <Image
                 src={find_planner}
                 alt={"find_planner"}

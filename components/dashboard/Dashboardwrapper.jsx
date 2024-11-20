@@ -6,31 +6,37 @@ import dynamic from 'next/dynamic'
 const Checkoutpropertywrapper = dynamic(() => import('./Checkoutpropertywrapper'))
 const Findplanner = dynamic(() => import('./Findplanner'))
 const Housepackage = dynamic(() => import('./Housepackage'))
-
-
-
+const Ownersreview = dynamic(() => import('./Ownersreview'))
+const Queries = dynamic(() => import('./Queries'))
+const Dashboardsidebarsection = dynamic(() => import('./Dasboradsidebar/Dashboardsidebarsection'))
 
 
 function Dashboardwrapper() {
-  return (
-   <div className='flex flex-row gap-2 px-[80px] mt-5'>
-        <div className='basis-[65%] space-y-8 mb-8'>
-            <div className='bg-[#31539A] px-4 py-2 rounded-md flex flex-row items-center gap-4 '>
-                <div>
-                    <Image src={user_profile} alt='logo' width={40} height={40} />
+    return (
+        <div className="grid grid-cols-12 gap-8 px-[80px] mt-5 w-full">
+            {/* First Child: Spanning 8 Columns */}
+            <div className="col-span-12 md:col-span-8 space-y-8 mb-8 ">
+                <div className="bg-[#31539A] px-4 py-2 rounded-md flex flex-row items-center gap-4">
+                    <div>
+                        <Image src={user_profile} alt="logo" width={40} height={40} />
+                    </div>
+                    <p className="text-white text-[15px] font-semibold font-sans">Hello, MEETOWNER!</p>
                 </div>
-                <p className='text-white text-[15px] font-semibold font-sans'>Hello,  MEETOWNER !</p>
+                <Checkoutpropertywrapper />
+                <Findplanner />
+                <Housepackage />
+                <Ownersreview />
+                <Queries />
             </div>
-            <Checkoutpropertywrapper/>
-            <Findplanner />
-            <Housepackage />
-             
-        </div>
-        <div className='basis-[35%]'>
 
+            {/* Second Child: Spanning 4 Columns */}
+            <div className="col-span-12 md:col-span-4 space-y-8">
+                <Dashboardsidebarsection />
+               
+            </div>
         </div>
-   </div>
-  )
+
+    )
 }
 
 export default Dashboardwrapper
