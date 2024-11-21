@@ -1,7 +1,7 @@
 'use client';
 import React, { useRef } from 'react'; // Correctly importing useRef
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation } from 'swiper/modules';
+import { Autoplay, Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import { IconArrowLeft, IconArrowRight, IconChevronLeft, IconChevronRight } from '@tabler/icons-react';
@@ -38,52 +38,58 @@ function Agreement() {
 
     return (
         < div className=' flex flex-col space-y-6'>
-           
 
-                <div className=" relative "> {/* Added relative positioning */}
-                    <Swiper
-                        modules={[Navigation]}
-                        spaceBetween={10}
-                        slidesPerView={1}
-                        loop={true}
-                        className="w-full  h-full"
-                        onSwiper={(swiper) => (swiperRef.current = swiper)}
-                    >
-                        {agreement.length > 0 ? (
-                            agreement.map((item, index) => (
-                                <SwiperSlide key={index}>
-                                    <Agreementcard
-                                        image={item.image}
-                                        online_agreement={item.online_agreement}
-                                        description={item.description}
 
-                                    />
-                                </SwiperSlide>
-                            ))
-                        ) : (
-                            <p>No data</p>
-                        )}
+            <div className=" relative "> {/* Added relative positioning */}
+                <Swiper
+                    modules={[Navigation, Autoplay]} // Add Autoplay to modules
+                    spaceBetween={10}
+                    slidesPerView={1}
+                    loop={true}
+                    autoplay={{
+                        delay: 3000, // Delay between slides (in milliseconds)
+                        disableOnInteraction: false, // Continue autoplay after user interaction
+                    }}
+                    navigation={{
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev',
+                    }}
+                    className="w-full h-full"
+                    onSwiper={(swiper) => (swiperRef.current = swiper)}
+                >
+                    {agreement.length > 0 ? (
+                        agreement.map((item, index) => (
+                            <SwiperSlide key={index}>
+                                <Agreementcard
+                                    image={item.image}
+                                    online_agreement={item.online_agreement}
+                                    description={item.description}
+                                />
+                            </SwiperSlide>
+                        ))
+                    ) : (
+                        <p>No data</p>
+                    )}
+                </Swiper>
 
-                    </Swiper>
+            </div>
 
-                </div>
-           
             <div className=' flex flex-row items-start justify-between px-3'>
-                     <button
-                onClick={() => swiperRef.current?.slidePrev()}
-                className=" bg-[#1D3A76] rounded-full p-1 focus:outline-none border border-gray-300"
-                aria-label="Previous slide"
-            >
-                 <IconArrowLeft className=" h-4 w-8 text-[#ffffff]" />
-            </button>
+                <button
+                    onClick={() => swiperRef.current?.slidePrev()}
+                    className=" bg-[#1D3A76] rounded-full p-1 focus:outline-none border border-gray-300"
+                    aria-label="Previous slide"
+                >
+                    <IconArrowLeft className=" h-4 w-8 text-[#ffffff]" />
+                </button>
 
-            <button
-                onClick={() => swiperRef.current?.slideNext()}
-                className=" bg-[#1D3A76] rounded-full p-1 focus:outline-none border border-gray-300"
-                aria-label="Next slide"
-            >
-                <IconArrowRight className=" h-4 w-8 text-[#ffffff]" />
-            </button>
+                <button
+                    onClick={() => swiperRef.current?.slideNext()}
+                    className=" bg-[#1D3A76] rounded-full p-1 focus:outline-none border border-gray-300"
+                    aria-label="Next slide"
+                >
+                    <IconArrowRight className=" h-4 w-8 text-[#ffffff]" />
+                </button>
             </div>
         </div>
     );
