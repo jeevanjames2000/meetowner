@@ -1,0 +1,105 @@
+import { IconChevronLeft, IconPointFilled } from '@tabler/icons-react'
+import React from 'react'
+import Basicdetailswrapper from './parts/Basicdetailswrapper'
+
+function Tabswrapper() {
+    return (
+        <div className='flex flex-row gap-3 '>
+            <div className='basis-[25%] bg-[#E2EAED] rounded-t-lg'>
+                <div className='flex flex-row justify-center items-center py-3 gap-1 '>
+                    <IconChevronLeft size={16} color='#1D3A76' />
+                    <p className='text-xs text-[#1D3A76] font-medium'>Back to dashboard</p>
+                </div>
+                <div className='bg-white px-11 py-2'>
+                    <p className='text-[#1D3A76] font-semibold text-[14px]'>Post your Property</p>
+                    <p className='text-[#1D3A76] text-[11px] font-light'>sell or rent your property </p>
+                    {/* progress bar */}
+                    <div className="flex items-center">
+                        <div className="flex w-full h-1 bg-gray-200 rounded-full overflow-hidden">
+                            <div className="flex flex-col justify-center rounded-full overflow-hidden bg-[#BACAD5] text-xs text-white text-center whitespace-nowrap transition duration-500  w-[100%]"></div>
+                        </div>
+                        <div className="w-10 text-end">
+                            <span className="text-[10px] text-[#1D3A76]">0%</span>
+                        </div>
+                    </div>
+                    {/* tabs */}
+                    <div className='my-3'>
+                        <div className="flex flex-row items-start gap-3">
+                            <div className="flex flex-col justify-center items-center">
+                                <div className="h-4 w-4 rounded-full border-2 flex items-center justify-center">
+                                    <div className="h-2 w-2 bg-[#1D3A76] rounded-full"></div>
+                                </div>
+                                <div className="border-l-2 h-10"></div>
+                            </div>
+                            <div className="flex flex-col">
+                                <p className="text-[#1D3A76] text-[13px] font-bold">Basic Details</p>
+                                <div className="flex flex-row items-center justify-center">
+                                    <IconPointFilled size={16} color="#1D3A76" />
+                                    <p className="text-[8px] font-semibold">In Progress</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="flex flex-row items-start gap-3">
+                            <div className='flex flex-col justify-center items-center'>
+                                <div className='border rounded-full h-4 w-4'></div>
+                                <div className='border-l-2 h-10'></div>
+                            </div>
+                            <div className='flex flex-col'>
+                                <p className='text-[#909090] text-[13px] font-bold'>Property Details</p>
+                                <div className='flex flex-row items-center justify-center'>
+                                    <IconPointFilled size={16} color='#909090' />
+                                    <p className='text-[8px] font-semibold text-[#909090]'>Pending</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="flex flex-row items-start gap-3">
+                            <div className='flex flex-col justify-center items-center'>
+                                <div className='border rounded-full h-4 w-4'></div>
+                                <div className='border-l-2 h-10'></div>
+                            </div>
+                            <div className='flex flex-col'>
+                                <p className='text-[#909090] text-[13px] font-bold'>Address</p>
+                                <div className='flex flex-row items-center justify-center'>
+                                    <IconPointFilled size={16} color='#909090' />
+                                    <p className='text-[8px] font-semibold text-[#909090]'>Pending</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="flex flex-row items-start gap-3">
+                            <div className='flex flex-col justify-center items-center'>
+                                <div className='border rounded-full h-4 w-4'></div>
+                                <div className='border-l-2 h-10'></div>
+                            </div>
+                            <div className='flex flex-col'>
+                                <p className='text-[#909090] text-[13px] font-bold'>Photos</p>
+                                <div className='flex flex-row items-center justify-center'>
+                                    <IconPointFilled size={16} color='#909090' />
+                                    <p className='text-[8px] font-semibold text-[#909090]'>Pending</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="flex flex-row items-start gap-3">
+                            <div className='flex flex-col justify-center items-center'>
+                                <div className='border rounded-full h-4 w-4'></div>
+                                {/* <div className='border-l-2 h-10'></div> */}
+                            </div>
+                            <div className='flex flex-col'>
+                                <p className='text-[#909090] text-[13px] font-bold'>Reviews</p>
+                                <div className='flex flex-row items-center justify-center'>
+                                    <IconPointFilled size={16} color='#909090' />
+                                    <p className='text-[8px] font-semibold text-[#909090]'>Pending</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className='basis-[75%] bg-white w-full rounded-t-lg'>
+                <Basicdetailswrapper />
+            </div>
+        </div>
+    )
+}
+
+export default Tabswrapper
