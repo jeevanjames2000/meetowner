@@ -1,5 +1,5 @@
 'use client'
-import { IconCheck, IconChevronLeft, IconPointFilled } from '@tabler/icons-react'
+import { IconCheck, IconChevronLeft, IconPhone, IconPointFilled } from '@tabler/icons-react'
 import React, { useState } from 'react'
 import Basicdetailswrapper from './parts/Basicdetailswrapper'
 import Propertydetailswrapper from './parts/Propertydetailswrapper'
@@ -34,13 +34,13 @@ function Tabswrapper() {
 
 
     return (
-        <div className='flex flex-row gap-3 '>
-            <div className='basis-[25%] bg-white rounded-t-lg'>
+        <div className='flex flex-row gap-2 relative'>
+            <div className='basis-[25%] bg-white rounded-t-lg '>
                 <div className='flex flex-row justify-center items-center py-3 gap-1 bg-[#E2EAED] '>
                     <IconChevronLeft size={16} color='#1D3A76' />
                     <p className='text-xs text-[#1D3A76] font-medium'>Back to dashboard</p>
                 </div>
-                <div className='bg-white px-11 py-2'>
+                <div className='bg-white px-11 py-2 mb-16'>
                     <p className='text-[#1D3A76] font-semibold text-[14px]'>Post your Property</p>
                     <p className='text-[#1D3A76] text-[11px] font-light'>sell or rent your property </p>
                     {/* progress bar */}
@@ -217,6 +217,13 @@ function Tabswrapper() {
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div className='px-11 space-y-3 absolute bottom-4'>
+                    <p className='text-[#699BA0] text-sm font-semibold'>Require Assistance?</p>
+                    <div className='flex flex-row items-center gap-2 border-b-2 pb-2 border-[#699BA0]'>
+                        <IconPhone size={20} color='#699BA0' />
+                        <p className='text-[#699BA0] text-sm'>+91 9999999999</p>
                     </div>
                 </div>
             </div>

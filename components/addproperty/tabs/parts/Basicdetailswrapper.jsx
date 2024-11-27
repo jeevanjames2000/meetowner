@@ -68,7 +68,7 @@ function Basicdetailswrapper({ updateActiveTab }) {
                         )
                     }
                 </>
-                <div className='border border-[#909090] flex flex-row items-center gap-3 my-4 rounded-lg h-9'>
+                <div className='border border-[#c3c3c3] flex flex-row items-center gap-3 my-4 rounded-lg h-9'>
                     <div className='bg-[#1D3A76] h-full flex items-center justify-center px-3 rounded-s-lg'>
                         <IconSearch size={20} color='#fff' />
                     </div>
