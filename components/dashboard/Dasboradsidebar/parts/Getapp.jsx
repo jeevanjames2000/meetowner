@@ -4,9 +4,9 @@ import qr_code from '@/public/assets/qr_code.png'
 function Getapp() {
     return (
         <div className=" flex flex-col gap-6 bg-[#1D3A76] rounded-[10px] p-6">
-            <div className=" grid grid-cols-3 space-x-2">
+            <div className=" grid grid-cols-2 space-x-2">
                 {/* Left Section */}
-                <div className="  col-span-2 flex flex-col gap-3 ">
+                <div className="  col-span-1 flex flex-col gap-3 ">
                     <p className="text-[16px] font-[500] text-[#ffffff]">Get enquiry details  latest updates on the app</p>
                     <p className="text-[12px] font-[300] text-[#ffffff]">Scan the QR code or get app link on your Whatsapp</p>
                 </div>

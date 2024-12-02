@@ -58,8 +58,6 @@ function Dashboardsidebarsection() {
               src={estimate_property}
               alt={"estimate_property"}
               className="w-fit h-fit  rounded-lg"
-
-
             />
           </div>
           <div className="space-y-3 col-span-3 row-span-1 w-full">
@@ -104,10 +102,7 @@ function Dashboardsidebarsection() {
 
             <p className="text-[14px] font-[400] text-[#6d6c6c]">
               Complete verification with   Aadhar eKYC!
-
             </p>
-
-
           </div>
         </div>
         <button

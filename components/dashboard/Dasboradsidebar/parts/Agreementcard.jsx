@@ -15,10 +15,10 @@ function Agreementcard(item) {
                     />
                 </div>
                 <div className="space-y-3 col-span-3 row-span-1 w-full">
-                    <p className="text-[16px] font-[600] text-[#6d6c6c] leading-tight">
+                    <p className="text-[14px] font-[600] text-[#6d6c6c] leading-tight">
                         {item.online_agreement}
                     </p>
-                    <p className="text-[14px] font-[400] text-[#6d6c6c]">
+                    <p className="text-[12px] font-[400] text-[#6d6c6c]">
                         {item.description}
                     </p>
                 </div>
