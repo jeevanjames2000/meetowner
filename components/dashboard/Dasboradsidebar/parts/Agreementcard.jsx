@@ -5,7 +5,7 @@ import { IconChevronRight } from '@tabler/icons-react'
 
 function Agreementcard(item) {
     return (
-        <div className=' bg-[#ffffff] p-6 space-y-1 rounded-[10px]'>
+        <div className=' bg-[#ffffff] p-4 space-y-1 rounded-[10px]'>
             <div className="grid grid-cols-5 grid-rows-1 gap-5 w-full h-fit   ">
                 <div className='col-span-2 row-span-1 w-full '>
                     <Image
@@ -15,7 +15,7 @@ function Agreementcard(item) {
                     />
                 </div>
                 <div className="space-y-3 col-span-3 row-span-1 w-full">
-                    <p className="text-[14px] font-[600] text-[#6d6c6c] leading-tight">
+                    <p className="text-[12px] font-[600] text-[#6d6c6c] leading-tight">
                         {item.online_agreement}
                     </p>
                     <p className="text-[12px] font-[400] text-[#6d6c6c]">

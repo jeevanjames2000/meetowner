@@ -18,7 +18,7 @@ function Enquirieswrapper() {
     return (
         <div className="grid grid-cols-12 gap-2 px-[80px] mt-5 w-full">
             {/* First Child: Spanning 2 Columns */}
-            <div className="col-span-12 md:col-span-2 space-y-8 mb-8  ">
+            <div className="col-span-12 md:col-span-1 w-fit space-y-8 mb-8  ">
                 <div className='w-full bg-[#ffffff] h-96 rounded-lg'>
                     <div className='  flex items-center justify-start pl-3 h-9 text-[12px] font-[600] bg-[#E2EAED] text-[#1D3A76]'>
                         My Enquiries
@@ -29,7 +29,7 @@ function Enquirieswrapper() {
                 </div>
             </div>
             {/* second Child: Spanning 6 Columns */}
-            <div className="col-span-12 md:col-span-7 space-y-8 mb-8 ">
+            <div className="col-span-12 md:col-span-8 space-y-8 mb-8 ">
                 <p className='  flex items-center justify-start pl-3 py-3 text-[16px] text-[#ffffff] font-[500] bg-[#31539A] rounded-md'>
                     Enquiries for : 2 BHK Apartment in Kondapur (Rent)
                 </p>
