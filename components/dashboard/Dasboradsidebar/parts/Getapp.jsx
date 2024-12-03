@@ -7,25 +7,23 @@ function Getapp() {
         <div className="flex flex-col gap-6 bg-[#1D3A76] rounded-[10px] p-4">
             {/* Top Section */}
             <div className="grid grid-cols-4 gap-2">
-                {/* Left Section */}
-                <div className="col-span-3 flex flex-col gap-1">
+
+                <div className="col-span-4 flex flex-col gap-1">
                     <p className="text-[12px] font-[500] text-[#ffffff]">
                         Get enquiry details & latest updates on the app
                     </p>
-                    <p className="text-[12px] font-[300] text-[#ffffff]">
+                </div>
+                <div className=" flex col-span-4 w-full h-full gap-2 ">
+                    <p className=" w-[70%] text-[12px] font-[300] text-[#ffffff]">
                         Scan the QR code or get the app link on your WhatsApp
                     </p>
-                </div>
-                {/* Right Section */}
-                <div className="col-span-1 w-full h-full">
                     <Image
                         src={qr_code}
                         alt="QR Code"
-                        className="w-[80px] h-fit rounded-lg"
+                        className="w-[25%]  h-full object-contain rounded-lg"
                     />
                 </div>
             </div>
-
             {/* Bottom Section */}
             <div className="flex flex-row gap-2 w-full">
                 <input
