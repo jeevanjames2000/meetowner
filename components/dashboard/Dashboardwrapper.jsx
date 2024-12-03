@@ -15,7 +15,7 @@ function Dashboardwrapper() {
     return (
         <div className="grid grid-cols-12 gap-8 px-[80px] mt-5 w-full">
             {/* First Child: Spanning 8 Columns */}
-            <div className="col-span-12 md:col-span-8 space-y-8 mb-8 ">
+            <div className="col-span-12 md:col-span-9 space-y-8 mb-8 ">
                 <div className="bg-[#31539A] px-4 py-2 rounded-md flex flex-row items-center gap-4">
                     <div>
                         <Image src={user_profile} alt="logo" width={40} height={40} />
@@ -30,7 +30,7 @@ function Dashboardwrapper() {
             </div>
 
             {/* Second Child: Spanning 4 Columns */}
-            <div className="col-span-12 md:col-span-4 space-y-8">
+            <div className="col-span-12 md:col-span-3 space-y-8">
                 <Dashboardsidebarsection />
                
             </div>
