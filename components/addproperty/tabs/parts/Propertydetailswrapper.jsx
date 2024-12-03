@@ -1,131 +1,337 @@
 'use client'
-import { IconArmchair2 } from '@tabler/icons-react'
+import LoadingOverlay from '@/components/shared/LoadingOverlay'
+import { Modal } from '@nayeshdaggula/tailify'
 import React, { useState } from 'react'
-
+import Addfurnishingswrapper from './Addfurnishingswrapper';
+import { IconAsterisk } from '@tabler/icons-react';
+const customStyles = {
+  content: {
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: '55%',
+    height: '70%',
+  },
+};
 function Propertydetailswrapper({ updateActiveTab }) {
 
+  const [isLoadingEffect, setIsLoadingEffect] = useState(false)
   const [propertyType, setPropertyType] = useState('')
+  const [propertyTypeError, setPropertyTypeError] = useState('')
   const updatePropertyType = (type) => {
     setPropertyType(type)
+    setPropertyTypeError('')
   }
   const [constructionStatus, setConstructionStatus] = useState('')
+  const [constructionStatusError, setConstructionStatusError] = useState('')
   const updateConstructionStatus = (status) => {
     setConstructionStatus(status)
+    setConstructionStatusError('')
   }
 
   const [bhk, setBhk] = useState('')
+  const [bhkError, setBhkError] = useState('')
   const updateBhk = (bhk) => {
     setBhk(bhk)
+    setBhkError('')
   }
 
   const [bathroom, setBathroom] = useState('')
+  const [bathroomError, setBathroomError] = useState('')
   const updateBathroom = (bathroom) => {
     setBathroom(bathroom)
+    setBathroomError('')
   }
 
   const [balcony, setBalcony] = useState('')
+  const [balconyError, setBalconyError] = useState('')
   const updateBalcony = (balcony) => {
     setBalcony(balcony)
+    setBalconyError('')
   }
   const [furnishType, setFurnishType] = useState('')
+  const [furnishTypeError, setFurnishTypeError] = useState('')
   const updateFurnishType = (type) => {
     setFurnishType(type)
+    setFurnishTypeError('')
   }
 
   const [possessionEndDate, setPossessionEndDate] = useState('')
+  const [possessionEndDateError, setPossessionEndDateError] = useState('')
   const updatePossessionEndDate = (e) => {
     setPossessionEndDate(e.target.value)
+    setPossessionEndDateError('')
   }
 
   const [coveredParking, setCoveredParking] = useState('')
+  const [coveredParkingError, setCoveredParkingError] = useState('')
   const updateCoveredParking = (parking) => {
     setCoveredParking(parking)
+    setCoveredParkingError('')
   }
 
   const [openParking, setOpenParking] = useState('')
+  const [openParkingError, setOpenParkingError] = useState('')
   const updateOpenParking = (parking) => {
     setOpenParking(parking)
+    setOpenParkingError('')
   }
 
   const [cost, setCost] = useState('')
+  const [costError, setCostError] = useState('')
   const updateCost = (e) => {
     setCost(e.target.value)
+    setCostError('')
   }
 
   const [maintenceCharges, setMaintenceCharges] = useState('')
+  const [maintenceChargesError, setMaintenceChargesError] = useState('')
   const updateMaintenceCharges = (e) => {
     setMaintenceCharges(e.target.value)
+    setMaintenceChargesError('')
   }
 
   const [securityDeposit, setSecurityDeposit] = useState('')
+  const [securityDepositError, setSecurityDepositError] = useState('')
   const updateSecurityDeposit = (deposit) => {
     setSecurityDeposit(deposit)
+    setSecurityDepositError('')
   }
 
   const [lockInPeriod, setLockInPeriod] = useState('')
+  const [lockInPeriodError, setLockInPeriodError] = useState('')
   const updateLockInPeriod = (period) => {
     setLockInPeriod(period)
+    setLockInPeriodError('')
   }
 
   const [preferredTenantType, setPreferredTenantType] = useState('')
+  const [preferredTenantTypeError, setPreferredTenantTypeError] = useState('')
   const updatePreferredTenantType = (type) => {
     setPreferredTenantType(type)
+    setPreferredTenantTypeError('')
   }
 
   const [builtupArea, setBuiltupArea] = useState('')
+  const [builtupAreaError, setBuiltupAreaError] = useState('')
   const updateBuiltupArea = (e) => {
     setBuiltupArea(e.target.value)
+    setBuiltupAreaError('')
   }
   const [carpetArea, setCarpetArea] = useState('')
+  const [carpetAreaError, setCarpetAreaError] = useState('')
   const updateCarpetArea = (e) => {
     setCarpetArea(e.target.value)
+    setCarpetAreaError('')
   }
   const [lengthArea, setLengthArea] = useState('')
+  const [lengthAreaError, setLengthAreaError] = useState('')
   const updateLengthArea = (e) => {
     setLengthArea(e.target.value)
+    setLengthAreaError('')
   }
   const [plotArea, setPlotArea] = useState('')
+  const [plotAreaError, setPlotAreaError] = useState('')
   const updatePlotArea = (e) => {
     setPlotArea(e.target.value)
+    setPlotAreaError('')
   }
   const [widthArea, setWidthArea] = useState('')
+  const [widthAreaError, setWidthAreaError] = useState('')
   const updateWidthArea = (e) => {
     setWidthArea(e.target.value)
+    setWidthAreaError('')
   }
   const [brokerage, setBrokerage] = useState('')
+  const [brokerageError, setBrokerageError] = useState('')
   const updateBrokerage = (brokerage) => {
     setBrokerage(brokerage)
+    setBrokerageError('')
   }
 
   const [facing, setFacing] = useState('')
+  const [facingError, setFacingError] = useState('')
   const updateFacing = (facing) => {
     setFacing(facing)
+    setFacingError('')
   }
-
+  const [address, setAddress] = useState('')
+  const [addressError, setAddressError] = useState('')
+  const updateAddress = (e) => {
+    setAddress(e.target.value)
+    setAddressError('')
+  }
   const [servantRoom, setServantRoom] = useState('')
+  const [servantRoomError, setServantRoomError] = useState('')
   const updateServantRoom = (room) => {
     setServantRoom(room)
+    setServantRoomError('')
   }
 
   const [reraId, setReraId] = useState('')
+  const [reraIdError, setReraIdError] = useState('')
   const updateReraId = (e) => {
     setReraId(e.target.value)
+    setReraIdError('')
   }
 
   const [propertyDescription, setPropertyDescription] = useState('')
+  const [propertyDescriptionError, setPropertyDescriptionError] = useState('')
   const updatePropertyDescription = (e) => {
     setPropertyDescription(e.target.value)
+    setPropertyDescriptionError('')
   }
 
+  const [furnishingModal, setFurnishingModal] = useState(false)
+  const openFurnishingModal = () => {
+    setFurnishingModal(true)
+  }
+
+  const closeFurnishingModal = () => {
+    setFurnishingModal(false)
+  }
+
+  const updatePropertyDetails = () => {
+    // setIsLoadingEffect(true)
+    // if (propertyType === '') {
+    //   setIsLoadingEffect(false)
+    //   setPropertyTypeError('Please select property type')
+    //   return false;
+    // }
+    // if (constructionStatus === '') {
+    //   setIsLoadingEffect(false)
+    //   setConstructionStatusError('Please select construction status')
+    //   return false;
+    // }
+    // if (bhk === '') {
+    //   setIsLoadingEffect(false)
+    //   setBhkError('Please select BHK')
+    //   return false;
+    // }
+    // if (bathroom === '') {
+    //   setIsLoadingEffect(false)
+    //   setBathroomError('Please select bathroom')
+    //   return false;
+    // }
+    // if (balcony === '') {
+    //   setIsLoadingEffect(false)
+    //   setBalconyError('Please select balcony')
+    //   return false;
+    // }
+    // if (furnishType === '') {
+    //   setIsLoadingEffect(false)
+    //   setFurnishTypeError('Please select furnish type')
+    //   return false;
+    // }
+    // if (possessionEndDate === '') {
+    //   setIsLoadingEffect(false)
+    //   setPossessionEndDateError('Please select possession end date')
+    //   return false;
+    // }
+    // if (coveredParking === '') {
+    //   setIsLoadingEffect(false)
+    //   setCoveredParkingError('Please select covered parking')
+    //   return false;
+    // }
+    // if (openParking === '') {
+    //   setIsLoadingEffect(false)
+    //   setOpenParkingError('Please select open parking')
+    //   return false;
+    // }
+    // if (cost === '') {
+    //   setIsLoadingEffect(false)
+    //   setCostError('Please enter cost')
+    //   return false;
+    // }
+    // if (maintenceCharges === '') {
+    //   setIsLoadingEffect(false)
+    //   setMaintenceChargesError('Please enter maintence charges')
+    //   return false;
+    // }
+    // if (securityDeposit === '') {
+    //   setIsLoadingEffect(false)
+    //   setSecurityDepositError('Please enter security deposit')
+    //   return false;
+    // }
+    // if (lockInPeriod === '') {
+    //   setIsLoadingEffect(false)
+    //   setLockInPeriodError('Please enter lock in period')
+    //   return false;
+    // }
+    // if (preferredTenantType === '') {
+    //   setIsLoadingEffect(false)
+    //   setPreferredTenantTypeError('Please select preferred tenant type')
+    //   return false;
+    // }
+    // if (builtupArea === '') {
+    //   setIsLoadingEffect(false)
+    //   setBuiltupAreaError('Please enter builtup area')
+    //   return false;
+    // }
+    // if (carpetArea === '') {
+    //   setIsLoadingEffect(false)
+    //   setCarpetAreaError('Please enter carpet area')
+    //   return false;
+    // }
+    // if (lengthArea === '') {
+    //   setIsLoadingEffect(false)
+    //   setLengthAreaError('Please enter length area')
+    //   return false;
+    // }
+    // if (plotArea === '') {
+    //   setIsLoadingEffect(false)
+    //   setPlotAreaError('Please enter plot area')
+    //   return false;
+    // }
+    // if (widthArea === '') {
+    //   setIsLoadingEffect(false)
+    //   setWidthAreaError('Please enter width area')
+    //   return false;
+    // }
+    // if (brokerage === '') {
+    //   setIsLoadingEffect(false)
+    //   setBrokerageError('Please enter brokerage')
+    //   return false;
+    // }
+    // if (facing === '') {
+    //   setIsLoadingEffect(false)
+    //   setFacingError('Please select facing')
+    //   return false;
+    // }
+    // if (address === '') {
+    //   setIsLoadingEffect(false)
+    //   setAddressError('Please enter address')
+    //   return false;
+    // }
+    // if (servantRoom === '') {
+    //   setIsLoadingEffect(false)
+    //   setServantRoomError('Please select servant room')
+    //   return false;
+    // }
+    // if (reraId === '') {
+    //   setIsLoadingEffect(false)
+    //   setReraIdError('Please enter RERA ID')
+    //   return false;
+    // }
+    // if (propertyDescription === '') {
+    //   setIsLoadingEffect(false)
+    //   setPropertyDescriptionError('Please enter property description')
+    //   return false;
+    // }
+    updateActiveTab('address', 'completed')
+  }
 
   return (
-    <>
+    <div className='relative'>
       <div className='py-2 bg-[#E2EAED]'>
         <p className='text-lg font-bold text-[#1D3A76] text-center font-sans'>Add Property Details</p>
       </div>
-      <div className='p-10'>
-        <>
-          <p className='text-[#1D3A76] text-sm my-4 font-medium font-sans'>Property Type</p>
+      <div className='w-full overflow-y-auto px-5 py-3 h-[calc(100vh-220px)]'>
+        <div className='mb-5'>
+          <div className='flex gap-1 mb-4'>
+            <p className='text-[#1D3A76] text-sm font-medium font-sans'>Property Type</p>
+            <IconAsterisk size={8} color='#FF0000' />
+          </div>
           <div className='grid grid-cols-6 gap-2'>
             <div onClick={() => { updatePropertyType('apartment') }} className={`flex flex-col justify-center items-center gap-2 border-2 rounded-md px-4 py-2 w-[100%] cursor-pointer ${propertyType === "apartment" ? 'bg-[#1D3A76] border-[#1D3A76] ' : 'border-[#d7d5d5ba] '} `}>
               <svg width="40" height="30" viewBox="0 0 53 43" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -166,9 +372,10 @@ function Propertydetailswrapper({ updateActiveTab }) {
               <p className={`text-[10px] text-center font-sans ${propertyType === "agricultureland" ? 'text-white' : 'text-[#909090]'}`}>Agriculture Land</p>
             </div>
           </div>
-        </>
-        <>
-          <p className='text-[#1D3A76] text-sm my-4 font-medium font-sans'>Construction Status</p>
+          {propertyTypeError && <p className='text-[#FF0000] text-xs font-sans'>Please select property type</p>}
+        </div>
+        <div className='mb-5'>
+          <p className='text-[#1D3A76] text-sm mb-4 font-medium font-sans'>Construction Status</p>
           <div className='flex flex-row items-center gap-6'>
             <div onClick={() => updateConstructionStatus('readytomove')} className={`group cursor-pointer px-8 py-2 rounded-md  ${constructionStatus === 'readytomove' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
               <p className={`text-[10px] font-sans ${constructionStatus === 'readytomove' ? 'text-white ' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Ready to Move</p>
@@ -177,9 +384,10 @@ function Propertydetailswrapper({ updateActiveTab }) {
               <p className={`text-[10px] font-sans ${constructionStatus === 'underconstruction' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Under Construction</p>
             </div>
           </div>
-        </>
-        <>
-          <p className='text-[#1D3A76] text-sm my-6 font-medium font-sans'>BHK</p>
+          {constructionStatusError && <p className='text-[#FF0000] text-xs font-sans'>Please select construction status</p>}
+        </div>
+        <div className='mb-5'>
+          <p className='text-[#1D3A76] text-sm mb-4 font-medium font-sans'>BHK</p>
           <div className='flex flex-row items-center gap-6'>
             <div onClick={() => updateBhk('1bhk')} className={`group cursor-pointer px-8 py-2 rounded-md  ${bhk === '1bhk' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
               <p className={`text-[10px] font-sans ${bhk === '1bhk' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>1 BHK</p>
@@ -197,9 +405,10 @@ function Propertydetailswrapper({ updateActiveTab }) {
               <p className={`text-[10px] font-sans ${bhk === '4plusbhk' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>4+ BHK</p>
             </div>
           </div>
-        </>
-        <>
-          <p className='text-[#1D3A76] text-sm my-6 font-medium font-sans'>Bathroom</p>
+          {bhkError && <p className='text-[#FF0000] text-xs font-sans'>Please select BHK</p>}
+        </div>
+        <div className='mb-5'>
+          <p className='text-[#1D3A76] text-sm mb-4 font-medium font-sans'>Bathroom</p>
           <div className='flex flex-row items-center gap-6'>
             <div onClick={() => updateBathroom('1')} className={`group cursor-pointer px-8 py-2 rounded-md  ${bathroom === '1' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
               <p className={` text-[10px] font-sans ${bathroom === '1' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>1 </p>
@@ -214,9 +423,10 @@ function Propertydetailswrapper({ updateActiveTab }) {
               <p className={`text-[10px] font-sans ${bathroom === '4' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>4 </p>
             </div>
           </div>
-        </>
-        <>
-          <p className='text-[#1D3A76] text-sm my-6 font-medium font-sans'>Balcony</p>
+          {bathroomError && <p className='text-[#FF0000] text-xs font-sans'>Please select bathroom</p>}
+        </div>
+        <div className='mb-5'>
+          <p className='text-[#1D3A76] text-sm mb-4 font-medium font-sans'>Balcony</p>
           <div className='flex flex-row items-center gap-6'>
             <div onClick={() => updateBalcony('0')} className={`group cursor-pointer px-8 py-2 rounded-md  ${balcony === '0' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
               <p className={`text-[10px] font-sans ${balcony === '0' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>0</p>
@@ -234,8 +444,9 @@ function Propertydetailswrapper({ updateActiveTab }) {
               <p className={`text-[10px] font-sans ${balcony === '4' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>4 </p>
             </div>
           </div>
-        </>
-        <>
+          {balconyError && <p className='text-[#FF0000] text-xs font-sans'>Please select balcony</p>}
+        </div>
+        <div className='mb-5'>
           <p className='text-[#1D3A76] text-sm my-4 font-medium font-sans'>Furnish Type</p>
           <div className='grid grid-cols-3 gap-2'>
             <div onClick={() => updateFurnishType('fullyfurnished')} className={`flex flex-row items-center gap-4 border-2 rounded-md px-4 py-2 w-[80%] cursor-pointer ${furnishType === "fullyfurnished" ? 'bg-[#1D3A76] border-[#1D3A76] ' : 'border-[#d7d5d5ba] '}`}>
@@ -257,10 +468,12 @@ function Propertydetailswrapper({ updateActiveTab }) {
               <p className={` text-[10px] text-center font-sans ${furnishType === "unfurnished" ? 'text-white' : 'text-[#909090]'}`}>Unfurnished</p>
             </div>
           </div>
-        </>
-        <p className='text-[#1D3A76] text-sm my-6 font-medium cursor-pointer font-sans'>+ Add Furnishings/ Amenties</p>
-
-        <>
+          {furnishTypeError && <p className='text-[#FF0000] text-xs font-sans'>Please select furnish type</p>}
+        </div>
+        <div onClick={openFurnishingModal} className='cursor-pointer'>
+          <p className='text-[#1D3A76] text-sm mb-4 font-medium font-sans'>+ Add Furnishings/ Amenties</p>
+        </div>
+        <div className='mb-5'>
           <p className='text-[#1D3A76] text-sm mt-6 mb-2 font-sans font-medium'>Possession End </p>
           <div className='border border-[#909090] rounded-md w-[20%] px-3'>
             <input
@@ -272,9 +485,10 @@ function Propertydetailswrapper({ updateActiveTab }) {
               onChange={updatePossessionEndDate}
             />
           </div>
-        </>
-        <>
-          <p className='text-[#1D3A76] text-sm my-6 font-sans font-medium'>Covered Parking</p>
+          {possessionEndDateError && <p className='text-[#FF0000] text-xs font-sans'>Please select possession end date</p>}
+        </div>
+        <div className='mb-5'>
+          <p className='text-[#1D3A76] text-sm mb-4 font-sans font-medium'>Covered Parking</p>
           <div className='flex flex-row items-center gap-6'>
             <div onClick={() => updateCoveredParking('0')} className={`group cursor-pointer px-8 py-2 rounded-md  ${coveredParking === '0' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
               <p className={`text-[10px] font-sans ${coveredParking === '0' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>0</p>
@@ -292,9 +506,10 @@ function Propertydetailswrapper({ updateActiveTab }) {
               <p className={`text-[10px] font-sans ${coveredParking === '4plus' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>4+ </p>
             </div>
           </div>
-        </>
-        <>
-          <p className='text-[#1D3A76] text-sm my-6 font-sans font-medium'>Open Parking</p>
+          {coveredParkingError && <p className='text-[#FF0000] text-xs font-sans'>Please select covered parking</p>}
+        </div>
+        <div className='mb-5'>
+          <p className='text-[#1D3A76] text-sm mb-4 font-sans font-medium'>Open Parking</p>
           <div className='flex flex-row items-center gap-6'>
             <div onClick={() => updateOpenParking('0')} className={`group cursor-pointer px-8 py-2 rounded-md  ${openParking === '0' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
               <p className={`text-[10px] font-sans ${openParking === '0' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>0</p>
@@ -312,7 +527,8 @@ function Propertydetailswrapper({ updateActiveTab }) {
               <p className={`text-[10px] font-sans ${openParking === '4plus' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>4+ </p>
             </div>
           </div>
-        </>
+          {openParkingError && <p className='text-[#FF0000] text-xs font-sans'>Please select open parking</p>}
+        </div>
         <div className='my-6'>
           <input
             type='text'
@@ -322,6 +538,7 @@ function Propertydetailswrapper({ updateActiveTab }) {
             value={cost}
             onChange={updateCost}
           />
+          {costError && <p className='text-[#FF0000] text-xs font-sans'>Please enter cost</p>}
         </div>
         <div className='my-6'>
           <input
@@ -332,9 +549,10 @@ function Propertydetailswrapper({ updateActiveTab }) {
             value={maintenceCharges}
             onChange={updateMaintenceCharges}
           />
+          {maintenceChargesError && <p className='text-[#FF0000] text-xs font-sans'>Please enter maintence charges</p>}
         </div>
-        <>
-          <p className='text-[#1D3A76] text-sm my-6 font-sans font-medium'>Security Deposit </p>
+        <div className='mb-5'>
+          <p className='text-[#1D3A76] text-sm mb-4 font-sans font-medium'>Security Deposit </p>
           <div className='flex flex-row items-center gap-6'>
             <div onClick={() => updateSecurityDeposit('onemonth')} className={`group cursor-pointer px-8 py-2 rounded-md  ${securityDeposit === 'onemonth' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
               <p className={`text-[10px] font-sans ${securityDeposit === 'onemonth' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>1 Month</p>
@@ -343,9 +561,10 @@ function Propertydetailswrapper({ updateActiveTab }) {
               <p className={`text-[10px] font-sans ${securityDeposit === 'twomonths' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>2 Months</p>
             </div>
           </div>
-        </>
-        <>
-          <p className='text-[#1D3A76] text-sm my-6 font-sans font-medium'>Lock In Period </p>
+          {securityDepositError && <p className='text-[#FF0000] text-xs font-sans'>Please select security deposit</p>}
+        </div>
+        <div className='mb-5'>
+          <p className='text-[#1D3A76] text-sm mb-4 font-sans font-medium'>Lock In Period </p>
           <div className='flex flex-row items-center gap-6'>
             <div onClick={() => updateLockInPeriod('onemonth')} className={`group cursor-pointer px-8 py-2 rounded-md  ${lockInPeriod === 'onemonth' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
               <p className={`text-[10px] font-sans ${lockInPeriod === 'onemonth' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>1 Month</p>
@@ -354,9 +573,10 @@ function Propertydetailswrapper({ updateActiveTab }) {
               <p className={`text-[10px] font-sans ${lockInPeriod === 'twomonths' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>2 Months</p>
             </div>
           </div>
-        </>
-        <>
-          <p className='text-[#1D3A76] text-sm my-6 font-sans font-medium'>Do you charge brokerage? </p>
+          {lockInPeriodError && <p className='text-[#FF0000] text-xs font-sans'>Please select lock in period</p>}
+        </div>
+        <div className='mb-5'>
+          <p className='text-[#1D3A76] text-sm mb-4 font-sans font-medium'>Do you charge brokerage? </p>
           <div className='flex flex-row items-center gap-6'>
             <div onClick={() => updateBrokerage('yes')} className={`group cursor-pointer px-8 py-2 rounded-md  ${brokerage === 'yes' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
               <p className={`text-[10px] font-sans ${brokerage === 'yes' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Yes</p>
@@ -365,9 +585,10 @@ function Propertydetailswrapper({ updateActiveTab }) {
               <p className={`text-[10px] font-sans ${brokerage === 'no' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>No</p>
             </div>
           </div>
-        </>
-        <>
-          <p className='text-[#1D3A76] text-sm my-6 font-sans font-medium'>Preferred Tenant Type </p>
+          {brokerageError && <p className='text-[#FF0000] text-xs font-sans'>Please select brokerage</p>}
+        </div>
+        <div className='mb-5'>
+          <p className='text-[#1D3A76] text-sm mb-4 font-sans font-medium'>Preferred Tenant Type </p>
           <div className='flex flex-row items-center gap-6'>
             <div onClick={() => updatePreferredTenantType('family')} className={`group cursor-pointer px-8 py-2 rounded-md  ${preferredTenantType === 'family' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
               <p className={`text-[10px] font-sans ${preferredTenantType === 'family' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Family</p>
@@ -382,7 +603,8 @@ function Propertydetailswrapper({ updateActiveTab }) {
               <p className={`text-[10px] font-sans ${preferredTenantType === 'singlewoman' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Single Woman</p>
             </div>
           </div>
-        </>
+          {preferredTenantTypeError && <p className='text-[#FF0000] text-xs font-sans'>Please select preferred tenant type</p>}
+        </div>
         <div className='grid grid-cols-3 gap-2 mt-3'>
           <div className='my-6'>
             <input
@@ -393,6 +615,7 @@ function Propertydetailswrapper({ updateActiveTab }) {
               value={builtupArea}
               onChange={updateBuiltupArea}
             />
+            {builtupAreaError && <p className='text-[#FF0000] text-xs font-sans'>Please enter built-up area</p>}
           </div>
           <div className='my-6'>
             <input
@@ -403,6 +626,7 @@ function Propertydetailswrapper({ updateActiveTab }) {
               value={carpetArea}
               onChange={updateCarpetArea}
             />
+            {carpetAreaError && <p className='text-[#FF0000] text-xs font-sans'>Please enter carpet area</p>}
           </div>
           <div className='my-6'>
             <input
@@ -413,6 +637,7 @@ function Propertydetailswrapper({ updateActiveTab }) {
               value={lengthArea}
               onChange={updateLengthArea}
             />
+            {lengthAreaError && <p className='text-[#FF0000] text-xs font-sans'>Please enter length area</p>}
           </div>
           <div className='my-6'>
             <input
@@ -423,6 +648,7 @@ function Propertydetailswrapper({ updateActiveTab }) {
               value={plotArea}
               onChange={updatePlotArea}
             />
+            {plotAreaError && <p className='text-[#FF0000] text-xs font-sans'>Please enter plot area</p>}
           </div>
           <div className='my-6'>
             <input
@@ -433,6 +659,7 @@ function Propertydetailswrapper({ updateActiveTab }) {
               value={widthArea}
               onChange={updateWidthArea}
             />
+            {widthAreaError && <p className='text-[#FF0000] text-xs font-sans'>Please enter width area</p>}
           </div>
         </div>
         {/* facilities */}
@@ -465,8 +692,8 @@ function Propertydetailswrapper({ updateActiveTab }) {
             </li>
           </ul>
         </div> */}
-        <>
-          <p className='text-[#1D3A76] text-sm my-4 font-medium font-sans'>Add Additional Details</p>
+        <div className='mb-5'>
+          <p className='text-[#1D3A76] text-sm mb-4 font-medium font-sans'>Add Additional Details</p>
           <p className='text-[#AEAEAE] text-sm font-sans font-medium mb-2'>Facing</p>
           <div className='grid grid-cols-4 gap-3'>
             <div onClick={() => updateFacing('north')} className={`group cursor-pointer px-8 py-2 rounded-md  ${facing === 'north' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
@@ -494,16 +721,21 @@ function Propertydetailswrapper({ updateActiveTab }) {
               <p className={`text-[10px] font-sans ${facing === 'southwest' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>South-West</p>
             </div>
           </div>
-        </>
+          {facingError && <p className='text-[#FF0000] text-xs font-sans'>Please select facing</p>}
+        </div>
         <div className='my-6'>
           <input
             type='text'
             placeholder='Address'
             className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans'
+            autoComplete='off'
+            value={address}
+            onChange={updateAddress}
           />
+          {addressError && <p className='text-[#FF0000] text-xs font-sans'>Please enter address</p>}
         </div>
-        <>
-          <p className='text-[#1D3A76] text-sm my-6 font-sans font-medium'>Servant Room? </p>
+        <div className='mb-5'>
+          <p className='text-[#1D3A76] text-sm mb-4 font-sans font-medium'>Servant Room? </p>
           <div className='flex flex-row items-center gap-6'>
             <div onClick={() => updateServantRoom('yes')} className={`group cursor-pointer px-8 py-2 rounded-md  ${servantRoom === 'yes' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
               <p className={`text-[10px] font-sans ${servantRoom === 'yes' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Yes</p>
@@ -512,7 +744,8 @@ function Propertydetailswrapper({ updateActiveTab }) {
               <p className={`text-[10px] font-sans ${servantRoom === 'no' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>No</p>
             </div>
           </div>
-        </>
+          {servantRoomError && <p className='text-[#FF0000] text-xs font-sans'>Please select servant room</p>}
+        </div>
         <div className='my-6'>
           <input
             type='text'
@@ -522,8 +755,9 @@ function Propertydetailswrapper({ updateActiveTab }) {
             value={reraId}
             onChange={updateReraId}
           />
+          {reraIdError && <p className='text-[#FF0000] text-xs font-sans'>Please enter rera id</p>}
         </div>
-        <div className='my-6'>
+        <div className='mt-6'>
           <input
             type='text'
             placeholder='Property Description'
@@ -532,14 +766,38 @@ function Propertydetailswrapper({ updateActiveTab }) {
             value={propertyDescription}
             onChange={updatePropertyDescription}
           />
+          {propertyDescriptionError && <p className='text-[#FF0000] text-xs font-sans'>Please enter property description</p>}
         </div>
       </div>
-      <div className='flex flex-row justify-end items-center my-6 px-6'>
-        <div onClick={() => updateActiveTab('address', 'completed')} className='border border-[#1D3A76] bg-[#1D3A76] px-8 py-2 rounded-md cursor-pointer'>
+      <div className='flex flex-row justify-end items-center  px-6 pt-3'>
+        <div onClick={updatePropertyDetails} className='border border-[#1D3A76] bg-[#1D3A76] px-8 py-2 rounded-md cursor-pointer'>
           <p className='text-white text-[10px]'>Next, add property details</p>
         </div>
       </div>
-    </>
+      {
+        furnishingModal &&
+        // <Modal
+        //   isOpen={furnishingModal}
+        //   onRequestClose={closeFurnishingModal}
+        //   style={customStyles}
+        // >
+        //   <Addfurnishingswrapper
+        //     closeFurnishingModal={closeFurnishingModal}
+        //   />
+        // </Modal>
+        <Modal
+          open={furnishingModal}
+          onClose={closeFurnishingModal}
+          size="md"
+          zIndex={9999}
+        >
+          <Addfurnishingswrapper
+            closeFurnishingModal={closeFurnishingModal}
+          />
+        </Modal>
+      }
+      <LoadingOverlay isLoading={isLoadingEffect} />
+    </div>
 
   )
 }

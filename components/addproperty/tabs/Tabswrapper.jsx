@@ -73,7 +73,7 @@ function Tabswrapper() {
                             </div>
                             <div className='flex flex-col'>
                                 <p className={`text-[13px] font-bold text-[#1D3A76]`}>Basic Details</p>
-                                <div className="flex flex-row items-center justify-center">
+                                <div className="flex flex-row items-center justify-start">
                                     {
                                         basicDetailsStatus === 'completed' ? (
                                             <>
@@ -95,7 +95,6 @@ function Tabswrapper() {
                                 </div>
                             </div>
                         </div>
-
                         <div className="flex flex-row items-start gap-3">
                             <div className="flex flex-col justify-center items-center">
                                 <div className="h-4 w-4 rounded-full border-2 flex items-center justify-center">
@@ -114,8 +113,8 @@ function Tabswrapper() {
                                 <div className="border-l-2 h-10"></div>
                             </div>
                             <div className='flex flex-col'>
-                                <p className={`text-[13px] font-bold ${activeTab === 'propertydetails' ? 'text-[#1D3A76]' : 'text-[#909090]'}`}>Property Details</p>
-                                <div className="flex flex-row items-center justify-center">
+                                <p className={`text-[13px] font-bold ${activeTab === 'propertydetails' || propertyDetailsStatus === 'completed' ? 'text-[#1D3A76]' : 'text-[#909090]'}`}>Property Details</p>
+                                <div className="flex flex-row items-center justify-start">
                                     {
                                         propertyDetailsStatus === 'completed' ? (
                                             <>
@@ -155,7 +154,7 @@ function Tabswrapper() {
                                 <div className="border-l-2 h-10"></div>
                             </div>
                             <div className='flex flex-col'>
-                                <p className={`text-[13px] font-bold ${activeTab === 'address' ? 'text-[#1D3A76]' : 'text-[#909090]'}`}>Address</p>
+                                <p className={`text-[13px] font-bold ${activeTab === 'address' || addressStatus === 'completed' ? 'text-[#1D3A76]' : 'text-[#909090]'}`}>Address</p>
                                 <div className="flex flex-row items-center justify-center">
                                     {
                                         addressStatus === 'completed' ? (
@@ -178,52 +177,94 @@ function Tabswrapper() {
                                 </div>
                             </div>
                         </div>
-                        {/* <div className="flex flex-row items-start gap-3">
-                            <div className='flex flex-col justify-center items-center'>
-                                <div className='border rounded-full h-4 w-4'></div>
-                                <div className='border-l-2 h-10'></div>
-                            </div>
-                            <div className='flex flex-col'>
-                                <p className='text-[#909090] text-[13px] font-bold'>Address</p>
-                                <div className='flex flex-row items-center justify-center'>
-                                    <IconPointFilled size={16} color='#909090' />
-                                    <p className='text-[8px] font-semibold text-[#909090]'>Pending</p>
-                                </div>
-                            </div>
-                        </div> */}
                         <div className="flex flex-row items-start gap-3">
-                            <div className='flex flex-col justify-center items-center'>
-                                <div className='border rounded-full h-4 w-4'></div>
-                                <div className='border-l-2 h-10'></div>
+                            <div className="flex flex-col justify-center items-center">
+                                <div className="h-4 w-4 rounded-full border-2 flex items-center justify-center">
+                                    {
+                                        photosStatus === 'completed' ? (
+                                            <div className="h-3 w-4 flex flex-row justify-center items-center bg-[#287DB0] rounded-full">
+                                                <IconCheck size={10} color='#fff' />
+                                            </div>
+                                        ) : photosStatus === 'inprogress' ? (
+                                            <div className="h-2 w-2 bg-[#1D3A76] rounded-full"></div>
+                                        )
+                                            :
+                                            <div className="h-2 w-2 rounded-full"></div>
+                                    }
+                                </div>
+                                <div className="border-l-2 h-10"></div>
                             </div>
                             <div className='flex flex-col'>
-                                <p className='text-[#909090] text-[13px] font-bold'>Photos</p>
-                                <div className='flex flex-row items-center justify-center'>
-                                    <IconPointFilled size={16} color='#909090' />
-                                    <p className='text-[8px] font-semibold text-[#909090]'>Pending</p>
+                                <p className={`text-[13px] font-bold ${activeTab === 'photos' || photosStatus === 'completed' ? 'text-[#1D3A76]' : 'text-[#909090]'}`}>Photos</p>
+                                <div className="flex flex-row items-center justify-center">
+                                    {
+                                        photosStatus === 'completed' ? (
+                                            <>
+                                                <IconPointFilled size={16} color="#287DB0" />
+                                                <p className="text-[8px] font-semibold text-[#287DB0]">Completed</p>
+                                            </>
+                                        ) : photosStatus === 'inprogress' ? (
+                                            <>
+                                                <IconPointFilled size={16} color="#1D3A76" />
+                                                <p className="text-[8px] font-semibold text-[#1D3A76]">In Progress</p>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <IconPointFilled size={16} color="#909090" />
+                                                <p className="text-[8px] font-semibold text-[#909090]">Pending</p>
+                                            </>
+                                        )
+                                    }
                                 </div>
                             </div>
                         </div>
                         <div className="flex flex-row items-start gap-3">
-                            <div className='flex flex-col justify-center items-center'>
-                                <div className='border rounded-full h-4 w-4'></div>
-                                {/* <div className='border-l-2 h-10'></div> */}
+                            <div className="flex flex-col justify-center items-center">
+                                <div className="h-4 w-4 rounded-full border-2 flex items-center justify-center">
+                                    {
+                                        reviewsStatus === 'completed' ? (
+                                            <div className="h-3 w-4 flex flex-row justify-center items-center bg-[#287DB0] rounded-full">
+                                                <IconCheck size={10} color='#fff' />
+                                            </div>
+                                        ) : reviewsStatus === 'inprogress' ? (
+                                            <div className="h-2 w-2 bg-[#1D3A76] rounded-full"></div>
+                                        )
+                                            :
+                                            <div className="h-2 w-2 rounded-full"></div>
+                                    }
+                                </div>
                             </div>
                             <div className='flex flex-col'>
-                                <p className='text-[#909090] text-[13px] font-bold'>Reviews</p>
-                                <div className='flex flex-row items-center justify-center'>
-                                    <IconPointFilled size={16} color='#909090' />
-                                    <p className='text-[8px] font-semibold text-[#909090]'>Pending</p>
+                                <p className={`text-[13px] font-bold ${activeTab === 'reviews' || reviewsStatus === 'completed' ? 'text-[#1D3A76]' : 'text-[#909090]'}`}>Reviews</p>
+                                <div className="flex flex-row items-center justify-center">
+                                    {
+                                        reviewsStatus === 'completed' ? (
+                                            <>
+                                                <IconPointFilled size={16} color="#287DB0" />
+                                                <p className="text-[8px] font-semibold text-[#287DB0]">Completed</p>
+                                            </>
+                                        ) : reviewsStatus === 'inprogress' ? (
+                                            <>
+                                                <IconPointFilled size={16} color="#1D3A76" />
+                                                <p className="text-[8px] font-semibold text-[#1D3A76]">In Progress</p>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <IconPointFilled size={16} color="#909090" />
+                                                <p className="text-[8px] font-semibold text-[#909090]">Pending</p>
+                                            </>
+                                        )
+                                    }
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className='px-11 space-y-3 absolute bottom-4'>
-                    <p className='text-[#699BA0] text-sm font-semibold'>Require Assistance?</p>
+                <div className='px-11 space-y-3 absolute bottom-4 '>
+                    <p className='text-[#699BA0] text-sm font-semibold font-sans'>Require Assistance?</p>
                     <div className='flex flex-row items-center gap-2 border-b-2 pb-2 border-[#699BA0]'>
-                        <IconPhone size={20} color='#699BA0' />
-                        <p className='text-[#699BA0] text-sm'>+91 9999999999</p>
+                        <IconPhone size={18} color='#699BA0' />
+                        <p className='text-[#699BA0] text-sm font-sans'>+91 9999999999</p>
                     </div>
                 </div>
             </div>
