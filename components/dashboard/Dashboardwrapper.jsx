@@ -32,7 +32,7 @@ function Dashboardwrapper() {
             {/* Second Child: Spanning 4 Columns */}
             <div className="col-span-12 md:col-span-3 space-y-8">
                 <Dashboardsidebarsection />
-               
+
             </div>
         </div>
 
