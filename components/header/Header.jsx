@@ -39,10 +39,10 @@ function Header() {
                     <Image src={logo} alt={'logo'} height={100} width={120} />
                 </Link>
                 <Mainnavigation />
-                <div className='bg-[#1D3A76] flex flex-row items-center gap-2 p-2 rounded-md'>
+                <Link href="/addproperty" className='bg-[#1D3A76] flex flex-row items-center gap-2 p-2 rounded-md'>
                     <IconHomePlus color='#fff' size={18} />
                     <button className='text-white text-sm font-medium'>Add Property</button>
-                </div>
+                </Link>
             </div>
             {/* </div> */}
         </motion.div>
