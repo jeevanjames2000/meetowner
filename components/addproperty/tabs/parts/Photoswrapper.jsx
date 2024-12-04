@@ -30,7 +30,7 @@ function Photoswrapper({ updateActiveTab }) {
       alert('Please upload at least one photo');
       return false;
     }
-    updateActiveTab('review', 'completed')
+    updateActiveTab('review', 'inprogress')
   }
   return (
     <div className="relative">
@@ -107,14 +107,17 @@ function Photoswrapper({ updateActiveTab }) {
           )}
         </div>
       </div>
-      <div className='flex flex-row justify-end items-center  px-6 pt-3'>
+      <div className='flex flex-row justify-between items-center  px-6 pt-3'>
+        <div onClick={() => { updateActiveTab('address', 'completed') }} className='bg-[#000] px-8 py-2 rounded-md cursor-pointer'>
+          <p className='text-white text-[10px]'>Back</p>
+        </div>
         {
           previews.length > 0 ?
             <div onClick={handleSubmitPhotos} className='border border-[#1D3A76] bg-[#1D3A76] px-8 py-2 rounded-md cursor-pointer'>
               <p className='text-white text-[10px]'>Next, Review</p>
             </div>
             :
-            <div onClick={() => updateActiveTab('review', 'photos')} className='text-center cursor-pointer'>
+            <div onClick={() => updateActiveTab('review', 'inprogress')} className='text-center cursor-pointer'>
               <p className='text-[#757575] text-xs underline pb-2 font-semibold'>Continue without photos</p>
             </div>
         }

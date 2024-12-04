@@ -10,7 +10,6 @@ const GoogleSearchPlaces = ({ apiKey, placeholder, onPlaceSelect, location }) =>
             setSuggestions([]);
             return;
         }
-
         setLoading(true);
 
         try {
@@ -20,6 +19,7 @@ const GoogleSearchPlaces = ({ apiKey, placeholder, onPlaceSelect, location }) =>
                 )}&key=${apiKey}&types=geocode`
             );
             const data = await response.json();
+            console.log('googledata', data)
             if (data.predictions) {
                 setSuggestions(data.predictions);
             } else {
@@ -47,6 +47,7 @@ const GoogleSearchPlaces = ({ apiKey, placeholder, onPlaceSelect, location }) =>
         setInput(location);
     }, [location]);
 
+    console.log('suggestions', suggestions)
     return (
         <div className="relative w-full">
             <input
@@ -55,10 +56,10 @@ const GoogleSearchPlaces = ({ apiKey, placeholder, onPlaceSelect, location }) =>
                 placeholder={placeholder || 'Search for a place'}
                 onChange={(e) => {
                     const text = e.target.value;
-                    if (!text) {
-                        setSuggestions([]);
-                        onPlaceSelect('');
-                    }
+                    // if (!text) {
+                    //     setSuggestions([]);
+                    //     onPlaceSelect('');
+                    // }
                     setInput(text);
                 }}
             />

@@ -1,8 +1,11 @@
 'use client'
 import { IconAsterisk, IconSearch } from '@tabler/icons-react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { usePathname, useSearchParams, useRouter } from 'next/navigation.js';
 
 function Basicdetailswrapper({ updateActiveTab }) {
+    const searchParams = useSearchParams()
+    const router = useRouter()
     const [isLoadingEffect, setIsLoadingEffect] = useState(false)
     const [propertyType, setPropertyType] = useState('')
     const [propertyTypeError, setPropertyTypeError] = useState('')
@@ -31,6 +34,7 @@ function Basicdetailswrapper({ updateActiveTab }) {
         setLocation(e.target.value)
     }
 
+
     const updateBasicdetails = () => {
         setIsLoadingEffect(true)
         if (propertyType === '') {
@@ -48,8 +52,7 @@ function Basicdetailswrapper({ updateActiveTab }) {
             setIsLoadingEffect(false)
             return
         }
-        setIsLoadingEffect(false)
-        updateActiveTab('propertydetails', 'completed')
+        updateActiveTab('propertydetails', 'inprogress')
     }
 
     return (
@@ -60,7 +63,7 @@ function Basicdetailswrapper({ updateActiveTab }) {
             <div className='p-10'>
                 <>
                     <div className='flex gap-1 mb-4'>
-                        <p className='text-[#1D3A76] text-sm  font-sans'>Property Type</p>
+                        <p className='text-[#1D3A76] text-sm  font-sans font-medium'>Property Type</p>
                         <IconAsterisk size={8} color='#FF0000' />
                     </div>
                     <div className='flex flex-row items-center gap-6'>
@@ -75,7 +78,7 @@ function Basicdetailswrapper({ updateActiveTab }) {
                 </>
                 <>
                     <div className='flex gap-1 my-4'>
-                        <p className='text-[#1D3A76] text-sm font-sans'>Looking to</p>
+                        <p className='text-[#1D3A76] text-sm font-sans font-medium'>Looking to</p>
                         <IconAsterisk size={8} color='#FF0000' />
                     </div>
                     <div className='flex flex-row items-center gap-6'>
@@ -93,7 +96,7 @@ function Basicdetailswrapper({ updateActiveTab }) {
                     {
                         lookingTo === 'Sell' && (
                             <div className="flex flex-col">
-                                <p className='text-[#1D3A76] text-sm mt-4 mb-2'>Transaction Type</p>
+                                <p className='text-[#1D3A76] text-sm mt-4 mb-2 font-medium'>Transaction Type</p>
                                 <select
                                     className="w-[40%] border border-[#909090] rounded-md focus:outline-none text-sm py-2 "
                                     id="transactionType"
@@ -109,6 +112,7 @@ function Basicdetailswrapper({ updateActiveTab }) {
                         )
                     }
                 </>
+
                 <div className='border border-[#c3c3c3] flex flex-row items-center gap-3 my-4 rounded-lg h-9'>
                     <div className='bg-[#1D3A76] h-full flex items-center justify-center px-3 rounded-s-lg'>
                         <IconSearch size={20} color='#fff' />
@@ -122,6 +126,18 @@ function Basicdetailswrapper({ updateActiveTab }) {
                         onChange={updateLocation}
                     />
                 </div>
+                {/* <div className="relative flex-1 flex flex-row justify-between items-center">
+                    <div className="flex flex-col flex-1">
+                        <GoogleSearchPlaces
+                            location={location}
+                            apiKey="AIzaSyBmei9lRUUfJI-kLIPNBoc2SxEkwhKHyvU"
+                            placeholder="Enter a location"
+                            onPlaceSelect={(data, details = null) => {
+                                updateLocation(data.description);
+                            }}
+                        />
+                    </div>
+                </div> */}
 
                 <div className='flex flex-row justify-end items-center mt-6'>
                     <div onClick={updateBasicdetails} className='border border-[#1D3A76] bg-[#1D3A76] px-8 py-3 rounded-md cursor-pointer'>

@@ -46,38 +46,38 @@ function Addresswrapper({ updateActiveTab }) {
   }
 
   const updateAddress = () => {
-    // setIsLoadingEffect(true)
-    // if (city === '') {
-    //   setIsLoadingEffect(false)
-    //   setCityError('please enter city')
-    //   return false;
-    // }
-    // if (buildingName === '') {
-    //   setIsLoadingEffect(false)
-    //   setBuildingNameError('please enter building name')
-    //   return false;
-    // }
-    // if (locality === '') {
-    //   setIsLoadingEffect(false)
-    //   setLocalityError('please enter locality')
-    //   return false;
-    // }
-    // if (flatNo === '') {
-    //   setIsLoadingEffect(false)
-    //   setFlatNoError('please enter flat no')
-    //   return false;
-    // }
-    // if (floorNo === '') {
-    //   setIsLoadingEffect(false)
-    //   setFloorNoError('please enter floor no')
-    //   return false;
-    // }
-    // if (totalFloors === '') {
-    //   setIsLoadingEffect(false)
-    //   setTotalFloorsError('please enter total floors')
-    //   return false;
-    // }
-    updateActiveTab('photos', 'completed')
+    setIsLoadingEffect(true)
+    if (city === '') {
+      setIsLoadingEffect(false)
+      setCityError('please enter city')
+      return false;
+    }
+    if (buildingName === '') {
+      setIsLoadingEffect(false)
+      setBuildingNameError('please enter building name')
+      return false;
+    }
+    if (locality === '') {
+      setIsLoadingEffect(false)
+      setLocalityError('please enter locality')
+      return false;
+    }
+    if (flatNo === '') {
+      setIsLoadingEffect(false)
+      setFlatNoError('please enter flat no')
+      return false;
+    }
+    if (floorNo === '') {
+      setIsLoadingEffect(false)
+      setFloorNoError('please enter floor no')
+      return false;
+    }
+    if (totalFloors === '') {
+      setIsLoadingEffect(false)
+      setTotalFloorsError('please enter total floors')
+      return false;
+    }
+    updateActiveTab('photos', 'inprogress')
 
   }
   return (
@@ -178,7 +178,10 @@ function Addresswrapper({ updateActiveTab }) {
         </div>
       </div>
 
-      <div className='flex flex-row justify-end items-center  px-6 pt-3'>
+      <div className='flex flex-row justify-between items-center  px-6 pt-3'>
+        <div onClick={() => { updateActiveTab('propertydetails', 'completed') }} className='bg-[#000] px-8 py-2 rounded-md cursor-pointer'>
+          <p className='text-white text-[10px]'>Back</p>
+        </div>
         <div onClick={updateAddress} className='border border-[#1D3A76] bg-[#1D3A76] px-8 py-2 rounded-md cursor-pointer'>
           <p className='text-white text-[10px]'>Post property</p>
         </div>

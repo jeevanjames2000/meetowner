@@ -192,133 +192,133 @@ function Propertydetailswrapper({ updateActiveTab }) {
   }
 
   const updatePropertyDetails = () => {
-    // setIsLoadingEffect(true)
-    // if (propertyType === '') {
-    //   setIsLoadingEffect(false)
-    //   setPropertyTypeError('Please select property type')
-    //   return false;
-    // }
-    // if (constructionStatus === '') {
-    //   setIsLoadingEffect(false)
-    //   setConstructionStatusError('Please select construction status')
-    //   return false;
-    // }
-    // if (bhk === '') {
-    //   setIsLoadingEffect(false)
-    //   setBhkError('Please select BHK')
-    //   return false;
-    // }
-    // if (bathroom === '') {
-    //   setIsLoadingEffect(false)
-    //   setBathroomError('Please select bathroom')
-    //   return false;
-    // }
-    // if (balcony === '') {
-    //   setIsLoadingEffect(false)
-    //   setBalconyError('Please select balcony')
-    //   return false;
-    // }
-    // if (furnishType === '') {
-    //   setIsLoadingEffect(false)
-    //   setFurnishTypeError('Please select furnish type')
-    //   return false;
-    // }
-    // if (possessionEndDate === '') {
-    //   setIsLoadingEffect(false)
-    //   setPossessionEndDateError('Please select possession end date')
-    //   return false;
-    // }
-    // if (coveredParking === '') {
-    //   setIsLoadingEffect(false)
-    //   setCoveredParkingError('Please select covered parking')
-    //   return false;
-    // }
-    // if (openParking === '') {
-    //   setIsLoadingEffect(false)
-    //   setOpenParkingError('Please select open parking')
-    //   return false;
-    // }
-    // if (cost === '') {
-    //   setIsLoadingEffect(false)
-    //   setCostError('Please enter cost')
-    //   return false;
-    // }
-    // if (maintenceCharges === '') {
-    //   setIsLoadingEffect(false)
-    //   setMaintenceChargesError('Please enter maintence charges')
-    //   return false;
-    // }
-    // if (securityDeposit === '') {
-    //   setIsLoadingEffect(false)
-    //   setSecurityDepositError('Please enter security deposit')
-    //   return false;
-    // }
-    // if (lockInPeriod === '') {
-    //   setIsLoadingEffect(false)
-    //   setLockInPeriodError('Please enter lock in period')
-    //   return false;
-    // }
-    // if (preferredTenantType === '') {
-    //   setIsLoadingEffect(false)
-    //   setPreferredTenantTypeError('Please select preferred tenant type')
-    //   return false;
-    // }
-    // if (builtupArea === '') {
-    //   setIsLoadingEffect(false)
-    //   setBuiltupAreaError('Please enter builtup area')
-    //   return false;
-    // }
-    // if (carpetArea === '') {
-    //   setIsLoadingEffect(false)
-    //   setCarpetAreaError('Please enter carpet area')
-    //   return false;
-    // }
-    // if (lengthArea === '') {
-    //   setIsLoadingEffect(false)
-    //   setLengthAreaError('Please enter length area')
-    //   return false;
-    // }
-    // if (plotArea === '') {
-    //   setIsLoadingEffect(false)
-    //   setPlotAreaError('Please enter plot area')
-    //   return false;
-    // }
-    // if (widthArea === '') {
-    //   setIsLoadingEffect(false)
-    //   setWidthAreaError('Please enter width area')
-    //   return false;
-    // }
-    // if (brokerage === '') {
-    //   setIsLoadingEffect(false)
-    //   setBrokerageError('Please enter brokerage')
-    //   return false;
-    // }
-    // if (facing === '') {
-    //   setIsLoadingEffect(false)
-    //   setFacingError('Please select facing')
-    //   return false;
-    // }
-    // if (address === '') {
-    //   setIsLoadingEffect(false)
-    //   setAddressError('Please enter address')
-    //   return false;
-    // }
-    // if (servantRoom === '') {
-    //   setIsLoadingEffect(false)
-    //   setServantRoomError('Please select servant room')
-    //   return false;
-    // }
-    // if (reraId === '') {
-    //   setIsLoadingEffect(false)
-    //   setReraIdError('Please enter RERA ID')
-    //   return false;
-    // }
-    // if (propertyDescription === '') {
-    //   setIsLoadingEffect(false)
-    //   setPropertyDescriptionError('Please enter property description')
-    //   return false;
-    // }
-    updateActiveTab('address', 'completed')
+    setIsLoadingEffect(true)
+    if (propertyType === '') {
+      setIsLoadingEffect(false)
+      setPropertyTypeError('Please select property type')
+      return false;
+    }
+    if (constructionStatus === '') {
+      setIsLoadingEffect(false)
+      setConstructionStatusError('Please select construction status')
+      return false;
+    }
+    if (bhk === '') {
+      setIsLoadingEffect(false)
+      setBhkError('Please select BHK')
+      return false;
+    }
+    if (bathroom === '') {
+      setIsLoadingEffect(false)
+      setBathroomError('Please select bathroom')
+      return false;
+    }
+    if (balcony === '') {
+      setIsLoadingEffect(false)
+      setBalconyError('Please select balcony')
+      return false;
+    }
+    if (furnishType === '') {
+      setIsLoadingEffect(false)
+      setFurnishTypeError('Please select furnish type')
+      return false;
+    }
+    if (possessionEndDate === '') {
+      setIsLoadingEffect(false)
+      setPossessionEndDateError('Please select possession end date')
+      return false;
+    }
+    if (coveredParking === '') {
+      setIsLoadingEffect(false)
+      setCoveredParkingError('Please select covered parking')
+      return false;
+    }
+    if (openParking === '') {
+      setIsLoadingEffect(false)
+      setOpenParkingError('Please select open parking')
+      return false;
+    }
+    if (cost === '') {
+      setIsLoadingEffect(false)
+      setCostError('Please enter cost')
+      return false;
+    }
+    if (maintenceCharges === '') {
+      setIsLoadingEffect(false)
+      setMaintenceChargesError('Please enter maintence charges')
+      return false;
+    }
+    if (securityDeposit === '') {
+      setIsLoadingEffect(false)
+      setSecurityDepositError('Please enter security deposit')
+      return false;
+    }
+    if (lockInPeriod === '') {
+      setIsLoadingEffect(false)
+      setLockInPeriodError('Please enter lock in period')
+      return false;
+    }
+    if (preferredTenantType === '') {
+      setIsLoadingEffect(false)
+      setPreferredTenantTypeError('Please select preferred tenant type')
+      return false;
+    }
+    if (builtupArea === '') {
+      setIsLoadingEffect(false)
+      setBuiltupAreaError('Please enter builtup area')
+      return false;
+    }
+    if (carpetArea === '') {
+      setIsLoadingEffect(false)
+      setCarpetAreaError('Please enter carpet area')
+      return false;
+    }
+    if (lengthArea === '') {
+      setIsLoadingEffect(false)
+      setLengthAreaError('Please enter length area')
+      return false;
+    }
+    if (plotArea === '') {
+      setIsLoadingEffect(false)
+      setPlotAreaError('Please enter plot area')
+      return false;
+    }
+    if (widthArea === '') {
+      setIsLoadingEffect(false)
+      setWidthAreaError('Please enter width area')
+      return false;
+    }
+    if (brokerage === '') {
+      setIsLoadingEffect(false)
+      setBrokerageError('Please enter brokerage')
+      return false;
+    }
+    if (facing === '') {
+      setIsLoadingEffect(false)
+      setFacingError('Please select facing')
+      return false;
+    }
+    if (address === '') {
+      setIsLoadingEffect(false)
+      setAddressError('Please enter address')
+      return false;
+    }
+    if (servantRoom === '') {
+      setIsLoadingEffect(false)
+      setServantRoomError('Please select servant room')
+      return false;
+    }
+    if (reraId === '') {
+      setIsLoadingEffect(false)
+      setReraIdError('Please enter RERA ID')
+      return false;
+    }
+    if (propertyDescription === '') {
+      setIsLoadingEffect(false)
+      setPropertyDescriptionError('Please enter property description')
+      return false;
+    }
+    updateActiveTab('address', 'inprogress')
   }
 
   return (
@@ -848,7 +848,10 @@ function Propertydetailswrapper({ updateActiveTab }) {
           {propertyDescriptionError && <p className='text-[#FF0000] text-xs font-sans'>Please enter property description</p>}
         </div>
       </div>
-      <div className='flex flex-row justify-end items-center  px-6 pt-3'>
+      <div className='flex flex-row justify-between items-center px-6 pt-3'>
+        <div onClick={() => { updateActiveTab('basicdetails', 'completed') }} className='bg-[#000] px-8 py-2 rounded-md cursor-pointer'>
+          <p className='text-white text-[10px]'>Back</p>
+        </div>
         <div onClick={updatePropertyDetails} className='border border-[#1D3A76] bg-[#1D3A76] px-8 py-2 rounded-md cursor-pointer'>
           <p className='text-white text-[10px]'>Next, add property details</p>
         </div>
