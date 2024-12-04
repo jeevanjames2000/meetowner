@@ -87,6 +87,10 @@ function Addresswrapper({ updateActiveTab }) {
       </div>
       <div className='w-full overflow-y-auto px-5 py-3' style={{ height: 'calc(100vh - 220px)' }}>
         <div className='my-4'>
+          <div className='flex gap-1'>
+            <p className='text-[#1D3A76] text-sm font-medium font-sans'>Search City</p>
+            <IconAsterisk size={8} color='#FF0000' />
+          </div>
           <input
             type='text'
             placeholder='Search city'
@@ -98,6 +102,10 @@ function Addresswrapper({ updateActiveTab }) {
           {cityError && <p className='text-[#FF0000] text-xs font-sans'>Please enter city</p>}
         </div>
         <div className='my-4'>
+          <div className='flex gap-1'>
+            <p className='text-[#1D3A76] text-sm font-medium font-sans'>Building /Apartment/Society Name</p>
+            <IconAsterisk size={8} color='#FF0000' />
+          </div>
           <input
             type='text'
             placeholder='Building /Apartment/Society Name'
@@ -109,6 +117,10 @@ function Addresswrapper({ updateActiveTab }) {
           {buildingNameError && <p className='text-[#FF0000] text-xs font-sans'>Please enter building name</p>}
         </div>
         <div className='my-4'>
+          <div className='flex gap-1'>
+            <p className='text-[#1D3A76] text-sm font-medium font-sans'>Locality</p>
+            <IconAsterisk size={8} color='#FF0000' />
+          </div>
           <input
             type='text'
             placeholder='Locality'
@@ -120,6 +132,10 @@ function Addresswrapper({ updateActiveTab }) {
           {localityError && <p className='text-[#FF0000] text-xs font-sans'>Please enter locality</p>}
         </div>
         <div className='my-4'>
+          <div className='flex gap-1'>
+            <p className='text-[#1D3A76] text-sm font-medium font-sans'>Flat No.</p>
+            <IconAsterisk size={8} color='#FF0000' />
+          </div>
           <input
             type='text'
             placeholder='Flat No.'
@@ -131,6 +147,10 @@ function Addresswrapper({ updateActiveTab }) {
           {flatNoError && <p className='text-[#FF0000] text-xs font-sans'>Please enter Flat No.</p>}
         </div>
         <div className='my-4'>
+          <div className='flex gap-1'>
+            <p className='text-[#1D3A76] text-sm font-medium font-sans'>Floor No.</p>
+            <IconAsterisk size={8} color='#FF0000' />
+          </div>
           <input
             type='text'
             placeholder='Floor No.'
@@ -142,6 +162,10 @@ function Addresswrapper({ updateActiveTab }) {
           {floorNoError && <p className='text-[#FF0000] text-xs font-sans'>Please enter floor No.</p>}
         </div>
         <div className='my-4'>
+          <div className='flex gap-1'>
+            <p className='text-[#1D3A76] text-sm font-medium font-sans'>Total Floors</p>
+            <IconAsterisk size={8} color='#FF0000' />
+          </div>
           <input
             type='text'
             placeholder='Toatl Floors'

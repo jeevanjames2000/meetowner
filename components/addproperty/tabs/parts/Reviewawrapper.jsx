@@ -27,7 +27,7 @@ function Reviewawrapper() {
                                 <p className='text-[#6D6C6C] font-semibold font-sans text-xs'>Avilable from 24/08/2024</p>
                             </div>
                             <div className='cursor-pointer border border-[#287DB0] bg-[#FEFDF8] py-2 px-4 rounded-md'>
-                                <p className='font-bold text-xs text-[#287DB0]'>+ Add Details</p>
+                                <p className='font-bold text-xs text-[#287DB0]'>Edit Details</p>
                             </div>
                         </div>
                     </div>

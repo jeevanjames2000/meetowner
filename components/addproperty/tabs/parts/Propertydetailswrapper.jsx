@@ -375,7 +375,10 @@ function Propertydetailswrapper({ updateActiveTab }) {
           {propertyTypeError && <p className='text-[#FF0000] text-xs font-sans'>Please select property type</p>}
         </div>
         <div className='mb-5'>
-          <p className='text-[#1D3A76] text-sm mb-4 font-medium font-sans'>Construction Status</p>
+          <div className='flex gap-1 mb-4'>
+            <p className='text-[#1D3A76] text-sm font-medium font-sans'>Construction Status</p>
+            <IconAsterisk size={8} color='#FF0000' />
+          </div>
           <div className='flex flex-row items-center gap-6'>
             <div onClick={() => updateConstructionStatus('readytomove')} className={`group cursor-pointer px-8 py-2 rounded-md  ${constructionStatus === 'readytomove' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
               <p className={`text-[10px] font-sans ${constructionStatus === 'readytomove' ? 'text-white ' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Ready to Move</p>
@@ -387,7 +390,10 @@ function Propertydetailswrapper({ updateActiveTab }) {
           {constructionStatusError && <p className='text-[#FF0000] text-xs font-sans'>Please select construction status</p>}
         </div>
         <div className='mb-5'>
-          <p className='text-[#1D3A76] text-sm mb-4 font-medium font-sans'>BHK</p>
+          <div className='flex gap-1 mb-4'>
+            <p className='text-[#1D3A76] text-sm font-medium font-sans'>BHK</p>
+            <IconAsterisk size={8} color='#FF0000' />
+          </div>
           <div className='flex flex-row items-center gap-6'>
             <div onClick={() => updateBhk('1bhk')} className={`group cursor-pointer px-8 py-2 rounded-md  ${bhk === '1bhk' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
               <p className={`text-[10px] font-sans ${bhk === '1bhk' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>1 BHK</p>
@@ -408,7 +414,10 @@ function Propertydetailswrapper({ updateActiveTab }) {
           {bhkError && <p className='text-[#FF0000] text-xs font-sans'>Please select BHK</p>}
         </div>
         <div className='mb-5'>
-          <p className='text-[#1D3A76] text-sm mb-4 font-medium font-sans'>Bathroom</p>
+          <div className='flex gap-1 mb-4'>
+            <p className='text-[#1D3A76] text-sm font-medium font-sans'>Bathroom</p>
+            <IconAsterisk size={8} color='#FF0000' />
+          </div>
           <div className='flex flex-row items-center gap-6'>
             <div onClick={() => updateBathroom('1')} className={`group cursor-pointer px-8 py-2 rounded-md  ${bathroom === '1' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
               <p className={` text-[10px] font-sans ${bathroom === '1' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>1 </p>
@@ -426,7 +435,10 @@ function Propertydetailswrapper({ updateActiveTab }) {
           {bathroomError && <p className='text-[#FF0000] text-xs font-sans'>Please select bathroom</p>}
         </div>
         <div className='mb-5'>
-          <p className='text-[#1D3A76] text-sm mb-4 font-medium font-sans'>Balcony</p>
+          <div className='flex gap-1 mb-4'>
+            <p className='text-[#1D3A76] text-sm font-medium font-sans'>Balcony</p>
+            <IconAsterisk size={8} color='#FF0000' />
+          </div>
           <div className='flex flex-row items-center gap-6'>
             <div onClick={() => updateBalcony('0')} className={`group cursor-pointer px-8 py-2 rounded-md  ${balcony === '0' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
               <p className={`text-[10px] font-sans ${balcony === '0' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>0</p>
@@ -447,7 +459,10 @@ function Propertydetailswrapper({ updateActiveTab }) {
           {balconyError && <p className='text-[#FF0000] text-xs font-sans'>Please select balcony</p>}
         </div>
         <div className='mb-5'>
-          <p className='text-[#1D3A76] text-sm my-4 font-medium font-sans'>Furnish Type</p>
+          <div className='flex gap-1 mb-4'>
+            <p className='text-[#1D3A76] text-sm font-medium font-sans'>Furnish Type</p>
+            <IconAsterisk size={8} color='#FF0000' />
+          </div>
           <div className='grid grid-cols-3 gap-2'>
             <div onClick={() => updateFurnishType('fullyfurnished')} className={`flex flex-row items-center gap-4 border-2 rounded-md px-4 py-2 w-[80%] cursor-pointer ${furnishType === "fullyfurnished" ? 'bg-[#1D3A76] border-[#1D3A76] ' : 'border-[#d7d5d5ba] '}`}>
               <svg width="20" height="20" viewBox="0 0 33 27" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -474,7 +489,10 @@ function Propertydetailswrapper({ updateActiveTab }) {
           <p className='text-[#1D3A76] text-sm mb-4 font-medium font-sans'>+ Add Furnishings/ Amenties</p>
         </div>
         <div className='mb-5'>
-          <p className='text-[#1D3A76] text-sm mt-6 mb-2 font-sans font-medium'>Possession End </p>
+          <div className='flex gap-1 mb-4'>
+            <p className='text-[#1D3A76] text-sm font-medium font-sans'>Possesion End</p>
+            <IconAsterisk size={8} color='#FF0000' />
+          </div>
           <div className='border border-[#909090] rounded-md w-[20%] px-3'>
             <input
               type="date"
@@ -488,7 +506,10 @@ function Propertydetailswrapper({ updateActiveTab }) {
           {possessionEndDateError && <p className='text-[#FF0000] text-xs font-sans'>Please select possession end date</p>}
         </div>
         <div className='mb-5'>
-          <p className='text-[#1D3A76] text-sm mb-4 font-sans font-medium'>Covered Parking</p>
+          <div className='flex gap-1 mb-4'>
+            <p className='text-[#1D3A76] text-sm font-medium font-sans'>Covered Parking</p>
+            <IconAsterisk size={8} color='#FF0000' />
+          </div>
           <div className='flex flex-row items-center gap-6'>
             <div onClick={() => updateCoveredParking('0')} className={`group cursor-pointer px-8 py-2 rounded-md  ${coveredParking === '0' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
               <p className={`text-[10px] font-sans ${coveredParking === '0' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>0</p>
@@ -509,7 +530,10 @@ function Propertydetailswrapper({ updateActiveTab }) {
           {coveredParkingError && <p className='text-[#FF0000] text-xs font-sans'>Please select covered parking</p>}
         </div>
         <div className='mb-5'>
-          <p className='text-[#1D3A76] text-sm mb-4 font-sans font-medium'>Open Parking</p>
+          <div className='flex gap-1 mb-4'>
+            <p className='text-[#1D3A76] text-sm font-medium font-sans'>Open Parking</p>
+            <IconAsterisk size={8} color='#FF0000' />
+          </div>
           <div className='flex flex-row items-center gap-6'>
             <div onClick={() => updateOpenParking('0')} className={`group cursor-pointer px-8 py-2 rounded-md  ${openParking === '0' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
               <p className={`text-[10px] font-sans ${openParking === '0' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>0</p>
@@ -530,6 +554,10 @@ function Propertydetailswrapper({ updateActiveTab }) {
           {openParkingError && <p className='text-[#FF0000] text-xs font-sans'>Please select open parking</p>}
         </div>
         <div className='my-6'>
+          <div className='flex gap-1'>
+            <p className='text-[#1D3A76] text-sm font-medium font-sans'>Cost(per month)</p>
+            <IconAsterisk size={8} color='#FF0000' />
+          </div>
           <input
             type='text'
             placeholder='Cost(per month)'
@@ -541,6 +569,10 @@ function Propertydetailswrapper({ updateActiveTab }) {
           {costError && <p className='text-[#FF0000] text-xs font-sans'>Please enter cost</p>}
         </div>
         <div className='my-6'>
+          <div className='flex gap-1'>
+            <p className='text-[#1D3A76] text-sm font-medium font-sans'>Maintence Charge(per Month)</p>
+            <IconAsterisk size={8} color='#FF0000' />
+          </div>
           <input
             type='text'
             placeholder='Maintence Charges(per month)'
@@ -552,7 +584,10 @@ function Propertydetailswrapper({ updateActiveTab }) {
           {maintenceChargesError && <p className='text-[#FF0000] text-xs font-sans'>Please enter maintence charges</p>}
         </div>
         <div className='mb-5'>
-          <p className='text-[#1D3A76] text-sm mb-4 font-sans font-medium'>Security Deposit </p>
+          <div className='flex gap-1 mb-4'>
+            <p className='text-[#1D3A76] text-sm font-medium font-sans'>Security Deposit</p>
+            <IconAsterisk size={8} color='#FF0000' />
+          </div>
           <div className='flex flex-row items-center gap-6'>
             <div onClick={() => updateSecurityDeposit('onemonth')} className={`group cursor-pointer px-8 py-2 rounded-md  ${securityDeposit === 'onemonth' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
               <p className={`text-[10px] font-sans ${securityDeposit === 'onemonth' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>1 Month</p>
@@ -564,7 +599,10 @@ function Propertydetailswrapper({ updateActiveTab }) {
           {securityDepositError && <p className='text-[#FF0000] text-xs font-sans'>Please select security deposit</p>}
         </div>
         <div className='mb-5'>
-          <p className='text-[#1D3A76] text-sm mb-4 font-sans font-medium'>Lock In Period </p>
+          <div className='flex gap-1 mb-4'>
+            <p className='text-[#1D3A76] text-sm font-medium font-sans'>Lock In Period</p>
+            <IconAsterisk size={8} color='#FF0000' />
+          </div>
           <div className='flex flex-row items-center gap-6'>
             <div onClick={() => updateLockInPeriod('onemonth')} className={`group cursor-pointer px-8 py-2 rounded-md  ${lockInPeriod === 'onemonth' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
               <p className={`text-[10px] font-sans ${lockInPeriod === 'onemonth' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>1 Month</p>
@@ -576,7 +614,10 @@ function Propertydetailswrapper({ updateActiveTab }) {
           {lockInPeriodError && <p className='text-[#FF0000] text-xs font-sans'>Please select lock in period</p>}
         </div>
         <div className='mb-5'>
-          <p className='text-[#1D3A76] text-sm mb-4 font-sans font-medium'>Do you charge brokerage? </p>
+          <div className='flex gap-1 mb-4'>
+            <p className='text-[#1D3A76] text-sm font-medium font-sans'>Do You Charge Brokerage?</p>
+            <IconAsterisk size={8} color='#FF0000' />
+          </div>
           <div className='flex flex-row items-center gap-6'>
             <div onClick={() => updateBrokerage('yes')} className={`group cursor-pointer px-8 py-2 rounded-md  ${brokerage === 'yes' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
               <p className={`text-[10px] font-sans ${brokerage === 'yes' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Yes</p>
@@ -588,7 +629,10 @@ function Propertydetailswrapper({ updateActiveTab }) {
           {brokerageError && <p className='text-[#FF0000] text-xs font-sans'>Please select brokerage</p>}
         </div>
         <div className='mb-5'>
-          <p className='text-[#1D3A76] text-sm mb-4 font-sans font-medium'>Preferred Tenant Type </p>
+          <div className='flex gap-1 mb-4'>
+            <p className='text-[#1D3A76] text-sm font-medium font-sans'>Prefered Tenant Type</p>
+            <IconAsterisk size={8} color='#FF0000' />
+          </div>
           <div className='flex flex-row items-center gap-6'>
             <div onClick={() => updatePreferredTenantType('family')} className={`group cursor-pointer px-8 py-2 rounded-md  ${preferredTenantType === 'family' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
               <p className={`text-[10px] font-sans ${preferredTenantType === 'family' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Family</p>
@@ -606,7 +650,11 @@ function Propertydetailswrapper({ updateActiveTab }) {
           {preferredTenantTypeError && <p className='text-[#FF0000] text-xs font-sans'>Please select preferred tenant type</p>}
         </div>
         <div className='grid grid-cols-3 gap-2 mt-3'>
-          <div className='my-6'>
+          <div className='mt-6'>
+            <div className='flex gap-1'>
+              <p className='text-[#1D3A76] text-sm font-medium font-sans'>Built-up Area(sq.ft)</p>
+              <IconAsterisk size={8} color='#FF0000' />
+            </div>
             <input
               type='text'
               placeholder='Built-up Area(sq.ft)'
@@ -617,7 +665,11 @@ function Propertydetailswrapper({ updateActiveTab }) {
             />
             {builtupAreaError && <p className='text-[#FF0000] text-xs font-sans'>Please enter built-up area</p>}
           </div>
-          <div className='my-6'>
+          <div className='mt-6'>
+            <div className='flex gap-1'>
+              <p className='text-[#1D3A76] text-sm font-medium font-sans'>Carpet Area(sq.ft)</p>
+              <IconAsterisk size={8} color='#FF0000' />
+            </div>
             <input
               type='text'
               placeholder='Carpet Area(sq.ft)'
@@ -628,7 +680,11 @@ function Propertydetailswrapper({ updateActiveTab }) {
             />
             {carpetAreaError && <p className='text-[#FF0000] text-xs font-sans'>Please enter carpet area</p>}
           </div>
-          <div className='my-6'>
+          <div className='mt-6 '>
+            <div className='flex gap-1'>
+              <p className='text-[#1D3A76] text-sm font-medium font-sans'>Length Area(sq.ft)</p>
+              <IconAsterisk size={8} color='#FF0000' />
+            </div>
             <input
               type='text'
               placeholder='length Area(sq.ft)'
@@ -640,6 +696,10 @@ function Propertydetailswrapper({ updateActiveTab }) {
             {lengthAreaError && <p className='text-[#FF0000] text-xs font-sans'>Please enter length area</p>}
           </div>
           <div className='my-6'>
+            <div className='flex gap-1'>
+              <p className='text-[#1D3A76] text-sm font-medium font-sans'>Plot Area(sq.ft)</p>
+              <IconAsterisk size={8} color='#FF0000' />
+            </div>
             <input
               type='text'
               placeholder='Plot Area(sq.ft)'
@@ -651,6 +711,10 @@ function Propertydetailswrapper({ updateActiveTab }) {
             {plotAreaError && <p className='text-[#FF0000] text-xs font-sans'>Please enter plot area</p>}
           </div>
           <div className='my-6'>
+            <div className='flex gap-1'>
+              <p className='text-[#1D3A76] text-sm font-medium font-sans'>Width Area(sq.ft)</p>
+              <IconAsterisk size={8} color='#FF0000' />
+            </div>
             <input
               type='text'
               placeholder='Width Area(sq.ft)'
@@ -724,6 +788,10 @@ function Propertydetailswrapper({ updateActiveTab }) {
           {facingError && <p className='text-[#FF0000] text-xs font-sans'>Please select facing</p>}
         </div>
         <div className='my-6'>
+          <div className='flex gap-1'>
+            <p className='text-[#1D3A76] text-sm font-medium font-sans'>Address</p>
+            <IconAsterisk size={8} color='#FF0000' />
+          </div>
           <input
             type='text'
             placeholder='Address'
@@ -735,7 +803,10 @@ function Propertydetailswrapper({ updateActiveTab }) {
           {addressError && <p className='text-[#FF0000] text-xs font-sans'>Please enter address</p>}
         </div>
         <div className='mb-5'>
-          <p className='text-[#1D3A76] text-sm mb-4 font-sans font-medium'>Servant Room? </p>
+          <div className='flex gap-1 mb-4'>
+            <p className='text-[#1D3A76] text-sm font-medium font-sans'>Servant Room?</p>
+            <IconAsterisk size={8} color='#FF0000' />
+          </div>
           <div className='flex flex-row items-center gap-6'>
             <div onClick={() => updateServantRoom('yes')} className={`group cursor-pointer px-8 py-2 rounded-md  ${servantRoom === 'yes' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
               <p className={`text-[10px] font-sans ${servantRoom === 'yes' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Yes</p>
@@ -747,6 +818,10 @@ function Propertydetailswrapper({ updateActiveTab }) {
           {servantRoomError && <p className='text-[#FF0000] text-xs font-sans'>Please select servant room</p>}
         </div>
         <div className='my-6'>
+          <div className='flex gap-1'>
+            <p className='text-[#1D3A76] text-sm font-medium font-sans'>Rera Id</p>
+            <IconAsterisk size={8} color='#FF0000' />
+          </div>
           <input
             type='text'
             placeholder='Rera ID'
@@ -758,6 +833,10 @@ function Propertydetailswrapper({ updateActiveTab }) {
           {reraIdError && <p className='text-[#FF0000] text-xs font-sans'>Please enter rera id</p>}
         </div>
         <div className='mt-6'>
+          <div className='flex gap-1'>
+            <p className='text-[#1D3A76] text-sm font-medium font-sans'>Property Description</p>
+            <IconAsterisk size={8} color='#FF0000' />
+          </div>
           <input
             type='text'
             placeholder='Property Description'
