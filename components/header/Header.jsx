@@ -6,7 +6,10 @@ import logo from '@/public/assets/logo.png'
 import Mainnavigation from './Mainnavigation';
 import { IconHomePlus } from '@tabler/icons-react';
 import { motion } from 'framer-motion'
+import { usePathname } from 'next/navigation';
 function Header() {
+    const pathname = usePathname();
+    const isActive = (path) => pathname === path;
     const [scrollY, setScrollY] = useState(0);
     // Update scroll position on page scroll
     useEffect(() => {
@@ -39,10 +42,16 @@ function Header() {
                     <Image src={logo} alt={'logo'} height={100} width={120} />
                 </Link>
                 <Mainnavigation />
-                <Link href="/addproperty" className='bg-[#1D3A76] flex flex-row items-center gap-2 p-2 rounded-md'>
-                    <IconHomePlus color='#fff' size={18} />
-                    <button className='text-white text-sm font-medium'>Add Property</button>
-                </Link>
+                <div>
+                    {
+                        pathname === '/addproperty' ? null : (
+                            <Link href="/addproperty" className='bg-[#1D3A76] flex flex-row items-center gap-2 p-2 rounded-md'>
+                                <IconHomePlus color='#fff' size={18} />
+                                <button className='text-white text-sm font-medium'>Add Property</button>
+                            </Link>
+                        )
+                    }
+                </div>
             </div>
             {/* </div> */}
         </motion.div>

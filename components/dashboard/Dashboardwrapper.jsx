@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import React from 'react'
-import user_profile from '@/public/assets/user_image.png'
+import user_profile from '@/public/assets/user_profile.png'
 import dynamic from 'next/dynamic'
 
 const Checkoutpropertywrapper = dynamic(() => import('./Checkoutpropertywrapper'))
