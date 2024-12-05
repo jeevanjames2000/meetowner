@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import React from 'react'
-import user_profile from '@/public/assets/user_image.png'
+import user_profile from '@/public/assets/user_profile.png'
 import dynamic from 'next/dynamic'
 
 const Checkoutpropertywrapper = dynamic(() => import('./Checkoutpropertywrapper'))
@@ -32,7 +32,7 @@ function Dashboardwrapper() {
             {/* Second Child: Spanning 4 Columns */}
             <div className="col-span-12 md:col-span-3 space-y-8">
                 <Dashboardsidebarsection />
-               
+
             </div>
         </div>
 

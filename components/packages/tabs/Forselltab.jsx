@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 function Forsaletab() {
-    return (
+       return (
         <>
             <div className=' flex flex-basis pt-6'>
                 <div className=' basis-[28%] pt-10'>
