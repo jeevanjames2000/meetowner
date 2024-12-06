@@ -19,10 +19,12 @@ function Tabswrapper() {
 
     const [activeTab, setActiveTab] = useState('basicdetails')
 
-    const updateActiveTab = useCallback((tab, status) => {
+    const updateActiveTab = useCallback((tab, status, unique_property_id) => {
+        console.log(tab, status, unique_property_id)
         const params = new URLSearchParams(searchParams.toString());
         params.set("active_step", tab);
         params.set("status", status);
+        params.set("unique_property_id", unique_property_id);
 
         router.push(`${pathname}?${params.toString()}`);
         setActiveTab(tab)
@@ -51,7 +53,7 @@ function Tabswrapper() {
         },
         [searchParams]
     )
-
+    const [unique_property_id, setUnique_property_id] = useState('')
     const [basicDetailsStatus, setBasicDetailsStatus] = useState('inprogress')
     const [propertyDetailsStatus, setPropertyDetailsStatus] = useState('pending')
     const [addressStatus, setAddressStatus] = useState('pending')
@@ -332,6 +334,8 @@ function Tabswrapper() {
                     activeTab === 'basicdetails' &&
                     <Basicdetailswrapper
                         updateActiveTab={updateActiveTab}
+                        unique_property_id={unique_property_id}
+                        setUnique_property_id={setUnique_property_id}
                     />
                 }
                 {

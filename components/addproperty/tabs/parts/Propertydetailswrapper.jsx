@@ -4,17 +4,12 @@ import { Modal } from '@nayeshdaggula/tailify'
 import React, { useState } from 'react'
 import Addfurnishingswrapper from './Addfurnishingswrapper';
 import { IconAsterisk } from '@tabler/icons-react';
-const customStyles = {
-  content: {
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: '55%',
-    height: '70%',
-  },
-};
+import { useUserDetails } from '@/components/zustand/useUserDetails';
+import Propertyapi from '@/components/api/Propertyapi';
 function Propertydetailswrapper({ updateActiveTab }) {
-
+  const userInfo = useUserDetails((state) => state.userInfo)
+  let user_id = userInfo?.user_id || null
+  let access_token = userInfo?.access_token || null
   const [isLoadingEffect, setIsLoadingEffect] = useState(false)
   const [propertyType, setPropertyType] = useState('')
   const [propertyTypeError, setPropertyTypeError] = useState('')
@@ -321,6 +316,51 @@ function Propertydetailswrapper({ updateActiveTab }) {
     updateActiveTab('address', 'inprogress')
   }
 
+  const [allPropertySubTypes, setAllPropertySubTypes] = useState([])
+  const [errorMessage, setErrorMessage] = useState('')
+  const getPropertSubTypes = () => {
+    Propertyapi.get('propertysubtypes', {
+      params: {
+        user_id: user_id
+      },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${access_token}`
+      }
+    })
+      .then((response) => {
+        let data = response.data
+        if (data.status === 'error') {
+          let finalResponse = {
+            'message': data.message,
+            'server_res': data
+          }
+          setErrorMessage(finalResponse)
+        }
+        if (data.status === 'success') {
+          setAllPropertySubTypes(data.data)
+          return false;
+        }
+      })
+      .catch((error) => {
+        console.log(error)
+        let finalresponse;
+        if (error.response !== undefined) {
+          finalresponse = {
+            'message': error.message,
+            'server_res': error.response.data
+          };
+        } else {
+          finalresponse = {
+            'message': error.message,
+            'server_res': null
+          };
+        }
+        setErrorMessage(finalresponse);
+        return false;
+      })
+  }
+
   return (
     <div className='relative'>
       <div className='py-2 bg-[#E2EAED]'>
@@ -329,7 +369,7 @@ function Propertydetailswrapper({ updateActiveTab }) {
       <div className='w-full overflow-y-auto px-5 py-3 h-[calc(100vh-220px)]'>
         <div className='mb-5'>
           <div className='flex gap-1 mb-4'>
-            <p className='text-[#1D3A76] text-sm font-medium font-sans'>Property Type</p>
+            <p className='text-[#1D3A76] text-sm font-medium font-sans'>Property Sub Type</p>
             <IconAsterisk size={8} color='#FF0000' />
           </div>
           <div className='grid grid-cols-6 gap-2'>

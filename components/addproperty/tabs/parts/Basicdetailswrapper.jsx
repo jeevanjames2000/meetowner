@@ -2,11 +2,21 @@
 import { IconAsterisk, IconSearch } from '@tabler/icons-react'
 import React, { useEffect, useState } from 'react'
 import { usePathname, useSearchParams, useRouter } from 'next/navigation.js';
+import Propertyapi from '@/components/api/Propertyapi';
+import { useUserDetails } from '@/components/zustand/useUserDetails';
+import { toast } from 'react-toastify';
+import Errorpanel from '@/components/shared/Errorpanel';
+import { Modal } from '@nayeshdaggula/tailify';
+import LoadingOverlay from '@/components/shared/LoadingOverlay';
 
-function Basicdetailswrapper({ updateActiveTab }) {
+function Basicdetailswrapper({ updateActiveTab, unique_property_id, setUnique_property_id }) {
+    const userInfo = useUserDetails((state) => state.userInfo)
+    const access_token = useUserDetails(state => state.access_token);
+    let user_id = userInfo?.user_id || null
     const searchParams = useSearchParams()
     const router = useRouter()
     const [isLoadingEffect, setIsLoadingEffect] = useState(false)
+    const [errorMessages, setErrorMessages] = useState('')
     const [propertyType, setPropertyType] = useState('')
     const [propertyTypeError, setPropertyTypeError] = useState('')
     const updatePropertyType = (type) => {
@@ -34,7 +44,7 @@ function Basicdetailswrapper({ updateActiveTab }) {
         setLocation(e.target.value)
     }
 
-
+    const [isModalOpen, setModalOpen] = useState(false);
     const updateBasicdetails = () => {
         setIsLoadingEffect(true)
         if (propertyType === '') {
@@ -52,7 +62,57 @@ function Basicdetailswrapper({ updateActiveTab }) {
             setIsLoadingEffect(false)
             return
         }
-        updateActiveTab('propertydetails', 'inprogress')
+
+        Propertyapi.post('/addbasicdetails', {
+            property_in: propertyType,
+            property_for: lookingTo,
+            transaction_type: transactionType,
+            user_id: parseInt(user_id)
+        })
+            .then((response) => {
+                let data = response.data
+                if (data.status === 'error') {
+                    let finalresponse = {
+                        'message': data.message,
+                        'server_res': data
+                    }
+                    setErrorMessages(finalresponse);
+                    setModalOpen(true);
+                    setIsLoadingEffect(false);
+                    return false;
+                }
+                toast.success('basic details added successfully', {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                })
+                setUnique_property_id(data?.property?.unique_property_id)
+                let property_id = data?.property?.unique_property_id
+                updateActiveTab('propertydetails', 'inprogress', property_id)
+
+            })
+            .catch((error) => {
+                console.log(error)
+                let finalresponse;
+                if (error.response !== undefined) {
+                    finalresponse = {
+                        'message': error.message,
+                        'server_res': error.response.data
+                    };
+                } else {
+                    finalresponse = {
+                        'message': error.message,
+                        'server_res': null
+                    };
+                }
+                setErrorMessages(finalresponse);
+                setIsLoadingEffect(false);
+                return false;
+            })
     }
 
     return (
@@ -67,8 +127,8 @@ function Basicdetailswrapper({ updateActiveTab }) {
                         <IconAsterisk size={8} color='#FF0000' />
                     </div>
                     <div className='flex flex-row items-center gap-6'>
-                        <div onClick={() => updatePropertyType('Residential')} className={`group cursor-pointer px-8 py-2 rounded-md  ${propertyType === 'Residential' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                            <p className={`${propertyType === 'Residential' ? 'text-white text-[10px]' : 'text-[#1D3A76] text-[10px] font-semibold group-hover:text-white'}`}>Residential</p>
+                        <div onClick={() => updatePropertyType('Residencial')} className={`group cursor-pointer px-8 py-2 rounded-md  ${propertyType === 'Residencial' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                            <p className={`${propertyType === 'Residencial' ? 'text-white text-[10px]' : 'text-[#1D3A76] text-[10px] font-semibold group-hover:text-white'}`}>Residencial</p>
                         </div>
                         <div onClick={() => updatePropertyType('Commercial')} className={`group cursor-pointer px-8 py-2 rounded-md  ${propertyType === 'Commercial' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
                             <p className={`${propertyType === 'Commercial' ? 'text-white text-[10px]' : 'text-[#1D3A76] text-[10px] font-semibold group-hover:text-white'}`}>Commercial</p>
@@ -145,6 +205,28 @@ function Basicdetailswrapper({ updateActiveTab }) {
                     </div>
                 </div>
             </div>
+            <LoadingOverlay isLoading={isLoadingEffect} />
+
+            {isModalOpen &&
+                <Modal
+                    open={isModalOpen}
+                    onClose={() => setModalOpen(false)}
+                    size="md"
+                    zIndex={9999}
+                >
+                    <Errorpanel
+                        errorMessages={errorMessages}
+                    />
+                    <div className='flex flex-row justify-end'>
+                        <button
+                            onClick={() => setModalOpen(false)}
+                            className="mt-2 mx-4 px-4 py-2 text-[12px] bg-red-500 text-white rounded hover:bg-red-600"
+                        >
+                            Close
+                        </button>
+                    </div>
+                </Modal>
+            }
         </>
     )
 }
