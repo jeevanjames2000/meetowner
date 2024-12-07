@@ -7,24 +7,26 @@ import Addresswrapper from './parts/Addresswrapper'
 import Photoswrapper from './parts/Photoswrapper'
 import Reviewawrapper from './parts/Reviewawrapper'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import Propertyapi from '@/components/api/Propertyapi'
+import { useUserDetails } from '@/components/zustand/useUserDetails'
 
 function Tabswrapper() {
-
+    const userInfo = useUserDetails(state => state.userInfo);
+    const access_token = useUserDetails(state => state.access_token);
+    let user_id = userInfo?.user_id || null
     const searchParams = useSearchParams()
     const active_step = searchParams.get('active_step')
     const status = searchParams.get('status')
-
+    const unique_property_id = searchParams.get('unique_property_id')
     const router = useRouter()
     const pathname = usePathname()
 
     const [activeTab, setActiveTab] = useState('basicdetails')
-
-    const updateActiveTab = useCallback((tab, status, unique_property_id) => {
-        console.log(tab, status, unique_property_id)
+    const updateActiveTab = useCallback((tab, status, propert_id) => {
         const params = new URLSearchParams(searchParams.toString());
         params.set("active_step", tab);
         params.set("status", status);
-        params.set("unique_property_id", unique_property_id);
+        params.set("unique_property_id", propert_id);
 
         router.push(`${pathname}?${params.toString()}`);
         setActiveTab(tab)
@@ -43,17 +45,6 @@ function Tabswrapper() {
         }
     }, [router, pathname, activeTab, searchParams])
 
-
-    const createQueryString = useCallback(
-        (name, value) => {
-            const params = new URLSearchParams(searchParams.toString())
-            params.set(name, value)
-
-            return params.toString()
-        },
-        [searchParams]
-    )
-    const [unique_property_id, setUnique_property_id] = useState('')
     const [basicDetailsStatus, setBasicDetailsStatus] = useState('inprogress')
     const [propertyDetailsStatus, setPropertyDetailsStatus] = useState('pending')
     const [addressStatus, setAddressStatus] = useState('pending')
@@ -66,6 +57,7 @@ function Tabswrapper() {
         }
         if (active_step === 'basicdetails') {
             setBasicDetailsStatus(status)
+            getBasicdetails()
         } else if (active_step === 'propertydetails') {
             setBasicDetailsStatus('completed')
             setPropertyDetailsStatus(status)
@@ -88,6 +80,33 @@ function Tabswrapper() {
 
     }, [active_step, status])
 
+    const [basicDetails, setBasicDetails] = useState({})
+    async function getBasicdetails() {
+        Propertyapi.get('/getbasicdetails', {
+            params: {
+                unique_property_id: unique_property_id,
+                user_id: user_id
+            }
+        }, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${access_token}`
+            }
+        })
+            .then((response) => {
+                if (response.data.status === 'error') {
+                    let finalResponse = {
+                        'message': response.data.message,
+                        'server_res': response.data
+                    }
+                    console.log('finalResponse', finalResponse)
+                }
+                setBasicDetails(response?.data?.property)
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }
 
     return (
         <div className='flex flex-row gap-2 relative'>
@@ -334,8 +353,7 @@ function Tabswrapper() {
                     activeTab === 'basicdetails' &&
                     <Basicdetailswrapper
                         updateActiveTab={updateActiveTab}
-                        unique_property_id={unique_property_id}
-                        setUnique_property_id={setUnique_property_id}
+                        basicDetails={basicDetails}
                     />
                 }
                 {

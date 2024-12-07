@@ -6,10 +6,18 @@ import Addfurnishingswrapper from './Addfurnishingswrapper';
 import { IconAsterisk } from '@tabler/icons-react';
 import { useUserDetails } from '@/components/zustand/useUserDetails';
 import Propertyapi from '@/components/api/Propertyapi';
+import { useSearchParams } from 'next/navigation';
 function Propertydetailswrapper({ updateActiveTab }) {
   const userInfo = useUserDetails((state) => state.userInfo)
   let user_id = userInfo?.user_id || null
   let access_token = userInfo?.access_token || null
+
+  const searchParams = useSearchParams()
+  const active_step = searchParams.get('active_step')
+  const status = searchParams.get('status')
+  const unique_property_id = searchParams.get('unique_property_id')
+  console.log('unique_property_id in property', unique_property_id)
+
   const [isLoadingEffect, setIsLoadingEffect] = useState(false)
   const [propertyType, setPropertyType] = useState('')
   const [propertyTypeError, setPropertyTypeError] = useState('')
@@ -889,7 +897,7 @@ function Propertydetailswrapper({ updateActiveTab }) {
         </div>
       </div>
       <div className='flex flex-row justify-between items-center px-6 pt-3'>
-        <div onClick={() => { updateActiveTab('basicdetails', 'completed') }} className='bg-[#000] px-8 py-2 rounded-md cursor-pointer'>
+        <div onClick={() => updateActiveTab('basicdetails', 'completed', unique_property_id)} className='bg-[#000] px-8 py-2 rounded-md cursor-pointer'>
           <p className='text-white text-[10px]'>Back</p>
         </div>
         <div onClick={updatePropertyDetails} className='border border-[#1D3A76] bg-[#1D3A76] px-8 py-2 rounded-md cursor-pointer'>

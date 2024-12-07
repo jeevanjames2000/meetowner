@@ -9,7 +9,7 @@ import Errorpanel from '@/components/shared/Errorpanel';
 import { Modal } from '@nayeshdaggula/tailify';
 import LoadingOverlay from '@/components/shared/LoadingOverlay';
 
-function Basicdetailswrapper({ updateActiveTab, unique_property_id, setUnique_property_id }) {
+function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails }) {
     const userInfo = useUserDetails((state) => state.userInfo)
     const access_token = useUserDetails(state => state.access_token);
     let user_id = userInfo?.user_id || null
@@ -68,6 +68,11 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, setUnique_pr
             property_for: lookingTo,
             transaction_type: transactionType,
             user_id: parseInt(user_id)
+        }, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${access_token}`
+            }
         })
             .then((response) => {
                 let data = response.data
@@ -90,7 +95,6 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, setUnique_pr
                     draggable: true,
                     progress: undefined,
                 })
-                setUnique_property_id(data?.property?.unique_property_id)
                 let property_id = data?.property?.unique_property_id
                 updateActiveTab('propertydetails', 'inprogress', property_id)
 
@@ -115,10 +119,22 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, setUnique_pr
             })
     }
 
+    useEffect(() => {
+        if (basicDetails) {
+            setPropertyType(basicDetails?.property_in || '')
+            setLookingTo(basicDetails?.property_for || '')
+            setTransactionType(basicDetails?.transaction_type || '')
+            setLocation(basicDetails?.location || '')
+        }
+    }, [basicDetails])
+
     return (
         <>
             <div className='py-2 bg-[#E2EAED]'>
                 <p className='text-lg font-bold text-[#1D3A76] text-center'>Add Basic Details</p>
+                <p>{JSON.stringify(basicDetails)}</p>
+                <p>{JSON.stringify(propertyType)}</p>
+                <p>{JSON.stringify(lookingTo)}</p>
             </div>
             <div className='p-10'>
                 <>
