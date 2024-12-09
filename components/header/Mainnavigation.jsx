@@ -2,18 +2,19 @@
 import React, { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
-
+import { usePathname } from 'next/navigation';
 const Mainnavigation = () => {
+    const pathname = usePathname();
+    const isActive = (path) => pathname === path;
     const [open, setOpen] = useState(false);
 
     return (
         <>
             <div className="flex flex-row items-center justify-between  gap-10">
-                <Link href="#" className="font-semibold text-sm text-[#1D3A76] border-b-2 border-[#1D3A76]"> Dashboard</Link>
-                <Link href="/enquiry" className="font-semibold text-sm text-[#1D3A76]"> Enquires</Link>
-                <Link href="#" className="font-semibold text-sm text-[#1D3A76]">Listings</Link>
-                <Link href="/packages" className="font-semibold text-sm text-[#1D3A76]">Packages</Link>
-                {/* <Link href="#" className="font-semibold text-sm text-[#1D3A76]">More</Link> */}
+                <Link href="/dashboard" className={`font-semibold text-sm text-[#1D3A76] ${isActive('/dashboard') ? 'border-b-2 border-[#1D3A76]' : ''}`}> Dashboard</Link>
+                <Link href="/enquiry" className={`font-semibold text-sm text-[#1D3A76] ${isActive('/enquiry') ? 'border-b-2 border-[#1D3A76]' : ''}`}> Enquires</Link>
+                <Link href="#" className={`font-semibold text-sm text-[#1D3A76] ${isActive('/listings') ? 'border-b-2 border-[#1D3A76]' : ''}`}>Listings</Link>
+                <Link href="/packages" className={`font-semibold text-sm text-[#1D3A76] ${isActive('/packages') ? 'border-b-2 border-[#1D3A76]' : ''}`}>Packages</Link>
                 <div
                     onMouseEnter={() => setOpen(true)}
                     onMouseLeave={() => setOpen(false)}

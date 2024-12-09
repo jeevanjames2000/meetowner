@@ -7,22 +7,26 @@ import Addresswrapper from './parts/Addresswrapper'
 import Photoswrapper from './parts/Photoswrapper'
 import Reviewawrapper from './parts/Reviewawrapper'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import Propertyapi from '@/components/api/Propertyapi'
+import { useUserDetails } from '@/components/zustand/useUserDetails'
 
 function Tabswrapper() {
-
+    const userInfo = useUserDetails(state => state.userInfo);
+    const access_token = useUserDetails(state => state.access_token);
+    let user_id = userInfo?.user_id || null
     const searchParams = useSearchParams()
     const active_step = searchParams.get('active_step')
     const status = searchParams.get('status')
-
+    const unique_property_id = searchParams.get('unique_property_id') || null
     const router = useRouter()
     const pathname = usePathname()
 
     const [activeTab, setActiveTab] = useState('basicdetails')
-
-    const updateActiveTab = useCallback((tab, status) => {
+    const updateActiveTab = useCallback((tab, status, propert_id) => {
         const params = new URLSearchParams(searchParams.toString());
         params.set("active_step", tab);
         params.set("status", status);
+        params.set("unique_property_id", propert_id);
 
         router.push(`${pathname}?${params.toString()}`);
         setActiveTab(tab)
@@ -36,21 +40,12 @@ function Tabswrapper() {
             setAddressStatus('completed')
             setPhotosStatus(status)
         } else if (tab === 'review') {
+            params.delete("status")
+            router.push(`${pathname}?${params.toString()}`);
             setPhotosStatus('completed')
             setReviewsStatus(status)
         }
     }, [router, pathname, activeTab, searchParams])
-
-
-    const createQueryString = useCallback(
-        (name, value) => {
-            const params = new URLSearchParams(searchParams.toString())
-            params.set(name, value)
-
-            return params.toString()
-        },
-        [searchParams]
-    )
 
     const [basicDetailsStatus, setBasicDetailsStatus] = useState('inprogress')
     const [propertyDetailsStatus, setPropertyDetailsStatus] = useState('pending')
@@ -63,11 +58,14 @@ function Tabswrapper() {
             setActiveTab(active_step)
         }
         if (active_step === 'basicdetails') {
+            getBasicdetails()
             setBasicDetailsStatus(status)
         } else if (active_step === 'propertydetails') {
+            getPropertydetails()
             setBasicDetailsStatus('completed')
             setPropertyDetailsStatus(status)
         } else if (active_step === 'address') {
+            getAddressdetails()
             setBasicDetailsStatus('completed')
             setPropertyDetailsStatus('completed')
             setAddressStatus(status)
@@ -77,6 +75,7 @@ function Tabswrapper() {
             setPropertyDetailsStatus('completed')
             setPhotosStatus(status)
         } else if (active_step === 'review') {
+            getAllPropertyDetails()
             setBasicDetailsStatus('completed')
             setAddressStatus('completed')
             setPropertyDetailsStatus('completed')
@@ -86,6 +85,117 @@ function Tabswrapper() {
 
     }, [active_step, status])
 
+    const [basicDetails, setBasicDetails] = useState({})
+    async function getBasicdetails() {
+        Propertyapi.get('/getbasicdetails', {
+            params: {
+                unique_property_id: unique_property_id,
+                user_id: user_id
+            }
+        }, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${access_token}`
+            }
+        })
+            .then((response) => {
+                if (response.data.status === 'error') {
+                    let finalResponse = {
+                        'message': response.data.message,
+                        'server_res': response.data
+                    }
+                    console.log('finalResponse', finalResponse)
+                }
+                setBasicDetails(response?.data?.property)
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    const [propertyDetails, setPropertyDetails] = useState({})
+    async function getPropertydetails() {
+        Propertyapi.get('/getpropertydetails', {
+            params: {
+                unique_property_id: unique_property_id,
+                user_id: user_id
+            }
+        }, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${access_token}`
+            }
+        })
+            .then((response) => {
+                if (response.data.status === 'error') {
+                    let finalResponse = {
+                        'message': response.data.message,
+                        'server_res': response.data
+                    }
+                    console.log('finalResponse', finalResponse)
+                }
+                setPropertyDetails(response?.data?.property)
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    const [addressDetails, setAddressDetails] = useState({})
+    async function getAddressdetails() {
+        Propertyapi.get('/getaddressdetails', {
+            params: {
+                unique_property_id: unique_property_id,
+                user_id: user_id
+            }
+        }, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${access_token}`
+            }
+        })
+            .then((response) => {
+                if (response.data.status === 'error') {
+                    let finalResponse = {
+                        'message': response.data.message,
+                        'server_res': response.data
+                    }
+                    console.log('finalResponse', finalResponse)
+                }
+                setAddressDetails(response?.data?.property)
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }
+
+    const [allpropertyDetails, setAllPropertyDetails] = useState({})
+    async function getAllPropertyDetails() {
+        Propertyapi.get('/getAllpropertydetails', {
+            params: {
+                unique_property_id: unique_property_id,
+                user_id: user_id
+            }
+        }, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${access_token}`
+            }
+        })
+            .then((response) => {
+                if (response.data.status === 'error') {
+                    let finalResponse = {
+                        'message': response.data.message,
+                        'server_res': response.data
+                    }
+                    console.log('finalResponse', finalResponse)
+                }
+                setAllPropertyDetails(response?.data?.property)
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    }
 
     return (
         <div className='flex flex-row gap-2 relative'>
@@ -332,17 +442,21 @@ function Tabswrapper() {
                     activeTab === 'basicdetails' &&
                     <Basicdetailswrapper
                         updateActiveTab={updateActiveTab}
+                        basicDetails={basicDetails}
+                        unique_property_id={unique_property_id}
                     />
                 }
                 {
                     activeTab === 'propertydetails' &&
                     <Propertydetailswrapper
+                        propertyDetails={propertyDetails}
                         updateActiveTab={updateActiveTab}
                     />
                 }
                 {
                     activeTab === 'address' &&
                     <Addresswrapper
+                        addressDetails={addressDetails}
                         updateActiveTab={updateActiveTab}
                     />
                 }
@@ -355,6 +469,7 @@ function Tabswrapper() {
                 {
                     activeTab === 'review' &&
                     <Reviewawrapper
+                        allpropertyDetails={allpropertyDetails}
                         updateActiveTab={updateActiveTab}
                     />
                 }
