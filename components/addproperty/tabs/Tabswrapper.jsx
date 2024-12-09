@@ -170,7 +170,7 @@ function Tabswrapper() {
                 console.log(error)
             })
     }
-
+    const [propertyGallery, setPropertyGallery] = useState([])
     const [allpropertyDetails, setAllPropertyDetails] = useState({})
     async function getAllPropertyDetails() {
         Propertyapi.get('/getAllpropertydetails', {
@@ -193,6 +193,7 @@ function Tabswrapper() {
                     console.log('finalResponse', finalResponse)
                 }
                 setAllPropertyDetails(response?.data?.property)
+                setPropertyGallery(response?.data?.property?.image || [])
             })
             .catch((error) => {
                 console.log(error)
@@ -486,6 +487,7 @@ function Tabswrapper() {
                     activeTab === 'review' &&
                     <Reviewawrapper
                         allpropertyDetails={allpropertyDetails}
+                        propertyGallery={propertyGallery}
                         updateActiveTab={updateActiveTab}
                     />
                 }
