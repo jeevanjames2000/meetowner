@@ -1,11 +1,14 @@
-import dynamic from 'next/dynamic';
+
 import React from 'react';
 import Enquirestabswrapper from './Enquirestabswrapper';
+import Agreement from '../dashboard/Dasboradsidebar/parts/Agreement';
+import Getapp from '../dashboard/Dasboradsidebar/parts/Getapp';
+import Uploadproperty from '../dashboard/Dasboradsidebar/parts/Uploadproperty';
+import Propertyvaluecalculator from '../dashboard/Dasboradsidebar/parts/Propertyvaluecalculator';
+import Verifykyc from '../dashboard/Dasboradsidebar/parts/Verifykyc';
+import Unlockpackages from './Unlockpackages';
 
-// Dynamically import the Dashboardsidebarsection for better performance
-const Dashboardsidebarsection = dynamic(() => import('../dashboard/Dasboradsidebar/Dashboardsidebarsection'), {
-  ssr: false
-});
+
 
 function Enquirieswrapper() {
 
@@ -15,7 +18,12 @@ function Enquirieswrapper() {
         <Enquirestabswrapper />
       </div>
       <div className="col-span-12 md:col-span-2 space-y-8">
-        <Dashboardsidebarsection />
+        <Unlockpackages />
+        <Agreement />
+        <Getapp />
+        <Uploadproperty />
+        <Propertyvaluecalculator />
+        <Verifykyc />
       </div>
 
     </div>
