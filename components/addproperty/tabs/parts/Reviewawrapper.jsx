@@ -2,7 +2,8 @@ import { IconCheck } from '@tabler/icons-react'
 import Image from 'next/image'
 import React from 'react'
 import property from '@/public/assets/property.png'
-function Reviewawrapper() {
+import Link from 'next/link'
+function Reviewawrapper({ allpropertyDetails }) {
     return (
         <div className='relative'>
             <div className='py-2 bg-[#E2EAED]'>
@@ -21,9 +22,9 @@ function Reviewawrapper() {
                         <Image src={property} width={200} height={200} />
                         <div className='flex justify-between items-center w-full'>
                             <div className='flex flex-col gap-2'>
-                                <p className='font-sans text-[#6D6C6C] text-xs font-semibold'>₹ 15000</p>
-                                <p className='text-[#6D6C6C] font-sans text-xs'>1BHK Apartment for Rent </p>
-                                <p className='text-[#6D6C6C] font-sans text-xs'>600 sq.ft. | Semi Furnished | SVN</p>
+                                <p className='font-sans text-[#6D6C6C] text-xs font-semibold'>₹ {allpropertyDetails?.monthly_rent}</p>
+                                <p className='text-[#6D6C6C] font-sans text-xs'>{allpropertyDetails?.bedrooms} {allpropertyDetails?.sub_type} for {allpropertyDetails?.property_for} </p>
+                                <p className='text-[#6D6C6C] font-sans text-xs'>{allpropertyDetails?.builtup_area} sq.ft. | {allpropertyDetails?.furnished_status} | SVN</p>
                                 <p className='text-[#6D6C6C] font-semibold font-sans text-xs'>Avilable from 24/08/2024</p>
                             </div>
                             <div className='cursor-pointer border border-[#287DB0] bg-[#FEFDF8] py-2 px-4 rounded-md'>
@@ -34,7 +35,7 @@ function Reviewawrapper() {
                 </div>
             </div>
             <div className='text-center cursor-pointer'>
-                <p className='text-[#757575] text-xs underline pb-2 font-semibold text-center'>Exit to Dashboard</p>
+                <Link href="/dashboard" className='text-[#757575] text-xs underline pb-2 font-semibold text-center'>Exit to Dashboard</Link>
             </div>
         </div>
     )

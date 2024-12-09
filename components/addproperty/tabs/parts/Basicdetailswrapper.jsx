@@ -67,7 +67,9 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
             property_in: propertyType,
             property_for: lookingTo,
             transaction_type: transactionType,
-            user_id: parseInt(user_id)
+            user_id: parseInt(user_id),
+            unique_property_id: unique_property_id,
+            location_id: location
         }, {
             headers: {
                 'Content-Type': 'application/json',
@@ -114,6 +116,7 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
                     };
                 }
                 setErrorMessages(finalresponse);
+                setModalOpen(true);
                 setIsLoadingEffect(false);
                 return false;
             })
@@ -124,7 +127,7 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
             setPropertyType(basicDetails?.property_in || '')
             setLookingTo(basicDetails?.property_for || '')
             setTransactionType(basicDetails?.transaction_type || '')
-            setLocation(basicDetails?.location || '')
+            setLocation(basicDetails?.location_id || '')
         }
     }, [basicDetails])
 
@@ -132,9 +135,6 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
         <>
             <div className='py-2 bg-[#E2EAED]'>
                 <p className='text-lg font-bold text-[#1D3A76] text-center'>Add Basic Details</p>
-                <p>{JSON.stringify(basicDetails)}</p>
-                <p>{JSON.stringify(propertyType)}</p>
-                <p>{JSON.stringify(lookingTo)}</p>
             </div>
             <div className='p-10'>
                 <>
