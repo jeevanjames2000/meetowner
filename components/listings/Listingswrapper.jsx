@@ -15,12 +15,21 @@ function Listingswrapper() {
     const [isOpen, setIsOpen] = useState(""); // Default accordion value corrected
     const [filters, setFilters] = useState(false)
     const updateFilters = () => {
-             setFilters(!filters)
+        setFilters(!filters)
     }
 
     const toggleAccordion = (value) => {
         setIsOpen((prev) => (prev === value ? "" : value)); // Toggles accordion open/close
     };
+
+    const [locality, setLocality] = useState('123')
+    const updateLocality = (e) => {
+        setLocality(e.currentTarget.value)
+    }
+    const [propertytype, setPropertytype] = useState('propertytype')
+    const updatePropertytype = (e) => {
+        setPropertytype(e.currentTarget.value)
+    }
     const listingdata = [
         {
             id: 1,
@@ -32,7 +41,6 @@ function Listingswrapper() {
             interested_tenants: 'Two interested tenants',
             added_date: '27-june-2024',
             expiry_date: '09-feb-2025',
-
         },
         {
             id: 2,
@@ -83,7 +91,7 @@ function Listingswrapper() {
         <div className="px-[80px] mt-10 w-full mb-16">
             <div className="flex w-full gap-6">
                 {/* 20% Width Div */}
-                <div className="w-[18%] h-fit bg-[#FFFFFF] pl-4  py-4 flex flex-col space-y-2 rounded-md">
+                <div className="w-[18%] h-fit bg-[#FFFFFF] pl-4 py-4 flex flex-col space-y-2 rounded-md">
                     <p className="text-[#240000] text-[16px] font-[500]">Show</p>
                     <div className="flex flex-col mx-auto w-full max-w-md border-b border-[#D7D8D9] pb-3">
                         {/* residential_properties Radio Button */}
@@ -230,51 +238,36 @@ function Listingswrapper() {
                     </div>
 
                 </div>
-
                 {/* 80% Width Div */}
-                <div className="w-[80%]  flex flex-col space-y-4">
+                <div className="w-[80%] flex flex-col space-y-4">
                     <div className=' grid grid-cols-6 ms:grid-cols-6 rounded-sm gap-6'>
-                        <div className=' flex  flex-wrap col-span-4 bg-[#31539A] h-fit w-full p-4 gap-3'>
-                            <input type='text' placeholder='Locality' className='px-4 text-[#FEFDF8] text-[12px] bg-transparent  h-7 border border-[#FEFDF8] rounded-sm cursor-pointer focus:outline-none' />
+                        <div className='flex flex-wrap col-span-4 bg-[#31539A] h-fit w-full p-4 gap-3'>
+                            <input
+                                type='text'
+                                placeholder='Locality'
+                                className='px-4 text-[#FEFDF8] text-[12px] bg-transparent  h-7 border border-[#FEFDF8] rounded-sm focus:outline-none'
+                                value={locality}
+                                onChange={updateLocality}
+                            />
                             <div className="flex items-center gap-2 px-4 w-fit border border-[#FEFDF8] rounded-sm cursor-pointer">
                                 <form className="w-fit mx-auto">
                                     <label className="flex items-center cursor-pointer">
                                         <select
                                             id="class"
+                                            value={propertytype}
+                                            onChange={updatePropertytype}
                                             className="text-[#FEFDF8] text-[12px] bg-transparent outline-none h-7"
                                         >
-                                            <option selected className="text-black ">
-                                                Property type
-                                            </option>
-                                            <option className="text-black" value="first class">Property 1</option>
-                                            <option className="text-black" value="second class">Property 2</option>
-                                            <option className="text-black" value="third class">Property 3</option>
-                                            <option className="text-black" value="fourth class">Property 5</option>
-                                            <option className="text-black" value="fourth class">Property 6</option>
-                                        </select>
-                                    </label>
-                                </form>
-                            </div>
-                            {/* Property Type Dropdown */}
-                            <div className="flex items-center gap-2 px-4 w-fit border border-[#FEFDF8] rounded-sm cursor-pointer">
-                                <form className="w-fit mx-auto">
-                                    <label className="flex items-center cursor-pointer">
-                                        <select
-                                            id="propertyType"
-                                            className="text-[#FEFDF8] text-[12px] outline-none h-7 bg-transparent"
-                                        >
-                                            <option selected className="text-[#FEFDF8]">
-                                                Property Type
-                                            </option>
+                                            <option className="text-black" value="propertytype"> Property Type</option>
                                             <option className="text-black" value="apartment">Apartment</option>
-                                            <option className="text-black" value="villa">Villa</option>
-                                            <option className="text-black" value="independent-floor">Independent Floor</option>
-                                            <option className="text-black" value="land">Land</option>
-                                            <option className="text-black" value="commercial">Commercial</option>
+                                            <option className="text-black" value="villa">villa</option>
+                                            <option className="text-black" value="Independet house">Independet house</option>
+                                            <option className="text-black" value="Independent floor">Independent floor</option>
                                         </select>
                                     </label>
                                 </form>
                             </div>
+
                             {/* Verification Status Dropdown */}
                             <div className="flex items-center gap-2 px-4 w-fit border border-[#FEFDF8] rounded-sm cursor-pointer">
                                 <form className="w-fit mx-auto">
@@ -314,17 +307,34 @@ function Listingswrapper() {
                                 More Filters
                             </button>
                             {filters && (
-                                <div className="mt-4 p-4 bg-gray-100 rounded-sm">
-                                    <p>This is the filter content. Add your filters here.</p>
+                                <div className=' flex flex-wrap gap-3'>
+                                    <div className="flex items-center gap-2 px-4 w-fit border border-[#FEFDF8] rounded-sm cursor-pointer">
+                                        <form className="w-fit mx-auto">
+                                            <label className="flex items-center cursor-pointer">
+                                                <select
+                                                    id="bhk"
+                                                    className="text-[#FEFDF8] text-[12px]  outline-none h-7 bg-transparent"
+                                                >
+                                                    <option selected className=" text-black">
+                                                        Possession Status
+                                                    </option>
+                                                    <option className="text-black" value="yes">Yes</option>
+                                                    <option className="text-black" value="no">No</option>
+                                                </select>
+                                            </label>
+                                        </form>
+                                    </div>
+                                    <input type='text' placeholder='Property ID' className='px-4 text-[#FEFDF8] text-[12px] bg-transparent  h-7 border border-[#FEFDF8] rounded-sm cursor-pointer focus:outline-none' />
+
                                 </div>
+
                             )}
                         </div>
-                        <div className=' col-span-2 '>
+                        <div className='col-span-2'>
                             <Getapp />
                         </div>
-
                     </div>
-                    <p className=' flex items-center justify-start pl-3 h-9 bg-[#FEFDF8] text-[16px] text-[#1D3A76] font-[600] rounded-md'>
+                    <p className='flex items-center justify-start pl-3 h-9 bg-[#FEFDF8] text-[16px] text-[#1D3A76] font-[600] rounded-md'>
                         Show 10 out of 15 Properties
                     </p>
                     {listingdata.length > 0 ? (
@@ -345,47 +355,45 @@ function Listingswrapper() {
                     ) : (
                         <p>No data</p>
                     )}
-                      <nav className='flex flex-row-reverse'>
-                <ul className="flex items-center -space-x-px h-8 text-sm">
-                    {/* Previous Button */}
-                    <li>
-                        <Link
-                            href="#"
-                            className="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                            aria-label="Previous"
-                        >
-                            <IconChevronLeft size={16} />
-                        </Link>
-                    </li>
-
-                    {/* Page Numbers */}
-                    {[1, 2, 3, 4, 5].map((page, index) => (
-                        <li key={index}>
-                            <Link
-                                href="#"
-                                className={`flex items-center justify-center px-3 h-8 leading-tight border ${page === 3
-                                    ? "z-10 text-[#ffffff] border-blue-300 bg-[#1D3A76] hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white"
-                                    : "text-gray-500 bg-white border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                                    }`}
-                                aria-current={page === 3 ? "page" : undefined}
-                            >
-                                {page}
-                            </Link>
-                        </li>
-                    ))}
-
-                    {/* Next Button */}
-                    <li>
-                        <Link
-                            href="#"
-                            className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                            aria-label="Next"
-                        >
-                            <IconChevronRight size={16} />
-                        </Link>
-                    </li>
-                </ul>
-            </nav>
+                    <nav className='flex flex-row-reverse'>
+                        <ul className="flex items-center -space-x-px h-8 text-sm">
+                            {/* Previous Button */}
+                            <li>
+                                <Link
+                                    href="#"
+                                    className="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                                    aria-label="Previous"
+                                >
+                                    <IconChevronLeft size={16} />
+                                </Link>
+                            </li>
+                            {/* Page Numbers */}
+                            {[1, 2, 3, 4, 5].map((page, index) => (
+                                <li key={index}>
+                                    <Link
+                                        href="#"
+                                        className={`flex items-center justify-center px-3 h-8 leading-tight border ${page === 3
+                                            ? "z-10 text-[#ffffff] border-blue-300 bg-[#1D3A76] hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white"
+                                            : "text-gray-500 bg-white border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                                            }`}
+                                        aria-current={page === 3 ? "page" : undefined}
+                                    >
+                                        {page}
+                                    </Link>
+                                </li>
+                            ))}
+                            {/* Next Button */}
+                            <li>
+                                <Link
+                                    href="#"
+                                    className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
+                                    aria-label="Next"
+                                >
+                                    <IconChevronRight size={16} />
+                                </Link>
+                            </li>
+                        </ul>
+                    </nav>
                 </div>
             </div>
         </div >
