@@ -77,6 +77,7 @@ function Tabswrapper() {
             setPropertyDetailsStatus('completed')
             setPhotosStatus(status)
         } else if (active_step === 'review') {
+            console.log('review id', user_id)
             getAllPropertyDetails()
             setBasicDetailsStatus('completed')
             setAddressStatus('completed')
@@ -85,7 +86,7 @@ function Tabswrapper() {
             setReviewsStatus(status)
         }
 
-    }, [active_step, status])
+    }, [active_step, status, user_id])
 
     const [basicDetails, setBasicDetails] = useState({})
     async function getBasicdetails() {
