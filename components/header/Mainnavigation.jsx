@@ -13,7 +13,7 @@ const Mainnavigation = () => {
             <div className="flex flex-row items-center justify-between  gap-10">
                 <Link href="/dashboard" className={`font-semibold text-sm text-[#1D3A76] ${isActive('/dashboard') ? 'border-b-2 border-[#1D3A76]' : ''}`}> Dashboard</Link>
                 <Link href="/enquiry" className={`font-semibold text-sm text-[#1D3A76] ${isActive('/enquiry') ? 'border-b-2 border-[#1D3A76]' : ''}`}> Enquires</Link>
-                <Link href="#" className={`font-semibold text-sm text-[#1D3A76] ${isActive('/listings') ? 'border-b-2 border-[#1D3A76]' : ''}`}>Listings</Link>
+                <Link href="/listings" className={`font-semibold text-sm text-[#1D3A76] ${isActive('/listings') ? 'border-b-2 border-[#1D3A76]' : ''}`}>Listings</Link>
                 <Link href="/packages" className={`font-semibold text-sm text-[#1D3A76] ${isActive('/packages') ? 'border-b-2 border-[#1D3A76]' : ''}`}>Packages</Link>
                 <div
                     onMouseEnter={() => setOpen(true)}

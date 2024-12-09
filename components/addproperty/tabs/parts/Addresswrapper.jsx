@@ -224,7 +224,7 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
               <IconAsterisk size={8} color='#FF0000' />
             </div>
             <input
-              type='text'
+              type='number'
               placeholder='Flat No.'
               className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans '
               autoComplete='off'
@@ -239,7 +239,7 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
               <IconAsterisk size={8} color='#FF0000' />
             </div>
             <input
-              type='text'
+              type='number'
               placeholder='Floor No.'
               className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans '
               autoComplete='off'
@@ -254,7 +254,7 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
               <IconAsterisk size={8} color='#FF0000' />
             </div>
             <input
-              type='text'
+              type='number'
               placeholder='Toatl Floors'
               className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans '
               autoComplete='off'

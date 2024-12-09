@@ -23,7 +23,7 @@ function Photoswrapper({ updateActiveTab }) {
   const handleFileUpload = (event) => {
     const uploadedFiles = Array.from(event.target.files);
     const newFiles = [...files, ...uploadedFiles];
-    setFiles(newFiles);
+    setFiles(newFiles[0]);
 
     const newPreviews = uploadedFiles.map((file) =>
       URL.createObjectURL(file)

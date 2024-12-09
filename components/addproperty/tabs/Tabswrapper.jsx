@@ -9,9 +9,11 @@ import Reviewawrapper from './parts/Reviewawrapper'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import Propertyapi from '@/components/api/Propertyapi'
 import { useUserDetails } from '@/components/zustand/useUserDetails'
+import Link from 'next/link'
 
 function Tabswrapper() {
     const userInfo = useUserDetails(state => state.userInfo);
+    console.log('userInfo', userInfo)
     const access_token = useUserDetails(state => state.access_token);
     let user_id = userInfo?.user_id || null
     const searchParams = useSearchParams()
@@ -197,24 +199,38 @@ function Tabswrapper() {
             })
     }
 
+    let Status;
+    if (activeTab === 'basicdetails') {
+        Status = "10%"
+    } else if (activeTab === 'propertydetails') {
+        Status = "25%"
+    } else if (activeTab === 'address') {
+        Status = "50%"
+    } else if (activeTab === 'photos') {
+        Status = "75%"
+    } else if (activeTab === 'review') {
+        Status = "100%"
+    }
+
     return (
         <div className='flex flex-row gap-2 relative'>
             <div className='basis-[25%] bg-white rounded-t-lg '>
                 <div className='flex flex-row justify-center items-center py-3 gap-1 bg-[#E2EAED] '>
                     <IconChevronLeft size={16} color='#1D3A76' />
-                    <p className='text-xs text-[#1D3A76] font-medium'>Back to dashboard</p>
+                    <Link href="/dashboard" className='text-xs text-[#1D3A76] font-medium'>Back to dashboard</Link>
                 </div>
                 <div className='bg-white px-11 py-2 mb-16'>
                     <p className='text-[#1D3A76] font-semibold text-[14px]'>Post your Property</p>
                     <p className='text-[#1D3A76] text-[11px] font-light'>sell or rent your property </p>
-                    {/* progress bar */}
-                    <div className="flex items-center">
-                        <div className="flex w-full h-1 bg-gray-200 rounded-full overflow-hidden">
-                            <div className="flex flex-col justify-center rounded-full overflow-hidden bg-[#BACAD5] text-xs text-white text-center whitespace-nowrap transition duration-500  w-[100%]"></div>
+
+                    <div className="flex items-center space-x-2 my-2">
+                        <div className="relative flex-1 bg-[#BACAD5] rounded-full h-1.5">
+                            <div
+                                className="bg-[#287DB0] h-1.5 rounded-full"
+                                style={{ width: `${Status}%` }}
+                            ></div>
                         </div>
-                        <div className="w-10 text-end">
-                            <span className="text-[10px] text-[#1D3A76]">0%</span>
-                        </div>
+                        <p className="text-gray-700 text-sm font-medium">{Status}</p>
                     </div>
                     {/* tabs */}
                     <div className='my-3'>
