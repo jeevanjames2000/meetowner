@@ -203,15 +203,15 @@ function Tabswrapper() {
 
     let Status;
     if (activeTab === 'basicdetails') {
-        Status = "10%"
+        Status = 10
     } else if (activeTab === 'propertydetails') {
-        Status = "25%"
+        Status = 25
     } else if (activeTab === 'address') {
-        Status = "50%"
+        Status = 50
     } else if (activeTab === 'photos') {
-        Status = "75%"
+        Status = 75
     } else if (activeTab === 'review') {
-        Status = "100%"
+        Status = 100
     }
 
     return (
@@ -227,13 +227,13 @@ function Tabswrapper() {
 
                     <div className="flex items-center space-x-2 my-2">
                         <div className="relative flex-1 bg-[#BACAD5] rounded-full h-1.5">
-                            <div
-                                className="bg-[#287DB0] h-1.5 rounded-full"
-                                style={{ width: `${Status}%` }}
+                            <div className="bg-[#287DB0] h-1.5 rounded-full"
+                                style={{ width: `${Status}%`, transition: 'width 0.3s ease-in-out' }}
                             ></div>
                         </div>
-                        <p className="text-gray-700 text-sm font-medium">{Status}</p>
+                        <p className="text-gray-700 text-sm font-medium">{Status}%</p>
                     </div>
+
                     {/* tabs */}
                     <div className='my-3'>
                         {
@@ -455,6 +455,7 @@ function Tabswrapper() {
                     </div>
                 </div>
             </div>
+
             <div className='basis-[75%] bg-white w-full rounded-t-lg'>
                 {
                     activeTab === 'basicdetails' &&

@@ -27,11 +27,11 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
     setCityError(false)
   }
 
-  const [buildingName, setBuildingName] = useState('')
-  const [buildingNameError, setBuildingNameError] = useState('')
-  const updateBuildingName = (e) => {
-    setBuildingName(e.target.value)
-    setBuildingNameError('')
+  const [propertyName, setPropertyName] = useState('')
+  const [propertyNameError, setPropertyNameError] = useState('')
+  const updatePropertyName = (e) => {
+    setPropertyName(e.target.value)
+    setPropertyNameError('')
   }
 
   const [locality, setLocality] = useState('')
@@ -71,9 +71,9 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
       setCityError('please enter city')
       return false;
     }
-    if (buildingName === '') {
+    if (propertyName === '') {
       setIsLoadingEffect(false)
-      setBuildingNameError('please enter building name')
+      setPropertyNameError('please enter property name')
       return false;
     }
     if (locality === '') {
@@ -159,7 +159,7 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
   useEffect(() => {
     if (addressDetails !== null) {
       setCity(addressDetails?.city_id)
-      setBuildingName(addressDetails?.unit_flat_house_no)
+      setPropertyName(addressDetails?.unit_flat_house_no)
       setLocality(addressDetails?.locality)
       setFlatNo(addressDetails?.unit_flat_house_no)
       setFloorNo(addressDetails?.floors)
@@ -190,7 +190,7 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
           </div>
           <div className='my-4'>
             <div className='flex gap-1'>
-              <p className='text-[#1D3A76] text-sm font-medium font-sans'>Building /Apartment/Society Name</p>
+              <p className='text-[#1D3A76] text-sm font-medium font-sans'>Property/project Name</p>
               <IconAsterisk size={8} color='#FF0000' />
             </div>
             <input
@@ -198,10 +198,10 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
               placeholder='Building /Apartment/Society Name'
               className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans '
               autoComplete='off'
-              value={buildingName}
-              onChange={updateBuildingName}
+              value={propertyName}
+              onChange={updatePropertyName}
             />
-            {buildingNameError && <p className='text-[#FF0000] text-xs font-sans'>Please enter building name</p>}
+            {propertyNameError && <p className='text-[#FF0000] text-xs font-sans'>Please enter property name</p>}
           </div>
           <div className='my-4'>
             <div className='flex gap-1'>

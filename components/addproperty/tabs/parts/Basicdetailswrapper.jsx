@@ -8,11 +8,13 @@ import { toast } from 'react-toastify';
 import Errorpanel from '@/components/shared/Errorpanel';
 import { Modal } from '@nayeshdaggula/tailify';
 import LoadingOverlay from '@/components/shared/LoadingOverlay';
+import { usePropertyDetails } from '@/components/zustand/usePropertyDetails';
 
 function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails }) {
     const userInfo = useUserDetails((state) => state.userInfo)
     const access_token = useUserDetails(state => state.access_token);
     let user_id = userInfo?.user_id || null
+    const updatePropertyDetails = usePropertyDetails(state => state.updatePropertyDetails)
     const searchParams = useSearchParams()
     const router = useRouter()
     const [isLoadingEffect, setIsLoadingEffect] = useState(false)
@@ -99,7 +101,10 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
                 })
                 let property_id = data?.property?.unique_property_id
                 updateActiveTab('propertydetails', 'inprogress', property_id)
-
+                updatePropertyDetails({
+                    property_in: propertyType,
+                    property_for: lookingTo,
+                })
             })
             .catch((error) => {
                 console.log(error)
