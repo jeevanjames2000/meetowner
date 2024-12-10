@@ -144,7 +144,7 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
                     </div>
                     <div className='flex flex-row items-center gap-6'>
                         <div onClick={() => updatePropertyType('Residencial')} className={`group cursor-pointer px-8 py-2 rounded-md  ${propertyType === 'Residencial' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                            <p className={`${propertyType === 'Residencial' ? 'text-white text-[10px]' : 'text-[#1D3A76] text-[10px] font-semibold group-hover:text-white'}`}>Residencial</p>
+                            <p className={`${propertyType === 'Residencial' ? 'text-white text-[10px]' : 'text-[#1D3A76] text-[10px] font-semibold group-hover:text-white'}`}>Residential</p>
                         </div>
                         <div onClick={() => updatePropertyType('Commercial')} className={`group cursor-pointer px-8 py-2 rounded-md  ${propertyType === 'Commercial' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
                             <p className={`${propertyType === 'Commercial' ? 'text-white text-[10px]' : 'text-[#1D3A76] text-[10px] font-semibold group-hover:text-white'}`}>Commercial</p>

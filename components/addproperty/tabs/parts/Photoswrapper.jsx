@@ -52,7 +52,9 @@ function Photoswrapper({ updateActiveTab }) {
     const formData = new FormData();
     formData.append('user_id', user_id);
     formData.append('unique_property_id', unique_property_id);
-    formData.append('photo', files);
+    files.forEach((file) => {
+      formData.append("photo", file);
+    });
 
     Propertyapi.post('addphotos', formData, {
       headers: { 'Content-Type': 'multipart/form-data' }

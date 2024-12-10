@@ -3,7 +3,33 @@ import Image from 'next/image'
 import React from 'react'
 import property from '@/public/assets/property.png'
 import Link from 'next/link'
-function Reviewawrapper({ allpropertyDetails }) {
+import { useUserDetails } from '@/components/zustand/useUserDetails'
+import { usePathname, useSearchParams, useRouter } from 'next/navigation'
+import Propertiesgallery from './Propertiesgallery'
+function Reviewawrapper({ allpropertyDetails, propertyGallery }) {
+    const userInfo = useUserDetails((state) => state.userInfo)
+    let user_id = userInfo?.user_id || null
+    let access_token = userInfo?.access_token || null
+
+    const pathname = usePathname()
+    const searchParams = useSearchParams()
+    const active_step = searchParams.get('active_step')
+    const status = searchParams.get('status')
+    const unique_property_id = searchParams.get('unique_property_id')
+    const router = useRouter()
+
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("active_step", 'basicdetails');
+    params.set("status", 'completed');
+    params.set("unique_property_id", unique_property_id);
+
+    const handleEditDetails = () => {
+        console.log('Edit Details')
+        router.push(`${pathname}?${params.toString()}`);
+    }
+
+
+
     return (
         <div className='relative'>
             <div className='py-2 bg-[#E2EAED]'>
@@ -18,9 +44,14 @@ function Reviewawrapper({ allpropertyDetails }) {
                         <p className='font-semibold font-sans text-sm'>Congratulations!</p>
                         <p className='text-xs mt-1'>Your listing is being reviewed.</p>
                     </div>
-                    <div className='flex w-full gap-4 p-2'>
-                        <Image src={property} width={200} height={200} />
-                        <div className='flex justify-between items-center w-full'>
+                    <div className='flex flex-row w-full gap-4 p-2'>
+                        <div className='w-[20%]'>
+                            <Propertiesgallery
+                                propertyGallery={propertyGallery}
+                            />
+                        </div>
+                        {/* <Image src={allpropertyDetails?.image || property} width={200} height={200} /> */}
+                        <div className='w-[80%] flex justify-between items-center'>
                             <div className='flex flex-col gap-2'>
                                 <p className='font-sans text-[#6D6C6C] text-xs font-semibold'>₹ {allpropertyDetails?.monthly_rent}</p>
                                 <p className='text-[#6D6C6C] font-sans text-xs'>{allpropertyDetails?.bedrooms} {allpropertyDetails?.sub_type} for {allpropertyDetails?.property_for} </p>
