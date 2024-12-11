@@ -3,19 +3,20 @@
 import { Select, Textinput } from '@nayeshdaggula/tailify';
 import React, { useState } from 'react';
 
+
 function SignupForm() {
     const [selectedTab, setSelectedTab] = useState("builder"); // Correct state declaration
     const [text, setText] = useState('');
     const [error, setError] = useState('');
     return (
-        <div className="flex flex-col w-[370px] gap-4">
+        <div className="signupform flex flex-col w-[370px] h-fit gap-4">
             {/* Tabs Section */}
-            <div className="flex flex-col rounded-[20px]">
+            <div className="flex flex-col rounded-[20px] ">
                 <div className="flex">
                     {/* First Tab */}
                     <div
                         onClick={() => setSelectedTab("builder")}
-                        className={`shadow-lg  w-fit z-50 flex items-center justify-center text-sm text-[#ffffff] py-1 px-6 rounded-tr-[20px] ${selectedTab === "builder" ? 'bg-[#FBAF01] text-[#244385]' : 'bg-[#31539A]'
+                        className={`custom-shadow w-fit z-50 flex items-center justify-center text-sm text-[#ffffff] py-1 px-6 rounded-tr-[20px] ${selectedTab === "builder" ? 'bg-[#FBAF01] text-[#244385]' : 'bg-[#31539A]'
                             }`}
                     >
                         Builder
@@ -23,7 +24,7 @@ function SignupForm() {
                     {/* Second Tab */}
                     <div
                         onClick={() => setSelectedTab("agent")}
-                        className={`w-fit z-40 ml-[-14px] flex items-center justify-center text-sm text-[#ffffff] py-3 px-6 rounded-tr-[20px] ${selectedTab === "agent" ? 'bg-[#FBAF01] text-[#244385]' : 'bg-[#31539A]'
+                        className={`custom-shadow w-fit z-40 ml-[-14px] flex items-center justify-center text-sm text-[#ffffff] py-3 px-6 rounded-tr-[20px] ${selectedTab === "agent" ? 'bg-[#FBAF01] text-[#244385]' : 'bg-[#31539A]'
                             }`}
                     >
                         Agent
@@ -31,7 +32,7 @@ function SignupForm() {
                     {/* Third Tab */}
                     <div
                         onClick={() => setSelectedTab("owner")}
-                        className={`w-fit z-[30] ml-[-14px] flex items-center justify-center text-sm text-[#ffffff] py-3 px-6 rounded-tr-[20px] ${selectedTab === "owner" ? 'bg-[#FBAF01] text-[#244385]' : 'bg-[#31539A]'
+                        className={`custom-shadow w-fit z-[30] ml-[-14px] flex items-center justify-center text-sm text-[#ffffff] py-3 px-6 rounded-tr-[20px] ${selectedTab === "owner" ? 'bg-[#FBAF01] text-[#244385]' : 'bg-[#31539A]'
                             }`}
                     >
                         Owner
@@ -39,7 +40,7 @@ function SignupForm() {
                     {/* Fourth Tab */}
                     <div
                         onClick={() => setSelectedTab("channel_partner")}
-                        className={`w-[120%] ml-[-14px] flex items-center justify-end text-sm text-[#ffffff] py-3 p-4 rounded-tr-[20px] ${selectedTab === "channel_partner" ? 'bg-[#FBAF01] text-[#244385]' : 'bg-[#31539A]'
+                        className={`custom-shadow w-[120%] ml-[-14px] flex items-center justify-end text-sm text-[#ffffff] py-3 p-4 rounded-tr-[20px] ${selectedTab === "channel_partner" ? 'bg-[#FBAF01] text-[#244385]' : 'bg-[#31539A]'
                             }`}
                     >
                         Channel Partner

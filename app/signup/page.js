@@ -9,19 +9,20 @@ import person_with_laptop from '@/public/assets/person_with_laptop.png'
 import Image from 'next/image'
 import Signupform from '@/components/signup/Signupform'
 
+
 function page() {
   return (
     <>
       <Header />
-      <div>
+      <div className="overflow-hidden h-[600px] relative">
         <Image
           src={signup_bg}
-          className="h-[600px] w-full relative object-cover"
+          className="h-full w-full object-cover"
           alt="Background"
         />
-        <div className="absolute top-12 grid grid-cols-2 gap-20 pt-16 h-full px-32">
+        <div className="absolute inset-0 grid grid-cols-12 gap-20 pt-12 px-32">
           {/* Left Column */}
-          <div className="col-span-1 space-y-5 h-full">
+          <div className="col-span-6 space-y-5">
             <p className="text-[24px] text-[#ffffff] font-[600] font-sans">
               Lorem Ipsum is simply dummy text
             </p>
@@ -68,13 +69,13 @@ function page() {
           </div>
 
           {/* Right Column */}
-          <div className="flex items-center justify-start col-span-1">
+          <div className="flex items-center justify-start col-span-6">
             <Signupform />
           </div>
         </div>
       </div>
-
     </>
+
     // <div className='w-full'>
     //   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 h-screen  ">
     //     <div className="flex gap-4 col-span-1 ">
