@@ -1,3 +1,4 @@
+import Generalapi from '@/components/api/Generalapi'
 import Propertyapi from '@/components/api/Propertyapi'
 import Errorpanel from '@/components/shared/Errorpanel'
 import LoadingOverlay from '@/components/shared/LoadingOverlay'
@@ -104,6 +105,7 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
       unit_flat_house_no: flatNo,
       floors: floorNo,
       total_floors: totalFloors,
+      location_id: locality,
       unique_property_id: unique_property_id,
     }, {
       headers: {
@@ -166,30 +168,87 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
       setFlatNo(addressDetails?.unit_flat_house_no)
       setFloorNo(addressDetails?.floors)
       setTotalFloors(addressDetails?.total_floors)
+      setLocality(addressDetails?.location_id)
     }
   }, [addressDetails])
+
+  const [allCities, setAllCities] = useState([])
+  const getAllCities = () => {
+    Generalapi.get('getcities', {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${access_token}`
+      }
+    })
+      .then((response) => {
+        let data = response.data
+        if (data.status === 'error') {
+          let finalResponse = {
+            'message': data.message,
+            'server_res': data
+          }
+          setErrorMessages(finalResponse)
+        }
+        if (data.status === 'success') {
+          setAllCities(data?.cities || [])
+          return false;
+        }
+      })
+      .catch((error) => {
+        console.log(error)
+        let finalresponse;
+        if (error.response !== undefined) {
+          finalresponse = {
+            'message': error.message,
+            'server_res': error.response.data
+          };
+        } else {
+          finalresponse = {
+            'message': error.message,
+            'server_res': null
+          };
+        }
+        setErrorMessages(finalresponse);
+        return false;
+      })
+  }
+
+  useEffect(() => {
+    if (getpropertyDetails?.property_in !== "Commercial" && getpropertyDetails?.property_for !== "Sell") {
+      setFloorNo('')
+      setTotalFloors('')
+    }
+  }, [getpropertyDetails])
+
+  useEffect(() => {
+    getAllCities()
+  }, [])
+
   return (
     <>
       <div className='relative'>
         <div className='py-2 bg-[#E2EAED]'>
           <p className='text-lg font-bold text-[#1D3A76] text-center font-sans'>Add Address</p>
         </div>
-        <div className='w-full overflow-y-auto px-5 py-3' style={{ height: 'calc(100vh - 220px)' }}>
-          <div className='my-4'>
-            <div className='flex gap-1'>
-              <p className='text-[#1D3A76] text-sm font-medium font-sans'>City</p>
-              <IconAsterisk size={8} color='#FF0000' />
-            </div>
-            <input
-              type='text'
-              placeholder='Search city'
-              className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans '
-              autoComplete='off'
-              value={city}
-              onChange={updateCity}
-            />
-            {cityError && <p className='text-[#FF0000] text-xs font-sans'>Please enter city</p>}
+        <div className='w-full overflow-y-auto px-5 py-3' style={{ height: 'calc(100vh - 220px)' }}> <div className='mb-5'>
+          <div className='flex gap-1 mb-4'>
+            <p className='text-[#1D3A76] text-sm font-medium font-sans'>City</p>
+            <IconAsterisk size={8} color='#FF0000' />
           </div>
+          <select
+            id="city"
+            className="bg-gray-50 border border-[#909090] w-[20%] px-3 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5"
+            value={city}
+            onChange={updateCity}
+          >
+            {allCities.map((cityItem) => (
+              <option key={cityItem.value} value={cityItem.value}>
+                {cityItem.name}
+              </option>
+            ))}
+          </select>
+          {cityError && <p className='text-[#FF0000] text-xs font-sans'>Please select one</p>}
+        </div>
           <div className='my-4'>
             <div className='flex gap-1'>
               <p className='text-[#1D3A76] text-sm font-medium font-sans'>Property/project Name</p>

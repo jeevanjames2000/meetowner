@@ -1,16 +1,17 @@
 import { IconCheck } from '@tabler/icons-react'
 import Image from 'next/image'
-import React from 'react'
+import React, { useEffect } from 'react'
 import property from '@/public/assets/property.png'
 import Link from 'next/link'
 import { useUserDetails } from '@/components/zustand/useUserDetails'
 import { usePathname, useSearchParams, useRouter } from 'next/navigation'
 import Propertiesgallery from './Propertiesgallery'
+import { usePropertyDetails } from '@/components/zustand/usePropertyDetails'
 function Reviewawrapper({ allpropertyDetails, propertyGallery }) {
     const userInfo = useUserDetails((state) => state.userInfo)
     let user_id = userInfo?.user_id || null
     let access_token = userInfo?.access_token || null
-
+    const updatePropertyDetails = usePropertyDetails((state) => state.updatePropertyDetails)
     const pathname = usePathname()
     const searchParams = useSearchParams()
     const active_step = searchParams.get('active_step')
@@ -27,7 +28,11 @@ function Reviewawrapper({ allpropertyDetails, propertyGallery }) {
         console.log('Edit Details')
         router.push(`${pathname}?${params.toString()}`);
     }
-
+    useEffect(() => {
+        if (active_step === 'review') {
+            updatePropertyDetails(null)
+        }
+    }, [active_step])
 
 
     return (
