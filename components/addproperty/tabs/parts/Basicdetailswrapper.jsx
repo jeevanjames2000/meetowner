@@ -28,6 +28,7 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
     const [lookingTo, setLookingTo] = useState('')
     const [lookingToError, setLookingToError] = useState('')
     const updateLookingTo = (type) => {
+        setTransactionType('')
         setLookingTo(type)
         if (type !== 'Sell') {
             setTransactionType('')

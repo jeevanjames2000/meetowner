@@ -1,6 +1,7 @@
 import Propertyapi from '@/components/api/Propertyapi'
 import Errorpanel from '@/components/shared/Errorpanel'
 import LoadingOverlay from '@/components/shared/LoadingOverlay'
+import { usePropertyDetails } from '@/components/zustand/usePropertyDetails'
 import { useUserDetails } from '@/components/zustand/useUserDetails'
 import { Modal } from '@nayeshdaggula/tailify'
 import { IconAsterisk } from '@tabler/icons-react'
@@ -13,6 +14,7 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
   const userInfo = useUserDetails((state) => state.userInfo)
   let user_id = userInfo?.user_id || null
   let access_token = userInfo?.access_token || null
+  const getpropertyDetails = usePropertyDetails((state) => state.propertydetails)
 
   const searchParams = useSearchParams()
   const active_step = searchParams.get('active_step')
@@ -233,36 +235,42 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
             />
             {flatNoError && <p className='text-[#FF0000] text-xs font-sans'>Please enter Flat No.</p>}
           </div>
-          <div className='my-4'>
-            <div className='flex gap-1'>
-              <p className='text-[#1D3A76] text-sm font-medium font-sans'>Floor No.</p>
-              <IconAsterisk size={8} color='#FF0000' />
-            </div>
-            <input
-              type='number'
-              placeholder='Floor No.'
-              className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans '
-              autoComplete='off'
-              value={floorNo}
-              onChange={updateFloorNo}
-            />
-            {floorNoError && <p className='text-[#FF0000] text-xs font-sans'>Please enter floor No.</p>}
-          </div>
-          <div className='my-4'>
-            <div className='flex gap-1'>
-              <p className='text-[#1D3A76] text-sm font-medium font-sans'>Total Floors</p>
-              <IconAsterisk size={8} color='#FF0000' />
-            </div>
-            <input
-              type='number'
-              placeholder='Toatl Floors'
-              className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans '
-              autoComplete='off'
-              value={totalFloors}
-              onChange={updateTotalFloors}
-            />
-            {totalFloorsError && <p className='text-[#FF0000] text-xs font-sans'>Please enter total floors</p>}
-          </div>
+          {
+            (getpropertyDetails?.property_in === "Commercial" && getpropertyDetails?.property_for === "Sell") &&
+            <>
+              <div className='my-4'>
+                <div className='flex gap-1'>
+                  <p className='text-[#1D3A76] text-sm font-medium font-sans'>Floor No.</p>
+                  <IconAsterisk size={8} color='#FF0000' />
+                </div>
+                <input
+                  type='number'
+                  placeholder='Floor No.'
+                  className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans '
+                  autoComplete='off'
+                  value={floorNo}
+                  onChange={updateFloorNo}
+                />
+                {floorNoError && <p className='text-[#FF0000] text-xs font-sans'>Please enter floor No.</p>}
+              </div>
+              <div className='my-4'>
+                <div className='flex gap-1'>
+                  <p className='text-[#1D3A76] text-sm font-medium font-sans'>Total Floors</p>
+                  <IconAsterisk size={8} color='#FF0000' />
+                </div>
+                <input
+                  type='number'
+                  placeholder='Toatl Floors'
+                  className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans '
+                  autoComplete='off'
+                  value={totalFloors}
+                  onChange={updateTotalFloors}
+                />
+                {totalFloorsError && <p className='text-[#FF0000] text-xs font-sans'>Please enter total floors</p>}
+              </div>
+            </>
+          }
+
         </div>
 
         <div className='flex flex-row justify-between items-center  px-6 pt-3'>

@@ -98,11 +98,11 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
     setOpenParkingError('')
   }
 
-  const [cost, setCost] = useState('')
-  const [costError, setCostError] = useState('')
-  const updateCost = (e) => {
-    setCost(e.target.value)
-    setCostError('')
+  const [monthlyRent, setMonthlyRent] = useState('')
+  const [monthlyRentError, setMonthlyRentError] = useState('')
+  const updateMonthlyRent = (e) => {
+    setMonthlyRent(e.target.value)
+    setMonthlyRentError('')
   }
 
   const [maintenceCharges, setMaintenceCharges] = useState('')
@@ -245,6 +245,13 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
     setBikeParkingError('')
   }
 
+  const [otherInfo, setOtherInfo] = useState('')
+  const [otherInfoError, setOtherInfoError] = useState('')
+  const updateOtherInfo = (e) => {
+    setOtherInfo(e.target.value)
+    setOtherInfoError('')
+  }
+
   const [facilities, setFacilities] = useState({
     Lift: false,
     CCTV: false,
@@ -285,6 +292,84 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
       [id]: checked, // Update the selected facility
     }));
   };
+
+  const [passengerLifts, setPassengerLifts] = useState('')
+  const [passengerLiftsError, setPassengerLiftsError] = useState('')
+  const updatePassengerLifts = (e) => {
+    setPassengerLifts(e.target.value)
+    setPassengerLiftsError('')
+  }
+
+  const [serviceLifts, setServiceLifts] = useState('')
+  const [serviceLiftsError, setServiceLiftsError] = useState('')
+  const updateServiceLifts = (e) => {
+    setServiceLifts(e.target.value)
+    setServiceLiftsError('')
+  }
+
+  const [stairCases, setStairCases] = useState('')
+  const [stairCasesError, setStairCasesError] = useState('')
+  const updateStairCases = (e) => {
+    setStairCases(e.target.value)
+    setStairCasesError('')
+  }
+
+  const [privateParking, setPrivateParking] = useState('')
+  const [privateParkingError, setPrivateParkingError] = useState('')
+  const updatePrivateParking = (e) => {
+    setPrivateParking(e.target.value)
+    setPrivateParkingError('')
+  }
+
+  const [publicParking, setPublicParking] = useState('')
+  const [publicParkingError, setPublicParkingError] = useState('')
+  const updatePublicParking = (e) => {
+    setPublicParking(e.target.value)
+    setPublicParkingError('')
+  }
+
+  const [privateWashrooms, setPrivateWashrooms] = useState('')
+  const [privateWashroomsError, setPrivateWashroomsError] = useState('')
+  const updatePrivateWashrooms = (e) => {
+    setPrivateWashrooms(e.target.value)
+    setPrivateWashroomsError('')
+  }
+
+  const [publicWashrooms, setPublicWashrooms] = useState('')
+  const [publicWashroomsError, setPublicWashroomsError] = useState('')
+  const updatePublicWashrooms = (e) => {
+    setPublicWashrooms(e.target.value)
+    setPublicWashroomsError('')
+  }
+
+
+  const [plotNumber, setPlotNumber] = useState('')
+  const [plotNumberError, setPlotNumberError] = useState('')
+  const updatePlotNumber = (e) => {
+    setPlotNumber(e.target.value)
+    setPlotNumberError('')
+  }
+
+  const [flatNumber, setFlatNumber] = useState('')
+  const [flatNumberError, setFlatNumberError] = useState('')
+  const updateFlatNumber = (e) => {
+    setFlatNumber(e.target.value)
+    setFlatNumberError('')
+  }
+
+  const [suitableFor, setSuitableFor] = useState('')
+  const [suitableForError, setSuitableForError] = useState('')
+  const updateSuitableFor = (e) => {
+    setSuitableFor(e.target.value)
+    setSuitableForError('')
+  }
+
+  const [zoneType, setZoneType] = useState('')
+  const [zoneTypeError, setZoneTypeError] = useState('')
+  const updateZoneType = (e) => {
+    setZoneType(e.target.value)
+    setZoneTypeError('')
+  }
 
   const [furnishingModal, setFurnishingModal] = useState(false)
   const openFurnishingModal = () => {
@@ -344,9 +429,9 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
     //   setOpenParkingError('Please select open parking')
     //   return false;
     // }
-    // if (cost === '') {
+    // if (monthlyRent === '') {
     //   setIsLoadingEffect(false)
-    //   setCostError('Please enter cost')
+    //   setMonthlyRentError('Please enter monthlyRent')
     //   return false;
     // }
     // if (maintenceCharges === '') {
@@ -425,32 +510,82 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
     //   return false;
     // }
 
+    const selectedFacilities = Object.keys(facilities)
+      .filter((key) => facilities[key]) // Filter only `true` values
+      .join(", ");
+
+    const getFormattedDateTime = (date) => {
+      // Ensure the input date is valid
+      if (!date) return null;
+
+      // Append time component to make it a valid ISO-8601 DateTime
+      return `${date}T00:00:00Z`;
+    };
+
+    let unit_flat_house_no;
+    if (propertySubType === "Warehouse" || propertySubType === "Plot" || propertySubType === "Others") {
+      unit_flat_house_no = plotNumber
+    } else {
+      unit_flat_house_no = flatNumber
+    }
+
+    const new_available_from_date = getFormattedDateTime(availableFromDate)
+    const new_possession_end_date = getFormattedDateTime(possessionEndDate)
+
     Propertyapi.post('/addproertydetails', {
       sub_type: propertySubType,
+      rera_approved: reraApproved,
       occupancy: constructionStatus,
       bedrooms: bhk,
-      bathroom: parseInt(bathroom),
-      balconies: parseInt(balcony),
+      bathroom: bathroom,
+      balconies: balcony,
       furnished_status: furnishType,
-      monthly_rent: parseFloat(cost),
-      open_parking: openParking,
+      property_age: ageofProperty,
+
+      monthly_rent: monthlyRent || null,
       maintenance: maintenceCharges,
+      security_deposit: securityDeposit,
       lock_in: lockInPeriod,
       brokerage_charge: brokerage,
-      builtup_area: parseFloat(builtupArea),
-      carpet_area: parseFloat(carpetArea),
+
+      area_units: areaUnits,
+      builtup_area: builtupArea,
+      carpet_area: carpetArea,
+      unitCost: unitCost,
+      property_cost: propertyCost,
+      facilities: selectedFacilities,
+      other_info: otherInfo,
+      // additional
+      facing: facing,
+      car_parking: carParking,
+      bike_parking: bikeParking,
+      open_parking: openParking,
+      description: propertyDescription,
+
+      lock_in: lockInPeriod,
       length_area: parseFloat(lengthArea),
       width_area: parseFloat(widthArea),
-      facing: facing,
       google_address: address,
-      description: propertyDescription,
+
+      passenger_lifts: passengerLifts,
+      service_lifts: serviceLifts,
+      stair_cases: stairCases,
+      private_parking: privateParking,
+      public_parking: publicParking,
+      private_washrooms: privateWashrooms,
+      public_washrooms: publicWashrooms,
       // 
-      ageofProperty: ageofProperty,
-      availableFromDate: availableFromDate,
-      unitCost: unitCost,
-      propertyCost: propertyCost,
-      ownership: ownerShip,
+      available_from: new_available_from_date,
+      under_construction: new_possession_end_date,
+      ownership_type: ownerShip,
+      plot_area: plotArea || null,
+      zone_types: zoneType,
       pentHouse: pentHouse,
+
+      builtup_unit: unitCost,
+
+      business_types: suitableFor,
+      unit_flat_house_no: unit_flat_house_no || null,
       user_id: parseInt(user_id),
       unique_property_id: unique_property_id,
     }, {
@@ -507,25 +642,75 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
 
   useEffect(() => {
     if (propertyDetails) {
-      setBalcony(propertyDetails?.balconies?.toString())
-      setBathroom(propertyDetails?.bathroom?.toString())
+      setPropertySubType(propertyDetails?.sub_type)
+      setReraApproved(propertyDetails?.rera_approved)
+      setConstructionStatus(propertyDetails?.occupancy)
       setBhk(propertyDetails?.bedrooms)
-      setBrokerage(propertyDetails?.brokerage_charge)
-      setBuiltupArea(propertyDetails?.builtup_area?.toString())
-      setPlotArea(propertyDetails?.carpet_area?.toString())
-      setCarpetArea(propertyDetails?.carpet_area?.toString())
-      setPropertyDescription(propertyDetails?.description)
-      setFacing(propertyDetails?.facing)
+      setBathroom(propertyDetails?.bathroom)
+      setBalcony(propertyDetails?.balconies)
       setFurnishType(propertyDetails?.furnished_status)
+      setAgeofProperty(propertyDetails?.property_age)
+      setAreaUnits(propertyDetails?.area_units)
+      setBuiltupArea(propertyDetails?.builtup_area)
+      setCarpetArea(propertyDetails?.carpet_area)
+      setPropertyCost(propertyDetails?.property_cost)
+      const facilitiesString = propertyDetails?.facilities || "";
+      const selectedFacilities = facilitiesString.split(", ").map((item) => item.trim());
+      setFacilities((prevState) => {
+        const updatedFacilities = { ...prevState };
+        selectedFacilities.forEach((facility) => {
+          if (updatedFacilities.hasOwnProperty(facility)) {
+            updatedFacilities[facility] = true;
+          }
+        });
+        return updatedFacilities;
+      });
+      setOtherInfo(propertyDetails?.other_info)
+      setFacing(propertyDetails?.facing)
+      setOpenParking(propertyDetails?.open_parking)
+      setCarParking(propertyDetails?.car_parking)
+      setBikeParking(propertyDetails?.bike_parking)
+
+
+      setMaintenceCharges(propertyDetails?.maintenance)
+      setBrokerage(propertyDetails?.brokerage_charge)
+      setLockInPeriod(propertyDetails?.lock_in)
+      setMonthlyRent(propertyDetails.monthly_rent)
+      setSecurityDeposit(propertyDetails?.security_deposit)
+
+      setPassengerLifts(propertyDetails?.passenger_lifts)
+      setServiceLifts(propertyDetails?.service_lifts)
+      setStairCases(propertyDetails?.stair_cases)
+      setPrivateParking(propertyDetails?.private_parking)
+      setPublicParking(propertyDetails?.public_parking)
+      setPrivateWashrooms(propertyDetails?.private_washrooms)
+      setPublicWashrooms(propertyDetails?.public_washrooms)
+      if (propertyDetails?.available_from) {
+        let available_from = new Date(propertyDetails?.available_from)
+        let available_from_date = available_from.toISOString().split('T')[0]
+        setAvailableFromDate(available_from_date)
+      }
+      if (propertyDetails?.under_construction) {
+        let under_construction = new Date(propertyDetails?.under_construction)
+        let under_construction_date = under_construction.toISOString().split('T')[0]
+        setPossessionEndDate(under_construction_date)
+      }
+      if (propertyDetails?.unit_flat_house_no) {
+        if (propertyDetails?.sub_type === "Warehouse" || propertyDetails?.sub_type === "Plot" || propertyDetails?.sub_type === "Others") {
+          setPlotNumber(propertyDetails?.unit_flat_house_no)
+        } else {
+          setFlatNumber(propertyDetails?.unit_flat_house_no)
+        }
+      }
+      setOwnerShip(propertyDetails?.ownership_type)
+      setZoneType(propertyDetails?.zone_types)
+      setUnitCost(propertyDetails?.builtup_unit)
+      setPlotArea(propertyDetails?.carpet_area?.toString())
+      setPropertyDescription(propertyDetails?.description)
       setAddress(propertyDetails?.google_address)
       setLengthArea(propertyDetails?.length_area?.toString())
-      setLockInPeriod(propertyDetails?.lock_in)
-      setMaintenceCharges(propertyDetails?.maintenance)
-      setCost(propertyDetails.monthly_rent?.toString())
-      setConstructionStatus(propertyDetails?.occupancy)
-      setOpenParking(propertyDetails?.open_parking)
-      setPropertySubType(propertyDetails?.sub_type)
       setWidthArea(propertyDetails?.width_area?.toString())
+      setSuitableFor(propertyDetails?.business_types)
     }
   }, [propertyDetails])
 
@@ -574,14 +759,90 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
       })
   }
 
+  const [allPreferredTenantTypes, setAllPreferredTenantTypes] = useState([])
+  const getPreferedTenantTypes = () => {
+    Propertyapi.get('getpreferedtenanttypes', {
+      params: {
+        user_id: user_id
+      },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${access_token}`
+      }
+    })
+
+      .then((response) => {
+        let data = response.data
+        if (data.status === 'error') {
+          let finalResponse = {
+            'message': data.message,
+            'server_res': data
+          }
+          setErrorMessages(finalResponse)
+        }
+        if (data.status === 'success') {
+          setAllPreferredTenantTypes(data?.prefered_tenant_types)
+          return false;
+        }
+      })
+      .catch((error) => {
+        console.log(error)
+        let finalresponse;
+        if (error.response !== undefined) {
+          finalresponse = {
+            'message': error.message,
+            'server_res': error.response.data
+          };
+        } else {
+          finalresponse = {
+            'message': error.message,
+            'server_res': null
+          };
+        }
+        setErrorMessages(finalresponse);
+        return false;
+      })
+  }
+
   useEffect(() => {
+    if (getpropertyDetails?.property_for === 'Rent') {
+      setConstructionStatus('')
+      setLengthArea('')
+      setPlotArea('')
+      setWidthArea('')
+      setPentHouse('')
+    }
+    if (getpropertyDetails?.property_for === 'Sell') {
+      setMonthlyRent('')
+      setMaintenceCharges('')
+      setSecurityDeposit('')
+      setLockInPeriod('')
+      setPreferredTenantType('')
+      setBrokerage('')
+    }
+    if (getpropertyDetails?.property_in === 'Residencial') {
+      setPassengerLifts('')
+      setServiceLifts('')
+      setStairCases('')
+      setPrivateParking('')
+      setPublicParking('')
+      setPrivateWashrooms('')
+      setPublicWashrooms('')
+    }
+    if (getpropertyDetails?.property_in === 'Commercial') {
+      setMonthlyRent('')
+      setSecurityDeposit('')
+      setBrokerage('')
+      setPreferredTenantType('')
+    }
     getPropertySubTypes()
+    getPreferedTenantTypes()
   }, [getpropertyDetails])
+
   return (
     <div className='relative'>
       <div className='py-2 bg-[#E2EAED]'>
         <p className='text-lg font-bold text-[#1D3A76] text-center font-sans'>Add Property Details</p>
-        <p>{JSON.stringify(getpropertyDetails)}</p>
       </div>
       <div className='w-full overflow-y-auto px-5 py-3 h-[calc(100vh-220px)]'>
         <div className='mb-5'>
@@ -639,6 +900,7 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
           </div>
         }
         {
+          getpropertyDetails?.property_in === "Residencial" &&
           (propertySubType === 'Apartment' || propertySubType === "Flat" || propertySubType === "Land") &&
           <>
             <div className='mb-5'>
@@ -647,20 +909,20 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
                 <IconAsterisk size={8} color='#FF0000' />
               </div>
               <div className='flex flex-row items-center gap-6'>
-                <div onClick={() => updateBhk('1bhk')} className={`group cursor-pointer px-8 py-2 rounded-md  ${bhk === '1bhk' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                  <p className={`text-[10px] font-sans ${bhk === '1bhk' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>1 BHK</p>
+                <div onClick={() => updateBhk('1')} className={`group cursor-pointer px-8 py-2 rounded-md  ${bhk === '1' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${bhk === '1' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>1 BHK</p>
                 </div>
-                <div onClick={() => updateBhk('2bhk')} className={`group cursor-pointer px-8 py-2 rounded-md  ${bhk === '2bhk' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                  <p className={`text-[10px] font-sans ${bhk === '2bhk' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>2 BHK</p>
+                <div onClick={() => updateBhk('2')} className={`group cursor-pointer px-8 py-2 rounded-md  ${bhk === '2' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${bhk === '2' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>2 BHK</p>
                 </div>
-                <div onClick={() => updateBhk('3bhk')} className={`group cursor-pointer px-8 py-2 rounded-md  ${bhk === '3bhk' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                  <p className={`text-[10px] font-sans ${bhk === '3bhk' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>3 BHK</p>
+                <div onClick={() => updateBhk('3')} className={`group cursor-pointer px-8 py-2 rounded-md  ${bhk === '3' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${bhk === '3' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>3 BHK</p>
                 </div>
-                <div onClick={() => updateBhk('4bhk')} className={`group cursor-pointer px-8 py-2 rounded-md  ${bhk === '4bhk' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                  <p className={`text-[10px] font-sans ${bhk === '4bhk' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>4 BHK</p>
+                <div onClick={() => updateBhk('4')} className={`group cursor-pointer px-8 py-2 rounded-md  ${bhk === '4' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${bhk === '4' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>4 BHK</p>
                 </div>
-                <div onClick={() => updateBhk('4plusbhk')} className={`group cursor-pointer px-8 py-2 rounded-md  ${bhk === '4plusbhk' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                  <p className={`text-[10px] font-sans ${bhk === '4plusbhk' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>4+ BHK</p>
+                <div onClick={() => updateBhk('4plus')} className={`group cursor-pointer px-8 py-2 rounded-md  ${bhk === '4plus' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${bhk === '4plus' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>4+ BHK</p>
                 </div>
               </div>
               {bhkError && <p className='text-[#FF0000] text-xs font-sans'>Please select BHK</p>}
@@ -692,9 +954,6 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
                 <IconAsterisk size={8} color='#FF0000' />
               </div>
               <div className='flex flex-row items-center gap-6'>
-                <div onClick={() => updateBalcony('0')} className={`group cursor-pointer px-8 py-2 rounded-md  ${balcony === '0' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                  <p className={`text-[10px] font-sans ${balcony === '0' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>0</p>
-                </div>
                 <div onClick={() => updateBalcony('1')} className={`group cursor-pointer px-8 py-2 rounded-md  ${balcony === '1' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
                   <p className={`text-[10px] font-sans ${balcony === '1' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>1 </p>
                 </div>
@@ -742,28 +1001,153 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
             </div>
           </>
         }
-        <div className='mb-5'>
-          <div className='flex gap-1 mb-4'>
-            <p className='text-[#1D3A76] text-sm font-medium font-sans'>Available From</p>
-            <IconAsterisk size={8} color='#FF0000' />
-          </div>
-          <div className='border border-[#909090] rounded-md w-[20%] px-3'>
-            <input
-              type="date"
-              id="date"
-              className='text-[14px] w-full py-1 outline-none'
-              autoComplete='off'
-              value={availableFromDate}
-              onChange={updateAvailableFromDate}
-            />
-          </div>
-          {availableFromDateError && <p className='text-[#FF0000] text-xs font-sans'>Please select Available From date</p>}
-        </div>
         {
-          constructionStatus === 'Ready to move' ?
+          getpropertyDetails?.property_in === "Commercial" &&
+          (propertySubType === 'Office' || propertySubType === "Retail Shop" || propertySubType === "Show Room") &&
+          <>
+            <p className='text-[#1D3A76] text-sm font-medium font-sans mt-6'>Lift & Stair Cases </p>
+            <div className='grid grid-cols-3 gap-2 mt-3'>
+              <div className='mb-6 '>
+                <div className='flex gap-1'>
+                  <p className='text-[#1D3A76] text-sm font-medium font-sans'> Passenger Lifts</p>
+                  <IconAsterisk size={8} color='#FF0000' />
+                </div>
+                <input
+                  type='text'
+                  placeholder='Enter Passenger Lifts'
+                  className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans'
+                  autoComplete='off'
+                  value={passengerLifts}
+                  onChange={updatePassengerLifts}
+                />
+                {passengerLiftsError && <p className='text-[#FF0000] text-xs font-sans'>Please enter passenger lifts</p>}
+              </div>
+              <div className='mb-6 '>
+                <div className='flex gap-1'>
+                  <p className='text-[#1D3A76] text-sm font-medium font-sans'> Service Lifts</p>
+                  <IconAsterisk size={8} color='#FF0000' />
+                </div>
+                <input
+                  type='text'
+                  placeholder='Enter Service Lifts'
+                  className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans'
+                  autoComplete='off'
+                  value={serviceLifts}
+                  onChange={updateServiceLifts}
+                />
+                {serviceLiftsError && <p className='text-[#FF0000] text-xs font-sans'>Please Enter service lifts</p>}
+              </div>
+              <div className='mb-6 '>
+                <div className='flex gap-1'>
+                  <p className='text-[#1D3A76] text-sm font-medium font-sans'>Stair Cases</p>
+                  <IconAsterisk size={8} color='#FF0000' />
+                </div>
+                <input
+                  type='text'
+                  placeholder='Enter Stair Cases'
+                  className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans'
+                  autoComplete='off'
+                  value={stairCases}
+                  onChange={updateStairCases}
+                />
+                {stairCasesError && <p className='text-[#FF0000] text-xs font-sans'>Please enter stair cases </p>}
+              </div>
+            </div>
+
+            <p className='text-[#1D3A76] text-sm font-medium font-sans'>Parking</p>
+            <div className='grid grid-cols-3 gap-2 mt-3'>
+              <div className='mb-6 '>
+                <div className='flex gap-1'>
+                  <p className='text-[#1D3A76] text-sm font-medium font-sans'>Private Parking</p>
+                  <IconAsterisk size={8} color='#FF0000' />
+                </div>
+                <input
+                  type='text'
+                  placeholder='Enter Private Parking'
+                  className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans'
+                  autoComplete='off'
+                  value={privateParking}
+                  onChange={updatePrivateParking}
+                />
+                {privateParkingError && <p className='text-[#FF0000] text-xs font-sans'>Please enter private parking</p>}
+              </div>
+              <div className='mb-6 '>
+                <div className='flex gap-1'>
+                  <p className='text-[#1D3A76] text-sm font-medium font-sans'>Public Parking</p>
+                  <IconAsterisk size={8} color='#FF0000' />
+                </div>
+                <input
+                  type='text'
+                  placeholder='Enter Public Parking'
+                  className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans'
+                  autoComplete='off'
+                  value={publicParking}
+                  onChange={updatePublicParking}
+                />
+                {publicParkingError && <p className='text-[#FF0000] text-xs font-sans'>Please Enter Public Parking</p>}
+              </div>
+            </div>
+
+            <p className='text-[#1D3A76] text-sm font-medium font-sans'>Washrooms</p>
+            <div className='grid grid-cols-3 gap-2 mt-3'>
+              <div className='mb-6 '>
+                <div className='flex gap-1'>
+                  <p className='text-[#1D3A76] text-sm font-medium font-sans'>Private Washrooms</p>
+                  <IconAsterisk size={8} color='#FF0000' />
+                </div>
+                <input
+                  type='text'
+                  placeholder='Enter Private Washrooms'
+                  className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans'
+                  autoComplete='off'
+                  value={privateWashrooms}
+                  onChange={updatePrivateWashrooms}
+                />
+                {privateWashroomsError && <p className='text-[#FF0000] text-xs font-sans'>Please enter private washrooms</p>}
+              </div>
+              <div className='mb-6 '>
+                <div className='flex gap-1'>
+                  <p className='text-[#1D3A76] text-sm font-medium font-sans'>Public Washrooms</p>
+                  <IconAsterisk size={8} color='#FF0000' />
+                </div>
+                <input
+                  type='text'
+                  placeholder='Enter Public Washrooms'
+                  className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans'
+                  autoComplete='off'
+                  value={publicWashrooms}
+                  onChange={updatePublicWashrooms}
+                />
+                {publicWashroomsError && <p className='text-[#FF0000] text-xs font-sans'>Please Enter Public Washrooms</p>}
+              </div>
+            </div>
+          </>
+        }
+        {
+          getpropertyDetails?.property_in === "Commercial" && getpropertyDetails?.property_for === "Sell" &&
+          <div className='mb-5'>
+            <div className='flex gap-1 mb-4'>
+              <p className='text-[#1D3A76] text-sm font-medium font-sans'>Available From</p>
+              <IconAsterisk size={8} color='#FF0000' />
+            </div>
+            <div className='border border-[#909090] rounded-md w-[20%] px-3'>
+              <input
+                type="date"
+                id="date"
+                className='text-[14px] w-full py-1 outline-none'
+                autoComplete='off'
+                value={availableFromDate}
+                onChange={updateAvailableFromDate}
+              />
+            </div>
+            {availableFromDateError && <p className='text-[#FF0000] text-xs font-sans'>Please select Available From date</p>}
+          </div>
+        }
+        {
+          (constructionStatus === 'Ready to move') || (getpropertyDetails?.property_in === "Commercial" && (propertySubType === "Warehouse" || propertySubType === "Plot" || propertySubType === "Others")) ?
             <div className='mb-5'>
               <div className='flex gap-1 mb-4'>
-                <p className='text-[#1D3A76] text-sm font-medium font-sans'>Age of Property</p>
+                <p className='text-[#1D3A76] text-sm font-medium font-sans'>Age of Property </p>
                 <IconAsterisk size={8} color='#FF0000' />
               </div>
               <select
@@ -780,23 +1164,151 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
               {ageofPropertyError && <p className='text-[#FF0000] text-xs font-sans'>Please select one</p>}
             </div>
             :
-            <div className='mb-5'>
-              <div className='flex gap-1 mb-4'>
-                <p className='text-[#1D3A76] text-sm font-medium font-sans'>Possesion End</p>
+            (constructionStatus === 'Under Construction') || (getpropertyDetails?.property_in === "Commercial" && (propertySubType === "Warehouse" || propertySubType === "Plot" || propertySubType === "Others")) ?
+              <div className='mb-5'>
+                <div className='flex gap-1 mb-4'>
+                  <p className='text-[#1D3A76] text-sm font-medium font-sans'>Possesion End</p>
+                  <IconAsterisk size={8} color='#FF0000' />
+                </div>
+                <div className='border border-[#909090] rounded-md w-[20%] px-3'>
+                  <input
+                    type="date"
+                    id="date"
+                    className='text-[14px] w-full py-1 outline-none'
+                    autoComplete='off'
+                    value={possessionEndDate}
+                    onChange={updatePossessionEndDate}
+                  />
+                </div>
+                {possessionEndDateError && <p className='text-[#FF0000] text-xs font-sans'>Please select possession end date</p>}
+              </div>
+              :
+              null
+        }
+        {
+          getpropertyDetails?.property_in && getpropertyDetails.property_for === "Rent" &&
+          <>
+            <div className='my-6'>
+              <div className='flex gap-1'>
+                <p className='text-[#1D3A76] text-sm font-medium font-sans'>Monthly Rent</p>
                 <IconAsterisk size={8} color='#FF0000' />
               </div>
-              <div className='border border-[#909090] rounded-md w-[20%] px-3'>
-                <input
-                  type="date"
-                  id="date"
-                  className='text-[14px] w-full py-1 outline-none'
-                  autoComplete='off'
-                  value={possessionEndDate}
-                  onChange={updatePossessionEndDate}
-                />
-              </div>
-              {possessionEndDateError && <p className='text-[#FF0000] text-xs font-sans'>Please select possession end date</p>}
+              <input
+                type='text'
+                placeholder='Cost(per month)'
+                className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans '
+                autoComplete='off'
+                value={monthlyRent}
+                onChange={updateMonthlyRent}
+              />
+              {monthlyRentError && <p className='text-[#FF0000] text-xs font-sans'>Please enter monthlyRent</p>}
             </div>
+            <div className='my-6'>
+              <div className='flex gap-1'>
+                <p className='text-[#1D3A76] text-sm font-medium font-sans'>Maintence Charge(per Month)</p>
+                <IconAsterisk size={8} color='#FF0000' />
+              </div>
+              <input
+                type='text'
+                placeholder='Maintence Charges(per month)'
+                className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans'
+                autoComplete='off'
+                value={maintenceCharges}
+                onChange={updateMaintenceCharges}
+              />
+              {maintenceChargesError && <p className='text-[#FF0000] text-xs font-sans'>Please enter maintence charges</p>}
+            </div>
+            <div className='mb-5'>
+              <div className='flex gap-1 mb-4'>
+                <p className='text-[#1D3A76] text-sm font-medium font-sans'>Security Deposit</p>
+                <IconAsterisk size={8} color='#FF0000' />
+              </div>
+              <div className='flex flex-row items-center gap-6'>
+                <div onClick={() => updateSecurityDeposit('0')} className={`group cursor-pointer px-8 py-2 rounded-md  ${securityDeposit === '0' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${securityDeposit === '0' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>None</p>
+                </div>
+                <div onClick={() => updateSecurityDeposit('1')} className={`group cursor-pointer px-8 py-2 rounded-md  ${securityDeposit === '1' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${securityDeposit === '1' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>1 Month</p>
+                </div>
+                <div onClick={() => updateSecurityDeposit('2')} className={`group cursor-pointer px-8 py-2 rounded-md  ${securityDeposit === '2' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${securityDeposit === '2' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>2 Months</p>
+                </div>
+              </div>
+              {securityDepositError && <p className='text-[#FF0000] text-xs font-sans'>Please select security deposit</p>}
+            </div>
+            <div className='mb-5'>
+              <div className='flex gap-1 mb-4'>
+                <p className='text-[#1D3A76] text-sm font-medium font-sans'>Lock In Period</p>
+                <IconAsterisk size={8} color='#FF0000' />
+              </div>
+              <div className='flex flex-row items-center gap-6'>
+                <div onClick={() => updateLockInPeriod('none')} className={`group cursor-pointer px-8 py-2 rounded-md  ${lockInPeriod === 'none' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${lockInPeriod === 'none' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>1 Month</p>
+                </div>
+                <div onClick={() => updateLockInPeriod('onemonth')} className={`group cursor-pointer px-8 py-2 rounded-md  ${lockInPeriod === 'onemonth' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${lockInPeriod === 'onemonth' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>1 Month</p>
+                </div>
+                <div onClick={() => updateLockInPeriod('twomonths')} className={`group cursor-pointer px-8 py-2 rounded-md  ${lockInPeriod === 'twomonths' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${lockInPeriod === 'twomonths' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>2 Months</p>
+                </div>
+              </div>
+              {lockInPeriodError && <p className='text-[#FF0000] text-xs font-sans'>Please select lock in period</p>}
+            </div>
+            <div className='mb-5'>
+              <div className='flex gap-1 mb-4'>
+                <p className='text-[#1D3A76] text-sm font-medium font-sans'>Do You Charge Brokerage?</p>
+                <IconAsterisk size={8} color='#FF0000' />
+              </div>
+              <div className='flex flex-row items-center gap-6'>
+                <div onClick={() => updateBrokerage('0')} className={`group cursor-pointer px-8 py-2 rounded-md  ${brokerage === '0' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${brokerage === '0' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>None</p>
+                </div>
+                <div onClick={() => updateBrokerage('15')} className={`group cursor-pointer px-8 py-2 rounded-md  ${brokerage === '15' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${brokerage === '15' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>15 Days</p>
+                </div>
+                <div onClick={() => updateBrokerage('30')} className={`group cursor-pointer px-8 py-2 rounded-md  ${brokerage === '30' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${brokerage === '30' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>30 Days</p>
+                </div>
+              </div>
+              {brokerageError && <p className='text-[#FF0000] text-xs font-sans'>Please select brokerage</p>}
+            </div>
+            {
+              (getpropertyDetails?.property_in === "Residencial" && getpropertyDetails.property_for === "Rent") &&
+              <div className='mb-5'>
+                <div className='flex gap-1 mb-4'>
+                  <p className='text-[#1D3A76] text-sm font-medium font-sans'>Prefered Tenant Type</p>
+                  <IconAsterisk size={8} color='#FF0000' />
+                </div>
+                {
+                  allPreferredTenantTypes?.length > 0 &&
+                  <div className='flex flex-row items-center gap-6'>
+                    {
+                      allPreferredTenantTypes.map((item, index) => (
+                        <div key={index} onClick={() => updatePreferredTenantType(item.name)} className={`group cursor-pointer px-8 py-2 rounded-md  ${preferredTenantType === item.name ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                          <p className={`text-[10px] font-sans ${preferredTenantType === item.name ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>{item.name}</p>
+                        </div>
+                      ))
+                    }
+                  </div>
+                }
+                {/* <div className='flex flex-row items-center gap-6'>
+                  <div onClick={() => updatePreferredTenantType('family')} className={`group cursor-pointer px-8 py-2 rounded-md  ${preferredTenantType === 'family' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                    <p className={`text-[10px] font-sans ${preferredTenantType === 'family' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Family</p>
+                  </div>
+                  <div onClick={() => updatePreferredTenantType('bachelors')} className={`group cursor-pointer px-8 py-2 rounded-md  ${preferredTenantType === 'bachelors' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                    <p className={`text-[10px] font-sans ${preferredTenantType === 'bachelors' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Bachelors</p>
+                  </div>
+                  <div onClick={() => updatePreferredTenantType('singleman')} className={`group cursor-pointer px-8 py-2 rounded-md  ${preferredTenantType === 'singleman' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                    <p className={`text-[10px] font-sans ${preferredTenantType === 'singleman' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Single Man</p>
+                  </div>
+                  <div onClick={() => updatePreferredTenantType('singlewoman')} className={`group cursor-pointer px-8 py-2 rounded-md  ${preferredTenantType === 'singlewoman' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                    <p className={`text-[10px] font-sans ${preferredTenantType === 'singlewoman' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Single Woman</p>
+                  </div>
+                </div> */}
+                {preferredTenantTypeError && <p className='text-[#FF0000] text-xs font-sans'>Please select preferred tenant type</p>}
+              </div>
+            }
+          </>
         }
         <div className='mb-5'>
           <div className='flex gap-1 mb-4'>
@@ -816,8 +1328,8 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
         </div>
         <div className='grid grid-cols-3 gap-2 mt-3'>
           {
-            getpropertyDetails?.property_in === 'Residencial' && getpropertyDetails.property_for === "Sell" &&
-              (propertySubType === "Apartment" || propertySubType === "Flat" || propertySubType === "Land") ?
+            getpropertyDetails?.property_in && getpropertyDetails.property_for &&
+              (propertySubType === "Apartment" || propertySubType === "Flat" || propertySubType === "Land" || propertySubType === "Office" || propertySubType === "Retail Shop" || propertySubType === "Show Room") ?
               <>
                 <div className='mt-6'>
                   <div className='flex gap-1'>
@@ -825,7 +1337,7 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
                     <IconAsterisk size={8} color='#FF0000' />
                   </div>
                   <input
-                    type='text'
+                    type='number'
                     placeholder='Built-up Area'
                     className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans'
                     autoComplete='off'
@@ -840,7 +1352,7 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
                     <IconAsterisk size={8} color='#FF0000' />
                   </div>
                   <input
-                    type='text'
+                    type='number'
                     placeholder='Carpet Area'
                     className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans'
                     autoComplete='off'
@@ -854,8 +1366,8 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
               null
           }
           {
-            getpropertyDetails?.property_in === 'Residencial' && getpropertyDetails.property_for === "Sell" &&
-              (propertySubType === "Independent House" || propertySubType === "Independent Villa" || propertySubType === "plot") ?
+            (getpropertyDetails?.property_in && getpropertyDetails.property_for) &&
+              (propertySubType === "Independent House" || propertySubType === "Independent Villa" || propertySubType === "plot" || propertySubType === "Warehouse" || propertySubType === "Plot" || propertySubType === "Others") ?
               <>
                 <div className='mt-6 '>
                   <div className='flex gap-1'>
@@ -930,7 +1442,7 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
                     <IconAsterisk size={8} color='#FF0000' />
                   </div>
                   <input
-                    type='text'
+                    type='number'
                     placeholder='unit cost'
                     className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans'
                     autoComplete='off'
@@ -945,7 +1457,7 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
                     <IconAsterisk size={8} color='#FF0000' />
                   </div>
                   <input
-                    type='text'
+                    type='number'
                     placeholder='property cost'
                     className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans'
                     autoComplete='off'
@@ -960,7 +1472,9 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
           }
         </div>
         {/* ownership */}
-        {/* <div className='mb-5'>
+        {
+          getpropertyDetails?.property_in === 'Commercial' &&
+          <div className='mb-5'>
             <div className='flex gap-1'>
               <p className='text-[#1D3A76] text-sm font-medium font-sans'>Ownership</p>
               <IconAsterisk size={8} color='#FF0000' />
@@ -980,11 +1494,12 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
               </div>
             </div>
             {ownerShipError && <p className='text-[#FF0000] text-xs font-sans'>Please select Ownership</p>}
-          </div> */}
+          </div>
+        }
         {/* facilities */}
         {
           getpropertyDetails?.property_in &&
-            propertySubType === "Apartment" || propertySubType === "Flat" || propertySubType === "Land" ?
+            propertySubType === "Apartment" || propertySubType === "Flat" || propertySubType === "Land" || propertySubType === "Office" || propertySubType === "Retail Shop" || propertySubType === "Show Room" ?
             <div>
               <p className='text-[#1D3A76] text-sm mb-3 mt-6 font-sans font-medium'>Facilities</p>
               <ul className="grid grid-cols-3 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg">
@@ -1018,104 +1533,104 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
           withAsterisk
           textareaClassName='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans'
           labelClassName='text-[#1D3A76] text-sm font-medium font-sans mt-6'
+          value={otherInfo}
+          onChange={updateOtherInfo}
+          error={otherInfoError}
         />
 
-        {/* <div className='my-6'>
-          <div className='flex gap-1'>
-            <p className='text-[#1D3A76] text-sm font-medium font-sans'>Cost(per month)</p>
-            <IconAsterisk size={8} color='#FF0000' />
-          </div>
-          <input
-            type='text'
-            placeholder='Cost(per month)'
-            className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans '
-            autoComplete='off'
-            value={cost}
-            onChange={updateCost}
-          />
-          {costError && <p className='text-[#FF0000] text-xs font-sans'>Please enter cost</p>}
-        </div>
-        <div className='my-6'>
-          <div className='flex gap-1'>
-            <p className='text-[#1D3A76] text-sm font-medium font-sans'>Maintence Charge(per Month)</p>
-            <IconAsterisk size={8} color='#FF0000' />
-          </div>
-          <input
-            type='text'
-            placeholder='Maintence Charges(per month)'
-            className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans'
-            autoComplete='off'
-            value={maintenceCharges}
-            onChange={updateMaintenceCharges}
-          />
-          {maintenceChargesError && <p className='text-[#FF0000] text-xs font-sans'>Please enter maintence charges</p>}
-        </div>
-        <div className='mb-5'>
-          <div className='flex gap-1 mb-4'>
-            <p className='text-[#1D3A76] text-sm font-medium font-sans'>Security Deposit</p>
-            <IconAsterisk size={8} color='#FF0000' />
-          </div>
-          <div className='flex flex-row items-center gap-6'>
-            <div onClick={() => updateSecurityDeposit('onemonth')} className={`group cursor-pointer px-8 py-2 rounded-md  ${securityDeposit === 'onemonth' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-              <p className={`text-[10px] font-sans ${securityDeposit === 'onemonth' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>1 Month</p>
-            </div>
-            <div onClick={() => updateSecurityDeposit('twomonths')} className={`group cursor-pointer px-8 py-2 rounded-md  ${securityDeposit === 'twomonths' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-              <p className={`text-[10px] font-sans ${securityDeposit === 'twomonths' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>2 Months</p>
-            </div>
-          </div>
-          {securityDepositError && <p className='text-[#FF0000] text-xs font-sans'>Please select security deposit</p>}
-        </div>
-        <div className='mb-5'>
-          <div className='flex gap-1 mb-4'>
-            <p className='text-[#1D3A76] text-sm font-medium font-sans'>Lock In Period</p>
-            <IconAsterisk size={8} color='#FF0000' />
-          </div>
-          <div className='flex flex-row items-center gap-6'>
-            <div onClick={() => updateLockInPeriod('onemonth')} className={`group cursor-pointer px-8 py-2 rounded-md  ${lockInPeriod === 'onemonth' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-              <p className={`text-[10px] font-sans ${lockInPeriod === 'onemonth' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>1 Month</p>
-            </div>
-            <div onClick={() => updateLockInPeriod('twomonths')} className={`group cursor-pointer px-8 py-2 rounded-md  ${lockInPeriod === 'twomonths' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-              <p className={`text-[10px] font-sans ${lockInPeriod === 'twomonths' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>2 Months</p>
-            </div>
-          </div>
-          {lockInPeriodError && <p className='text-[#FF0000] text-xs font-sans'>Please select lock in period</p>}
-        </div>
-        <div className='mb-5'>
-          <div className='flex gap-1 mb-4'>
-            <p className='text-[#1D3A76] text-sm font-medium font-sans'>Do You Charge Brokerage?</p>
-            <IconAsterisk size={8} color='#FF0000' />
-          </div>
-          <div className='flex flex-row items-center gap-6'>
-            <div onClick={() => updateBrokerage('yes')} className={`group cursor-pointer px-8 py-2 rounded-md  ${brokerage === 'yes' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-              <p className={`text-[10px] font-sans ${brokerage === 'yes' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Yes</p>
-            </div>
-            <div onClick={() => updateBrokerage('no')} className={`group cursor-pointer px-8 py-2 rounded-md  ${brokerage === 'no' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-              <p className={`text-[10px] font-sans ${brokerage === 'no' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>No</p>
-            </div>
-          </div>
-          {brokerageError && <p className='text-[#FF0000] text-xs font-sans'>Please select brokerage</p>}
-        </div>
-        <div className='mb-5'>
-          <div className='flex gap-1 mb-4'>
-            <p className='text-[#1D3A76] text-sm font-medium font-sans'>Prefered Tenant Type</p>
-            <IconAsterisk size={8} color='#FF0000' />
-          </div>
-          <div className='flex flex-row items-center gap-6'>
-            <div onClick={() => updatePreferredTenantType('family')} className={`group cursor-pointer px-8 py-2 rounded-md  ${preferredTenantType === 'family' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-              <p className={`text-[10px] font-sans ${preferredTenantType === 'family' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Family</p>
-            </div>
-            <div onClick={() => updatePreferredTenantType('bachelors')} className={`group cursor-pointer px-8 py-2 rounded-md  ${preferredTenantType === 'bachelors' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-              <p className={`text-[10px] font-sans ${preferredTenantType === 'bachelors' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Bachelors</p>
-            </div>
-            <div onClick={() => updatePreferredTenantType('singleman')} className={`group cursor-pointer px-8 py-2 rounded-md  ${preferredTenantType === 'singleman' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-              <p className={`text-[10px] font-sans ${preferredTenantType === 'singleman' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Single Man</p>
-            </div>
-            <div onClick={() => updatePreferredTenantType('singlewoman')} className={`group cursor-pointer px-8 py-2 rounded-md  ${preferredTenantType === 'singlewoman' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-              <p className={`text-[10px] font-sans ${preferredTenantType === 'singlewoman' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Single Woman</p>
-            </div>
-          </div>
-          {preferredTenantTypeError && <p className='text-[#FF0000] text-xs font-sans'>Please select preferred tenant type</p>}
-        </div> */}
+        {
+          (getpropertyDetails?.property_in === "Commercial" && getpropertyDetails?.property_for) &&
+          <>
+            {
+              (propertySubType === "Warehouse" || propertySubType === "Plot" || propertySubType === "Others") ?
+                <div className='mb-5'>
+                  <div className='flex gap-1 mb-4'>
+                    <p className='text-[#1D3A76] text-sm font-medium font-sans'>Plot No.</p>
+                    <IconAsterisk size={8} color='#FF0000' />
+                  </div>
+                  <div className='border border-[#909090] rounded-md w-[20%] px-3'>
+                    <input
+                      type="number"
+                      id="plotno"
+                      className='text-[14px] w-full py-1 outline-none'
+                      autoComplete='off'
+                      placeholder='Plot Number'
+                      value={plotNumber}
+                      onChange={updatePlotNumber}
+                    />
+                  </div>
+                  {plotNumberError && <p className='text-[#FF0000] text-xs font-sans'>Please Enter Plot Number</p>}
+                </div>
+                :
+                <div className='mb-5'>
+                  <div className='flex gap-1 mb-4'>
+                    <p className='text-[#1D3A76] text-sm font-medium font-sans'>Flat No.</p>
+                    <IconAsterisk size={8} color='#FF0000' />
+                  </div>
+                  <div className='border border-[#909090] rounded-md w-[20%] px-3'>
+                    <input
+                      type="number"
+                      id="flatno"
+                      className='text-[14px] w-full py-1 outline-none'
+                      autoComplete='off'
+                      placeholder='Flat Number'
+                      value={flatNumber}
+                      onChange={updateFlatNumber}
+                    />
+                  </div>
+                  {flatNumber && <p className='text-[#FF0000] text-xs font-sans'>Please Enter Flat Number</p>}
+                </div>
+            }
+            {
+              (propertySubType === "Retail Shop" || propertySubType === "Show Room" || propertySubType === "Plot" || propertySubType === "Others") ?
+                <div className='mb-5'>
+                  <div className='flex gap-1 mb-4'>
+                    <p className='text-[#1D3A76] text-sm font-medium font-sans'>Suitable</p>
+                    <IconAsterisk size={8} color='#FF0000' />
+                  </div>
+                  <select
+                    id="suitablefor"
+                    className="bg-gray-50 border border-[#909090] w-[20%] px-3 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5"
+                    value={suitableFor}
+                    onChange={updateSuitableFor}
+                  >
+                    <option selected>Choose</option>
+                    <option value="Jewellary">Jewellary</option>
+                    <option value="Gym">Gym</option>
+                    <option value="Grocery">Grocery</option>
+                    <option value="Clinic">Clinic</option>
+                    <option value="Footwear">Footwear</option>
+                    <option value="Electronics">Electronics</option>
+                    <option value="Clothing">Clothing</option>
+                    <option value="Others">Others</option>
+                  </select>
+                  {suitableForError && <p className='text-[#FF0000] text-xs font-sans'>Please select one</p>}
+                </div>
+                :
+                <div className='mb-5'>
+                  <div className='flex gap-1 mb-4'>
+                    <p className='text-[#1D3A76] text-sm font-medium font-sans'>Zone Type</p>
+                    <IconAsterisk size={8} color='#FF0000' />
+                  </div>
+                  <select
+                    id="suitablefor"
+                    className="bg-gray-50 border border-[#909090] w-[20%] px-3 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5"
+                    value={zoneType}
+                    onChange={updateZoneType}
+                  >
+                    <option selected>Choose</option>
+                    <option value="Industrial">Industrial</option>
+                    <option value="Commercial">Commercial</option>
+                    <option value="Special Economic Zone">Grocery</option>
+                    <option value="Open Spaces">Open Spaces</option>
+                    <option value="Agricultural Zone">Agricultural Zone</option>
+                    <option value="Others">Others</option>
+                  </select>
+                  {zoneTypeError && <p className='text-[#FF0000] text-xs font-sans'>Please select one</p>}
+                </div>
+            }
+          </>
+        }
 
         <div className='my-5'>
           <p className='text-[#1D3A76] text-sm mb-4 font-medium font-sans'>Add Additional Details</p>
@@ -1220,7 +1735,7 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
           </div>
           {openParkingError && <p className='text-[#FF0000] text-xs font-sans'>Please select open parking</p>}
         </div>
-        <div className='my-6'>
+        {/* <div className='my-6'>
           <div className='flex gap-1'>
             <p className='text-[#1D3A76] text-sm font-medium font-sans'>Address</p>
             <IconAsterisk size={8} color='#FF0000' />
@@ -1249,7 +1764,7 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
             </div>
           </div>
           {servantRoomError && <p className='text-[#FF0000] text-xs font-sans'>Please select servant room</p>}
-        </div>
+        </div> */}
         <div className='mt-6'>
           <div className='flex gap-1'>
             <p className='text-[#1D3A76] text-sm font-medium font-sans'>Property Description</p>
