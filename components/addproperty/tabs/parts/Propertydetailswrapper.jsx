@@ -831,7 +831,7 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
       setOwnerShip(propertyDetails?.ownership_type)
       setZoneType(propertyDetails?.zone_types)
       setUnitCost(propertyDetails?.builtup_unit)
-      setPlotArea(propertyDetails?.carpet_area?.toString())
+      setPlotArea(propertyDetails?.plot_area?.toString())
       setPropertyDescription(propertyDetails?.description)
       setAddress(propertyDetails?.google_address)
       setLengthArea(propertyDetails?.length_area?.toString())
