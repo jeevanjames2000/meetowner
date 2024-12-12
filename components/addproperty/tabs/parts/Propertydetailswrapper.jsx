@@ -1005,6 +1005,7 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
       </svg>
     )
   }
+
   return (
     <div className='relative'>
       <div className='py-2 bg-[#E2EAED]'>
@@ -1346,7 +1347,7 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
           </>
         }
         {
-          getpropertyDetails?.property_in === "Commercial" && getpropertyDetails?.property_for === "Sell" &&
+          getpropertyDetails?.property_in && getpropertyDetails?.property_for === "Sell" &&
           <div className='mb-5'>
             <div className='flex gap-1 mb-4'>
               <p className='text-[#1D3A76] text-sm font-medium font-sans'>Available From</p>
@@ -2083,7 +2084,6 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
         </Modal>
       }
     </div>
-
   )
 }
 
