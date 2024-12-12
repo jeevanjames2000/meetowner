@@ -140,16 +140,19 @@ function Loginform() {
         }
         closeOtpModal()
         updateAuthDetails(userDetails, accessToken);
-        toast.success('otp Verified Successfully', {
-            position: 'top-right',
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-        });
         router.push('/dashboard');
+        setTimeout(() => {
+            toast.success('otp Verified Successfully', {
+                position: 'top-right',
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+            setIsLoadingEffect(false);
+        }, 3000);
     }
 
     return (
