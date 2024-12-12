@@ -12,5 +12,8 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
-
+/* styles for the signup form */
+.custom-shadow {
+  box-shadow: 4px 0px 10px rgba(0, 0, 0, 0.2); 
+}
 
