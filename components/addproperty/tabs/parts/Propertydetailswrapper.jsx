@@ -16,6 +16,9 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
   let access_token = userInfo?.access_token || null
   const getpropertyDetails = usePropertyDetails((state) => state.propertydetails)
 
+  const property_in = getpropertyDetails?.property_in
+  const property_for = getpropertyDetails?.property_for
+
   const searchParams = useSearchParams()
   const active_step = searchParams.get('active_step')
   const status = searchParams.get('status')
@@ -432,6 +435,116 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
 
   const updatePropertyDetails = () => {
     setIsLoadingEffect(true)
+    if (property_in === "Residencial" && property_for === "Sell") {
+      if (propertySubType === 'Apartment' || propertySubType === 'Flat' || propertySubType === 'Land') {
+        if (constructionStatus === "Ready to move") {
+          if (bhk === '') {
+            setIsLoadingEffect(false)
+            setBhkError('Please select BHK')
+            return false;
+          }
+          if (bathroom === '') {
+            setIsLoadingEffect(false)
+            setBathroomError('Please select bathroom')
+            return false;
+          }
+          if (balcony === '') {
+            setIsLoadingEffect(false)
+            setBalconyError('Please select balcony')
+            return false;
+          }
+          if (furnishType === '') {
+            setIsLoadingEffect(false)
+            setFurnishTypeError('Please select furnish type')
+            return false;
+          }
+          if (availableFromDate === '') {
+            setIsLoadingEffect(false)
+            setAvailableFromDateError('Please select available from date')
+            return false;
+          }
+          if (ageofProperty === '') {
+            setIsLoadingEffect(false)
+            setAgeofPropertyError('Please enter age of property')
+            return false;
+          }
+          if (builtupArea === '') {
+            setIsLoadingEffect(false)
+            setBuiltupAreaError('Please enter builtup area')
+            return false;
+          }
+          if (carpetArea === '') {
+            setIsLoadingEffect(false)
+            setCarpetAreaError('Please enter carpet area')
+            return false;
+          }
+          if (unitCost === '') {
+            setIsLoadingEffect(false)
+            setUnitCostError('Please enter unit cost')
+            return false;
+          }
+          if (propertyCost === '') {
+            setIsLoadingEffect(false)
+            setPropertyCostError('Please enter property cost')
+            return false;
+          }
+
+        }
+      } else {
+        if (constructionStatus === "Ready to move") {
+          if (availableFromDate === '') {
+            setIsLoadingEffect(false)
+            setAvailableFromDateError('Please select available from date')
+            return false;
+          }
+          if (ageofProperty === '') {
+            setIsLoadingEffect(false)
+            setAgeofPropertyError('Please enter age of property')
+            return false;
+          }
+          if (plotArea === '') {
+            setIsLoadingEffect(false)
+            setPlotAreaError('Please enter plot area')
+            return false;
+          }
+          if (lengthArea === '') {
+            setIsLoadingEffect(false)
+            setLengthAreaError('Please enter length area')
+            return false;
+          }
+          if (widthArea === '') {
+            setIsLoadingEffect(false)
+            setWidthAreaError('Please enter width area')
+            return false;
+          }
+          if (unitCost === '') {
+            setIsLoadingEffect(false)
+            setUnitCostError('Please enter unit cost')
+            return false;
+          }
+          if (propertyCost === '') {
+            setIsLoadingEffect(false)
+            setPropertyCostError('Please enter property cost')
+            return false;
+          }
+        }
+      }
+      if (constructionStatus !== "Ready to move") {
+        if (possessionEndDate === '') {
+          setIsLoadingEffect(false)
+          setPossessionEndDateError('Please select possession end date')
+          return false;
+        }
+      }
+
+      if (propertySubType === "Independent House" || propertySubType === "Independent Villa") {
+        if (pentHouse === '') {
+          setIsLoadingEffect(false)
+          setPentHouseError('Please select pent house')
+          return false;
+        }
+      }
+    }
     // if (propertySubType === '') {
     //   setIsLoadingEffect(false)
     //   setPropertySubTypeError('Please select property type')
@@ -1623,24 +1736,28 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
                   />
                   {widthAreaError && <p className='text-[#FF0000] text-xs font-sans'>Please enter width area</p>}
                 </div>
-                <div className='mb-5'>
-                  <div className='flex gap-1 mb-4'>
-                    <p className='text-[#1D3A76] text-sm font-medium font-sans'>Pent House</p>
-                    <IconAsterisk size={8} color='#FF0000' />
-                  </div>
-                  <div className='flex flex-row items-center gap-6'>
-                    <div onClick={() => updatePentHouse('Yes')} className={`group cursor-pointer px-8 py-2 rounded-md  ${pentHouse === 'Yes' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                      <p className={`text-[10px] font-sans ${pentHouse === 'Yes' ? 'text-white ' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Yes</p>
-                    </div>
-                    <div onClick={() => updatePentHouse('No')} className={`group cursor-pointer px-8 py-2 rounded-md  ${pentHouse === 'No' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                      <p className={`text-[10px] font-sans ${pentHouse === 'No' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>No</p>
-                    </div>
-                  </div>
-                  {pentHouseError && <p className='text-[#FF0000] text-xs font-sans'>Please select one option</p>}
-                </div>
               </>
               :
               null
+          }
+          {
+            getpropertyDetails?.property_in && getpropertyDetails.property_for &&
+            (propertySubType === "Independent House" || propertySubType === "Independent Villa") &&
+            <div className='mb-5'>
+              <div className='flex gap-1 mb-4'>
+                <p className='text-[#1D3A76] text-sm font-medium font-sans'>Pent House</p>
+                <IconAsterisk size={8} color='#FF0000' />
+              </div>
+              <div className='flex flex-row items-center gap-6'>
+                <div onClick={() => updatePentHouse('Yes')} className={`group cursor-pointer px-8 py-2 rounded-md  ${pentHouse === 'Yes' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${pentHouse === 'Yes' ? 'text-white ' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Yes</p>
+                </div>
+                <div onClick={() => updatePentHouse('No')} className={`group cursor-pointer px-8 py-2 rounded-md  ${pentHouse === 'No' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${pentHouse === 'No' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>No</p>
+                </div>
+              </div>
+              {pentHouseError && <p className='text-[#FF0000] text-xs font-sans'>Please select one option</p>}
+            </div>
           }
           {
             getpropertyDetails?.property_in === 'Residencial' && getpropertyDetails.property_for === "Sell" && propertySubType ?
