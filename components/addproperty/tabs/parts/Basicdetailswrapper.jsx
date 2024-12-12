@@ -8,11 +8,13 @@ import { toast } from 'react-toastify';
 import Errorpanel from '@/components/shared/Errorpanel';
 import { Modal } from '@nayeshdaggula/tailify';
 import LoadingOverlay from '@/components/shared/LoadingOverlay';
+import { usePropertyDetails } from '@/components/zustand/usePropertyDetails';
 
 function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails }) {
     const userInfo = useUserDetails((state) => state.userInfo)
     const access_token = useUserDetails(state => state.access_token);
     let user_id = userInfo?.user_id || null
+    const updatePropertyDetails = usePropertyDetails(state => state.updatePropertyDetails)
     const searchParams = useSearchParams()
     const router = useRouter()
     const [isLoadingEffect, setIsLoadingEffect] = useState(false)
@@ -26,6 +28,7 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
     const [lookingTo, setLookingTo] = useState('')
     const [lookingToError, setLookingToError] = useState('')
     const updateLookingTo = (type) => {
+        setTransactionType('')
         setLookingTo(type)
         if (type !== 'Sell') {
             setTransactionType('')
@@ -99,7 +102,10 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
                 })
                 let property_id = data?.property?.unique_property_id
                 updateActiveTab('propertydetails', 'inprogress', property_id)
-
+                updatePropertyDetails({
+                    property_in: propertyType,
+                    property_for: lookingTo,
+                })
             })
             .catch((error) => {
                 console.log(error)
@@ -164,9 +170,9 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
                         <div onClick={() => updateLookingTo('Rent')} className={`group cursor-pointer px-8 py-2 rounded-md  ${lookingTo === 'Rent' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
                             <p className={`${lookingTo === 'Rent' ? 'text-white text-[10px]' : 'text-[#1D3A76] text-[10px] font-semibold group-hover:text-white'}`}>Rent</p>
                         </div>
-                        <div onClick={() => updateLookingTo('Pgorcoliving')} className={`group cursor-pointer px-8 py-2 rounded-md  ${lookingTo === 'Pgorcoliving' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                        {/* <div onClick={() => updateLookingTo('Pgorcoliving')} className={`group cursor-pointer px-8 py-2 rounded-md  ${lookingTo === 'Pgorcoliving' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
                             <p className={`${lookingTo === 'Pgorcoliving' ? 'text-white text-[10px]' : 'text-[#1D3A76] text-[10px] font-semibold group-hover:text-white'}`}>PG/Co-living</p>
-                        </div>
+                        </div> */}
                     </div>
                     {lookingToError && <p className='text-red-500 text-[10px] mt-2'>{lookingToError}</p>}
                     {
