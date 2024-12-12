@@ -13,7 +13,7 @@ function Checkoutpropertywrappercard(item) {
                 src={item.image}
                 alt={"property"}
                 className="object-cover rounded-lg"
-                layout="fill" // Ensures the image fills the container without distortion
+                fill
             />
         </div>
     

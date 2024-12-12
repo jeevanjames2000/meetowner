@@ -2,12 +2,18 @@
 import React, { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { useUserDetails } from "../zustand/useUserDetails";
 const Mainnavigation = () => {
+    const resetAuthdetails = useUserDetails((state) => state.resetAuthdetails);
+    const router = useRouter();
     const pathname = usePathname();
     const isActive = (path) => pathname === path;
     const [open, setOpen] = useState(false);
-
+    const handleLogout = () => {
+        resetAuthdetails();
+        router.push('/');
+    }
     return (
         <>
             <div className="flex flex-row items-center justify-between  gap-10">
@@ -45,9 +51,9 @@ const Mainnavigation = () => {
                                     </Link>
                                     <div>
                                         <div className="border-[1px] mb-2"></div>
-                                        <Link href="#">
+                                        <div onClick={handleLogout} className="cursor-pointer">
                                             <p className='text-[12px] text-[#D23F4F] font-semibold text-center '>Logout</p>
-                                        </Link>
+                                        </div>
                                     </div>
                                 </div>
                             </motion.div>
