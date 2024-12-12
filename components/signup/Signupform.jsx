@@ -1,7 +1,6 @@
 'use client';
-import { Pininput, Select, Textinput } from '@nayeshdaggula/tailify';
+import { Textinput } from '@nayeshdaggula/tailify';
 import React, { useEffect, useState } from 'react'
-import { IconEye, IconEyeOff } from '@tabler/icons-react';
 import Authapi from '../api/Authapi';
 import { toast } from 'react-toastify'
 import LoadingOverlay from '../shared/LoadingOverlay';
@@ -221,7 +220,6 @@ function SignupForm() {
     return (
         <>
             <div className="signupform flex flex-col w-[370px] h-fit gap-4">
-                {/* Tabs Section */}
                 <div className="flex flex-col rounded-[20px] ">
                     <div className="flex">
                         <div

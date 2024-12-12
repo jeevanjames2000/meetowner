@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation';
 import { useUserDetails } from '../zustand/useUserDetails';
 import { Modal, Textinput } from '@nayeshdaggula/tailify';
 import OtpModal from '../signup/OtpModal';
+import axios from 'axios';
 
 function Loginform() {
     const router = useRouter();
@@ -158,7 +159,7 @@ function Loginform() {
                     <form onSubmit={handleLoginform}>
                         <div className=' flex flex-col bg-white h-fit py-4 px-3 gap-2'>
                             <p className='text-sm font-semibold'>Mobile Number</p>
-                            <div className='flex flex-row items-center w-full  '>
+                            <div className='flex flex-row items-center'>
                                 <div className='w-[20%]'>
                                     <Textinput
                                         value='+91'
