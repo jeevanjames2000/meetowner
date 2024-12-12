@@ -8,96 +8,104 @@ import { toast } from 'react-toastify';
 import Authapi from '../api/Authapi';
 import { useRouter } from 'next/navigation';
 import { useUserDetails } from '../zustand/useUserDetails';
-import { Modal } from '@nayeshdaggula/tailify';
+import { Modal, Textinput } from '@nayeshdaggula/tailify';
+import OtpModal from '../signup/OtpModal';
 
 function Loginform() {
     const router = useRouter();
     const updateAuthDetails = useUserDetails((state) => state.updateAuthDetails);
     const [isLoadingEffect, setIsLoadingEffect] = useState(false);
     const [errorMessages, setErrorMessages] = useState('');
-    const [showPassword, setShowPassword] = useState(false);
-    const [email, setEmail] = useState('');
-    const [emailError, setEmailError] = useState('');
-    const updateEmail = (e) => {
-        setEmail(e.target.value);
-        setEmailError('');
+
+    const [mobile, setMobile] = useState('')
+    const [mobileError, setMobileError] = useState('')
+    const updateMobile = (e) => {
+        let value = e.target.value;
+        //allow only numbers
+        if (isNaN(value)) {
+            return false;
+        }
+
+        //allow only 10 digits
+        if (value.length > 10) {
+            return false;
+        }
+
+        setMobile(value);
+        setMobileError('')
     }
 
-    const [password, setPassword] = useState('');
-    const [passwordError, setPasswordError] = useState('');
-    const updatePassword = (e) => {
-        setPassword(e.target.value);
-        setPasswordError('');
+
+    const [otpModal, setOtpModal] = useState(false);
+    const openOtpModal = () => {
+        setOtpModal(true);
+    }
+    const closeOtpModal = () => {
+        setOtpModal(false);
     }
 
-    const [isModalOpen, setModalOpen] = useState(false);
+    const [otpNumber, setOtpNumber] = useState('');
+    const updateOtpNumber = (value) => {
+        setOtpNumber(value);
+    }
+    const [userDetails, setUserDetails] = useState({});
+    const [accessToken, setAccessToken] = useState('');
 
-    const handleLogin = (e) => {
+    const [errorModalOpen, setErrorModalOpen] = useState(false);
+
+    const handleLoginform = (e) => {
         setIsLoadingEffect(true);
         e.preventDefault();
-        if (email === '') {
-            setIsLoadingEffect(false);
-            setEmailError('Email is required');
-            return false;
-        }
-
-        const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-        if (!emailPattern.test(email)) {
-            setEmailError('Invalid email address');
+        if (mobile === '') {
+            setMobileError('Mobile number is required');
             setIsLoadingEffect(false);
             return false;
-        }
-
-        if (password === '') {
+        } else if (mobile.length < 10) {
+            setMobileError('Mobile number should be 10 digits');
             setIsLoadingEffect(false);
-            setPasswordError('Password is required');
             return false;
         }
 
         Authapi.post('/login', {
-            email: email,
-            password: password
+            mobile: mobile
         }).then((response) => {
             const data = response.data
             if (data.status === 'error') {
                 let finalresponse = {
                     'message': data.message,
-                    'server_res': data
                 }
                 setErrorMessages(finalresponse);
-                setModalOpen(true);
+                setErrorModalOpen(true);
                 setIsLoadingEffect(false);
                 return false;
             } else if (data.status === 'error_user_not_found') {
                 let finalresponse = {
                     'message': data.message,
-                    'server_res': data
                 }
                 setErrorMessages(finalresponse);
-                setModalOpen(true);
-                setIsLoadingEffect(false);
-                return false;
-            } else if (data.status === 'error_invalid_password') {
-                let finalresponse = {
-                    'message': data.message,
-                    'server_res': data
-                }
-                setErrorMessages(finalresponse);
-                setModalOpen(true);
+                setErrorModalOpen(true);
                 setIsLoadingEffect(false);
                 return false;
             } else {
-                toast.success(data.message, {
-                    position: 'top-right',
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                });
-                updateAuthDetails(data.user_details, data.accessToken);
-                router.push('/dashboard');
+                // toast.success(data.message, {
+                //     position: 'top-right',
+                //     autoClose: 5000,
+                //     hideProgressBar: false,
+                //     closeOnClick: true,
+                //     pauseOnHover: true,
+                //     draggable: true,
+                //     progress: undefined,
+                // });
+                // updateAuthDetails(data.user_details, data.accessToken);
+                // router.push('/dashboard');
+                // setTimeout(() => {
+                //     setIsLoadingEffect(false);
+                // }, 3000);
+                // return false;
+                openOtpModal()
+                setUserDetails(data?.user_details);
+                setAccessToken(data?.accessToken);
+                setOtpNumber(data?.user_details?.otpNumber);
                 setTimeout(() => {
                     setIsLoadingEffect(false);
                 }, 3000);
@@ -118,75 +126,95 @@ function Loginform() {
                 };
             }
             setErrorMessages(finalresponse);
-            setModalOpen(true);
+            setErrorModalOpen(true);
             setIsLoadingEffect(false);
             return false;
         })
     }
 
+    const handleVerifyOtp = () => {
+        if (otpNumber === '') {
+            alert('Please enter OTP number')
+            return false;
+        }
+        closeOtpModal()
+        updateAuthDetails(userDetails, accessToken);
+        toast.success('otp Verified Successfully', {
+            position: 'top-right',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+        router.push('/dashboard');
+    }
+
     return (
         <>
-            <form onSubmit={handleLogin} className='space-y-4'>
-                <div className="flex flex-col space-y-1">
-                    <label className=" font-[500]  text-[16px]">Email*</label>
-                    <input
-                        type="text"
-                        id="email"
-                        placeholder="Enter email"
-                        className="border rounded-sm h-9 pl-2 focus:outline focus:outline-black"
-                        value={email}
-                        onChange={updateEmail}
-                    />
-                    {emailError && <p className="text-red-500 text-[14px]">{emailError}</p>}
-                </div>
-                <div>
-                    <label className="text-gray-700 font-[500]">Password*</label>
-                    <div className="relative">
-                        <input
-                            type={showPassword ? 'text' : 'password'}
-                            id="password"
-                            placeholder="Enter password"
-                            className="w-full border border-gray-300 rounded-sm h-9 pl-2 text-gray-700 focus:outline focus:outline-black "
-                            value={password}
-                            onChange={updatePassword}
-                        />
-                        <button
-                            type="button"
-                            onClick={() => setShowPassword(!showPassword)}
-                            className="absolute inset-y-0 right-3 flex items-center font-thin "
-                        >
-                            {showPassword ? <IconEye size={18} color='#6B7280' /> : <IconEyeOff size={16} color='#6B7280' />}
-                        </button>
-                    </div>
-                    {passwordError && <p className="text-red-500 text-[14px]">{passwordError}</p>}
-                </div>
-                <div className='flex flex-col space-y-4 pt-4'>
-                    <div className=' flex flex-row justify-between'>
-                        <div className="flex items-center">
-                            <input
-                                type="checkbox"
-                                className=" h-3 w-3  mr-2 border  border-[#FBAF01]"
-                            />
-                            <p className=" text-[14px] font-[200]">Remember me</p>
+            <div className="flex flex-col w-[370px] h-fit gap-4">
+                <div className="flex flex-col rounded-[20px] ">
+                    <form onSubmit={handleLoginform}>
+                        <div className=' flex flex-col bg-white h-fit py-4 px-3 gap-2'>
+                            <p className='text-sm font-semibold'>Mobile Number</p>
+                            <div className='flex flex-row items-center w-full  '>
+                                <div className='w-[20%]'>
+                                    <Textinput
+                                        value='+91'
+                                        placeholder="+91"
+                                        inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none'
+                                        inputProps={{ readOnly: true }}
+                                    />
+                                </div>
+                                <div className='w-[80%]'>
+                                    <Textinput
+                                        type='number'
+                                        placeholder="Enter Mobile Number"
+                                        inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none'
+                                        value={mobile}
+                                        onChange={updateMobile}
+                                        error={mobileError}
+                                    />
+                                </div>
+                            </div>
+                            <button
+                                onClick={handleLoginform}
+                                className=" text-sm rounded-md px-4 py-2  bg-[#ffd119] w-full">
+                                Login
+                            </button>
                         </div>
-                        <Link href="/forgotpassword" className=' text-[#FBAF01] text-[14px] font-[200] '>Forgot Password?</Link>
-                    </div>
-                    <div className=' space-y-2'>
-                        <button onClick={handleLogin} className=' h-9 w-full font-medium border rounded-sm bg-[#FBAF01] text-[#ffffff]'>
-                            Log In
-                        </button>
-                        <p className=' text-[14px] text-[#898989] text-center '>
-                            Don't have an account? <Link href='/signup' className=' text-black   font-medium'>Sign up</Link>
-                        </p>
-                    </div>
+                    </form>
                 </div>
-                <LoadingOverlay isLoading={isLoadingEffect} />
-            </form>
-
-            {isModalOpen &&
+                <div className='flex flex-row items-center justify-center bg-[#1D3A76] rounded-full'>
+                    <p className='text-sm text-[#ffffff]'>Don't have an Account?</p>
+                    <Link href='/signup'
+                        className=" text-sm px-1 py-1 text-[#FBAF01] ">
+                        Signup
+                    </Link>
+                </div>
+            </div>
+            <LoadingOverlay isLoading={isLoadingEffect} />
+            {
+                otpModal &&
                 <Modal
-                    open={isModalOpen}
-                    onClose={() => setModalOpen(false)}
+                    open={otpModal}
+                    onClose={closeOtpModal}
+                    size="sm"
+                    zIndex={9999}
+                    withCloseButton={false}
+                >
+                    <OtpModal
+                        otpNumber={otpNumber}
+                        updateOtpNumber={updateOtpNumber}
+                        handleVerifyOtp={handleVerifyOtp}
+                    />
+                </Modal>
+            }
+            {errorModalOpen &&
+                <Modal
+                    open={errorModalOpen}
+                    onClose={() => setErrorModalOpen(false)}
                     size="md"
                     zIndex={9999}
                 >
@@ -195,7 +223,7 @@ function Loginform() {
                     />
                     <div className='flex flex-row justify-end'>
                         <button
-                            onClick={() => setModalOpen(false)}
+                            onClick={() => setErrorModalOpen(false)}
                             className="mt-2 mx-4 px-4 py-2 text-[12px] bg-red-500 text-white rounded hover:bg-red-600"
                         >
                             Close

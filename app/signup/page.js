@@ -1,15 +1,10 @@
-
 import Header from '@/components/header/Header'
-
 import React from 'react'
 import signup_bg from '@/public/assets/signup_bg.jpg'
 import signup_list from '@/public/assets/signup_list.svg'
 import person_with_laptop from '@/public/assets/person_with_laptop.png'
-
 import Image from 'next/image'
 import Signupform from '@/components/signup/Signupform'
-
-
 function page() {
   return (
     <>
@@ -75,26 +70,6 @@ function page() {
         </div>
       </div>
     </>
-
-    // <div className='w-full'>
-    //   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 h-screen  ">
-    //     <div className="flex gap-4 col-span-1 ">
-    //       <Signupswiper />
-    //     </div>
-    //     <div className="flex gap-4 col-span-1 items-center justify-center">
-    //       <div className="flex flex-col w-fit  space-y-10 ">
-    //         <div>
-    //           <Image
-    //             src={logo}
-    //             alt='logo'
-    //             className='w-[150px]'
-    //           />
-    //         </div>
-    //         <Signupform />
-    //       </div>
-    //     </div>
-    //   </div>
-    // </div>
   )
 }
 
