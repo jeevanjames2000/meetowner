@@ -1682,7 +1682,7 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
         {/* ownership */}
         {
           getpropertyDetails?.property_in === 'Commercial' &&
-          <div className='mb-5'>
+          <div className='mb-5 mt-2'>
             <div className='flex gap-1'>
               <p className='text-[#1D3A76] text-sm font-medium font-sans'>Ownership</p>
               <IconAsterisk size={8} color='#FF0000' />
@@ -1786,7 +1786,7 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
                       onChange={updateFlatNumber}
                     />
                   </div>
-                  {flatNumber && <p className='text-[#FF0000] text-xs font-sans'>Please Enter Flat Number</p>}
+                  {flatNumberError && <p className='text-[#FF0000] text-xs font-sans'>Please Enter Flat Number</p>}
                 </div>
             }
             {
