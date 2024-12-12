@@ -4,10 +4,13 @@ import Link from 'next/link';
 import React, { useEffect, useState } from 'react'
 import logo from '@/public/assets/logo.png'
 import Mainnavigation from './Mainnavigation';
-import { IconHomePlus } from '@tabler/icons-react';
+import { IconDeviceIpad, IconHomePlus, IconUser } from '@tabler/icons-react';
 import { motion } from 'framer-motion'
 import { usePathname } from 'next/navigation';
+import { useUserDetails } from '../zustand/useUserDetails';
 function Header() {
+    const userInfo = useUserDetails((state) => state.userInfo);
+    const isLogged = useUserDetails((state) => state.isLogged);
     const pathname = usePathname();
     const isActive = (path) => pathname === path;
     const [scrollY, setScrollY] = useState(0);
@@ -36,24 +39,46 @@ function Header() {
             transition={{ duration: 0.3 }}
             className={`h-[65px] bg-[#F2F2F2] w-full py-2 px-[80px] transition-all duration-1000 ${scrollY > 120 ? 'fixed top-0 z-50 shadow-lg' : ''}`}
         >
-            {/* <div className='h-[65px] bg-[#F2F2F2] w-full py-3 shadow-lg px-[80px]'> */}
             <div className="flex flex-row justify-between items-center">
                 <Link href="/dashboard">
                     <Image src={logo} alt={'logo'} height={100} width={120} />
                 </Link>
-                <Mainnavigation />
-                <div>
-                    {
-                        pathname === '/addproperty' ? null : (
-                            <Link href="/addproperty" className='bg-[#1D3A76] flex flex-row items-center gap-2 p-2 rounded-md'>
-                                <IconHomePlus color='#fff' size={18} />
-                                <button className='text-white text-sm font-medium'>Add Property</button>
-                            </Link>
-                        )
-                    }
-                </div>
+                {
+                    isLogged ?
+                        <>
+                            <Mainnavigation />
+                            <div>
+                                {
+                                    pathname === '/addproperty' ? null : (
+                                        <Link href="/addproperty" className='bg-[#1D3A76] flex flex-row items-center gap-2 p-2 rounded-md'>
+                                            <IconHomePlus color='#fff' size={18} />
+                                            <button className='text-white text-sm font-medium'>Add Property</button>
+                                        </Link>
+                                    )
+                                }
+                            </div>
+                        </>
+                        :
+                        <div className='flex flex-row justify-start items-center gap-4'>
+                            <div className='flex flex-row items-center justify-start gap-2'>
+                                <IconDeviceIpad color='#1D3A76' size={18} />
+                                <Link href="#" className='text-[#1D3A76] text-sm font-medium font-sans'>Download App</Link>
+                            </div>
+                            <div>
+                                <Link href="/addproperty" className='flex flex-row items-center gap-2 p-2 rounded-md'>
+                                    <IconHomePlus color='#1D3A76' size={18} />
+                                    <button className='text-[#1D3A76] text-sm font-medium font-sans'>Add Property</button>
+                                </Link>
+                            </div>
+                            <div>
+                                <Link href="/" className='bg-[#1D3A76] flex flex-row items-center gap-2 py-2 px-4 rounded-md'>
+                                    <IconUser color='#fff' size={18} />
+                                    <button className='text-white text-sm font-medium font-sans'>Login</button>
+                                </Link>
+                            </div>
+                        </div>
+                }
             </div>
-            {/* </div> */}
         </motion.div>
     )
 }
