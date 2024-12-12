@@ -107,8 +107,8 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
 
   const [ageofProperty, setAgeofProperty] = useState('')
   const [ageofPropertyError, setAgeofPropertyError] = useState('')
-  const updateAgeofProperty = (e) => {
-    setAgeofProperty(e.target.value)
+  const updateAgeofProperty = (value) => {
+    setAgeofProperty(value)
     setAgeofPropertyError('')
   }
 
@@ -269,8 +269,8 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
 
   const [areaUnits, setAreaUnits] = useState('sq.ft')
   const [areaUnitsError, setAreaUnitsError] = useState('')
-  const updateAreaUnits = (e) => {
-    setAreaUnits(e.target.value)
+  const updateAreaUnits = (value) => {
+    setAreaUnits(value)
     setAreaUnitsError('')
   }
 
@@ -410,15 +410,15 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
 
   const [suitableFor, setSuitableFor] = useState('')
   const [suitableForError, setSuitableForError] = useState('')
-  const updateSuitableFor = (e) => {
-    setSuitableFor(e.target.value)
+  const updateSuitableFor = (value) => {
+    setSuitableFor(value)
     setSuitableForError('')
   }
 
   const [zoneType, setZoneType] = useState('')
   const [zoneTypeError, setZoneTypeError] = useState('')
-  const updateZoneType = (e) => {
-    setZoneType(e.target.value)
+  const updateZoneType = (value) => {
+    setZoneType(value)
     setZoneTypeError('')
   }
 
@@ -846,36 +846,36 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
 
   useEffect(() => {
     if (propertyDetails) {
-      setPropertySubType(propertyDetails?.sub_type)
-      setReraApproved(propertyDetails?.rera_approved)
-      setConstructionStatus(propertyDetails?.occupancy)
+      setPropertySubType(propertyDetails?.sub_type || '')
+      setReraApproved(propertyDetails?.rera_approved || '')
+      setConstructionStatus(propertyDetails?.occupancy || '')
       if (parseInt(propertyDetails?.bedrooms) > 4) {
         setBhk('4plus')
-        setCustomBhk(propertyDetails?.bedrooms)
+        setCustomBhk(propertyDetails?.bedrooms || '')
       } else {
-        setBhk(propertyDetails?.bedrooms)
+        setBhk(propertyDetails?.bedrooms || '')
         setCustomBhk('')
       }
       if (parseInt(propertyDetails?.bathroom) > 4) {
         setBathroom('4plus')
-        setCustomBathroom(propertyDetails?.bathroom)
+        setCustomBathroom(propertyDetails?.bathroom || '')
       } else {
-        setBathroom(propertyDetails?.bathroom)
+        setBathroom(propertyDetails?.bathroom || '')
         setCustomBathroom('')
       }
       if (parseInt(propertyDetails?.balconies) > 4) {
         setBalcony('4plus')
-        setCustomBalcony(propertyDetails?.balconies)
+        setCustomBalcony(propertyDetails?.balconies || '')
       } else {
-        setBalcony(propertyDetails?.balconies)
+        setBalcony(propertyDetails?.balconies || '')
         setCustomBalcony('')
       }
-      setFurnishType(propertyDetails?.furnished_status)
-      setAgeofProperty(propertyDetails?.property_age)
-      setAreaUnits(propertyDetails?.area_units)
-      setBuiltupArea(propertyDetails?.builtup_area)
-      setCarpetArea(propertyDetails?.carpet_area)
-      setPropertyCost(propertyDetails?.property_cost)
+      setFurnishType(propertyDetails?.furnished_status || '')
+      setAgeofProperty(propertyDetails?.property_age || '')
+      setAreaUnits(propertyDetails?.area_units || 'sq.ft')
+      setBuiltupArea(propertyDetails?.builtup_area || '')
+      setCarpetArea(propertyDetails?.carpet_area || '')
+      setPropertyCost(propertyDetails?.property_cost || '')
       const facilitiesString = propertyDetails?.facilities || "";
       const selectedFacilities = facilitiesString.split(", ").map((item) => item.trim());
       setFacilities((prevState) => {
@@ -887,43 +887,43 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
         });
         return updatedFacilities;
       });
-      setOtherInfo(propertyDetails?.other_info)
-      setFacing(propertyDetails?.facing)
+      setOtherInfo(propertyDetails?.other_info || '')
+      setFacing(propertyDetails?.facing || '')
       if (parseInt(propertyDetails?.car_parking) > 4) {
         setCarParking('4plus')
-        setCustomCarParking(propertyDetails?.car_parking)
+        setCustomCarParking(propertyDetails?.car_parking || '')
       } else {
-        setCarParking(propertyDetails?.car_parking)
+        setCarParking(propertyDetails?.car_parking || '')
         setCustomCarParking('')
       }
       if (parseInt(propertyDetails?.bike_parking) > 4) {
         setBikeParking('4plus')
-        setCustomBikeParking(propertyDetails?.bike_parking)
+        setCustomBikeParking(propertyDetails?.bike_parking || '')
       } else {
-        setBikeParking(propertyDetails?.bike_parking)
+        setBikeParking(propertyDetails?.bike_parking || '')
         setCustomBikeParking('')
       }
       if (parseInt(propertyDetails?.open_parking) > 4) {
         setOpenParking('4plus')
-        setCustomOpenParking(propertyDetails?.open_parking)
+        setCustomOpenParking(propertyDetails?.open_parking || '')
       } else {
-        setOpenParking(propertyDetails?.open_parking)
+        setOpenParking(propertyDetails?.open_parking || '')
         setCustomOpenParking('')
       }
 
-      setMaintenceCharges(propertyDetails?.maintenance)
-      setBrokerage(propertyDetails?.brokerage_charge)
-      setLockInPeriod(propertyDetails?.lock_in)
-      setMonthlyRent(propertyDetails?.monthly_rent)
-      setSecurityDeposit(propertyDetails?.security_deposit)
+      setMaintenceCharges(propertyDetails?.maintenance || '')
+      setBrokerage(propertyDetails?.brokerage_charge || '')
+      setLockInPeriod(propertyDetails?.lock_in || '')
+      setMonthlyRent(propertyDetails?.monthly_rent || '')
+      setSecurityDeposit(propertyDetails?.security_deposit || '')
 
-      setPassengerLifts(propertyDetails?.passenger_lifts)
-      setServiceLifts(propertyDetails?.service_lifts)
-      setStairCases(propertyDetails?.stair_cases)
-      setPrivateParking(propertyDetails?.private_parking)
-      setPublicParking(propertyDetails?.public_parking)
-      setPrivateWashrooms(propertyDetails?.private_washrooms)
-      setPublicWashrooms(propertyDetails?.public_washrooms)
+      setPassengerLifts(propertyDetails?.passenger_lifts || '')
+      setServiceLifts(propertyDetails?.service_lifts || '')
+      setStairCases(propertyDetails?.stair_cases || '')
+      setPrivateParking(propertyDetails?.private_parking || '')
+      setPublicParking(propertyDetails?.public_parking || '')
+      setPrivateWashrooms(propertyDetails?.private_washrooms || '')
+      setPublicWashrooms(propertyDetails?.public_washrooms || '')
       if (propertyDetails?.available_from) {
         let available_from = new Date(propertyDetails?.available_from)
         let available_from_date = available_from?.toISOString().split('T')[0]
@@ -936,21 +936,21 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
       }
       if (propertyDetails?.unit_flat_house_no) {
         if (propertyDetails?.sub_type === "Warehouse" || propertyDetails?.sub_type === "Plot" || propertyDetails?.sub_type === "Others") {
-          setPlotNumber(propertyDetails?.unit_flat_house_no)
+          setPlotNumber(propertyDetails?.unit_flat_house_no || '')
         } else {
-          setFlatNumber(propertyDetails?.unit_flat_house_no)
+          setFlatNumber(propertyDetails?.unit_flat_house_no || '')
         }
       }
-      setOwnerShip(propertyDetails?.ownership_type)
-      setZoneType(propertyDetails?.zone_types)
-      setUnitCost(propertyDetails?.builtup_unit)
-      setPlotArea(propertyDetails?.plot_area?.toString())
-      setPropertyDescription(propertyDetails?.description)
-      setAddress(propertyDetails?.google_address)
-      setLengthArea(propertyDetails?.length_area?.toString())
-      setWidthArea(propertyDetails?.width_area?.toString())
-      setSuitableFor(propertyDetails?.business_types)
-      setPentHouse(propertyDetails?.pent_house)
+      setOwnerShip(propertyDetails?.ownership_type || '')
+      setZoneType(propertyDetails?.zone_types || '')
+      setUnitCost(propertyDetails?.builtup_unit || '')
+      setPlotArea(propertyDetails?.plot_area?.toString() || '')
+      setPropertyDescription(propertyDetails?.description || '')
+      setAddress(propertyDetails?.google_address || '')
+      setLengthArea(propertyDetails?.length_area?.toString() || '')
+      setWidthArea(propertyDetails?.width_area?.toString() || '')
+      setSuitableFor(propertyDetails?.business_types || '')
+      setPentHouse(propertyDetails?.pent_house || '')
     }
   }, [propertyDetails])
 
@@ -1481,22 +1481,22 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
         }
         {
           (constructionStatus === 'Ready to move') || (getpropertyDetails?.property_in === "Commercial" && (propertySubType === "Warehouse" || propertySubType === "Plot" || propertySubType === "Others")) ?
-            <div className='mb-5'>
-              <div className='flex gap-1 mb-4'>
-                <p className='text-[#1D3A76] text-sm font-medium font-sans'>Age of Property </p>
-                <IconAsterisk size={8} color='#FF0000' />
-              </div>
-              <select
-                id="ageofproperty"
-                className="bg-gray-50 border border-[#909090] w-[20%] px-3 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5"
+            <div className='mb-5 w-[40%]'>
+              <Select
+                label='Age of Property'
+                labelClassName='!text-[#1D3A76] text-sm font-medium font-sans'
+                data={[
+                  { value: '5', label: '0-5' },
+                  { value: '10', label: '5-10' },
+                  { value: '11', label: 'Above 10' },
+                ]}
+                searchable
+                withAsterisk
                 value={ageofProperty}
                 onChange={updateAgeofProperty}
-              >
-                <option selected>Choose</option>
-                <option value="5">0-5</option>
-                <option value="10">5-10</option>
-                <option value="11">Above 10</option>
-              </select>
+                inputClassName='focus:ring-blue-500 focus:border-blue-500'
+                className='!m-0 !p-0'
+              />
               {ageofPropertyError && <p className='text-[#FF0000] text-xs font-sans'>Please select one</p>}
             </div>
             :
@@ -1632,20 +1632,21 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
             }
           </>
         }
-        <div className='mb-5'>
-          <div className='flex gap-1 mb-4'>
-            <p className='text-[#1D3A76] text-sm font-medium font-sans'>Area units</p>
-            <IconAsterisk size={8} color='#FF0000' />
-          </div>
-          <select
-            id="area units"
-            className="bg-gray-50 border border-[#909090] w-[20%] px-3 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5"
+        <div className='mb-5 w-[40%]'>
+          <Select
+            label='Area units'
+            labelClassName='!text-[#1D3A76] text-sm font-medium font-sans'
+            data={[
+              { value: 'sq.ft', label: 'sq.ft' },
+              { value: 'sq.yd', label: 'sq.yd' },
+            ]}
+            searchable
+            withAsterisk
             value={areaUnits}
             onChange={updateAreaUnits}
-          >
-            <option value="sq.ft" selected>sq.ft</option>
-            <option value="sq.yd">sq.yd</option>
-          </select>
+            inputClassName='focus:ring-blue-500 focus:border-blue-500'
+            className='!m-0 !p-0'
+          />
           {areaUnitsError && <p className='text-[#FF0000] text-xs font-sans'>Please select one</p>}
         </div>
         <div className='grid grid-cols-3 gap-2 mt-3'>
@@ -1799,7 +1800,7 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
         </div>
         {/* ownership */}
         {
-          getpropertyDetails?.property_in === 'Commercial' &&
+          (getpropertyDetails?.property_in === 'Commercial' && getpropertyDetails?.property_for === 'Sell') &&
           <div className='mb-5 mt-2'>
             <div className='flex gap-1'>
               <p className='text-[#1D3A76] text-sm font-medium font-sans'>Ownership</p>
@@ -1909,49 +1910,50 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
             }
             {
               (propertySubType === "Retail Shop" || propertySubType === "Show Room" || propertySubType === "Plot" || propertySubType === "Others") ?
-                <div className='mb-5'>
-                  <div className='flex gap-1 mb-4'>
-                    <p className='text-[#1D3A76] text-sm font-medium font-sans'>Suitable</p>
-                    <IconAsterisk size={8} color='#FF0000' />
-                  </div>
-                  <select
-                    id="suitablefor"
-                    className="bg-gray-50 border border-[#909090] w-[20%] px-3 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5"
+                <div className='mb-5 w-[40%]'>
+                  <Select
+                    label='Suitable'
+                    labelClassName='!text-[#1D3A76] text-sm font-medium font-sans'
+                    data={[
+                      { value: 'Jewellary', label: 'Jewellary' },
+                      { value: 'Gym', label: 'Gym' },
+                      { value: 'Grocery', label: 'Grocery' },
+                      { value: 'Clinic', label: 'Clinic' },
+                      { value: 'Footwear', label: 'Footwear' },
+                      { value: 'Electronics', label: 'Electronics' },
+                      { value: 'Clothing', label: 'Clothing' },
+                      { value: 'Others', label: 'Others' },
+                    ]}
+                    searchable
+                    withAsterisk
                     value={suitableFor}
                     onChange={updateSuitableFor}
-                  >
-                    <option selected>Choose</option>
-                    <option value="Jewellary">Jewellary</option>
-                    <option value="Gym">Gym</option>
-                    <option value="Grocery">Grocery</option>
-                    <option value="Clinic">Clinic</option>
-                    <option value="Footwear">Footwear</option>
-                    <option value="Electronics">Electronics</option>
-                    <option value="Clothing">Clothing</option>
-                    <option value="Others">Others</option>
-                  </select>
+                    inputClassName='focus:ring-blue-500 focus:border-blue-500'
+                    className='!m-0 !p-0'
+                  />
                   {suitableForError && <p className='text-[#FF0000] text-xs font-sans'>Please select one</p>}
                 </div>
                 :
-                <div className='mb-5'>
-                  <div className='flex gap-1 mb-4'>
-                    <p className='text-[#1D3A76] text-sm font-medium font-sans'>Zone Type</p>
-                    <IconAsterisk size={8} color='#FF0000' />
-                  </div>
-                  <select
-                    id="suitablefor"
-                    className="bg-gray-50 border border-[#909090] w-[20%] px-3 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5"
+                <div className='mb-5 w-[40%]'>
+                  <Select
+                    label='Zone Type'
+                    labelClassName='!text-[#1D3A76] text-sm font-medium font-sans'
+                    data={[
+                      { value: 'Industrial', label: 'Industrial' },
+                      { value: 'Commercial', label: 'Commercial' },
+                      { value: 'Grocery', label: 'Grocery' },
+                      { value: 'Special Economic Zone', label: 'Special Economic Zone' },
+                      { value: 'Open Spaces', label: 'Open Spaces' },
+                      { value: 'Agricultural Zone', label: 'Agricultural Zone' },
+                      { value: 'Others', label: 'Others' },
+                    ]}
+                    searchable
+                    withAsterisk
                     value={zoneType}
                     onChange={updateZoneType}
-                  >
-                    <option selected>Choose</option>
-                    <option value="Industrial">Industrial</option>
-                    <option value="Commercial">Commercial</option>
-                    <option value="Special Economic Zone">Grocery</option>
-                    <option value="Open Spaces">Open Spaces</option>
-                    <option value="Agricultural Zone">Agricultural Zone</option>
-                    <option value="Others">Others</option>
-                  </select>
+                    inputClassName='focus:ring-blue-500 focus:border-blue-500'
+                    className='!m-0 !p-0'
+                  />
                   {zoneTypeError && <p className='text-[#FF0000] text-xs font-sans'>Please select one</p>}
                 </div>
             }

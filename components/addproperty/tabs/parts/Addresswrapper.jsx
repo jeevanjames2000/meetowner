@@ -4,7 +4,7 @@ import Errorpanel from '@/components/shared/Errorpanel'
 import LoadingOverlay from '@/components/shared/LoadingOverlay'
 import { usePropertyDetails } from '@/components/zustand/usePropertyDetails'
 import { useUserDetails } from '@/components/zustand/useUserDetails'
-import { Modal } from '@nayeshdaggula/tailify'
+import { Modal, Select } from '@nayeshdaggula/tailify'
 import { IconAsterisk } from '@tabler/icons-react'
 import { useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
@@ -25,8 +25,8 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
   const [isLoadingEffect, setIsLoadingEffect] = useState(false)
   const [city, setCity] = useState('')
   const [cityError, setCityError] = useState(false)
-  const updateCity = (e) => {
-    setCity(e.target.value)
+  const updateCity = (value) => {
+    setCity(value)
     setCityError(false)
   }
 
@@ -89,15 +89,17 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
       setFlatNoError('please enter flat no')
       return false;
     }
-    if (floorNo === '') {
-      setIsLoadingEffect(false)
-      setFloorNoError('please enter floor no')
-      return false;
-    }
-    if (totalFloors === '') {
-      setIsLoadingEffect(false)
-      setTotalFloorsError('please enter total floors')
-      return false;
+    if (getpropertyDetails?.property_in === "Commercial" && getpropertyDetails?.property_for === "Sell") {
+      if (floorNo === '') {
+        setIsLoadingEffect(false)
+        setFloorNoError('please enter floor no')
+        return false;
+      }
+      if (totalFloors === '') {
+        setIsLoadingEffect(false)
+        setTotalFloorsError('please enter total floors')
+        return false;
+      }
     }
 
     Propertyapi.post('/addAddressdetails', {
@@ -157,18 +159,16 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
         setIsLoadingEffect(false);
         return false;
       })
-
   }
 
   useEffect(() => {
     if (addressDetails !== null) {
-      setCity(addressDetails?.city_id)
-      setPropertyName(addressDetails?.unit_flat_house_no)
-      setLocality(addressDetails?.locality)
-      setFlatNo(addressDetails?.unit_flat_house_no)
-      setFloorNo(addressDetails?.floors)
-      setTotalFloors(addressDetails?.total_floors)
-      setLocality(addressDetails?.location_id)
+      setCity(addressDetails?.city_id || '')
+      setPropertyName(addressDetails?.unit_flat_house_no || '')
+      setFlatNo(addressDetails?.unit_flat_house_no || '')
+      setFloorNo(addressDetails?.floors || '')
+      setTotalFloors(addressDetails?.total_floors || '')
+      setLocality(addressDetails?.location_id || '')
     }
   }, [addressDetails])
 
@@ -230,25 +230,23 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
         <div className='py-2 bg-[#E2EAED]'>
           <p className='text-lg font-bold text-[#1D3A76] text-center font-sans'>Add Address</p>
         </div>
-        <div className='w-full overflow-y-auto px-5 py-3' style={{ height: 'calc(100vh - 220px)' }}> <div className='mb-5'>
-          <div className='flex gap-1 mb-4'>
-            <p className='text-[#1D3A76] text-sm font-medium font-sans'>City</p>
-            <IconAsterisk size={8} color='#FF0000' />
+        <div className='w-full overflow-y-auto px-5 py-3' style={{ height: 'calc(100vh - 220px)' }}>
+          <div className='mb-5'>
+            <div className='w-[40%]'>
+              <Select
+                label='City'
+                labelClassName='!text-[#1D3A76] text-sm font-medium font-sans'
+                data={allCities}
+                searchable
+                withAsterisk
+                value={city}
+                onChange={updateCity}
+                inputClassName='focus:ring-blue-500 focus:border-blue-500'
+                className='!m-0 !p-0'
+              />
+            </div>
+            {cityError && <p className='text-[#FF0000] text-xs font-sans'>Please select one</p>}
           </div>
-          <select
-            id="city"
-            className="bg-gray-50 border border-[#909090] w-[20%] px-3 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block  p-2.5"
-            value={city}
-            onChange={updateCity}
-          >
-            {allCities.map((cityItem) => (
-              <option key={cityItem.value} value={cityItem.value}>
-                {cityItem.name}
-              </option>
-            ))}
-          </select>
-          {cityError && <p className='text-[#FF0000] text-xs font-sans'>Please select one</p>}
-        </div>
           <div className='my-4'>
             <div className='flex gap-1'>
               <p className='text-[#1D3A76] text-sm font-medium font-sans'>Property/project Name</p>
