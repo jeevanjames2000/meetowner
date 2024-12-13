@@ -6,10 +6,10 @@ import person_with_laptop from '@/public/assets/person_with_laptop.png'
 import Image from 'next/image'
 import Signupform from '@/components/signup/Signupform'
 import Userapi from '@/components/api/Userapi'
-
+ 
 async function page() {
   const getusertypesfetch = await getUsertypesfetch();
-
+ 
   //check error getusertypesfetch
   if (getusertypesfetch.status === 'error') {
     return (
@@ -18,14 +18,14 @@ async function page() {
       </div>
     )
   }
-
+ 
   const usertypedata = getusertypesfetch.usertypedata;
-
+ 
   const filteredusertypedata = usertypedata.filter(
     (type) => type.label !== "admin" && type.label !== "user"
   );
-
-
+ 
+ 
   return (
     <>
       <Header />
@@ -96,9 +96,9 @@ async function page() {
     </>
   )
 }
-
+ 
 export default page
-
+ 
 async function getUsertypesfetch() {
   try {
     const response = await Userapi.get('/usertypes');
