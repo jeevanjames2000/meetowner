@@ -104,7 +104,6 @@ async function getUsertypesfetch() {
     const response = await Userapi.get('/usertypes');
     const data = response.data;
     console.log('data:', data);
- 
     if (data.status === 'error') {
       let data = {
         status: 'error',
@@ -113,7 +112,6 @@ async function getUsertypesfetch() {
       }
       return data;
     }
- 
     let finaldata = {
       status: 'success',
       message: 'user types fetched successfully',
