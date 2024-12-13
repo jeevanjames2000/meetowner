@@ -6,9 +6,9 @@ import Propertyapi from '@/components/api/Propertyapi';
 import { useUserDetails } from '@/components/zustand/useUserDetails';
 import { toast } from 'react-toastify';
 import Errorpanel from '@/components/shared/Errorpanel';
-import { Modal } from '@nayeshdaggula/tailify';
-import LoadingOverlay from '@/components/shared/LoadingOverlay';
+import { Loadingoverlay, Modal, Select } from '@nayeshdaggula/tailify';
 import { usePropertyDetails } from '@/components/zustand/usePropertyDetails';
+import Generalapi from '@/components/api/Generalapi';
 
 function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails }) {
     const userInfo = useUserDetails((state) => state.userInfo)
@@ -38,13 +38,18 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
 
     const [transactionType, setTransactionType] = useState('')
     const [transactionTypeError, setTransactionTypeError] = useState('')
-    const updateTransactionType = (e) => {
-        setTransactionType(e.target.value)
+    const updateTransactionType = (value) => {
+        setTransactionType(value)
         setTransactionTypeError('')
     }
     const [location, setLocation] = useState('')
-    const updateLocation = (e) => {
-        setLocation(e.target.value)
+    const updateLocation = (value) => {
+        if (value.length > 2) {
+            getPlacesFromGoogle({ input: value })
+        } else {
+            setAllLocations([])
+        }
+        setLocation(value)
     }
 
     const [isModalOpen, setModalOpen] = useState(false);
@@ -60,7 +65,7 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
             setIsLoadingEffect(false)
             return
         }
-        if (lookingTo === 'Sell' && transactionType === '') {
+        if (lookingTo === 1 && transactionType === '') {
             setTransactionTypeError('Please select transaction type')
             setIsLoadingEffect(false)
             return
@@ -103,8 +108,8 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
                 let property_id = data?.property?.unique_property_id
                 updateActiveTab('propertydetails', 'inprogress', property_id)
                 updatePropertyDetails({
-                    property_in: propertyType,
-                    property_for: lookingTo,
+                    property_in: data?.property?.property_in,
+                    property_for: data?.property?.property_for,
                 })
             })
             .catch((error) => {
@@ -137,6 +142,187 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
         }
     }, [basicDetails])
 
+    const [allLocations, setAllLocations] = useState([])
+    function getPlacesFromGoogle({ input }) {
+        Generalapi.get('/getgoogleplaces', {
+            params: {
+                input: input
+            }
+        }, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${access_token}`
+            }
+        })
+            .then(response => {
+                let data = response.data;
+                if (data.status === 'error') {
+                    let finalresponse = {
+                        'message': data.message,
+                        'server_res': data
+                    }
+                    setErrorMessages(finalresponse);
+                    return false;
+                }
+                setAllLocations(data.places);
+                return false;
+            }).catch((error) => {
+                console.log(error)
+                let finalresponse;
+                if (error.response !== undefined) {
+                    finalresponse = {
+                        'message': error.message,
+                        'server_res': error.response.data
+                    };
+                } else {
+                    finalresponse = {
+                        'message': error.message,
+                        'server_res': null
+                    };
+                }
+                setErrorMessages(finalresponse);
+                return false;
+            })
+    }
+
+    const [allPropertyFor, setAllPropertyFor] = useState([])
+    const getAllPropertyFor = () => {
+        Propertyapi.get('getPropertyFor', {
+            params: {
+                user_id: user_id
+            },
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${access_token}`
+            }
+        })
+
+            .then((response) => {
+                let data = response.data
+                if (data.status === 'error') {
+                    let finalResponse = {
+                        'message': data.message,
+                    }
+                    setErrorMessages(finalResponse)
+                }
+                if (data.status === 'success') {
+                    setAllPropertyFor(data?.property_for || [])
+                    return false;
+                }
+            }
+            )
+            .catch((error) => {
+                console.log(error)
+                let finalresponse;
+                if (error.response !== undefined) {
+                    finalresponse = {
+                        'message': error.message,
+                    };
+                }
+                else {
+                    finalresponse = {
+                        'message': error.message,
+                    };
+                }
+                setErrorMessages(finalresponse);
+                return false;
+            })
+    }
+
+    const [allPropertyIn, setAllPropertyIn] = useState([])
+    const getAllPropertyIn = () => {
+        Propertyapi.get('getPropertyIn', {
+            params: {
+                user_id: user_id
+            },
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${access_token}`
+            }
+        })
+
+            .then((response) => {
+                let data = response.data
+                if (data.status === 'error') {
+                    let finalResponse = {
+                        'message': data.message,
+                    }
+                    setErrorMessages(finalResponse)
+                }
+                if (data.status === 'success') {
+                    setAllPropertyIn(data?.property_in || [])
+                    return false;
+                }
+            }
+            )
+            .catch((error) => {
+                console.log(error)
+                let finalresponse;
+                if (error.response !== undefined) {
+                    finalresponse = {
+                        'message': error.message,
+                    };
+                }
+                else {
+                    finalresponse = {
+                        'message': error.message,
+                    };
+                }
+                setErrorMessages(finalresponse);
+                return false;
+            })
+    }
+
+    const [allTransactionType, setAllTransactionType] = useState([])
+    const getAllTransactionType = () => {
+        Propertyapi.get('getTransactionType', {
+            params: {
+                user_id: user_id
+            },
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${access_token}`
+            }
+        })
+
+            .then((response) => {
+                let data = response.data
+                if (data.status === 'error') {
+                    let finalResponse = {
+                        'message': data.message,
+                    }
+                    setErrorMessages(finalResponse)
+                }
+
+                if (data.status === 'success') {
+                    setAllTransactionType(data?.transaction_type || [])
+                    return false;
+                }
+            }
+            )
+            .catch((error) => {
+                console.log(error)
+                let finalresponse;
+                if (error.response !== undefined) {
+                    finalresponse = {
+                        'message': error.message,
+                    };
+                }
+                else {
+                    finalresponse = {
+                        'message': error.message,
+                    };
+                }
+                setErrorMessages(finalresponse);
+                return false;
+            })
+    }
+
+    useEffect(() => {
+        getAllPropertyFor()
+        getAllPropertyIn()
+        getAllTransactionType()
+    }, [])
     return (
         <>
             <div className='py-2 bg-[#E2EAED]'>
@@ -149,12 +335,15 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
                         <IconAsterisk size={8} color='#FF0000' />
                     </div>
                     <div className='flex flex-row items-center gap-6'>
-                        <div onClick={() => updatePropertyType('Residencial')} className={`group cursor-pointer px-8 py-2 rounded-md  ${propertyType === 'Residencial' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                            <p className={`${propertyType === 'Residencial' ? 'text-white text-[10px]' : 'text-[#1D3A76] text-[10px] font-semibold group-hover:text-white'}`}>Residential</p>
-                        </div>
-                        <div onClick={() => updatePropertyType('Commercial')} className={`group cursor-pointer px-8 py-2 rounded-md  ${propertyType === 'Commercial' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                            <p className={`${propertyType === 'Commercial' ? 'text-white text-[10px]' : 'text-[#1D3A76] text-[10px] font-semibold group-hover:text-white'}`}>Commercial</p>
-                        </div>
+                        {
+                            allPropertyIn.length > 0 && allPropertyIn.map((property, index) => {
+                                return (
+                                    <div key={index} onClick={() => updatePropertyType(property.value)} className={`group cursor-pointer px-8 py-2 rounded-md  ${propertyType === property.value ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                                        <p className={`${propertyType === property.value ? 'text-white text-[10px]' : 'text-[#1D3A76] text-[10px] font-semibold group-hover:text-white'}`}>{property.name}</p>
+                                    </div>
+                                )
+                            })
+                        }
                     </div>
                     {propertyTypeError && <p className='text-red-500 text-[10px] mt-2'>{propertyTypeError}</p>}
                 </>
@@ -164,70 +353,67 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
                         <IconAsterisk size={8} color='#FF0000' />
                     </div>
                     <div className='flex flex-row items-center gap-6'>
-                        <div onClick={() => updateLookingTo('Sell')} className={`group cursor-pointer px-8 py-2 rounded-md  ${lookingTo === 'Sell' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                            <p className={`${lookingTo === 'Sell' ? 'text-white text-[10px]' : 'text-[#1D3A76] text-[10px] font-semibold group-hover:text-white'}`}>Sell</p>
-                        </div>
-                        <div onClick={() => updateLookingTo('Rent')} className={`group cursor-pointer px-8 py-2 rounded-md  ${lookingTo === 'Rent' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                            <p className={`${lookingTo === 'Rent' ? 'text-white text-[10px]' : 'text-[#1D3A76] text-[10px] font-semibold group-hover:text-white'}`}>Rent</p>
-                        </div>
-                        {/* <div onClick={() => updateLookingTo('Pgorcoliving')} className={`group cursor-pointer px-8 py-2 rounded-md  ${lookingTo === 'Pgorcoliving' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                            <p className={`${lookingTo === 'Pgorcoliving' ? 'text-white text-[10px]' : 'text-[#1D3A76] text-[10px] font-semibold group-hover:text-white'}`}>PG/Co-living</p>
-                        </div> */}
+                        {
+                            allPropertyFor.length > 0 && allPropertyFor.map((property, index) => {
+                                return (
+                                    <div key={index} onClick={() => updateLookingTo(property.value)} className={`group cursor-pointer px-8 py-2 rounded-md  ${lookingTo === property.value ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                                        <p className={`${lookingTo === property.value ? 'text-white text-[10px]' : 'text-[#1D3A76] text-[10px] font-semibold group-hover:text-white'}`}>{property.name}</p>
+                                    </div>
+                                )
+                            })
+                        }
                     </div>
                     {lookingToError && <p className='text-red-500 text-[10px] mt-2'>{lookingToError}</p>}
                     {
-                        lookingTo === 'Sell' && (
-                            <div className="flex flex-col">
-                                <p className='text-[#1D3A76] text-sm mt-4 mb-2 font-medium'>Transaction Type</p>
-                                <select
-                                    className="w-[40%] border border-[#909090] rounded-md focus:outline-none text-sm py-2 "
-                                    id="transactionType"
+                        lookingTo === 1 && (
+                            <div className='my-5 w-[40%]'>
+                                <Select
+                                    label=' Transaction Type'
+                                    labelClassName='!text-[#1D3A76] text-sm font-medium font-sans'
+                                    data={allTransactionType}
+                                    searchable
+                                    withAsterisk
                                     value={transactionType}
                                     onChange={updateTransactionType}
-                                >
-                                    <option>Select option</option>
-                                    <option value="new">New</option>
-                                    <option value="resale">Resale</option>
-                                </select>
+                                    inputClassName='focus:ring-blue-500 focus:border-blue-500'
+                                    className='!m-0 !p-0'
+                                />
                                 {transactionTypeError && <p className='text-red-500 text-[10px] mt-2'>{transactionTypeError}</p>}
                             </div>
                         )
                     }
                 </>
 
-                <div className='border border-[#c3c3c3] flex flex-row items-center gap-3 my-4 rounded-lg h-9'>
-                    <div className='bg-[#1D3A76] h-full flex items-center justify-center px-3 rounded-s-lg'>
+                <div className='flex flex-row items-center my-4 '>
+                    <div className='bg-[#1D3A76] flex items-center justify-center px-3 rounded-s-lg py-2 mt-1'>
                         <IconSearch size={20} color='#fff' />
                     </div>
-                    <input
-                        type="text"
-                        placeholder='search location'
-                        className='w-full py-2 mx-2 h-7 focus:outline-none'
-                        autoComplete='off'
+                    <Select
+                        placeholder='Search location'
+                        labelClassName='!text-[#1D3A76] text-sm font-medium font-sans'
+                        searchable
+                        data={allLocations}
+                        withAsterisk
                         value={location}
                         onChange={updateLocation}
+                        inputClassName='focus:ring-blue-500 focus:border-blue-500'
+                        className='w-full focus:outline-none !rounded-0'
+                        padding='p-0'
+                        margin='m-0'
                     />
                 </div>
-                {/* <div className="relative flex-1 flex flex-row justify-between items-center">
-                    <div className="flex flex-col flex-1">
-                        <GoogleSearchPlaces
-                            location={location}
-                            apiKey="AIzaSyBmei9lRUUfJI-kLIPNBoc2SxEkwhKHyvU"
-                            placeholder="Enter a location"
-                            onPlaceSelect={(data, details = null) => {
-                                updateLocation(data.description);
-                            }}
-                        />
-                    </div>
-                </div> */}
 
                 <div className='flex flex-row justify-end items-center mt-6'>
                     <div onClick={updateBasicdetails} className='border border-[#1D3A76] bg-[#1D3A76] px-8 py-3 rounded-md cursor-pointer'>
                         <p className='text-white text-[12px]'>Next, add property details</p>
                     </div>
                 </div>
+                <Loadingoverlay
+                    visible={isLoadingEffect}
+                    zIndex={9999}
+                    overlayBg="rgba(255, 255, 255, 0.6)"
+                />
             </div>
-            <LoadingOverlay isLoading={isLoadingEffect} />
 
             {isModalOpen &&
                 <Modal

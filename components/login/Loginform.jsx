@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation';
 import { useUserDetails } from '../zustand/useUserDetails';
 import { Modal, Textinput } from '@nayeshdaggula/tailify';
 import OtpModal from '../signup/OtpModal';
+import axios from 'axios';
 
 function Loginform() {
     const router = useRouter();
@@ -139,20 +140,38 @@ function Loginform() {
         }
         closeOtpModal()
         updateAuthDetails(userDetails, accessToken);
+        toast.success('otp Verified Successfully', {
+            position: 'top-right',
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
         router.push('/dashboard');
-        setTimeout(() => {
-            toast.success('otp Verified Successfully', {
-                position: 'top-right',
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
-            setIsLoadingEffect(false);
-        }, 3000);
     }
+
+
+    const sendSMS = async (req, res) => {
+        const user_id = 'meetowner2023'; // Your Username
+        const pwd = 'Meet@123'; // Your Password
+        const sender_id = 'METOWR'; // 6-char Sender ID, e.g., HDFCBK
+        const mobile_num = '7093608698'; // Recipient's mobile number
+        const message = 'Dear customer, 123456 is the OTP for Login it will expire in 2 minutes. Don\'t share to anyone -MEET OWNER';
+        const peid = '1101542890000073814'; // Principal Entity ID
+        const tpid = '1107169859354543707'; // Template ID
+        // Construct the URL with all parameters
+        const url = `http://tra.bulksmshyderabad.co.in/websms/sendsms.aspx?userid=${user_id}&password=${pwd}&sender=${sender_id}&mobileno=${encodeURIComponent(mobile_num)}&msg=${encodeURIComponent(message)}&peid=${peid}&tpid=${tpid}`;
+        try {
+            // Make the API request
+            const response = await axios.get(url);
+            res.status(200).send({ success: true, data: response.data });
+        } catch (error) {
+            console.error('Error:', error.message);
+            res.status(500).send({ success: false, error: error.message });
+        }
+    };
 
     return (
         <>
@@ -161,7 +180,7 @@ function Loginform() {
                     <form onSubmit={handleLoginform}>
                         <div className=' flex flex-col bg-white h-fit py-4 px-3 gap-2'>
                             <p className='text-sm font-semibold'>Mobile Number</p>
-                            <div className='flex flex-row items-center w-full  '>
+                            <div className='flex flex-row items-center'>
                                 <div className='w-[20%]'>
                                     <Textinput
                                         value='+91'
@@ -196,6 +215,9 @@ function Loginform() {
                         Signup
                     </Link>
                 </div>
+                {/* <div className='cursor-pointer' onClick={sendSMS}>
+                    <p className='text-sm text-white'>Send SMS</p>
+                </div> */}
             </div>
             <LoadingOverlay isLoading={isLoadingEffect} />
             {
