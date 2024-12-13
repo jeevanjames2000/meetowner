@@ -19,7 +19,7 @@ function Listingswrapper() {
     }
 
     const toggleAccordion = (value) => {
-        setIsOpen((prev) => (prev === value ? "" : value)); // Toggles accordion open/close
+        setIsOpen((prev) => (prev === value ? "buy" : value)); // Toggles accordion open/close
     };
 
     const [locality, setLocality] = useState('123')
@@ -152,7 +152,7 @@ function Listingswrapper() {
                     <div>
                         {/* Buy Accordion */}
                         <div
-                            className={`flex items-center justify-between cursor-pointer h-7 border-black px-3 ${isOpen === "buy" ? " bg-[#E2EAED] text-[#1D3A76]" : " text-[#969595] "
+                            className={`flex items-center justify-between cursor-pointer h-7  px-1 ${isOpen === "buy" ? " bg-[#E2EAED] text-[#1D3A76] border-b-0" : " text-[#969595] border-b border-[#D7D8D9] "
                                 }`}
                             onClick={() => toggleAccordion("buy")}
                         >
@@ -183,7 +183,7 @@ function Listingswrapper() {
                         )}
                         {/* Rent Accordion */}
                         <div
-                            className={`flex items-center justify-between cursor-pointer h-7  px-3 ${isOpen === "rent" ? " bg-[#E2EAED] text-[#1D3A76]" : " text-[#969595]"
+                            className={`flex items-center justify-between cursor-pointer h-7  px-1 mt-1 ${isOpen === "rent" ? " bg-[#E2EAED] text-[#1D3A76]" : " text-[#969595]"
                                 }`}
                             onClick={() => toggleAccordion("rent")}
                         >
@@ -195,7 +195,7 @@ function Listingswrapper() {
                             <IconChevronDown
                                 stroke={1.5}
                                 size={16}
-                                className={`transform transition-transform ${isOpen === "buy" ? " text-[#1D3A76] " : " text-[#1D3A76]  "
+                                className={`transform transition-transform ${isOpen === "rent" ? " text-[#1D3A76] " : " text-[#1D3A76]  "
                                     }`}
                             />
                         </div>
@@ -213,29 +213,33 @@ function Listingswrapper() {
                             </div>
                         )}
 
-                        <div
-                            className={`flex items-center cursor-pointer gap-2 h-7 pl-3 ${isOpen === "pg" ? " bg-[#E2EAED] text-[#1D3A76]" : " text-[#969595]"
+                              <div
+                            className={`flex items-center justify-between cursor-pointer h-7  px-1 mt-1 ${isOpen === "pg" ? " bg-[#E2EAED] text-[#1D3A76]" : " text-[#969595]"
                                 }`}
                             onClick={() => toggleAccordion("pg")}
                         >
-                            <p className="font-[200] text-[14px]">PG(0)</p>
-                            <IconChevronRight
+                            <p className="text-[12px] font-bold">
+                                Rent
+
+                            </p>
+                            <p className='font-bold text-[12px]' >(0)</p>
+                            <IconChevronDown
                                 stroke={1.5}
-                                size={18}
-                                className={`transform transition-transform ${isOpen === "pg" ? " text-[#1D3A76] rotate-90" : " text-[#969595] rotate-0"
+                                size={16}
+                                className={`transform transition-transform ${isOpen === "pg" ? " text-[#1D3A76] " : " text-[#1D3A76]  "
                                     }`}
                             />
                         </div>
                         {isOpen === "pg" && (
-                            <div className="mt-2 flex flex-col gap-2 pl-6">
-                                <Link href="/profile" className="text-gray-400 text-[14px] hover:text-[#1D3A76]">
-                                    Single Room
+                            <div className="mt-2 flex flex-col gap-2 pl-3 pb-3">
+                                <Link href="/profile" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                    Apartment(0)
                                 </Link>
-                                <Link href="/profile" className="text-gray-400 text-[14px] hover:text-[#1D3A76]">
-                                    Shared Room
+                                <Link href="/profile" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                    Independent Floor(0)
                                 </Link>
-                                <Link href="/profile" className="text-gray-400 text-[14px] hover:text-[#1D3A76]">
-                                    Hostel
+                                <Link href="/profile" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                    Villa(0)
                                 </Link>
                             </div>
                         )}
