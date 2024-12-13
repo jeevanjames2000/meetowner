@@ -12,6 +12,20 @@ module.exports = {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      fontFamily: {
+        sans: ['Open Sans', 'sans-serif'], // Default 'font-sans' class
+        custom: ['Open Sans', 'sans-serif'], // Custom class if needed
+      },
+      screens: {
+        'xs': '425px', // Small phones
+        'sm': '640px', // Phones
+        'md': '768px', // Tablets
+        'lg': '1024px', // Small desktops or landscape tablets
+        'xl': '1280px', // Large desktops
+        '2xl': '1536px', // Ultra-wide desktops
+        '3xl': '1920px', // Very large screens (gaming monitors, TVs)
+      }
+      
     },
   },
   plugins: [],

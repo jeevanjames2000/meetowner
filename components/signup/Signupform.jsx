@@ -224,35 +224,35 @@ function SignupForm() {
                     <div className="flex">
                         <div
                             onClick={() => setUserType("Builder")}
-                            className={`cursor-pointer custom-shadow w-fit z-50 flex items-center justify-center text-sm text-[#ffffff] py-1 px-6 rounded-tr-[20px] ${userType === "Builder" ? 'bg-[#FBAF01] text-[#244385]' : 'bg-[#31539A]'
+                            className={`cursor-pointer custom-shadow w-fit z-50 flex items-center justify-center text-[12px] md:text-sm text-[#ffffff] py-1 md:py-3 px-6 rounded-tr-[20px] ${userType === "Builder" ? 'bg-[#FBAF01] text-[#244385]' : 'bg-[#31539A]'
                                 }`}
                         >
                             Builder
                         </div>
                         <div
                             onClick={() => setUserType("Agent")}
-                            className={`cursor-pointer custom-shadow w-fit z-40 ml-[-14px] flex items-center justify-center text-sm text-[#ffffff] py-3 px-6 rounded-tr-[20px] ${userType === "Agent" ? 'bg-[#FBAF01] text-[#244385]' : 'bg-[#31539A]'
+                            className={`cursor-pointer custom-shadow w-fit z-40 ml-[-14px] flex items-center justify-center text-[12px] md:text-sm text-[#ffffff] py-1 md:py-3 px-6 rounded-tr-[20px] ${userType === "Agent" ? 'bg-[#FBAF01] text-[#244385]' : 'bg-[#31539A]'
                                 }`}
                         >
                             Agent
                         </div>
                         <div
                             onClick={() => setUserType("Owner")}
-                            className={`cursor-pointer custom-shadow w-fit z-[30] ml-[-14px] flex items-center justify-center text-sm text-[#ffffff] py-3 px-6 rounded-tr-[20px] ${userType === "Owner" ? 'bg-[#FBAF01] text-[#244385]' : 'bg-[#31539A]'
+                            className={`cursor-pointer custom-shadow w-fit z-[30] ml-[-14px] flex items-center justify-center text-[12px] md:text-sm text-[#ffffff] py-1 md:py-3 px-6 rounded-tr-[20px] ${userType === "Owner" ? 'bg-[#FBAF01] text-[#244385]' : 'bg-[#31539A]'
                                 }`}
                         >
                             Owner
                         </div>
                         <div
                             onClick={() => setUserType("Channel Partner")}
-                            className={`cursor-pointer custom-shadow w-[120%] ml-[-14px] flex items-center justify-end text-sm text-[#ffffff] py-3 p-4 rounded-tr-[20px] ${userType === "Channel Partner" ? 'bg-[#FBAF01] text-[#244385]' : 'bg-[#31539A]'
+                            className={`cursor-pointer custom-shadow w-[100%] lg:w-[120%] ml-[-14px] flex items-center justify-center text-[12px] md:text-sm text-[#ffffff] py-1 md:py-3 pl-6 rounded-tr-[20px] ${userType === "Channel Partner" ? 'bg-[#FBAF01] text-[#244385]' : 'bg-[#31539A]'
                                 }`}
                         >
                             Channel Partner
                         </div>
                     </div>
                     <form onSubmit={handleSignupform}>
-                        <div className=' flex flex-col bg-white h-fit py-4 px-3 gap-2'>
+                        <div className='flex flex-col bg-white h-fit py-4 px-3 gap-2'>
                             <Textinput
                                 value={name}
                                 onChange={updateName}
@@ -260,7 +260,7 @@ function SignupForm() {
                                 placeholder="Name"
                                 inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none'
                             />
-                            <div className='flex flex-row items-center w-full  '>
+                            <div className='flex flex-row items-center w-full'>
                                 <div className='w-[20%]'>
                                     <Textinput
                                         value='+91'

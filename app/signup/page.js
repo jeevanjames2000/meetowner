@@ -15,11 +15,11 @@ function page() {
           className="h-full w-full object-cover"
           alt="Background"
         />
-        <div className="absolute inset-0 grid grid-cols-12 gap-20 pt-12 px-32">
+        <div className="absolute inset-0 grid grid-cols-1 md:grid-cols-12 lg:grid-cols-12  gap-6 md:gap-16 lg:gap-20 pt-6  px-4 xs:px-8 md:px-[4vw] lg:px-[6vw] ">
           {/* Left Column */}
-          <div className="col-span-6 space-y-4">
-            <p className="text-[24px] text-[#ffffff] font-[600] font-sans">
-              Lorem Ipsum is simply dummy text
+          <div className="hidden md:block col-span-1 md:col-span-6 space-y-4 my-auto"> 
+            <p className="w-full text-[20px] md:text-[24px] lg:text-[24px] xl:text-[36px] leading-tight  text-[#ffffff] font-[600] font-sans">
+              Lorem Ipsum is a dummy text 
             </p>
             <ul className="space-y-4">
               {/* First List Item */}
@@ -29,7 +29,7 @@ function page() {
                   alt="Image 1"
                   className="rounded-full h-4 w-4"
                 />
-                <span className="text-[16px] text-[#ffffff] font-[600] font-sans">
+                <span className="text-[14px] md:text-[16px] xl:text-[24px] 2xl:text-[28px] text-[#ffffff] font-[600] font-sans">
                   Lorem Ipsum1
                 </span>
               </li>
@@ -40,8 +40,8 @@ function page() {
                   alt="Image 2"
                   className="rounded-full h-4 w-4"
                 />
-                <span className="text-[16px] text-[#ffffff] font-[600] font-sans">
-                  Lorem Ipsum2
+                  <span className="text-[14px] md:text-[16px] xl:text-[24px] 2xl:text-[28px] text-[#ffffff] font-[600] font-sans">
+                  Lorem Ipsum1
                 </span>
               </li>
               {/* Third List Item */}
@@ -51,25 +51,25 @@ function page() {
                   alt="Image 3"
                   className="rounded-full h-4 w-4"
                 />
-                <span className="text-[16px] text-[#ffffff] font-[600] font-sans">
-                  Lorem Ipsum3
+                 <span className="text-[14px] md:text-[16px] xl:text-[24px] 2xl:text-[28px] text-[#ffffff] font-[600] font-sans">
+                  Lorem Ipsum1
                 </span>
               </li>
             </ul>
             <Image
               src={person_with_laptop}
               alt="Person with Laptop"
-              className="mt-4"
-              height={400}
-              width={400}
+              className="mt-4 lg:h-[320px] lg:w-[500px]"
+             
             />
           </div>
 
           {/* Right Column */}
-          <div className="flex items-center justify-start col-span-6">
+          <div className="flex items-center justify-end col-span-1 md:col-span-6">
             <Signupform />
           </div>
         </div>
+
       </div>
     </>
   )

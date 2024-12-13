@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@nayeshdaggula/tailify": "^1.0.6",
+    "@next/font": "^14.2.15",
     "@tabler/icons": "^3.24.0",
     "@tabler/icons-react": "^3.24.0",
     "axios": "^1.7.9",
