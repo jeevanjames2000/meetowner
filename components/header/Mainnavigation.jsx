@@ -4,7 +4,9 @@ import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
 import { usePathname, useRouter } from 'next/navigation';
 import { useUserDetails } from "../zustand/useUserDetails";
+import LoadingOverlay from "../shared/LoadingOverlay";
 const Mainnavigation = () => {
+    const [isLoadingEffect, setIsLoadingEffect] = useState(false);
     const resetAuthdetails = useUserDetails((state) => state.resetAuthdetails);
     const router = useRouter();
     const pathname = usePathname();
