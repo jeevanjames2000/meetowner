@@ -5,7 +5,27 @@ import signup_list from '@/public/assets/signup_list.svg'
 import person_with_laptop from '@/public/assets/person_with_laptop.png'
 import Image from 'next/image'
 import Signupform from '@/components/signup/Signupform'
-function page() {
+import Userapi from '@/components/api/Userapi'
+
+async function page() {
+  const getusertypesfetch = await getUsertypesfetch();
+
+  //check error getusertypesfetch
+  if (getusertypesfetch.status === 'error') {
+    return (
+      <div>
+        <p>Error fetching order types</p>
+      </div>
+    )
+  }
+
+  const usertypedata = getusertypesfetch.usertypedata;
+
+  const filteredusertypedata = usertypedata.filter(
+    (type) => type.label !== "admin" && type.label !== "user"
+  );
+
+
   return (
     <>
       <Header />
@@ -67,7 +87,9 @@ function page() {
 
           {/* Right Column */}
           <div className="flex items-center justify-start col-span-6">
-            <Signupform />
+            <Signupform
+              usertypedata={filteredusertypedata}
+            />
           </div>
         </div>
       </div>
@@ -76,3 +98,35 @@ function page() {
 }
 
 export default page
+
+async function getUsertypesfetch() {
+  try {
+    const response = await Userapi.get('/usertypes');
+    const data = response.data;
+    console.log('data:', data);
+
+    if (data.status === 'error') {
+      let data = {
+        status: 'error',
+        message: 'Error fetching user types',
+        usertypedata: [],
+      }
+      return data;
+    }
+
+    let finaldata = {
+      status: 'success',
+      message: 'user types fetched successfully',
+      usertypedata: data.usertypes,
+    }
+    return finaldata;
+  } catch (error) {
+    console.error('Error fetching user types:', error);
+    let finaldata = {
+      status: 'error',
+      message: 'Error fetching user types',
+      usertypedata: [],
+    }
+    return finaldata;
+  }
+}
