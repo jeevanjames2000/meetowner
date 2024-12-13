@@ -10,21 +10,21 @@ import { useRouter } from 'next/navigation';
 import { Modal } from '@nayeshdaggula/tailify';
 import OtpModal from './OtpModal';
 import Link from 'next/link';
-
+ 
 function SignupForm({ usertypedata }) {
     const router = useRouter();
     const updateAuthDetails = useUserDetails(state => state.updateAuthDetails);
     const [userType, setUserType] = useState("Builder");
     const [isLoadingEffect, setIsLoadingEffect] = useState(false);
     const [errorMessages, setErrorMessages] = useState('');
-
+ 
     const [name, setName] = useState('')
     const [nameError, setNameError] = useState('')
     const updateName = (e) => {
         setName(e.target.value);
         setNameError('')
     }
-
+ 
     const [mobile, setMobile] = useState('')
     const [mobileError, setMobileError] = useState('')
     const updateMobile = (e) => {
@@ -33,16 +33,16 @@ function SignupForm({ usertypedata }) {
         if (isNaN(value)) {
             return false;
         }
-
+ 
         //allow only 10 digits
         if (value.length > 10) {
             return false;
         }
-
+ 
         setMobile(value);
         setMobileError('')
     }
-
+ 
     const [otpModal, setOtpModal] = useState(false);
     const openOtpModal = () => {
         setOtpModal(true);
@@ -50,7 +50,7 @@ function SignupForm({ usertypedata }) {
     const closeOtpModal = () => {
         setOtpModal(false);
     }
-
+ 
     const [otpNumber, setOtpNumber] = useState('');
     const updateOtpNumber = (value) => {
         setOtpNumber(value);
@@ -76,7 +76,7 @@ function SignupForm({ usertypedata }) {
             setMobileError('Mobile number should be 10 digits');
             return false;
         }
-
+ 
         Authapi.post('register', {
             name: name,
             mobile: mobile,
@@ -149,7 +149,7 @@ function SignupForm({ usertypedata }) {
                 return false;
             })
     }
-
+ 
     const handleVerifyOtp = () => {
         if (otpNumber === '') {
             alert('Please enter OTP number')
@@ -168,7 +168,7 @@ function SignupForm({ usertypedata }) {
         });
         router.push('/dashboard');
     }
-
+ 
     return (
         <>
             <div className="signupform flex flex-col w-[370px] h-fit gap-4">
@@ -178,7 +178,7 @@ function SignupForm({ usertypedata }) {
                             <div
                                 key={type.value}
                                 onClick={() => setUserType(type.label)}
-                                className={`cursor-pointer custom-shadow w-fit ${index !== 0 ? "ml-[-14px]" : ""} 
+                                className={`cursor-pointer custom-shadow w-fit ${index !== 0 ? "ml-[-14px]" : ""}
           flex items-center justify-center text-sm text-[#ffffff] py-2 px-6 rounded-tr-[20px]
           ${userType === type.label ? 'bg-[#FBAF01] text-[#244385]' : 'bg-[#31539A]'}
           ${index === usertypedata.length - 1 ? "w-[100%] justify-end p-4" : ""}`}
@@ -274,5 +274,5 @@ function SignupForm({ usertypedata }) {
         </>
     );
 }
-
+ 
 export default SignupForm;
