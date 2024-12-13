@@ -9,13 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@nayeshdaggula/tailify": "^1.0.6",
+    "@nayeshdaggula/tailify": "^1.0.7",
     "@next/font": "^14.2.15",
     "@tabler/icons": "^3.24.0",
     "@tabler/icons-react": "^3.24.0",
     "axios": "^1.7.9",
     "crypto-js": "^4.2.0",
-    "framer-motion": "^11.13.5",
+    "framer-motion": "^11.14.3",
     "next": "15.1.0",
     "react": "^19",
     "react-dom": "^19",
