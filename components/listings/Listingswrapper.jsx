@@ -1,5 +1,5 @@
 'use client'
-import { IconChevronLeft, IconChevronRight, IconCircle } from '@tabler/icons-react';
+import { IconChevronDown, IconChevronLeft, IconChevronRight, IconCircle } from '@tabler/icons-react';
 import Link from 'next/link';
 import React, { useState } from 'react';
 import Getapp from '../dashboard/Dasboradsidebar/parts/Getapp';
@@ -19,7 +19,7 @@ function Listingswrapper() {
     }
 
     const toggleAccordion = (value) => {
-        setIsOpen((prev) => (prev === value ? "" : value)); // Toggles accordion open/close
+        setIsOpen((prev) => (prev === value ? "buy" : value)); // Toggles accordion open/close
     };
 
     const [locality, setLocality] = useState('123')
@@ -91,9 +91,9 @@ function Listingswrapper() {
         <div className="px-[80px] mt-10 w-full mb-16">
             <div className="flex w-full gap-6">
                 {/* 20% Width Div */}
-                <div className="w-[18%] h-fit bg-[#FFFFFF] pl-4 py-4 flex flex-col space-y-2 rounded-md">
-                    <p className="text-[#240000] text-[16px] font-[500]">Show</p>
-                    <div className="flex flex-col mx-auto w-full max-w-md border-b border-[#D7D8D9] pb-3">
+                <div className="w-[18%] h-fit bg-[#FFFFFF] px-3 pt-3 flex flex-col space-y-2 rounded-md">
+                    <p className="text-[#240000] text-[13px] font-[600]">Show</p>
+                    <div className="flex flex-col mx-auto w-full max-w-md border-b border-[#D7D8D9] pb-4">
                         {/* residential_properties Radio Button */}
                         <label className="w-full group relative flex cursor-pointer rounded-sm py-2 text-[#1b1b1b] transition focus:outline-none">
                             <input
@@ -111,7 +111,7 @@ function Listingswrapper() {
                                     <IconCircle size={16} color="#b9b9b9" />
                                 )}
                                 <p
-                                    className={`text-[14px] font-[400] ${selectedRole === "residential_properties"
+                                    className={`text-[12px] font-[400] ${selectedRole === "residential_properties"
                                         ? "text-[#1D3A76]"
                                         : "text-[#969595]"
                                         }`}
@@ -133,12 +133,12 @@ function Listingswrapper() {
                             />
                             <div className="flex w-full items-center gap-2">
                                 {selectedRole === "commercial_properties" ? (
-                                    <IconCircle size={16} className="bg-[#1D3A76] text-white rounded-full" />
+                                    <IconCircle size={16} className="bg-[#1D3A76] text-white rounded-full " />
                                 ) : (
                                     <IconCircle size={16} color="#b9b9b9" />
                                 )}
                                 <p
-                                    className={`text-[14px] font-[400] ${selectedRole === "commercial_properties"
+                                    className={`text-[12px] font-[400] ${selectedRole === "commercial_properties"
                                         ? "text-[#1D3A76]"
                                         : "text-[#969595]"
                                         }`}
@@ -148,88 +148,98 @@ function Listingswrapper() {
                             </div>
                         </label>
                     </div>
-                    <p className="text-[#240000] text-[16px] font-[500]">Sub-Category</p>
-                    <div className=''>
-
-
+                    <p className="text-[#240000] text-[13px] font-[500] pt-2">Sub - Category</p>
+                    <div>
                         {/* Buy Accordion */}
                         <div
-                            className={`flex items-center cursor-pointer gap-2 h-7 pl-3 ${isOpen === "buy" ? " bg-[#E2EAED] text-[#1D3A76]" : " text-[#969595]"
+                            className={`flex items-center justify-between cursor-pointer h-7  px-1 ${isOpen === "buy" ? " bg-[#E2EAED] text-[#1D3A76] border-b-0" : " text-[#969595] border-b border-[#D7D8D9] "
                                 }`}
                             onClick={() => toggleAccordion("buy")}
                         >
-                            <p className="font-[200] text-[14px] ">Buy(0)</p>
-                            <IconChevronRight
+                            <p className="text-[12px] font-bold">
+                                Buy
+
+                            </p>
+                            <p className='font-bold text-[12px]' >(0)</p>
+                            <IconChevronDown
                                 stroke={1.5}
-                                size={18}
-                                className={`transform transition-transform ${isOpen === "buy" ? " text-[#1D3A76] rotate-90" : " text-[#969595]  rotate-0"
+                                size={16}
+                                className={`transform transition-transform ${isOpen === "buy" ? " text-[#1D3A76] " : " text-[#1D3A76]  "
                                     }`}
                             />
                         </div>
                         {isOpen === "buy" && (
-                            <div className="mt-2 flex flex-col gap-2 pl-6">
-                                <Link href="/profile" className="text-gray-400 text-[14px] hover:text-[#1D3A76]">
-                                    Apartment
+                            <div className="mt-2 flex flex-col gap-2 pl-3 pb-3">
+                                <Link href="/profile" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                    Apartment(0)
                                 </Link>
-                                <Link href="/profile" className="text-gray-400 text-[14px] hover:text-[#1D3A76]">
-                                    Independent Floor
+                                <Link href="/profile" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                    Independent Floor(0)
                                 </Link>
-                                <Link href="/profile" className="text-gray-400 text-[14px] hover:text-[#1D3A76]">
-                                    Villa
+                                <Link href="/profile" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                    Villa(0)
                                 </Link>
                             </div>
                         )}
                         {/* Rent Accordion */}
-
                         <div
-                            className={`flex items-center cursor-pointer gap-2 h-7 pl-3 ${isOpen === "rent" ? " bg-[#E2EAED] text-[#1D3A76]" : " text-[#969595]"
+                            className={`flex items-center justify-between cursor-pointer h-7  px-1 mt-1 ${isOpen === "rent" ? " bg-[#E2EAED] text-[#1D3A76]" : " text-[#969595]"
                                 }`}
                             onClick={() => toggleAccordion("rent")}
                         >
-                            <p className="font-[200] text-[14px]">Rent(0)</p>
-                            <IconChevronRight
+                            <p className="text-[12px] font-bold">
+                                Rent
+
+                            </p>
+                            <p className='font-bold text-[12px]' >(0)</p>
+                            <IconChevronDown
                                 stroke={1.5}
-                                size={18}
-                                className={`transform transition-transform ${isOpen === "rent" ? " text-[#1D3A76] rotate-90" : " text-[#969595] rotate-0"
+                                size={16}
+                                className={`transform transition-transform ${isOpen === "rent" ? " text-[#1D3A76] " : " text-[#1D3A76]  "
                                     }`}
                             />
                         </div>
                         {isOpen === "rent" && (
-                            <div className="mt-2 flex flex-col gap-2 pl-6">
-                                <Link href="/profile" className="text-gray-400 text-[14px] hover:text-[#1D3A76]">
-                                    Apartment
+                            <div className="mt-2 flex flex-col gap-2 pl-3 pb-3">
+                                <Link href="/profile" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                    Apartment(0)
                                 </Link>
-                                <Link href="/profile" className="text-gray-400 text-[14px] hover:text-[#1D3A76]">
-                                    Independent Floor
+                                <Link href="/profile" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                    Independent Floor(0)
                                 </Link>
-                                <Link href="/profile" className="text-gray-400 text-[14px] hover:text-[#1D3A76]">
-                                    Villa
+                                <Link href="/profile" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                    Villa(0)
                                 </Link>
                             </div>
                         )}
-                        <div
-                            className={`flex items-center cursor-pointer gap-2 h-7 pl-3 ${isOpen === "pg" ? " bg-[#E2EAED] text-[#1D3A76]" : " text-[#969595]"
+
+                              <div
+                            className={`flex items-center justify-between cursor-pointer h-7  px-1 mt-1 ${isOpen === "pg" ? " bg-[#E2EAED] text-[#1D3A76]" : " text-[#969595]"
                                 }`}
                             onClick={() => toggleAccordion("pg")}
                         >
-                            <p className="font-[200] text-[14px]">PG(0)</p>
-                            <IconChevronRight
+                            <p className="text-[12px] font-bold">
+                                Rent
+
+                            </p>
+                            <p className='font-bold text-[12px]' >(0)</p>
+                            <IconChevronDown
                                 stroke={1.5}
-                                size={18}
-                                className={`transform transition-transform ${isOpen === "pg" ? " text-[#1D3A76] rotate-90" : " text-[#969595] rotate-0"
+                                size={16}
+                                className={`transform transition-transform ${isOpen === "pg" ? " text-[#1D3A76] " : " text-[#1D3A76]  "
                                     }`}
                             />
                         </div>
                         {isOpen === "pg" && (
-                            <div className="mt-2 flex flex-col gap-2 pl-6">
-                                <Link href="/profile" className="text-gray-400 text-[14px] hover:text-[#1D3A76]">
-                                    Single Room
+                            <div className="mt-2 flex flex-col gap-2 pl-3 pb-3">
+                                <Link href="/profile" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                    Apartment(0)
                                 </Link>
-                                <Link href="/profile" className="text-gray-400 text-[14px] hover:text-[#1D3A76]">
-                                    Shared Room
+                                <Link href="/profile" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                    Independent Floor(0)
                                 </Link>
-                                <Link href="/profile" className="text-gray-400 text-[14px] hover:text-[#1D3A76]">
-                                    Hostel
+                                <Link href="/profile" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                    Villa(0)
                                 </Link>
                             </div>
                         )}
