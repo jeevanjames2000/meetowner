@@ -10,6 +10,7 @@ import { useSearchParams } from 'next/navigation';
 import Errorpanel from '@/components/shared/Errorpanel';
 import { toast } from 'react-toastify';
 import { usePropertyDetails } from '@/components/zustand/usePropertyDetails';
+import { all } from 'axios';
 function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
   const userInfo = useUserDetails((state) => state.userInfo)
   let user_id = userInfo?.user_id || null
@@ -435,240 +436,115 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
 
   const updatePropertyDetails = () => {
     setIsLoadingEffect(true)
-    if (property_in === "Residencial" && property_for === "Sell") {
-      if (propertySubType === 'Apartment' || propertySubType === 'Flat' || propertySubType === 'Land') {
-        if (constructionStatus === "Ready to move") {
-          if (bhk === '') {
-            setIsLoadingEffect(false)
-            setBhkError('Please select BHK')
-            return false;
-          }
-          if (bathroom === '') {
-            setIsLoadingEffect(false)
-            setBathroomError('Please select bathroom')
-            return false;
-          }
-          if (balcony === '') {
-            setIsLoadingEffect(false)
-            setBalconyError('Please select balcony')
-            return false;
-          }
-          if (furnishType === '') {
-            setIsLoadingEffect(false)
-            setFurnishTypeError('Please select furnish type')
-            return false;
-          }
-          if (availableFromDate === '') {
-            setIsLoadingEffect(false)
-            setAvailableFromDateError('Please select available from date')
-            return false;
-          }
-          if (ageofProperty === '') {
-            setIsLoadingEffect(false)
-            setAgeofPropertyError('Please enter age of property')
-            return false;
-          }
-          if (builtupArea === '') {
-            setIsLoadingEffect(false)
-            setBuiltupAreaError('Please enter builtup area')
-            return false;
-          }
-          if (carpetArea === '') {
-            setIsLoadingEffect(false)
-            setCarpetAreaError('Please enter carpet area')
-            return false;
-          }
-          if (unitCost === '') {
-            setIsLoadingEffect(false)
-            setUnitCostError('Please enter unit cost')
-            return false;
-          }
-          if (propertyCost === '') {
-            setIsLoadingEffect(false)
-            setPropertyCostError('Please enter property cost')
-            return false;
-          }
+    // if (property_in === "Residencial" && property_for === "Sell") {
+    //   if (propertySubType === 'Apartment' || propertySubType === 'Flat' || propertySubType === 'Land') {
+    //     if (constructionStatus === "Ready to move") {
+    //       if (bhk === '') {
+    //         setIsLoadingEffect(false)
+    //         setBhkError('Please select BHK')
+    //         return false;
+    //       }
+    //       if (bathroom === '') {
+    //         setIsLoadingEffect(false)
+    //         setBathroomError('Please select bathroom')
+    //         return false;
+    //       }
+    //       if (balcony === '') {
+    //         setIsLoadingEffect(false)
+    //         setBalconyError('Please select balcony')
+    //         return false;
+    //       }
+    //       if (furnishType === '') {
+    //         setIsLoadingEffect(false)
+    //         setFurnishTypeError('Please select furnish type')
+    //         return false;
+    //       }
+    //       if (availableFromDate === '') {
+    //         setIsLoadingEffect(false)
+    //         setAvailableFromDateError('Please select available from date')
+    //         return false;
+    //       }
+    //       if (ageofProperty === '') {
+    //         setIsLoadingEffect(false)
+    //         setAgeofPropertyError('Please enter age of property')
+    //         return false;
+    //       }
+    //       if (builtupArea === '') {
+    //         setIsLoadingEffect(false)
+    //         setBuiltupAreaError('Please enter builtup area')
+    //         return false;
+    //       }
+    //       if (carpetArea === '') {
+    //         setIsLoadingEffect(false)
+    //         setCarpetAreaError('Please enter carpet area')
+    //         return false;
+    //       }
+    //       if (unitCost === '') {
+    //         setIsLoadingEffect(false)
+    //         setUnitCostError('Please enter unit cost')
+    //         return false;
+    //       }
+    //       if (propertyCost === '') {
+    //         setIsLoadingEffect(false)
+    //         setPropertyCostError('Please enter property cost')
+    //         return false;
+    //       }
 
-        }
-      } else {
-        if (constructionStatus === "Ready to move") {
-          if (availableFromDate === '') {
-            setIsLoadingEffect(false)
-            setAvailableFromDateError('Please select available from date')
-            return false;
-          }
-          if (ageofProperty === '') {
-            setIsLoadingEffect(false)
-            setAgeofPropertyError('Please enter age of property')
-            return false;
-          }
-          if (plotArea === '') {
-            setIsLoadingEffect(false)
-            setPlotAreaError('Please enter plot area')
-            return false;
-          }
-          if (lengthArea === '') {
-            setIsLoadingEffect(false)
-            setLengthAreaError('Please enter length area')
-            return false;
-          }
-          if (widthArea === '') {
-            setIsLoadingEffect(false)
-            setWidthAreaError('Please enter width area')
-            return false;
-          }
-          if (unitCost === '') {
-            setIsLoadingEffect(false)
-            setUnitCostError('Please enter unit cost')
-            return false;
-          }
-          if (propertyCost === '') {
-            setIsLoadingEffect(false)
-            setPropertyCostError('Please enter property cost')
-            return false;
-          }
-        }
-      }
-      if (constructionStatus !== "Ready to move") {
-        if (possessionEndDate === '') {
-          setIsLoadingEffect(false)
-          setPossessionEndDateError('Please select possession end date')
-          return false;
-        }
-      }
+    //     }
+    //   } else {
+    //     if (constructionStatus === "Ready to move") {
+    //       if (availableFromDate === '') {
+    //         setIsLoadingEffect(false)
+    //         setAvailableFromDateError('Please select available from date')
+    //         return false;
+    //       }
+    //       if (ageofProperty === '') {
+    //         setIsLoadingEffect(false)
+    //         setAgeofPropertyError('Please enter age of property')
+    //         return false;
+    //       }
+    //       if (plotArea === '') {
+    //         setIsLoadingEffect(false)
+    //         setPlotAreaError('Please enter plot area')
+    //         return false;
+    //       }
+    //       if (lengthArea === '') {
+    //         setIsLoadingEffect(false)
+    //         setLengthAreaError('Please enter length area')
+    //         return false;
+    //       }
+    //       if (widthArea === '') {
+    //         setIsLoadingEffect(false)
+    //         setWidthAreaError('Please enter width area')
+    //         return false;
+    //       }
+    //       if (unitCost === '') {
+    //         setIsLoadingEffect(false)
+    //         setUnitCostError('Please enter unit cost')
+    //         return false;
+    //       }
+    //       if (propertyCost === '') {
+    //         setIsLoadingEffect(false)
+    //         setPropertyCostError('Please enter property cost')
+    //         return false;
+    //       }
+    //     }
+    //   }
+    //   if (constructionStatus !== "Ready to move") {
+    //     if (possessionEndDate === '') {
+    //       setIsLoadingEffect(false)
+    //       setPossessionEndDateError('Please select possession end date')
+    //       return false;
+    //     }
+    //   }
 
-      if (propertySubType === "Independent House" || propertySubType === "Independent Villa") {
-        if (pentHouse === '') {
-          setIsLoadingEffect(false)
-          setPentHouseError('Please select pent house')
-          return false;
-        }
-      }
-    }
-    // if (propertySubType === '') {
-    //   setIsLoadingEffect(false)
-    //   setPropertySubTypeError('Please select property type')
-    //   return false;
-    // }
-    // if (constructionStatus === '') {
-    //   setIsLoadingEffect(false)
-    //   setConstructionStatusError('Please select construction status')
-    //   return false;
-    // }
-    // if (bhk === '') {
-    //   setIsLoadingEffect(false)
-    //   setBhkError('Please select BHK')
-    //   return false;
-    // }
-    // if (bathroom === '') {
-    //   setIsLoadingEffect(false)
-    //   setBathroomError('Please select bathroom')
-    //   return false;
-    // }
-    // if (balcony === '') {
-    //   setIsLoadingEffect(false)
-    //   setBalconyError('Please select balcony')
-    //   return false;
-    // }
-    // if (furnishType === '') {
-    //   setIsLoadingEffect(false)
-    //   setFurnishTypeError('Please select furnish type')
-    //   return false;
-    // }
-    // if (possessionEndDate === '') {
-    //   setIsLoadingEffect(false)
-    //   setPossessionEndDateError('Please select possession end date')
-    //   return false;
-    // }
-    // if (carParking === '') {
-    //   setIsLoadingEffect(false)
-    //   setCarParkingError('Please select covered parking')
-    //   return false;
-    // }
-    // if (openParking === '') {
-    //   setIsLoadingEffect(false)
-    //   setOpenParkingError('Please select open parking')
-    //   return false;
-    // }
-    // if (monthlyRent === '') {
-    //   setIsLoadingEffect(false)
-    //   setMonthlyRentError('Please enter monthlyRent')
-    //   return false;
-    // }
-    // if (maintenceCharges === '') {
-    //   setIsLoadingEffect(false)
-    //   setMaintenceChargesError('Please enter maintence charges')
-    //   return false;
-    // }
-    // if (securityDeposit === '') {
-    //   setIsLoadingEffect(false)
-    //   setSecurityDepositError('Please enter security deposit')
-    //   return false;
-    // }
-    // if (lockInPeriod === '') {
-    //   setIsLoadingEffect(false)
-    //   setLockInPeriodError('Please enter lock in period')
-    //   return false;
-    // }
-    // if (preferredTenantType === '') {
-    //   setIsLoadingEffect(false)
-    //   setPreferredTenantTypeError('Please select preferred tenant type')
-    //   return false;
-    // }
-    // if (builtupArea === '') {
-    //   setIsLoadingEffect(false)
-    //   setBuiltupAreaError('Please enter builtup area')
-    //   return false;
-    // }
-    // if (carpetArea === '') {
-    //   setIsLoadingEffect(false)
-    //   setCarpetAreaError('Please enter carpet area')
-    //   return false;
-    // }
-    // if (lengthArea === '') {
-    //   setIsLoadingEffect(false)
-    //   setLengthAreaError('Please enter length area')
-    //   return false;
-    // }
-    // if (plotArea === '') {
-    //   setIsLoadingEffect(false)
-    //   setPlotAreaError('Please enter plot area')
-    //   return false;
-    // }
-    // if (widthArea === '') {
-    //   setIsLoadingEffect(false)
-    //   setWidthAreaError('Please enter width area')
-    //   return false;
-    // }
-    // if (brokerage === '') {
-    //   setIsLoadingEffect(false)
-    //   setBrokerageError('Please enter brokerage')
-    //   return false;
-    // }
-    // if (facing === '') {
-    //   setIsLoadingEffect(false)
-    //   setFacingError('Please select facing')
-    //   return false;
-    // }
-    // if (address === '') {
-    //   setIsLoadingEffect(false)
-    //   setAddressError('Please enter address')
-    //   return false;
-    // }
-    // if (servantRoom === '') {
-    //   setIsLoadingEffect(false)
-    //   setServantRoomError('Please select servant room')
-    //   return false;
-    // }
-    // if (reraId === '') {
-    //   setIsLoadingEffect(false)
-    //   setReraIdError('Please enter RERA ID')
-    //   return false;
-    // }
-    // if (propertyDescription === '') {
-    //   setIsLoadingEffect(false)
-    //   setPropertyDescriptionError('Please enter property description')
-    //   return false;
+    //   if (propertySubType === "Independent House" || propertySubType === "Independent Villa") {
+    //     if (pentHouse === '') {
+    //       setIsLoadingEffect(false)
+    //       setPentHouseError('Please select pent house')
+    //       return false;
+    //     }
+    //   }
     // }
 
     const selectedFacilities = Object.keys(facilities)
@@ -676,10 +552,7 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
       .join(", ");
 
     const getFormattedDateTime = (date) => {
-      // Ensure the input date is valid
       if (!date) return null;
-
-      // Append time component to make it a valid ISO-8601 DateTime
       return `${date}T00:00:00Z`;
     };
 
@@ -694,42 +567,42 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
     const new_possession_end_date = getFormattedDateTime(possessionEndDate)
 
     let new_bhk;
-    if (bhk === '4plus') {
+    if (bhk === '4+') {
       new_bhk = customBhk
     } else {
       new_bhk = bhk
     }
 
     let new_bathroom;
-    if (bathroom === '4plus') {
+    if (bathroom === '4+') {
       new_bathroom = customBathroom
     } else {
       new_bathroom = bathroom
     }
 
     let new_balcony;
-    if (balcony === '4plus') {
+    if (balcony === '4+') {
       new_balcony = customBalcony
     } else {
       new_balcony = balcony
     }
 
     let new_car_parking;
-    if (carParking === '4plus') {
+    if (carParking === '4+') {
       new_car_parking = customCarParking
     } else {
       new_car_parking = carParking
     }
 
     let new_bike_parking;
-    if (bikeParking === '4plus') {
+    if (bikeParking === '4+') {
       new_bike_parking = customBikeParking
     } else {
       new_bike_parking = bikeParking
     }
 
     let new_open_parking;
-    if (openParking === '4plus') {
+    if (openParking === '4+') {
       new_open_parking = customOpenParking
     } else {
       new_open_parking = openParking
@@ -976,7 +849,7 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
           setErrorMessages(finalResponse)
         }
         if (data.status === 'success') {
-          setAllPropertySubTypes(data?.property_sub_type)
+          setAllPropertySubTypes(data?.property_sub_type || [])
           return false;
         }
       })
@@ -1021,7 +894,7 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
           setErrorMessages(finalResponse)
         }
         if (data.status === 'success') {
-          setAllPreferredTenantTypes(data?.prefered_tenant_types)
+          setAllPreferredTenantTypes(data?.prefered_tenant_types || [])
           return false;
         }
       })
@@ -1043,6 +916,438 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
         return false;
       })
   }
+
+  const [allBaclcanies, setAllBalconies] = useState([])
+  const getAllBalconies = () => {
+    Propertyapi.get('getbaclonies', {
+      params: {
+        user_id: user_id
+      },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${access_token}`
+      }
+    })
+
+      .then((response) => {
+        let data = response.data
+        if (data.status === 'error') {
+          let finalResponse = {
+            'message': data.message,
+          }
+          setErrorMessages(finalResponse)
+        }
+        if (data.status === 'success') {
+          setAllBalconies(data?.balconies || [])
+          return false;
+        }
+      }
+      )
+      .catch((error) => {
+        console.log(error)
+        let finalresponse;
+        if (error.response !== undefined) {
+          finalresponse = {
+            'message': error.message,
+          };
+        } else {
+          finalresponse = {
+            'message': error.message,
+          };
+        }
+        setErrorMessages(finalresponse);
+        return false;
+      })
+  }
+
+  const [allBedRooms, setAllBedRooms] = useState([])
+  const getAllBedRooms = () => {
+    Propertyapi.get('getbedroomtypes', {
+      params: {
+        user_id: user_id
+      },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${access_token}`
+      }
+    })
+      .then((response) => {
+        let data = response.data
+        if (data.status === 'error') {
+          let finalResponse = {
+            'message': data.message,
+          }
+          setErrorMessages(finalResponse)
+        }
+        if (data.status === 'success') {
+          setAllBedRooms(data?.bedrooms || [])
+          return false;
+        }
+      }
+      )
+      .catch((error) => {
+        console.log(error)
+        let finalresponse;
+        if (error.response !== undefined) {
+          finalresponse = {
+            'message': error.message,
+          };
+        } else {
+          finalresponse = {
+            'message': error.message,
+          };
+        }
+        setErrorMessages(finalresponse);
+        return false;
+      })
+  }
+
+  const [allBusinessTypes, setAllBusinessTypes] = useState([])
+  const getBusinessTypes = () => {
+    Propertyapi.get('getbusinesstypes', {
+      params: {
+        user_id: user_id
+      },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${access_token}`
+      }
+    })
+
+      .then((response) => {
+        let data = response.data
+        if (data.status === 'error') {
+          let finalResponse = {
+            'message': data.message,
+          }
+          setErrorMessages(finalResponse)
+        }
+        if (data.status === 'success') {
+          setAllBusinessTypes(data?.business_types || [])
+          return false;
+        }
+      }
+      )
+      .catch((error) => {
+        console.log(error)
+        let finalresponse;
+        if (error.response !== undefined) {
+          finalresponse = {
+            'message': error.message,
+          };
+        } else {
+          finalresponse = {
+            'message': error.message,
+          };
+        }
+        setErrorMessages(finalresponse);
+        return false;
+      })
+  }
+
+  const [allFacing, setAllFacing] = useState([])
+  const getAllFacing = () => {
+    Propertyapi.get('getfacing', {
+      params: {
+        user_id: user_id
+      },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${access_token}`
+      }
+    })
+      .then((response) => {
+        let data = response.data
+        if (data.status === 'error') {
+          let finalResponse = {
+            'message': data.message,
+          }
+          setErrorMessages(finalResponse)
+        }
+        if (data.status === 'success') {
+          setAllFacing(data?.facing || [])
+          return false;
+        }
+      }
+      )
+      .catch((error) => {
+        console.log(error)
+        let finalresponse;
+        if (error.response !== undefined) {
+          finalresponse = {
+            'message': error.message,
+          };
+        } else {
+          finalresponse = {
+            'message': error.message,
+          };
+        }
+        setErrorMessages(finalresponse);
+        return false;
+      })
+  }
+
+  const [allFloors, setAllFloors] = useState([])
+  const getAllFloors = () => {
+    Propertyapi.get('getfloors', {
+      params: {
+        user_id: user_id
+      },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${access_token}`
+      }
+    })
+      .then((response) => {
+        let data = response.data
+        if (data.status === 'error') {
+          let finalResponse = {
+            'message': data.message,
+          }
+          setErrorMessages(finalResponse)
+        }
+        if (data.status === 'success') {
+          setAllFloors(data?.floors || [])
+          return false;
+        }
+      }
+      )
+      .catch((error) => {
+        console.log(error)
+        let finalresponse;
+        if (error.response !== undefined) {
+          finalresponse = {
+            'message': error.message,
+          };
+        } else {
+          finalresponse = {
+            'message': error.message,
+          };
+        }
+        setErrorMessages(finalresponse);
+        return false;
+      })
+  }
+
+  const [allFurnishedTypes, setAllFurnishedTypes] = useState([])
+  const getFurnishedTypes = () => {
+    Propertyapi.get('getFurnishedStatus', {
+      params: {
+        user_id: user_id
+      },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${access_token}`
+      }
+    })
+      .then((response) => {
+        let data = response.data
+        if (data.status === 'error') {
+          let finalResponse = {
+            'message': data.message,
+          }
+          setErrorMessages(finalResponse)
+        }
+        if (data.status === 'success') {
+          setAllFurnishedTypes(data?.furnished_status || [])
+          return false;
+        }
+      }
+
+      )
+      .catch((error) => {
+        console.log(error)
+        let finalresponse;
+        if (error.response !== undefined) {
+          finalresponse = {
+            'message': error.message,
+          };
+        }
+        else {
+          finalresponse = {
+            'message': error.message,
+          };
+        }
+        setErrorMessages(finalresponse);
+        return false;
+      })
+  }
+
+  const [allOccupancyTypes, setAllOccupancyTypes] = useState([])
+  const getOccupancyTypes = () => {
+    Propertyapi.get('getOccupancy', {
+      params: {
+        user_id: user_id
+      },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${access_token}`
+      }
+    })
+
+      .then((response) => {
+        let data = response.data
+        if (data.status === 'error') {
+          let finalResponse = {
+            'message': data.message,
+          }
+          setErrorMessages(finalResponse)
+        }
+        if (data.status === 'success') {
+          setAllOccupancyTypes(data?.occupancy || [])
+          return false;
+        }
+      }
+      )
+      .catch((error) => {
+        console.log(error)
+        let finalresponse;
+        if (error.response !== undefined) {
+          finalresponse = {
+            'message': error.message,
+          };
+        }
+        else {
+          finalresponse = {
+            'message': error.message,
+          };
+        }
+        setErrorMessages(finalresponse);
+        return false;
+      })
+  }
+
+  const [allOwnerShipTypes, setAllOwnerShipTypes] = useState([])
+  const getOwnerShipTypes = () => {
+    Propertyapi.get('getOwnerShipType', {
+      params: {
+        user_id: user_id
+      },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${access_token}`
+      }
+    })
+
+      .then((response) => {
+        let data = response.data
+        if (data.status === 'error') {
+          let finalResponse = {
+            'message': data.message,
+          }
+          setErrorMessages(finalResponse)
+        }
+        if (data.status === 'success') {
+          setAllOwnerShipTypes(data?.ownership_type || [])
+          return false;
+        }
+      }
+      )
+      .catch((error) => {
+        console.log(error)
+        let finalresponse;
+        if (error.response !== undefined) {
+          finalresponse = {
+            'message': error.message,
+          };
+        }
+        else {
+          finalresponse = {
+            'message': error.message,
+          };
+        }
+        setErrorMessages(finalresponse);
+        return false;
+      })
+  }
+
+  const [allZoneTypes, setAllZoneTypes] = useState([])
+  const getZoneTypes = () => {
+    Propertyapi.get('getZoneTypes', {
+      params: {
+        user_id: user_id
+      },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${access_token}`
+      }
+    })
+
+      .then((response) => {
+        let data = response.data
+        if (data.status === 'error') {
+          let finalResponse = {
+            'message': data.message,
+          }
+          setErrorMessages(finalResponse)
+        }
+        if (data.status === 'success') {
+          setAllZoneTypes(data?.zone_types || [])
+          return false;
+        }
+      }
+      )
+      .catch((error) => {
+        console.log(error)
+        let finalresponse;
+        if (error.response !== undefined) {
+          finalresponse = {
+            'message': error.message,
+          };
+        }
+        else {
+          finalresponse = {
+            'message': error.message,
+          };
+        }
+        setErrorMessages(finalresponse);
+        return false;
+      })
+  }
+
+  const getAllFacilities = () => {
+    Propertyapi.get('getfaclities', {
+      params: {
+        user_id: user_id
+      },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${access_token}`
+      }
+    })
+
+      .then((response) => {
+        let data = response.data
+        if (data.status === 'error') {
+          let finalResponse = {
+            'message': data.message,
+          }
+          setErrorMessages(finalResponse)
+        }
+        if (data.status === 'success') {
+          setFacilities(data?.facilities)
+          return false;
+        }
+      }
+      )
+      .catch((error) => {
+        console.log(error)
+        let finalresponse;
+        if (error.response !== undefined) {
+          finalresponse = {
+            'message': error.message,
+          };
+        }
+        else {
+          finalresponse = {
+            'message': error.message,
+          };
+        }
+        setErrorMessages(finalresponse);
+        return false;
+      })
+  }
+
 
   useEffect(() => {
     if (getpropertyDetails?.property_for === 'Rent') {
@@ -1075,9 +1380,23 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
       setBrokerage('')
       setPreferredTenantType('')
     }
+  }, [getpropertyDetails])
+
+  useEffect(() => {
     getPropertySubTypes()
     getPreferedTenantTypes()
-  }, [getpropertyDetails])
+    getAllBalconies()
+    getAllBedRooms()
+    getBusinessTypes()
+    getAllFacing()
+    // getAllFloors()
+    getFurnishedTypes()
+    getOccupancyTypes()
+    getOwnerShipTypes()
+    getZoneTypes()
+    getAllFacilities()
+  }, [])
+
 
   const propertySubTypeIcon = {
     'default': (
@@ -1168,12 +1487,22 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
               <IconAsterisk size={8} color='#FF0000' />
             </div>
             <div className='flex flex-row items-center gap-6'>
-              <div onClick={() => updateConstructionStatus('Ready to move')} className={`group cursor-pointer px-8 py-2 rounded-md  ${constructionStatus === 'Ready to move' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+              {
+                allOccupancyTypes.length > 0 && allOccupancyTypes.map((item, index) => {
+                  return (
+                    <div key={index} onClick={() => updateConstructionStatus(item.value)} className={`group cursor-pointer px-8 py-2 rounded-md  ${constructionStatus === item.value ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                      <p className={`text-[10px] font-sans ${constructionStatus === item.value ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>{item.name}</p>
+                    </div>
+                  )
+                }
+                )
+              }
+              {/* <div onClick={() => updateConstructionStatus('Ready to move')} className={`group cursor-pointer px-8 py-2 rounded-md  ${constructionStatus === 'Ready to move' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
                 <p className={`text-[10px] font-sans ${constructionStatus === 'Ready to move' ? 'text-white ' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Ready to Move</p>
               </div>
               <div onClick={() => updateConstructionStatus('Under Construction')} className={`group cursor-pointer px-8 py-2 rounded-md  ${constructionStatus === 'Under Construction' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
                 <p className={`text-[10px] font-sans ${constructionStatus === 'Under Construction' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Under Construction</p>
-              </div>
+              </div> */}
             </div>
             {constructionStatusError && <p className='text-[#FF0000] text-xs font-sans'>Please select construction status</p>}
           </div>
@@ -1188,7 +1517,16 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
                 <IconAsterisk size={8} color='#FF0000' />
               </div>
               <div className='flex flex-row items-center gap-6'>
-                <div onClick={() => updateBhk('1')} className={`group cursor-pointer px-8 py-2 rounded-md  ${bhk === '1' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                {
+                  allBedRooms.map((item, index) => {
+                    return (
+                      <div key={index} onClick={() => updateBhk(item.value)} className={`group cursor-pointer px-8 py-2 rounded-md  ${bhk === item.value ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                        <p className={`text-[10px] font-sans ${bhk === item.value ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>{item.name} BHK</p>
+                      </div>
+                    )
+                  })
+                }
+                {/* <div onClick={() => updateBhk('1')} className={`group cursor-pointer px-8 py-2 rounded-md  ${bhk === '1' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
                   <p className={`text-[10px] font-sans ${bhk === '1' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>1 BHK</p>
                 </div>
                 <div onClick={() => updateBhk('2')} className={`group cursor-pointer px-8 py-2 rounded-md  ${bhk === '2' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
@@ -1202,10 +1540,10 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
                 </div>
                 <div onClick={() => updateBhk('4plus')} className={`group cursor-pointer px-8 py-2 rounded-md  ${bhk === '4plus' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
                   <p className={`text-[10px] font-sans ${bhk === '4plus' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>4+ BHK</p>
-                </div>
+                </div> */}
               </div>
               {
-                bhk === '4plus' &&
+                bhk === 5 &&
                 <div className='my-5'>
                   <div className='flex gap-1'>
                     <p className='text-[#1D3A76] text-sm font-medium font-sans'>Custom BHK</p>
@@ -1270,24 +1608,20 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
                 <IconAsterisk size={8} color='#FF0000' />
               </div>
               <div className='flex flex-row items-center gap-6'>
-                <div onClick={() => updateBalcony('1')} className={`group cursor-pointer px-8 py-2 rounded-md  ${balcony === '1' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                  <p className={`text-[10px] font-sans ${balcony === '1' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>1 </p>
-                </div>
-                <div onClick={() => updateBalcony('2')} className={`group cursor-pointer px-8 py-2 rounded-md  ${balcony === '2' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                  <p className={`text-[10px] font-sans ${balcony === '2' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>2 </p>
-                </div>
-                <div onClick={() => updateBalcony('3')} className={`group cursor-pointer px-8 py-2 rounded-md  ${balcony === '3' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                  <p className={`text-[10px] font-sans ${balcony === '3' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>3 </p>
-                </div>
-                <div onClick={() => updateBalcony('4')} className={`group cursor-pointer px-8 py-2 rounded-md  ${balcony === '4' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                  <p className={`text-[10px] font-sans ${balcony === '4' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>4 </p>
-                </div>
-                <div onClick={() => updateBalcony('4plus')} className={`group cursor-pointer px-8 py-2 rounded-md  ${balcony === '4plus' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                  <p className={`text-[10px] font-sans ${balcony === '4plus' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>4+ </p>
-                </div>
+                {
+                  allBaclcanies.length > 0 &&
+                  allBaclcanies.map((item, index) => {
+                    return (
+                      <div key={index} onClick={() => updateBalcony(item.value)} className={`group cursor-pointer px-8 py-2 rounded-md  ${balcony === item.value ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                        <p className={`text-[10px] font-sans ${balcony === item.value ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>{item.name} </p>
+                      </div>
+                    )
+                  }
+                  )
+                }
               </div>
               {
-                balcony === '4plus' &&
+                balcony === 5 &&
                 <div className='my-5'>
                   <div className='flex gap-1'>
                     <p className='text-[#1D3A76] text-sm font-medium font-sans'>Custom Balcony</p>
@@ -1311,7 +1645,17 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
                 <IconAsterisk size={8} color='#FF0000' />
               </div>
               <div className='grid grid-cols-3 gap-2'>
-                <div onClick={() => updateFurnishType('fullyfurnished')} className={`flex flex-row items-center gap-4 border-2 rounded-md px-4 py-2 w-[80%] cursor-pointer ${furnishType === "fullyfurnished" ? 'bg-[#1D3A76] border-[#1D3A76] ' : 'border-[#d7d5d5ba] '}`}>
+                {
+                  allFurnishedTypes.map((item, index) => {
+                    return (
+                      <div key={index} onClick={() => updateFurnishType(item.value)} className={`flex flex-col justify-center items-center gap-2 border-2 rounded-md px-4 py-2 w-[100%] cursor-pointer ${furnishType === item.value ? 'bg-[#1D3A76] border-[#1D3A76] ' : 'border-[#d7d5d5ba] '}`}>
+                        <p className={`text-xs text-center font-medium ${furnishType === item.value ? 'text-white' : 'text-[#1D3A76]'} `}>{item.name}</p>
+                      </div>
+                    )
+                  }
+                  )
+                }
+                {/* <div onClick={() => updateFurnishType('fullyfurnished')} className={`flex flex-row items-center gap-4 border-2 rounded-md px-4 py-2 w-[80%] cursor-pointer ${furnishType === "fullyfurnished" ? 'bg-[#1D3A76] border-[#1D3A76] ' : 'border-[#d7d5d5ba] '}`}>
                   <svg width="20" height="20" viewBox="0 0 33 27" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M6 27C5.575 27 5.219 26.856 4.932 26.568C4.645 26.28 4.501 25.924 4.5 25.5V24C3.25 24 2.1875 23.5625 1.3125 22.6875C0.4375 21.8125 0 20.75 0 19.5V12C0 10.75 0.4375 9.6875 1.3125 8.8125C2.1875 7.9375 3.25 7.5 4.5 7.5V4.5C4.5 3.25 4.9375 2.1875 5.8125 1.3125C6.6875 0.4375 7.75 0 9 0H24C25.25 0 26.3125 0.4375 27.1875 1.3125C28.0625 2.1875 28.5 3.25 28.5 4.5V7.5C29.75 7.5 30.8125 7.9375 31.6875 8.8125C32.5625 9.6875 33 10.75 33 12V19.5C33 20.75 32.5625 21.8125 31.6875 22.6875C30.8125 23.5625 29.75 24 28.5 24V25.5C28.5 25.925 28.356 26.2815 28.068 26.5695C27.78 26.8575 27.424 27.001 27 27C26.576 26.999 26.22 26.855 25.932 26.568C25.644 26.281 25.5 25.925 25.5 25.5V24H7.5V25.5C7.5 25.925 7.356 26.2815 7.068 26.5695C6.78 26.8575 6.424 27.001 6 27ZM4.5 21H28.5C28.925 21 29.2815 20.856 29.5695 20.568C29.8575 20.28 30.001 19.924 30 19.5V12C30 11.575 29.856 11.219 29.568 10.932C29.28 10.645 28.924 10.501 28.5 10.5C28.076 10.499 27.72 10.643 27.432 10.932C27.144 11.221 27 11.577 27 12V18H6V12C6 11.575 5.856 11.219 5.568 10.932C5.28 10.645 4.924 10.501 4.5 10.5C4.076 10.499 3.72 10.643 3.432 10.932C3.144 11.221 3 11.577 3 12V19.5C3 19.925 3.144 20.2815 3.432 20.5695C3.72 20.8575 4.076 21.001 4.5 21ZM9 15H24V12C24 11.325 24.1375 10.7125 24.4125 10.1625C24.6875 9.6125 25.05 9.125 25.5 8.7V4.5C25.5 4.075 25.356 3.719 25.068 3.432C24.78 3.145 24.424 3.001 24 3H9C8.575 3 8.219 3.144 7.932 3.432C7.645 3.72 7.501 4.076 7.5 4.5V8.7C7.95 9.125 8.3125 9.6125 8.5875 10.1625C8.8625 10.7125 9 11.325 9 12V15Z" fill={furnishType === 'fullyfurnished' ? '#fff' : '#909090'} />
                   </svg>
@@ -1328,7 +1672,7 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
                     <path d="M1.69574 15.826H6.78268V10.1739H3.9566C3.50689 10.1739 3.0756 9.99523 2.7576 9.67723C2.43961 9.35924 2.26096 8.92794 2.26096 8.47823V1.69565C2.26096 1.24593 2.43961 0.814638 2.7576 0.496643C3.0756 0.178648 3.50689 0 3.9566 0H22.0435C22.4932 0 22.9245 0.178648 23.2425 0.496643C23.5605 0.814638 23.7391 1.24593 23.7391 1.69565V8.47823C23.7391 8.92794 23.5605 9.35924 23.2425 9.67723C22.9245 9.99523 22.4932 10.1739 22.0435 10.1739H19.2174V15.826H24.3044C24.7541 15.826 25.1854 16.0047 25.5034 16.3227C25.8214 16.6407 26 17.072 26 17.5217V19.7825C26 20.2322 25.8214 20.6635 25.5034 20.9815C25.1854 21.2995 24.7541 21.4782 24.3044 21.4782H22.6087V27.6955C22.6087 27.8455 22.5492 27.9892 22.4432 28.0952C22.3372 28.2012 22.1934 28.2608 22.0435 28.2608C21.8936 28.2608 21.7498 28.2012 21.6438 28.0952C21.5378 27.9892 21.4783 27.8455 21.4783 27.6955V21.4782H4.52182V27.6955C4.52182 27.8455 4.46227 27.9892 4.35627 28.0952C4.25027 28.2012 4.10651 28.2608 3.9566 28.2608C3.8067 28.2608 3.66293 28.2012 3.55694 28.0952C3.45094 27.9892 3.39139 27.8455 3.39139 27.6955V21.4782H1.69574C1.24603 21.4782 0.814735 21.2995 0.49674 20.9815C0.178745 20.6635 9.72748e-05 20.2322 9.72748e-05 19.7825V17.5217C9.72748e-05 17.072 0.178745 16.6407 0.49674 16.3227C0.814735 16.0047 1.24603 15.826 1.69574 15.826ZM22.6087 8.47823V1.69565C22.6087 1.54574 22.5492 1.40198 22.4432 1.29598C22.3372 1.18998 22.1934 1.13043 22.0435 1.13043H3.9566C3.8067 1.13043 3.66293 1.18998 3.55694 1.29598C3.45094 1.40198 3.39139 1.54574 3.39139 1.69565V8.47823C3.39139 8.62813 3.45094 8.7719 3.55694 8.8779C3.66293 8.9839 3.8067 9.04344 3.9566 9.04344H22.0435C22.1934 9.04344 22.3372 8.9839 22.4432 8.8779C22.5492 8.7719 22.6087 8.62813 22.6087 8.47823ZM18.087 10.1739H7.91311V15.826H18.087V10.1739ZM1.13053 19.7825C1.13053 19.9324 1.19008 20.0762 1.29607 20.1822C1.40207 20.2882 1.54584 20.3477 1.69574 20.3477H24.3044C24.4543 20.3477 24.598 20.2882 24.704 20.1822C24.81 20.0762 24.8696 19.9324 24.8696 19.7825V17.5217C24.8696 17.3718 24.81 17.228 24.704 17.122C24.598 17.016 24.4543 16.9565 24.3044 16.9565H1.69574C1.54584 16.9565 1.40207 17.016 1.29607 17.122C1.19008 17.228 1.13053 17.3718 1.13053 17.5217V19.7825Z" fill={furnishType === 'unfurnished' ? '#fff' : '#909090'} />
                   </svg>
                   <p className={` text-[10px] text-center font-sans ${furnishType === "unfurnished" ? 'text-white' : 'text-[#909090]'}`}>Unfurnished</p>
-                </div>
+                </div> */}
               </div>
               {furnishTypeError && <p className='text-[#FF0000] text-xs font-sans'>Please select furnish type</p>}
             </div>
@@ -1480,46 +1824,45 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
           </div>
         }
         {
-          (constructionStatus === 'Ready to move') || (getpropertyDetails?.property_in === "Commercial" && (propertySubType === "Warehouse" || propertySubType === "Plot" || propertySubType === "Others")) ?
-            <div className='mb-5 w-[40%]'>
-              <Select
-                label='Age of Property'
-                labelClassName='!text-[#1D3A76] text-sm font-medium font-sans'
-                data={[
-                  { value: '5', label: '0-5' },
-                  { value: '10', label: '5-10' },
-                  { value: '11', label: 'Above 10' },
-                ]}
-                searchable
-                withAsterisk
-                value={ageofProperty}
-                onChange={updateAgeofProperty}
-                inputClassName='focus:ring-blue-500 focus:border-blue-500'
-                className='!m-0 !p-0'
-              />
-              {ageofPropertyError && <p className='text-[#FF0000] text-xs font-sans'>Please select one</p>}
+          (constructionStatus === 'Ready to move') || (getpropertyDetails?.property_in === "Commercial" && (propertySubType === "Warehouse")) &&
+          <div className='mb-5 w-[40%]'>
+            <Select
+              label='Age of Property'
+              labelClassName='!text-[#1D3A76] text-sm font-medium font-sans'
+              data={[
+                { value: '5', label: '0-5' },
+                { value: '10', label: '5-10' },
+                { value: '11', label: 'Above 10' },
+              ]}
+              searchable
+              withAsterisk
+              value={ageofProperty}
+              onChange={updateAgeofProperty}
+              inputClassName='focus:ring-blue-500 focus:border-blue-500'
+              className='!m-0 !p-0'
+            />
+            {ageofPropertyError && <p className='text-[#FF0000] text-xs font-sans'>Please select one</p>}
+          </div>
+        }
+        {
+          (constructionStatus === 'Under Construction') || (getpropertyDetails?.property_in === "Commercial" && (propertySubType === "Warehouse")) &&
+          <div className='mb-5'>
+            <div className='flex gap-1 mb-4'>
+              <p className='text-[#1D3A76] text-sm font-medium font-sans'>Possesion End</p>
+              <IconAsterisk size={8} color='#FF0000' />
             </div>
-            :
-            (constructionStatus === 'Under Construction') || (getpropertyDetails?.property_in === "Commercial" && (propertySubType === "Warehouse" || propertySubType === "Plot" || propertySubType === "Others")) ?
-              <div className='mb-5'>
-                <div className='flex gap-1 mb-4'>
-                  <p className='text-[#1D3A76] text-sm font-medium font-sans'>Possesion End</p>
-                  <IconAsterisk size={8} color='#FF0000' />
-                </div>
-                <div className='border border-[#909090] rounded-md w-[20%] px-3'>
-                  <input
-                    type="date"
-                    id="date"
-                    className='text-[14px] w-full py-1 outline-none'
-                    autoComplete='off'
-                    value={possessionEndDate}
-                    onChange={updatePossessionEndDate}
-                  />
-                </div>
-                {possessionEndDateError && <p className='text-[#FF0000] text-xs font-sans'>Please select possession end date</p>}
-              </div>
-              :
-              null
+            <div className='border border-[#909090] rounded-md w-[20%] px-3'>
+              <input
+                type="date"
+                id="date"
+                className='text-[14px] w-full py-1 outline-none'
+                autoComplete='off'
+                value={possessionEndDate}
+                onChange={updatePossessionEndDate}
+              />
+            </div>
+            {possessionEndDateError && <p className='text-[#FF0000] text-xs font-sans'>Please select possession end date</p>}
+          </div>
         }
         {
           getpropertyDetails?.property_in && getpropertyDetails.property_for === "Rent" &&
@@ -1807,7 +2150,15 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
               <IconAsterisk size={8} color='#FF0000' />
             </div>
             <div className='grid grid-cols-4 gap-3 mt-2'>
-              <div onClick={() => updateOwnerShip('Freehold')} className={`group cursor-pointer px-8 py-2 rounded-md  ${ownerShip === 'Freehold' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+              {
+                allOwnerShipTypes?.length > 0 &&
+                allOwnerShipTypes.map((item, index) => (
+                  <div key={index} onClick={() => updateOwnerShip(item.value)} className={`group cursor-pointer px-8 py-2 rounded-md  ${ownerShip === item.value ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                    <p className={`text-[10px] font-sans ${ownerShip === item.value ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>{item.name}</p>
+                  </div>
+                ))
+              }
+              {/* <div onClick={() => updateOwnerShip('Freehold')} className={`group cursor-pointer px-8 py-2 rounded-md  ${ownerShip === 'Freehold' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
                 <p className={`text-[10px] font-sans ${ownerShip === 'Freehold' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Freehold</p>
               </div>
               <div onClick={() => updateOwnerShip('Leasehold')} className={`group cursor-pointer px-8 py-2 rounded-md  ${ownerShip === 'Leasehold' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
@@ -1818,7 +2169,7 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
               </div>
               <div onClick={() => updateOwnerShip('Power of attorney')} className={`group cursor-pointer px-8 py-2 rounded-md  ${ownerShip === 'Power of attorney' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
                 <p className={`text-[10px] font-sans ${ownerShip === 'Power of attorney' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Power of attorney</p>
-              </div>
+              </div> */}
             </div>
             {ownerShipError && <p className='text-[#FF0000] text-xs font-sans'>Please select Ownership</p>}
           </div>
@@ -1914,16 +2265,7 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
                   <Select
                     label='Suitable'
                     labelClassName='!text-[#1D3A76] text-sm font-medium font-sans'
-                    data={[
-                      { value: 'Jewellary', label: 'Jewellary' },
-                      { value: 'Gym', label: 'Gym' },
-                      { value: 'Grocery', label: 'Grocery' },
-                      { value: 'Clinic', label: 'Clinic' },
-                      { value: 'Footwear', label: 'Footwear' },
-                      { value: 'Electronics', label: 'Electronics' },
-                      { value: 'Clothing', label: 'Clothing' },
-                      { value: 'Others', label: 'Others' },
-                    ]}
+                    data={allBusinessTypes}
                     searchable
                     withAsterisk
                     value={suitableFor}
@@ -1938,15 +2280,7 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
                   <Select
                     label='Zone Type'
                     labelClassName='!text-[#1D3A76] text-sm font-medium font-sans'
-                    data={[
-                      { value: 'Industrial', label: 'Industrial' },
-                      { value: 'Commercial', label: 'Commercial' },
-                      { value: 'Grocery', label: 'Grocery' },
-                      { value: 'Special Economic Zone', label: 'Special Economic Zone' },
-                      { value: 'Open Spaces', label: 'Open Spaces' },
-                      { value: 'Agricultural Zone', label: 'Agricultural Zone' },
-                      { value: 'Others', label: 'Others' },
-                    ]}
+                    data={allZoneTypes}
                     searchable
                     withAsterisk
                     value={zoneType}
@@ -1964,7 +2298,15 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
           <p className='text-[#1D3A76] text-sm mb-4 font-medium font-sans'>Add Additional Details</p>
           <p className='text-[#AEAEAE] text-sm font-sans font-medium mb-2'>Facing</p>
           <div className='grid grid-cols-4 gap-3'>
-            <div onClick={() => updateFacing('north')} className={`group cursor-pointer px-8 py-2 rounded-md  ${facing === 'north' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+            {
+              allFacing.length > 0 &&
+              allFacing.map((item, index) => (
+                <div key={index} onClick={() => updateFacing(item.value)} className={`group cursor-pointer px-8 py-2 rounded-md  ${facing === item.value ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${facing === item.value ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>{item.name}</p>
+                </div>
+              ))
+            }
+            {/* <div onClick={() => updateFacing('north')} className={`group cursor-pointer px-8 py-2 rounded-md  ${facing === 'north' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
               <p className={`text-[10px] font-sans ${facing === 'north' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>North</p>
             </div>
             <div onClick={() => updateFacing('east')} className={`group cursor-pointer px-8 py-2 rounded-md  ${facing === 'east' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
@@ -1987,7 +2329,7 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
             </div>
             <div onClick={() => updateFacing('southwest')} className={`group cursor-pointer px-8 py-2 rounded-md  ${facing === 'southwest' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
               <p className={`text-[10px] font-sans ${facing === 'southwest' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>South-West</p>
-            </div>
+            </div> */}
           </div>
           {facingError && <p className='text-[#FF0000] text-xs font-sans'>Please select facing</p>}
         </div>
