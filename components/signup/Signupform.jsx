@@ -189,7 +189,7 @@ function SignupForm({ usertypedata }) {
                         ))}
                     </div>
                     <form onSubmit={handleSignupform}>
-                        <div className=' flex flex-col bg-white h-fit py-4 px-3 gap-2'>
+                        <div className='flex flex-col bg-white h-fit py-4 px-3 gap-2'>
                             <Textinput
                                 value={name}
                                 onChange={updateName}
@@ -197,7 +197,7 @@ function SignupForm({ usertypedata }) {
                                 placeholder="Name"
                                 inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none'
                             />
-                            <div className='flex flex-row items-center w-full  '>
+                            <div className='flex flex-row items-center w-full'>
                                 <div className='w-[20%]'>
                                     <Textinput
                                         value='+91'
