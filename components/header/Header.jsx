@@ -41,10 +41,10 @@ function Header() {
         >
             <div className="flex flex-row justify-between items-center shadow-xl py-2 bg-[#F2F2F2] px-4 md:px-[4vw] lg:px-[6vw]">
                 <Link href="/dashboard">
-                    <Image src={logo} alt={'logo'} height={80} width={120}/>
+                    <Image src={logo} alt={'logo'} height={80} width={120} />
                 </Link>
                 {
-                    !isLogged ?
+                    isLogged ?
                         <>
                             <Mainnavigation />
                             <div>

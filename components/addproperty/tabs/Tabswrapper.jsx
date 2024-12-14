@@ -11,9 +11,8 @@ import Propertyapi from '@/components/api/Propertyapi'
 import { useUserDetails } from '@/components/zustand/useUserDetails'
 import Link from 'next/link'
 
-function Tabswrapper() {
+function Tabswrapper({ propertyInList, propertyForList, transactionTypeList, preferedTenantList, bacloniesList, bedroomtypesList, businesstypesList, facingList }) {
     const userInfo = useUserDetails(state => state.userInfo);
-    console.log('userInfo', userInfo)
     const access_token = useUserDetails(state => state.access_token);
     let user_id = userInfo?.user_id || null
     const searchParams = useSearchParams()
@@ -463,6 +462,9 @@ function Tabswrapper() {
                         updateActiveTab={updateActiveTab}
                         basicDetails={basicDetails}
                         unique_property_id={unique_property_id}
+                        propertyInList={propertyInList}
+                        propertyForList={propertyForList}
+                        transactionTypeList={transactionTypeList}
                     />
                 }
                 {
@@ -470,6 +472,11 @@ function Tabswrapper() {
                     <Propertydetailswrapper
                         propertyDetails={propertyDetails}
                         updateActiveTab={updateActiveTab}
+                        preferedTenantList={preferedTenantList}
+                        bacloniesList={bacloniesList}
+                        bedroomtypesList={bedroomtypesList}
+                        businesstypesList={businesstypesList}
+                        facingList={facingList}
                     />
                 }
                 {

@@ -10,7 +10,7 @@ import { Loadingoverlay, Modal, Select } from '@nayeshdaggula/tailify';
 import { usePropertyDetails } from '@/components/zustand/usePropertyDetails';
 import Generalapi from '@/components/api/Generalapi';
 
-function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails }) {
+function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails, propertyInList, propertyForList, transactionTypeList }) {
     const userInfo = useUserDetails((state) => state.userInfo)
     const access_token = useUserDetails(state => state.access_token);
     let user_id = userInfo?.user_id || null
@@ -185,144 +185,6 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
             })
     }
 
-    const [allPropertyFor, setAllPropertyFor] = useState([])
-    const getAllPropertyFor = () => {
-        Propertyapi.get('getPropertyFor', {
-            params: {
-                user_id: user_id
-            },
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${access_token}`
-            }
-        })
-
-            .then((response) => {
-                let data = response.data
-                if (data.status === 'error') {
-                    let finalResponse = {
-                        'message': data.message,
-                    }
-                    setErrorMessages(finalResponse)
-                }
-                if (data.status === 'success') {
-                    setAllPropertyFor(data?.property_for || [])
-                    return false;
-                }
-            }
-            )
-            .catch((error) => {
-                console.log(error)
-                let finalresponse;
-                if (error.response !== undefined) {
-                    finalresponse = {
-                        'message': error.message,
-                    };
-                }
-                else {
-                    finalresponse = {
-                        'message': error.message,
-                    };
-                }
-                setErrorMessages(finalresponse);
-                return false;
-            })
-    }
-
-    const [allPropertyIn, setAllPropertyIn] = useState([])
-    const getAllPropertyIn = () => {
-        Propertyapi.get('getPropertyIn', {
-            params: {
-                user_id: user_id
-            },
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${access_token}`
-            }
-        })
-
-            .then((response) => {
-                let data = response.data
-                if (data.status === 'error') {
-                    let finalResponse = {
-                        'message': data.message,
-                    }
-                    setErrorMessages(finalResponse)
-                }
-                if (data.status === 'success') {
-                    setAllPropertyIn(data?.property_in || [])
-                    return false;
-                }
-            }
-            )
-            .catch((error) => {
-                console.log(error)
-                let finalresponse;
-                if (error.response !== undefined) {
-                    finalresponse = {
-                        'message': error.message,
-                    };
-                }
-                else {
-                    finalresponse = {
-                        'message': error.message,
-                    };
-                }
-                setErrorMessages(finalresponse);
-                return false;
-            })
-    }
-
-    const [allTransactionType, setAllTransactionType] = useState([])
-    const getAllTransactionType = () => {
-        Propertyapi.get('getTransactionType', {
-            params: {
-                user_id: user_id
-            },
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${access_token}`
-            }
-        })
-
-            .then((response) => {
-                let data = response.data
-                if (data.status === 'error') {
-                    let finalResponse = {
-                        'message': data.message,
-                    }
-                    setErrorMessages(finalResponse)
-                }
-
-                if (data.status === 'success') {
-                    setAllTransactionType(data?.transaction_type || [])
-                    return false;
-                }
-            }
-            )
-            .catch((error) => {
-                console.log(error)
-                let finalresponse;
-                if (error.response !== undefined) {
-                    finalresponse = {
-                        'message': error.message,
-                    };
-                }
-                else {
-                    finalresponse = {
-                        'message': error.message,
-                    };
-                }
-                setErrorMessages(finalresponse);
-                return false;
-            })
-    }
-
-    useEffect(() => {
-        getAllPropertyFor()
-        getAllPropertyIn()
-        getAllTransactionType()
-    }, [])
     return (
         <>
             <div className='py-2 bg-[#E2EAED]'>
@@ -331,12 +193,13 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
             <div className='p-10'>
                 <>
                     <div className='flex gap-1 mb-4'>
-                        <p className='text-[#1D3A76] text-sm  font-sans font-medium'>Property Type</p>
+                        <p className='text-[#1D3A76] text-[13px]  font-sans font-medium'>Property Type</p>
                         <IconAsterisk size={8} color='#FF0000' />
                     </div>
                     <div className='flex flex-row items-center gap-6'>
                         {
-                            allPropertyIn.length > 0 && allPropertyIn.map((property, index) => {
+                            propertyInList.length > 0 &&
+                            propertyInList.map((property, index) => {
                                 return (
                                     <div key={index} onClick={() => updatePropertyType(property.value)} className={`group cursor-pointer px-8 py-2 rounded-md  ${propertyType === property.value ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
                                         <p className={`${propertyType === property.value ? 'text-white text-[10px]' : 'text-[#1D3A76] text-[10px] font-semibold group-hover:text-white'}`}>{property.name}</p>
@@ -349,12 +212,13 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
                 </>
                 <>
                     <div className='flex gap-1 my-4'>
-                        <p className='text-[#1D3A76] text-sm font-sans font-medium'>Looking to</p>
+                        <p className='text-[#1D3A76] text-[13px] font-sans font-medium'>Looking to</p>
                         <IconAsterisk size={8} color='#FF0000' />
                     </div>
                     <div className='flex flex-row items-center gap-6'>
                         {
-                            allPropertyFor.length > 0 && allPropertyFor.map((property, index) => {
+                            propertyForList.length > 0 &&
+                            propertyForList.map((property, index) => {
                                 return (
                                     <div key={index} onClick={() => updateLookingTo(property.value)} className={`group cursor-pointer px-8 py-2 rounded-md  ${lookingTo === property.value ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
                                         <p className={`${lookingTo === property.value ? 'text-white text-[10px]' : 'text-[#1D3A76] text-[10px] font-semibold group-hover:text-white'}`}>{property.name}</p>
@@ -369,8 +233,8 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
                             <div className='my-5 w-[40%]'>
                                 <Select
                                     label=' Transaction Type'
-                                    labelClassName='!text-[#1D3A76] text-sm font-medium font-sans'
-                                    data={allTransactionType}
+                                    labelClassName='!text-[#1D3A76] text-[13px] font-medium font-sans'
+                                    data={transactionTypeList}
                                     searchable
                                     withAsterisk
                                     value={transactionType}
@@ -390,7 +254,7 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
                     </div>
                     <Select
                         placeholder='Search location'
-                        labelClassName='!text-[#1D3A76] text-sm font-medium font-sans'
+                        labelClassName='!text-[#1D3A76] text-[13px] font-medium font-sans'
                         searchable
                         data={allLocations}
                         withAsterisk
@@ -414,7 +278,6 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
                     overlayBg="rgba(255, 255, 255, 0.6)"
                 />
             </div>
-
             {isModalOpen &&
                 <Modal
                     open={isModalOpen}
