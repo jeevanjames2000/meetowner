@@ -293,7 +293,7 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
             {flatNoError && <p className='text-[#FF0000] text-xs font-sans'>Please enter Flat No.</p>}
           </div>
           {
-            (getpropertyDetails?.property_in === "Commercial" && getpropertyDetails?.property_for === "Sell") &&
+            (getpropertyDetails?.property_in && getpropertyDetails?.property_for === "Sell") &&
             <>
               <div className='my-4'>
                 <div className='flex gap-1'>

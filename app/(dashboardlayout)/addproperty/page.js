@@ -1,22 +1,21 @@
-'use client';
-import React, { useEffect } from 'react';
+import React from 'react';
 import Tabswrapper from '@/components/addproperty/tabs/Tabswrapper';
-import { useUserDetails } from '@/components/zustand/useUserDetails';
-import { useRouter } from 'next/navigation';
+// import { useUserDetails } from '@/components/zustand/useUserDetails';
+// import { useRouter } from 'next/navigation';
 
 function Page() {
-    const router = useRouter();
-    const isLogged = useUserDetails((state) => state.isLogged);
+    // const router = useRouter();
+    // const isLogged = useUserDetails((state) => state.isLogged);
 
-    useEffect(() => {
-        if (!isLogged) {
-            router.push('/signup');
-        }
-    }, [isLogged]);
+    // useEffect(() => {
+    //     if (!isLogged) {
+    //         router.push('/signup');
+    //     }
+    // }, [isLogged]);
 
-    if (!isLogged) {
-        return null; // Or a loading spinner, placeholder, etc.
-    }
+    // if (!isLogged) {
+    //     return null; // Or a loading spinner, placeholder, etc.
+    // }
 
     return (
         <div className='px-[80px] mt-5'>

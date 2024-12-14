@@ -438,7 +438,7 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
     setIsLoadingEffect(true)
     // if (property_in === "Residencial" && property_for === "Sell") {
     //   if (propertySubType === 'Apartment' || propertySubType === 'Flat' || propertySubType === 'Land') {
-    //     if (constructionStatus === "Ready to move") {
+    //     if (constructionStatus === 1) {
     //       if (bhk === '') {
     //         setIsLoadingEffect(false)
     //         setBhkError('Please select BHK')
@@ -492,7 +492,7 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
 
     //     }
     //   } else {
-    //     if (constructionStatus === "Ready to move") {
+    //     if (constructionStatus === 1) {
     //       if (availableFromDate === '') {
     //         setIsLoadingEffect(false)
     //         setAvailableFromDateError('Please select available from date')
@@ -530,7 +530,7 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
     //       }
     //     }
     //   }
-    //   if (constructionStatus !== "Ready to move") {
+    //   if (constructionStatus !== 1) {
     //     if (possessionEndDate === '') {
     //       setIsLoadingEffect(false)
     //       setPossessionEndDateError('Please select possession end date')
@@ -1397,6 +1397,7 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
     getAllFacilities()
   }, [])
 
+  // const [isFocused, setIsFocused] = useState(false);
 
   const propertySubTypeIcon = {
     'default': (
@@ -1497,12 +1498,6 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
                 }
                 )
               }
-              {/* <div onClick={() => updateConstructionStatus('Ready to move')} className={`group cursor-pointer px-8 py-2 rounded-md  ${constructionStatus === 'Ready to move' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                <p className={`text-[10px] font-sans ${constructionStatus === 'Ready to move' ? 'text-white ' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Ready to Move</p>
-              </div>
-              <div onClick={() => updateConstructionStatus('Under Construction')} className={`group cursor-pointer px-8 py-2 rounded-md  ${constructionStatus === 'Under Construction' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                <p className={`text-[10px] font-sans ${constructionStatus === 'Under Construction' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Under Construction</p>
-              </div> */}
             </div>
             {constructionStatusError && <p className='text-[#FF0000] text-xs font-sans'>Please select construction status</p>}
           </div>
@@ -1526,21 +1521,6 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
                     )
                   })
                 }
-                {/* <div onClick={() => updateBhk('1')} className={`group cursor-pointer px-8 py-2 rounded-md  ${bhk === '1' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                  <p className={`text-[10px] font-sans ${bhk === '1' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>1 BHK</p>
-                </div>
-                <div onClick={() => updateBhk('2')} className={`group cursor-pointer px-8 py-2 rounded-md  ${bhk === '2' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                  <p className={`text-[10px] font-sans ${bhk === '2' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>2 BHK</p>
-                </div>
-                <div onClick={() => updateBhk('3')} className={`group cursor-pointer px-8 py-2 rounded-md  ${bhk === '3' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                  <p className={`text-[10px] font-sans ${bhk === '3' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>3 BHK</p>
-                </div>
-                <div onClick={() => updateBhk('4')} className={`group cursor-pointer px-8 py-2 rounded-md  ${bhk === '4' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                  <p className={`text-[10px] font-sans ${bhk === '4' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>4 BHK</p>
-                </div>
-                <div onClick={() => updateBhk('4plus')} className={`group cursor-pointer px-8 py-2 rounded-md  ${bhk === '4plus' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                  <p className={`text-[10px] font-sans ${bhk === '4plus' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>4+ BHK</p>
-                </div> */}
               </div>
               {
                 bhk === 5 &&
@@ -1558,6 +1538,28 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
                     onChange={updateCustomBhk}
                   />
                 </div>
+                // <div className="relative my-5">
+                //   {(isFocused || customBhk) &&
+                //     <div className='flex items-center gap-1'>
+                //       <label
+                //         className={`absolute left-0 text-sm font-medium font-sans text-[#1D3A76] transition-all duration-200 -top-4`}
+                //       >
+                //         Custom BHK
+                //       </label>
+                //       <IconAsterisk size={8} color='#FF0000' />
+                //     </div>
+                //   }
+                //   <input
+                //     type="text"
+                //     placeholder="Enter Custom BHK"
+                //     className="border-b border-[#c3c3c3] font-semibold w-full py-2 text-sm font-sans focus:outline-none"
+                //     autoComplete="off"
+                //     value={customBhk}
+                //     onChange={updateCustomBhk}
+                //     onFocus={() => setIsFocused(true)}
+                //     onBlur={() => setIsFocused(false)}
+                //   />
+                // </div>
               }
               {bhkError && <p className='text-[#FF0000] text-xs font-sans'>Please select BHK</p>}
             </div>
@@ -1807,7 +1809,7 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
           getpropertyDetails?.property_in && getpropertyDetails?.property_for === "Sell" &&
           <div className='mb-5'>
             <div className='flex gap-1 mb-4'>
-              <p className='text-[#1D3A76] text-sm font-medium font-sans'>Available From</p>
+              <p className='text-[#1D3A76] text-sm font-medium font-sans'>Available From </p>
               <IconAsterisk size={8} color='#FF0000' />
             </div>
             <div className='border border-[#909090] rounded-md w-[20%] px-3'>
@@ -1824,7 +1826,7 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
           </div>
         }
         {
-          (constructionStatus === 'Ready to move') || (getpropertyDetails?.property_in === "Commercial" && (propertySubType === "Warehouse")) &&
+          (constructionStatus === 1 || (getpropertyDetails?.property_in === "Commercial" && (propertySubType === "Warehouse"))) &&
           <div className='mb-5 w-[40%]'>
             <Select
               label='Age of Property'
@@ -1845,7 +1847,7 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
           </div>
         }
         {
-          (constructionStatus === 'Under Construction') || (getpropertyDetails?.property_in === "Commercial" && (propertySubType === "Warehouse")) &&
+          (constructionStatus === 2 || (getpropertyDetails?.property_in === "Commercial" && (propertySubType === "Warehouse"))) &&
           <div className='mb-5'>
             <div className='flex gap-1 mb-4'>
               <p className='text-[#1D3A76] text-sm font-medium font-sans'>Possesion End</p>
@@ -1903,14 +1905,14 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
                 <IconAsterisk size={8} color='#FF0000' />
               </div>
               <div className='flex flex-row items-center gap-6'>
-                <div onClick={() => updateSecurityDeposit('0')} className={`group cursor-pointer px-8 py-2 rounded-md  ${securityDeposit === '0' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                  <p className={`text-[10px] font-sans ${securityDeposit === '0' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>None</p>
-                </div>
                 <div onClick={() => updateSecurityDeposit('1')} className={`group cursor-pointer px-8 py-2 rounded-md  ${securityDeposit === '1' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
                   <p className={`text-[10px] font-sans ${securityDeposit === '1' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>1 Month</p>
                 </div>
                 <div onClick={() => updateSecurityDeposit('2')} className={`group cursor-pointer px-8 py-2 rounded-md  ${securityDeposit === '2' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
                   <p className={`text-[10px] font-sans ${securityDeposit === '2' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>2 Months</p>
+                </div>
+                <div onClick={() => updateSecurityDeposit('3')} className={`group cursor-pointer px-8 py-2 rounded-md  ${securityDeposit === '3' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${securityDeposit === '3' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>3 Months</p>
                 </div>
               </div>
               {securityDepositError && <p className='text-[#FF0000] text-xs font-sans'>Please select security deposit</p>}
@@ -1921,14 +1923,14 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
                 <IconAsterisk size={8} color='#FF0000' />
               </div>
               <div className='flex flex-row items-center gap-6'>
-                <div onClick={() => updateLockInPeriod('none')} className={`group cursor-pointer px-8 py-2 rounded-md  ${lockInPeriod === 'none' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                  <p className={`text-[10px] font-sans ${lockInPeriod === 'none' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>1 Month</p>
+                <div onClick={() => updateLockInPeriod('1')} className={`group cursor-pointer px-8 py-2 rounded-md  ${lockInPeriod === '1' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${lockInPeriod === '1' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>1 Month</p>
                 </div>
-                <div onClick={() => updateLockInPeriod('onemonth')} className={`group cursor-pointer px-8 py-2 rounded-md  ${lockInPeriod === 'onemonth' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                  <p className={`text-[10px] font-sans ${lockInPeriod === 'onemonth' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>1 Month</p>
+                <div onClick={() => updateLockInPeriod('2')} className={`group cursor-pointer px-8 py-2 rounded-md  ${lockInPeriod === '2' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${lockInPeriod === '2' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>2 Months</p>
                 </div>
-                <div onClick={() => updateLockInPeriod('twomonths')} className={`group cursor-pointer px-8 py-2 rounded-md  ${lockInPeriod === 'twomonths' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                  <p className={`text-[10px] font-sans ${lockInPeriod === 'twomonths' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>2 Months</p>
+                <div onClick={() => updateLockInPeriod('3')} className={`group cursor-pointer px-8 py-2 rounded-md  ${lockInPeriod === '3' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${lockInPeriod === '3' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>3 Months</p>
                 </div>
               </div>
               {lockInPeriodError && <p className='text-[#FF0000] text-xs font-sans'>Please select lock in period</p>}
@@ -2104,7 +2106,7 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
             </div>
           }
           {
-            getpropertyDetails?.property_in === 'Residencial' && getpropertyDetails.property_for === "Sell" && propertySubType ?
+            getpropertyDetails?.property_in && getpropertyDetails.property_for === "Sell" && propertySubType ?
               <>
                 <div className='my-6'>
                   <div className='flex gap-1'>
