@@ -175,17 +175,17 @@ function Loginform() {
 
     return (
         <>
-            <div className="flex flex-col w-[370px] h-fit gap-4">
+            <div className="flex flex-col w-[370px] xl:w-fit h-fit gap-4">
                 <div className="flex flex-col rounded-[20px] ">
                     <form onSubmit={handleLoginform}>
-                        <div className=' flex flex-col bg-white h-fit py-4 px-3 gap-2'>
-                            <p className='text-sm font-semibold'>Mobile Number</p>
+                        <div className=' flex flex-col bg-white h-fit py-4 px-3 gap-2  md:gap-2 '>
+                            <p className='text-[12px] md:text-[14px] font-semibold'>Mobile Number</p>
                             <div className='flex flex-row items-center'>
                                 <div className='w-[20%]'>
                                     <Textinput
                                         value='+91'
                                         placeholder="+91"
-                                        inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none'
+                                        inputClassName='text-[12px] md:text-[14px] border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none'
                                         inputProps={{ readOnly: true }}
                                     />
                                 </div>
@@ -193,7 +193,7 @@ function Loginform() {
                                     <Textinput
                                         type='number'
                                         placeholder="Enter Mobile Number"
-                                        inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none'
+                                        inputClassName='text-[12px] md:text-[14px] border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none'
                                         value={mobile}
                                         onChange={updateMobile}
                                         error={mobileError}
@@ -202,16 +202,16 @@ function Loginform() {
                             </div>
                             <button
                                 onClick={handleLoginform}
-                                className=" text-sm rounded-md px-4 py-2  bg-[#ffd119] w-full">
+                                className="text-[12px] md:text-[14px] rounded-md px-4 py-2  bg-[#ffd119] w-full">
                                 Login
                             </button>
                         </div>
                     </form>
                 </div>
                 <div className='flex flex-row items-center justify-center bg-[#1D3A76] rounded-full'>
-                    <p className='text-sm text-[#ffffff]'>Don't have an Account?</p>
+                    <p className='text-[12px] md:text-[14px] text-[#ffffff]'>Don't have an Account?</p>
                     <Link href='/signup'
-                        className=" text-sm px-1 py-1 text-[#FBAF01] ">
+                        className=" text-[12px] md:text-[14px] px-1 py-1 text-[#FBAF01] ">
                         Signup
                     </Link>
                 </div>

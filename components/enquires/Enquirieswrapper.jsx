@@ -13,7 +13,7 @@ import Unlockpackages from './Unlockpackages';
 function Enquirieswrapper() {
 
   return (
-    <div className="grid grid-cols-8 px-[80px] mt-5 w-full gap-4">
+    <div className="grid grid-cols-8 px-4 md:px-[80px] mt-5 w-full gap-4">
       <div className="col-span-12 md:col-span-6 space-y-8 mb-8">
         <Enquirestabswrapper />
       </div>
