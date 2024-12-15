@@ -98,8 +98,48 @@ async function Page() {
     }
     const facingList = getFacingData.facingList;
 
+    const getFurnishedTypesData = await getFurnishedTypes();
+    if (getFurnishedTypesData.status === 'error') {
+        return (
+            <div>
+                <p>Error fetching furnished types</p>
+            </div>
+        );
+    }
+    const furnishedtypesList = getFurnishedTypesData.furnishedtypesList;
+
+    const getOccupancyData = await getOccupancy();
+    if (getOccupancyData.status === 'error') {
+        return (
+            <div>
+                <p>Error fetching occupancy types</p>
+            </div>
+        );
+    }
+    const occupancyList = getOccupancyData.occupancyList;
+
+    const getOwnerShipTypeData = await getOwnerShipType();
+    if (getOwnerShipTypeData.status === 'error') {
+        return (
+            <div>
+                <p>Error fetching ownership types</p>
+            </div>
+        );
+    }
+    const ownershipList = getOwnerShipTypeData.ownershipList;
+
+    const getZoneTypesData = await getZoneTypes();
+    if (getZoneTypesData.status === 'error') {
+        return (
+            <div>
+                <p>Error fetching zone types</p>
+            </div>
+        );
+    }
+    const zoneList = getZoneTypesData.zoneList;
+
     return (
-        <div className='px-[80px] mt-5'>
+        <div className='px-[80px] mt-8'>
             <div className='p-1 border border-[#699BA0] rounded-md'>
                 <Tabswrapper
                     propertyInList={propertyInList}
@@ -110,6 +150,10 @@ async function Page() {
                     bedroomtypesList={bedroomtypesList}
                     businesstypesList={businesstypesList}
                     facingList={facingList}
+                    furnishedtypesList={furnishedtypesList}
+                    occupancyList={occupancyList}
+                    ownershipList={ownershipList}
+                    zoneList={zoneList}
                 />
             </div>
         </div>
@@ -374,6 +418,93 @@ async function getFurnishedTypes() {
             status: 'error',
             message: 'Error fetching furnished types',
             furnishedtypesList: [],
+        }
+        return finaldata;
+    }
+}
+
+async function getOccupancy() {
+    try {
+        const response = await Propertyapi.get('/getOccupancy');
+        const data = response.data;
+        if (data.status === 'error') {
+            let data = {
+                status: 'error',
+                message: 'Error fetching occupancy types',
+                occupancyList: [],
+            }
+            return data;
+        }
+        let finaldata = {
+            status: 'success',
+            message: 'occupancy types fetched successfully',
+            occupancyList: data.occupancy,
+        }
+        return finaldata;
+    } catch (error) {
+        console.error('Error fetching occupancy types:', error);
+        let finaldata = {
+            status: 'error',
+            message: 'Error fetching occupancy types',
+            occupancyList: [],
+        }
+        return finaldata;
+    }
+}
+
+async function getOwnerShipType() {
+    try {
+        const response = await Propertyapi.get('/getOwnerShipType');
+        const data = response.data;
+        if (data.status === 'error') {
+            let data = {
+                status: 'error',
+                message: 'Error fetching ownership types',
+                ownershipList: [],
+            }
+            return data;
+        }
+        let finaldata = {
+            status: 'success',
+            message: 'ownership types fetched successfully',
+            ownershipList: data.ownership_type,
+        }
+        return finaldata;
+    } catch (error) {
+        console.error('Error fetching ownership types:', error);
+        let finaldata = {
+            status: 'error',
+            message: 'Error fetching ownership types',
+            ownershipList: [],
+        }
+        return finaldata;
+    }
+}
+
+async function getZoneTypes() {
+    try {
+        const response = await Propertyapi.get('/getZoneTypes');
+        const data = response.data;
+        if (data.status === 'error') {
+            let data = {
+                status: 'error',
+                message: 'Error fetching zone types',
+                zoneList: [],
+            }
+            return data;
+        }
+        let finaldata = {
+            status: 'success',
+            message: 'zone types fetched successfully',
+            zoneList: data.zone_types,
+        }
+        return finaldata;
+    } catch (error) {
+        console.error('Error fetching zone types:', error);
+        let finaldata = {
+            status: 'error',
+            message: 'Error fetching zone types',
+            zoneList: [],
         }
         return finaldata;
     }

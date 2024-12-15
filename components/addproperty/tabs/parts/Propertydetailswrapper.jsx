@@ -10,7 +10,12 @@ import { useSearchParams } from 'next/navigation';
 import Errorpanel from '@/components/shared/Errorpanel';
 import { toast } from 'react-toastify';
 import { usePropertyDetails } from '@/components/zustand/usePropertyDetails';
-function Propertydetailswrapper({ updateActiveTab, propertyDetails, preferedTenantList, bacloniesList, bedroomtypesList, businesstypesList, facingList }) {
+function Propertydetailswrapper({
+  updateActiveTab, propertyDetails, preferedTenantList,
+  bacloniesList, bedroomtypesList, businesstypesList,
+  facingList, furnishedtypesList, occupancyList,
+  ownershipList, zoneList
+}) {
   const userInfo = useUserDetails((state) => state.userInfo)
   let user_id = userInfo?.user_id || null
   let access_token = userInfo?.access_token || null
@@ -587,21 +592,21 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails, preferedTena
     }
 
     let new_car_parking;
-    if (carParking === '4+') {
+    if (carParking === '4plus') {
       new_car_parking = customCarParking
     } else {
       new_car_parking = carParking
     }
 
     let new_bike_parking;
-    if (bikeParking === '4+') {
+    if (bikeParking === '4plus') {
       new_bike_parking = customBikeParking
     } else {
       new_bike_parking = bikeParking
     }
 
     let new_open_parking;
-    if (openParking === '4+') {
+    if (openParking === '4plus') {
       new_open_parking = customOpenParking
     } else {
       new_open_parking = openParking
@@ -722,21 +727,21 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails, preferedTena
       setReraApproved(propertyDetails?.rera_approved || '')
       setConstructionStatus(propertyDetails?.occupancy || '')
       if (parseInt(propertyDetails?.bedrooms) > 4) {
-        setBhk('4plus')
+        setBhk(5)
         setCustomBhk(propertyDetails?.bedrooms || '')
       } else {
         setBhk(propertyDetails?.bedrooms || '')
         setCustomBhk('')
       }
       if (parseInt(propertyDetails?.bathroom) > 4) {
-        setBathroom('4plus')
+        setBathroom(5)
         setCustomBathroom(propertyDetails?.bathroom || '')
       } else {
         setBathroom(propertyDetails?.bathroom || '')
         setCustomBathroom('')
       }
       if (parseInt(propertyDetails?.balconies) > 4) {
-        setBalcony('4plus')
+        setBalcony(5)
         setCustomBalcony(propertyDetails?.balconies || '')
       } else {
         setBalcony(propertyDetails?.balconies || '')
@@ -762,21 +767,21 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails, preferedTena
       setOtherInfo(propertyDetails?.other_info || '')
       setFacing(propertyDetails?.facing || '')
       if (parseInt(propertyDetails?.car_parking) > 4) {
-        setCarParking('4plus')
+        setCarParking("4plus")
         setCustomCarParking(propertyDetails?.car_parking || '')
       } else {
         setCarParking(propertyDetails?.car_parking || '')
         setCustomCarParking('')
       }
       if (parseInt(propertyDetails?.bike_parking) > 4) {
-        setBikeParking('4plus')
+        setBikeParking("4plus")
         setCustomBikeParking(propertyDetails?.bike_parking || '')
       } else {
         setBikeParking(propertyDetails?.bike_parking || '')
         setCustomBikeParking('')
       }
       if (parseInt(propertyDetails?.open_parking) > 4) {
-        setOpenParking('4plus')
+        setOpenParking("4plus")
         setCustomOpenParking(propertyDetails?.open_parking || '')
       } else {
         setOpenParking(propertyDetails?.open_parking || '')
@@ -871,8 +876,6 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails, preferedTena
       })
   }
 
-
-
   const [allFloors, setAllFloors] = useState([])
   const getAllFloors = () => {
     Propertyapi.get('getfloors', {
@@ -915,181 +918,6 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails, preferedTena
       })
   }
 
-  const [allFurnishedTypes, setAllFurnishedTypes] = useState([])
-  const getFurnishedTypes = () => {
-    Propertyapi.get('getFurnishedStatus', {
-      params: {
-        user_id: user_id
-      },
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${access_token}`
-      }
-    })
-      .then((response) => {
-        let data = response.data
-        if (data.status === 'error') {
-          let finalResponse = {
-            'message': data.message,
-          }
-          setErrorMessages(finalResponse)
-        }
-        if (data.status === 'success') {
-          setAllFurnishedTypes(data?.furnished_status || [])
-          return false;
-        }
-      }
-
-      )
-      .catch((error) => {
-        console.log(error)
-        let finalresponse;
-        if (error.response !== undefined) {
-          finalresponse = {
-            'message': error.message,
-          };
-        }
-        else {
-          finalresponse = {
-            'message': error.message,
-          };
-        }
-        setErrorMessages(finalresponse);
-        return false;
-      })
-  }
-
-  const [allOccupancyTypes, setAllOccupancyTypes] = useState([])
-  const getOccupancyTypes = () => {
-    Propertyapi.get('getOccupancy', {
-      params: {
-        user_id: user_id
-      },
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${access_token}`
-      }
-    })
-
-      .then((response) => {
-        let data = response.data
-        if (data.status === 'error') {
-          let finalResponse = {
-            'message': data.message,
-          }
-          setErrorMessages(finalResponse)
-        }
-        if (data.status === 'success') {
-          setAllOccupancyTypes(data?.occupancy || [])
-          return false;
-        }
-      }
-      )
-      .catch((error) => {
-        console.log(error)
-        let finalresponse;
-        if (error.response !== undefined) {
-          finalresponse = {
-            'message': error.message,
-          };
-        }
-        else {
-          finalresponse = {
-            'message': error.message,
-          };
-        }
-        setErrorMessages(finalresponse);
-        return false;
-      })
-  }
-
-  const [allOwnerShipTypes, setAllOwnerShipTypes] = useState([])
-  const getOwnerShipTypes = () => {
-    Propertyapi.get('getOwnerShipType', {
-      params: {
-        user_id: user_id
-      },
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${access_token}`
-      }
-    })
-
-      .then((response) => {
-        let data = response.data
-        if (data.status === 'error') {
-          let finalResponse = {
-            'message': data.message,
-          }
-          setErrorMessages(finalResponse)
-        }
-        if (data.status === 'success') {
-          setAllOwnerShipTypes(data?.ownership_type || [])
-          return false;
-        }
-      }
-      )
-      .catch((error) => {
-        console.log(error)
-        let finalresponse;
-        if (error.response !== undefined) {
-          finalresponse = {
-            'message': error.message,
-          };
-        }
-        else {
-          finalresponse = {
-            'message': error.message,
-          };
-        }
-        setErrorMessages(finalresponse);
-        return false;
-      })
-  }
-
-  const [allZoneTypes, setAllZoneTypes] = useState([])
-  const getZoneTypes = () => {
-    Propertyapi.get('getZoneTypes', {
-      params: {
-        user_id: user_id
-      },
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${access_token}`
-      }
-    })
-
-      .then((response) => {
-        let data = response.data
-        if (data.status === 'error') {
-          let finalResponse = {
-            'message': data.message,
-          }
-          setErrorMessages(finalResponse)
-        }
-        if (data.status === 'success') {
-          setAllZoneTypes(data?.zone_types || [])
-          return false;
-        }
-      }
-      )
-      .catch((error) => {
-        console.log(error)
-        let finalresponse;
-        if (error.response !== undefined) {
-          finalresponse = {
-            'message': error.message,
-          };
-        }
-        else {
-          finalresponse = {
-            'message': error.message,
-          };
-        }
-        setErrorMessages(finalresponse);
-        return false;
-      })
-  }
 
   const getAllFacilities = () => {
     Propertyapi.get('getfaclities', {
@@ -1170,12 +998,7 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails, preferedTena
 
   useEffect(() => {
     getPropertySubTypes()
-
     // getAllFloors()
-    getFurnishedTypes()
-    getOccupancyTypes()
-    getOwnerShipTypes()
-    getZoneTypes()
     getAllFacilities()
   }, [])
 
@@ -1271,7 +1094,8 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails, preferedTena
             </div>
             <div className='flex flex-row items-center gap-6'>
               {
-                allOccupancyTypes.length > 0 && allOccupancyTypes.map((item, index) => {
+                occupancyList.length > 0 &&
+                occupancyList.map((item, index) => {
                   return (
                     <div key={index} onClick={() => updateConstructionStatus(item.value)} className={`group cursor-pointer px-8 py-2 rounded-md  ${constructionStatus === item.value ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
                       <p className={`text-[10px] font-sans ${constructionStatus === item.value ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>{item.name}</p>
@@ -1433,33 +1257,16 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails, preferedTena
               </div>
               <div className='grid grid-cols-3 gap-2'>
                 {
-                  allFurnishedTypes.map((item, index) => {
+                  furnishedtypesList.length > 0 &&
+                  furnishedtypesList.map((item, index) => {
                     return (
-                      <div key={index} onClick={() => updateFurnishType(item.value)} className={`flex flex-col justify-center items-center gap-2 border-2 rounded-md px-4 py-2 w-[100%] cursor-pointer ${furnishType === item.value ? 'bg-[#1D3A76] border-[#1D3A76] ' : 'border-[#d7d5d5ba] '}`}>
-                        <p className={`text-xs text-center font-medium ${furnishType === item.value ? 'text-white' : 'text-[#1D3A76]'} `}>{item.name}</p>
+                      <div key={index} onClick={() => updateFurnishType(item.value)} className={`group flex flex-col justify-center items-center gap-2 border-2 rounded-md px-4 py-2 w-[100%] cursor-pointer ${furnishType === item.value ? 'bg-[#1D3A76] border-[#1D3A76] ' : 'border-[#d7d5d5ba] hover:bg-[#1D3A76]'}`}>
+                        <p className={`text-xs text-center font-medium ${furnishType === item.value ? 'text-white' : 'text-[#1D3A76] group-hover:text-white'} `}>{item.name}</p>
                       </div>
                     )
                   }
                   )
                 }
-                {/* <div onClick={() => updateFurnishType('fullyfurnished')} className={`flex flex-row items-center gap-4 border-2 rounded-md px-4 py-2 w-[80%] cursor-pointer ${furnishType === "fullyfurnished" ? 'bg-[#1D3A76] border-[#1D3A76] ' : 'border-[#d7d5d5ba] '}`}>
-                  <svg width="20" height="20" viewBox="0 0 33 27" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M6 27C5.575 27 5.219 26.856 4.932 26.568C4.645 26.28 4.501 25.924 4.5 25.5V24C3.25 24 2.1875 23.5625 1.3125 22.6875C0.4375 21.8125 0 20.75 0 19.5V12C0 10.75 0.4375 9.6875 1.3125 8.8125C2.1875 7.9375 3.25 7.5 4.5 7.5V4.5C4.5 3.25 4.9375 2.1875 5.8125 1.3125C6.6875 0.4375 7.75 0 9 0H24C25.25 0 26.3125 0.4375 27.1875 1.3125C28.0625 2.1875 28.5 3.25 28.5 4.5V7.5C29.75 7.5 30.8125 7.9375 31.6875 8.8125C32.5625 9.6875 33 10.75 33 12V19.5C33 20.75 32.5625 21.8125 31.6875 22.6875C30.8125 23.5625 29.75 24 28.5 24V25.5C28.5 25.925 28.356 26.2815 28.068 26.5695C27.78 26.8575 27.424 27.001 27 27C26.576 26.999 26.22 26.855 25.932 26.568C25.644 26.281 25.5 25.925 25.5 25.5V24H7.5V25.5C7.5 25.925 7.356 26.2815 7.068 26.5695C6.78 26.8575 6.424 27.001 6 27ZM4.5 21H28.5C28.925 21 29.2815 20.856 29.5695 20.568C29.8575 20.28 30.001 19.924 30 19.5V12C30 11.575 29.856 11.219 29.568 10.932C29.28 10.645 28.924 10.501 28.5 10.5C28.076 10.499 27.72 10.643 27.432 10.932C27.144 11.221 27 11.577 27 12V18H6V12C6 11.575 5.856 11.219 5.568 10.932C5.28 10.645 4.924 10.501 4.5 10.5C4.076 10.499 3.72 10.643 3.432 10.932C3.144 11.221 3 11.577 3 12V19.5C3 19.925 3.144 20.2815 3.432 20.5695C3.72 20.8575 4.076 21.001 4.5 21ZM9 15H24V12C24 11.325 24.1375 10.7125 24.4125 10.1625C24.6875 9.6125 25.05 9.125 25.5 8.7V4.5C25.5 4.075 25.356 3.719 25.068 3.432C24.78 3.145 24.424 3.001 24 3H9C8.575 3 8.219 3.144 7.932 3.432C7.645 3.72 7.501 4.076 7.5 4.5V8.7C7.95 9.125 8.3125 9.6125 8.5875 10.1625C8.8625 10.7125 9 11.325 9 12V15Z" fill={furnishType === 'fullyfurnished' ? '#fff' : '#909090'} />
-                  </svg>
-                  <p className={` text-[10px] text-center font-sans ${furnishType === "fullyfurnished" ? 'text-white' : 'text-[#909090]'}`}>Fully Furnished</p>
-                </div>
-                <div onClick={() => updateFurnishType('semifurnished')} className={`flex flex-row items-center gap-4 border-2 rounded-md px-4 py-2 w-[80%] cursor-pointer ${furnishType === "semifurnished" ? 'bg-[#1D3A76] border-[#1D3A76] ' : 'border-[#d7d5d5ba] '}`}>
-                  <svg width="20" height="20" viewBox="0 0 33 27" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M6 27C5.575 27 5.219 26.856 4.932 26.568C4.645 26.28 4.501 25.924 4.5 25.5V24C3.25 24 2.1875 23.5625 1.3125 22.6875C0.4375 21.8125 0 20.75 0 19.5V12C0 10.75 0.4375 9.6875 1.3125 8.8125C2.1875 7.9375 3.25 7.5 4.5 7.5V4.5C4.5 3.25 4.9375 2.1875 5.8125 1.3125C6.6875 0.4375 7.75 0 9 0H24C25.25 0 26.3125 0.4375 27.1875 1.3125C28.0625 2.1875 28.5 3.25 28.5 4.5V7.5C29.75 7.5 30.8125 7.9375 31.6875 8.8125C32.5625 9.6875 33 10.75 33 12V19.5C33 20.75 32.5625 21.8125 31.6875 22.6875C30.8125 23.5625 29.75 24 28.5 24V25.5C28.5 25.925 28.356 26.2815 28.068 26.5695C27.78 26.8575 27.424 27.001 27 27C26.576 26.999 26.22 26.855 25.932 26.568C25.644 26.281 25.5 25.925 25.5 25.5V24H7.5V25.5C7.5 25.925 7.356 26.2815 7.068 26.5695C6.78 26.8575 6.424 27.001 6 27ZM4.5 21H28.5C28.925 21 29.2815 20.856 29.5695 20.568C29.8575 20.28 30.001 19.924 30 19.5V12C30 11.575 29.856 11.219 29.568 10.932C29.28 10.645 28.924 10.501 28.5 10.5C28.076 10.499 27.72 10.643 27.432 10.932C27.144 11.221 27 11.577 27 12V18H6V12C6 11.575 5.856 11.219 5.568 10.932C5.28 10.645 4.924 10.501 4.5 10.5C4.076 10.499 3.72 10.643 3.432 10.932C3.144 11.221 3 11.577 3 12V19.5C3 19.925 3.144 20.2815 3.432 20.5695C3.72 20.8575 4.076 21.001 4.5 21ZM9 15H24V12C24 11.325 24.1375 10.7125 24.4125 10.1625C24.6875 9.6125 25.05 9.125 25.5 8.7V4.5C25.5 4.075 25.356 3.719 25.068 3.432C24.78 3.145 24.424 3.001 24 3H9C8.575 3 8.219 3.144 7.932 3.432C7.645 3.72 7.501 4.076 7.5 4.5V8.7C7.95 9.125 8.3125 9.6125 8.5875 10.1625C8.8625 10.7125 9 11.325 9 12V15Z" fill={furnishType === 'semifurnished' ? '#fff' : '#909090'} />
-                  </svg>
-                  <p className={` text-[10px] text-center font-sans ${furnishType === "semifurnished" ? 'text-white' : 'text-[#909090]'}`}>Semi Furnished</p>
-                </div>
-                <div onClick={() => updateFurnishType('unfurnished')} className={`flex flex-row items-center gap-4 border-2 rounded-md px-4 py-2 w-[80%] cursor-pointer ${furnishType === "unfurnished" ? 'bg-[#1D3A76] border-[#1D3A76] ' : 'border-[#d7d5d5ba] '}`}>
-                  <svg width="20" height="20" viewBox="0 0 26 29" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M1.69574 15.826H6.78268V10.1739H3.9566C3.50689 10.1739 3.0756 9.99523 2.7576 9.67723C2.43961 9.35924 2.26096 8.92794 2.26096 8.47823V1.69565C2.26096 1.24593 2.43961 0.814638 2.7576 0.496643C3.0756 0.178648 3.50689 0 3.9566 0H22.0435C22.4932 0 22.9245 0.178648 23.2425 0.496643C23.5605 0.814638 23.7391 1.24593 23.7391 1.69565V8.47823C23.7391 8.92794 23.5605 9.35924 23.2425 9.67723C22.9245 9.99523 22.4932 10.1739 22.0435 10.1739H19.2174V15.826H24.3044C24.7541 15.826 25.1854 16.0047 25.5034 16.3227C25.8214 16.6407 26 17.072 26 17.5217V19.7825C26 20.2322 25.8214 20.6635 25.5034 20.9815C25.1854 21.2995 24.7541 21.4782 24.3044 21.4782H22.6087V27.6955C22.6087 27.8455 22.5492 27.9892 22.4432 28.0952C22.3372 28.2012 22.1934 28.2608 22.0435 28.2608C21.8936 28.2608 21.7498 28.2012 21.6438 28.0952C21.5378 27.9892 21.4783 27.8455 21.4783 27.6955V21.4782H4.52182V27.6955C4.52182 27.8455 4.46227 27.9892 4.35627 28.0952C4.25027 28.2012 4.10651 28.2608 3.9566 28.2608C3.8067 28.2608 3.66293 28.2012 3.55694 28.0952C3.45094 27.9892 3.39139 27.8455 3.39139 27.6955V21.4782H1.69574C1.24603 21.4782 0.814735 21.2995 0.49674 20.9815C0.178745 20.6635 9.72748e-05 20.2322 9.72748e-05 19.7825V17.5217C9.72748e-05 17.072 0.178745 16.6407 0.49674 16.3227C0.814735 16.0047 1.24603 15.826 1.69574 15.826ZM22.6087 8.47823V1.69565C22.6087 1.54574 22.5492 1.40198 22.4432 1.29598C22.3372 1.18998 22.1934 1.13043 22.0435 1.13043H3.9566C3.8067 1.13043 3.66293 1.18998 3.55694 1.29598C3.45094 1.40198 3.39139 1.54574 3.39139 1.69565V8.47823C3.39139 8.62813 3.45094 8.7719 3.55694 8.8779C3.66293 8.9839 3.8067 9.04344 3.9566 9.04344H22.0435C22.1934 9.04344 22.3372 8.9839 22.4432 8.8779C22.5492 8.7719 22.6087 8.62813 22.6087 8.47823ZM18.087 10.1739H7.91311V15.826H18.087V10.1739ZM1.13053 19.7825C1.13053 19.9324 1.19008 20.0762 1.29607 20.1822C1.40207 20.2882 1.54584 20.3477 1.69574 20.3477H24.3044C24.4543 20.3477 24.598 20.2882 24.704 20.1822C24.81 20.0762 24.8696 19.9324 24.8696 19.7825V17.5217C24.8696 17.3718 24.81 17.228 24.704 17.122C24.598 17.016 24.4543 16.9565 24.3044 16.9565H1.69574C1.54584 16.9565 1.40207 17.016 1.29607 17.122C1.19008 17.228 1.13053 17.3718 1.13053 17.5217V19.7825Z" fill={furnishType === 'unfurnished' ? '#fff' : '#909090'} />
-                  </svg>
-                  <p className={` text-[10px] text-center font-sans ${furnishType === "unfurnished" ? 'text-white' : 'text-[#909090]'}`}>Unfurnished</p>
-                </div> */}
               </div>
               {furnishTypeError && <p className='text-[#FF0000] text-xs font-sans'>Please select furnish type</p>}
             </div>
@@ -1948,8 +1755,8 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails, preferedTena
             </div>
             <div className='grid grid-cols-4 gap-3 mt-2'>
               {
-                allOwnerShipTypes?.length > 0 &&
-                allOwnerShipTypes.map((item, index) => (
+                ownershipList?.length > 0 &&
+                ownershipList.map((item, index) => (
                   <div key={index} onClick={() => updateOwnerShip(item.value)} className={`group cursor-pointer px-8 py-2 rounded-md  ${ownerShip === item.value ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
                     <p className={`text-[10px] font-sans ${ownerShip === item.value ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>{item.name}</p>
                   </div>
@@ -2061,7 +1868,7 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails, preferedTena
                   <Select
                     label='Zone Type'
                     labelClassName='!text-[#1D3A76] text-[13px] font-medium font-sans'
-                    data={allZoneTypes}
+                    data={zoneList}
                     searchable
                     withAsterisk
                     value={zoneType}

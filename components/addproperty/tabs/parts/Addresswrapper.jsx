@@ -102,6 +102,7 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
     Propertyapi.post('/addAddressdetails', {
       city_id: city,
       unit_flat_house_no: flatNo,
+      property_name: propertyName,
       floors: floorNo,
       total_floors: totalFloors,
       location_id: locality,
@@ -161,7 +162,7 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
   useEffect(() => {
     if (addressDetails !== null) {
       setCity(addressDetails?.city_id || '')
-      setPropertyName(addressDetails?.unit_flat_house_no || '')
+      setPropertyName(addressDetails?.property_name || '')
       setFlatNo(addressDetails?.unit_flat_house_no || '')
       setFloorNo(addressDetails?.floors || '')
       setTotalFloors(addressDetails?.total_floors || '')

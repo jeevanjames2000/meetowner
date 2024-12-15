@@ -11,7 +11,12 @@ import Propertyapi from '@/components/api/Propertyapi'
 import { useUserDetails } from '@/components/zustand/useUserDetails'
 import Link from 'next/link'
 
-function Tabswrapper({ propertyInList, propertyForList, transactionTypeList, preferedTenantList, bacloniesList, bedroomtypesList, businesstypesList, facingList }) {
+function Tabswrapper({
+    propertyInList, propertyForList, transactionTypeList,
+    preferedTenantList, bacloniesList, bedroomtypesList,
+    businesstypesList, facingList, furnishedtypesList,
+    occupancyList, ownershipList, zoneList
+}) {
     const userInfo = useUserDetails(state => state.userInfo);
     const access_token = useUserDetails(state => state.access_token);
     let user_id = userInfo?.user_id || null
@@ -477,6 +482,10 @@ function Tabswrapper({ propertyInList, propertyForList, transactionTypeList, pre
                         bedroomtypesList={bedroomtypesList}
                         businesstypesList={businesstypesList}
                         facingList={facingList}
+                        furnishedtypesList={furnishedtypesList}
+                        occupancyList={occupancyList}
+                        ownershipList={ownershipList}
+                        zoneList={zoneList}
                     />
                 }
                 {

@@ -14,6 +14,7 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
     const userInfo = useUserDetails((state) => state.userInfo)
     const access_token = useUserDetails(state => state.access_token);
     let user_id = userInfo?.user_id || null
+    let user_type = userInfo?.user_type || null
     const updatePropertyDetails = usePropertyDetails(state => state.updatePropertyDetails)
     const searchParams = useSearchParams()
     const router = useRouter()
@@ -36,6 +37,7 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
         setLookingToError('')
     }
 
+    const [showDropdown, setShowDropdown] = useState(false);
     const [transactionType, setTransactionType] = useState('')
     const [transactionTypeError, setTransactionTypeError] = useState('')
     const updateTransactionType = (value) => {
@@ -46,8 +48,13 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
     const updateLocation = (value) => {
         if (value.length > 2) {
             getPlacesFromGoogle({ input: value })
+            setShowDropdown(true)
         } else {
             setAllLocations([])
+        }
+        if (value === '') {
+            setAllLocations([])
+            setShowDropdown(false)
         }
         setLocation(value)
     }
@@ -77,6 +84,7 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
             transaction_type: transactionType,
             user_id: parseInt(user_id),
             unique_property_id: unique_property_id,
+            user_type: user_type,
             location_id: location
         }, {
             headers: {
@@ -185,6 +193,12 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
             })
     }
 
+    const handleLocationSelect = (locationName) => {
+        setLocation(locationName);
+        setShowDropdown(false);
+    };
+
+
     return (
         <>
             <div className='py-2 bg-[#E2EAED]'>
@@ -248,25 +262,32 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
                     }
                 </>
 
-                <div className='flex flex-row items-center my-4 '>
-                    <div className='bg-[#1D3A76] flex items-center justify-center px-3 rounded-s-lg py-2 mt-1'>
+                <div className='flex flex-row items-center my-4 h-4 '>
+                    <div className='bg-[#1D3A76] flex items-center justify-center px-3 rounded-s-lg py-2 '>
                         <IconSearch size={20} color='#fff' />
                     </div>
-                    <Select
-                        placeholder='Search location'
-                        labelClassName='!text-[#1D3A76] text-[13px] font-medium font-sans'
-                        searchable
-                        data={allLocations}
-                        withAsterisk
+                    <input
+                        type='text'
                         value={location}
-                        onChange={updateLocation}
-                        inputClassName='focus:ring-blue-500 focus:border-blue-500'
-                        className='w-full focus:outline-none !rounded-0'
-                        padding='p-0'
-                        margin='m-0'
-                    />
+                        onChange={(e) => updateLocation(e.target.value)}
+                        placeholder='Search location'
+                        className='w-full border border-[#1D3A76] rounded-r-md px-3 py-[5px]  focus:outline-none focus:ring-1 focus:ring-[#1D3A76] focus:border-[#1D3A76]' />
                 </div>
-
+                {
+                    showDropdown &&
+                    allLocations.length > 0 && (
+                        <ul className='w-full bg-white border border-[#1D3A76] rounded-md shadow-lg max-h-48 overflow-auto z-50'>
+                            {allLocations.map((loc, index) => (
+                                <li
+                                    key={index}
+                                    onClick={() => handleLocationSelect(loc.value)}
+                                    className='px-4 py-2 cursor-pointer hover:bg-[#1D3A76] hover:text-white'
+                                >
+                                    {loc.label}
+                                </li>
+                            ))}
+                        </ul>
+                    )}
                 <div className='flex flex-row justify-end items-center mt-6'>
                     <div onClick={updateBasicdetails} className='border border-[#1D3A76] bg-[#1D3A76] px-8 py-3 rounded-md cursor-pointer'>
                         <p className='text-white text-[12px]'>Next, add property details</p>
