@@ -4,7 +4,7 @@ import LoadingOverlay from "@/components/shared/LoadingOverlay";
 import { useUserDetails } from "@/components/zustand/useUserDetails";
 import { Modal } from "@nayeshdaggula/tailify";
 import { useSearchParams } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 function Photoswrapper({ updateActiveTab }) {
@@ -19,6 +19,7 @@ function Photoswrapper({ updateActiveTab }) {
   const unique_property_id = searchParams.get('unique_property_id')
   const [files, setFiles] = useState([]);
   const [previews, setPreviews] = useState([]);
+  const [featuredIndex, setFeaturedIndex] = useState(null);
 
   const handleFileUpload = (event) => {
     const uploadedFiles = Array.from(event.target.files);
@@ -39,19 +40,38 @@ function Photoswrapper({ updateActiveTab }) {
     const newFiles = [...files];
     const filteredFiles = newFiles.filter((_, i) => i !== index);
     setFiles(filteredFiles);
+
+    if (featuredIndex === index) {
+      setFeaturedIndex(null);
+    } else if (featuredIndex > index) {
+      setFeaturedIndex(featuredIndex - 1);
+    }
   }
+
+  const handleSetFeatured = (index) => {
+    setFeaturedIndex(index);
+  };
+
   const [isModalOpen, setModalOpen] = useState(false);
   const [errorMessages, setErrorMessages] = useState({});
   const [isLoadingEffect, setIsLoadingEffect] = useState(false);
   const handleSubmitPhotos = () => {
+    setIsLoadingEffect(true);
     if (previews.length === 0) {
+      setIsLoadingEffect(false);
       alert('Please upload at least one photo');
       return false;
     }
-
+    if (featuredIndex === null) {
+      setIsLoadingEffect(false);
+      alert("Please select a featured image");
+      return;
+    }
+    console.log('featuredIndex', featuredIndex)
     const formData = new FormData();
     formData.append('user_id', user_id);
     formData.append('unique_property_id', unique_property_id);
+    formData.append("featured_image", files[featuredIndex]);
     files.forEach((file) => {
       formData.append("photo", file);
     });
@@ -83,6 +103,7 @@ function Photoswrapper({ updateActiveTab }) {
         setIsLoadingEffect(false);
       });
   }
+
   return (
     <>
       <div className="relative">
@@ -92,7 +113,7 @@ function Photoswrapper({ updateActiveTab }) {
           </p>
         </div>
         <div className="px-5 py-3">
-          <div className="mt-3 overflow-y-auto h-[calc(100vh-220px)]">
+          <div className="mt-3 overflow-y-auto h-[calc(100vh-240px)]">
             <div className="flex items-center justify-center w-full">
               <label
                 htmlFor="dropzone-file"
@@ -135,18 +156,37 @@ function Photoswrapper({ updateActiveTab }) {
               </label>
             </div>
 
-            {previews.length > 0 && (
-              <div className="grid grid-cols-3 gap-4 mt-4">
-                {previews.map((preview, index) => (
+            <div className="grid grid-cols-3 gap-4 mt-4">
+              {
+                previews.length > 0 &&
+                previews.map((preview, index) => (
                   <div
                     key={index}
                     className="relative group border border-gray-300 p-2 rounded"
                   >
                     <img
                       src={preview}
-                      alt={`Preview ${index + 1}`}
+                      alt={`Preview ${index}`}
                       className="w-full h-40 object-cover rounded"
                     />
+
+                    {/* <div class="flex items-center justify-center">
+                        <input
+                          id="featured_image"
+                          type="checkbox"
+                          value=""
+                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 my-2 "
+                        />
+                        <label for="featured_image"
+                          className="ms-2 text-xs font-medium text-gray-900">Set As Featured Image.</label>
+                      </div> */}
+                    <button
+                      onClick={() => handleSetFeatured(index)}
+                      className={` px-2 py-1 my-2 text-xs text-center ${featuredIndex === index ? "bg-green-500 text-white" : "bg-gray-500 text-white"
+                        }`}
+                    >
+                      {featuredIndex === index ? "Featured Image" : "Set as Featured Image"}
+                    </button>
                     <button
                       className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 text-xs opacity-0 group-hover:opacity-100 transition-opacity"
                       onClick={() => removePreview(index)}
@@ -154,9 +194,9 @@ function Photoswrapper({ updateActiveTab }) {
                       ✕
                     </button>
                   </div>
-                ))}
-              </div>
-            )}
+                ))
+              }
+            </div>
           </div>
         </div>
         <div className='flex flex-row justify-between items-center  px-6 pt-3'>

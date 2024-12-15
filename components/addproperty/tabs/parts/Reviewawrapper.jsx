@@ -35,6 +35,10 @@ function Reviewawrapper({ allpropertyDetails, propertyGallery }) {
     }, [active_step])
 
 
+    let available_from = new Date(allpropertyDetails?.available_from)
+    let available_from_date = available_from?.toISOString().split('T')[0]
+
+
     return (
         <div className='relative'>
             <div className='py-2 bg-[#E2EAED]'>
@@ -49,19 +53,16 @@ function Reviewawrapper({ allpropertyDetails, propertyGallery }) {
                         <p className='font-semibold font-sans text-sm'>Congratulations!</p>
                         <p className='text-xs mt-1'>Your listing is being reviewed.</p>
                     </div>
-                    <div className='flex flex-row w-full gap-4 p-2'>
-                        <div className='w-[20%]'>
-                            <Propertiesgallery
-                                propertyGallery={propertyGallery}
-                            />
-                        </div>
-                        {/* <Image src={allpropertyDetails?.image || property} width={200} height={200} /> */}
-                        <div className='w-[80%] flex justify-between items-center'>
+                    <div className='grid grid-cols-2 w-full gap-4 p-2'>
+                        <Propertiesgallery
+                            propertyGallery={propertyGallery}
+                        />
+                        <div className='flex justify-between items-center'>
                             <div className='flex flex-col gap-2'>
                                 <p className='font-sans text-[#6D6C6C] text-xs font-semibold'>₹ {allpropertyDetails?.monthly_rent}</p>
                                 <p className='text-[#6D6C6C] font-sans text-xs'>{allpropertyDetails?.bedrooms} {allpropertyDetails?.sub_type} for {allpropertyDetails?.property_for} </p>
                                 <p className='text-[#6D6C6C] font-sans text-xs'>{allpropertyDetails?.builtup_area} sq.ft. | {allpropertyDetails?.furnished_status} | SVN</p>
-                                <p className='text-[#6D6C6C] font-semibold font-sans text-xs'>Avilable from 24/08/2024</p>
+                                <p className='text-[#6D6C6C] font-semibold font-sans text-xs'>Avilable from {available_from_date}</p>
                             </div>
                             <div className='cursor-pointer border border-[#287DB0] bg-[#FEFDF8] py-2 px-4 rounded-md'>
                                 <p className='font-bold text-xs text-[#287DB0]'>Edit Details</p>

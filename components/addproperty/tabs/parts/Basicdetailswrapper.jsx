@@ -204,10 +204,10 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
             <div className='py-2 bg-[#E2EAED]'>
                 <p className='text-lg font-bold text-[#1D3A76] text-center'>Add Basic Details</p>
             </div>
-            <div className='p-10'>
+            <div className='p-10 h-[calc(100vh-215px)] overflow-y-auto'>
                 <>
                     <div className='flex gap-1 mb-4'>
-                        <p className='text-[#1D3A76] text-[13px]  font-sans font-medium'>Property Type</p>
+                        <p className='text-[#1D3A76] text-[13px] font-sans font-medium'>Property Type</p>
                         <IconAsterisk size={8} color='#FF0000' />
                     </div>
                     <div className='flex flex-row items-center gap-6'>
@@ -261,8 +261,7 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
                         )
                     }
                 </>
-
-                <div className='flex flex-row items-center my-4 h-4 '>
+                <div className='flex flex-row items-center mt-8 mb-4 h-4 '>
                     <div className='bg-[#1D3A76] flex items-center justify-center px-3 rounded-s-lg py-2 '>
                         <IconSearch size={20} color='#fff' />
                     </div>
@@ -288,17 +287,17 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
                             ))}
                         </ul>
                     )}
-                <div className='flex flex-row justify-end items-center mt-6'>
-                    <div onClick={updateBasicdetails} className='border border-[#1D3A76] bg-[#1D3A76] px-8 py-3 rounded-md cursor-pointer'>
-                        <p className='text-white text-[12px]'>Next, add property details</p>
-                    </div>
-                </div>
-                <Loadingoverlay
-                    visible={isLoadingEffect}
-                    zIndex={9999}
-                    overlayBg="rgba(255, 255, 255, 0.6)"
-                />
             </div>
+            <div className='flex flex-row justify-end items-center mb-3'>
+                <div onClick={updateBasicdetails} className='border border-[#1D3A76] bg-[#1D3A76] px-8 py-3 rounded-md cursor-pointer'>
+                    <p className='text-white text-[12px]'>Next, add property details</p>
+                </div>
+            </div>
+            <Loadingoverlay
+                visible={isLoadingEffect}
+                zIndex={9999}
+                overlayBg="rgba(255, 255, 255, 0.6)"
+            />
             {isModalOpen &&
                 <Modal
                     open={isModalOpen}

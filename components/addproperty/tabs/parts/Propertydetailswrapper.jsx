@@ -441,115 +441,32 @@ function Propertydetailswrapper({
 
   const updatePropertyDetails = () => {
     setIsLoadingEffect(true)
-    // if (property_in === "Residencial" && property_for === "Sell") {
-    //   if (propertySubType === 'Apartment' || propertySubType === 'Flat' || propertySubType === 'Land' || propertySubType === "Independent House") {
-    //     if (bhk === '') {
-    //       setIsLoadingEffect(false)
-    //       setBhkError('Please select BHK')
-    //       return false;
-    //     }
-    //     if (bathroom === '') {
-    //       setIsLoadingEffect(false)
-    //       setBathroomError('Please select bathroom')
-    //       return false;
-    //     }
-    //     if (balcony === '') {
-    //       setIsLoadingEffect(false)
-    //       setBalconyError('Please select balcony')
-    //       return false;
-    //     }
-    //     if (furnishType === '') {
-    //       setIsLoadingEffect(false)
-    //       setFurnishTypeError('Please select furnish type')
-    //       return false;
-    //     }
-    //     if (builtupArea === '') {
-    //       setIsLoadingEffect(false)
-    //       setBuiltupAreaError('Please enter builtup area')
-    //       return false;
-    //     }
-    //     if (carpetArea === '') {
-    //       setIsLoadingEffect(false)
-    //       setCarpetAreaError('Please enter carpet area')
-    //       return false;
-    //     }
-    //     if (unitCost === '') {
-    //       setIsLoadingEffect(false)
-    //       setUnitCostError('Please enter unit cost')
-    //       return false;
-    //     }
-    //     if (propertyCost === '') {
-    //       setIsLoadingEffect(false)
-    //       setPropertyCostError('Please enter property cost')
-    //       return false;
-    //     }
-    //   } else {
-    //     if (constructionStatus === 1) {
-    //       if (availableFromDate === '') {
-    //         setIsLoadingEffect(false)
-    //         setAvailableFromDateError('Please select available from date')
-    //         return false;
-    //       }
-    //       if (ageofProperty === '') {
-    //         setIsLoadingEffect(false)
-    //         setAgeofPropertyError('Please enter age of property')
-    //         return false;
-    //       }
-    //       if (plotArea === '') {
-    //         setIsLoadingEffect(false)
-    //         setPlotAreaError('Please enter plot area')
-    //         return false;
-    //       }
-    //       if (lengthArea === '') {
-    //         setIsLoadingEffect(false)
-    //         setLengthAreaError('Please enter length area')
-    //         return false;
-    //       }
-    //       if (widthArea === '') {
-    //         setIsLoadingEffect(false)
-    //         setWidthAreaError('Please enter width area')
-    //         return false;
-    //       }
-    //       if (unitCost === '') {
-    //         setIsLoadingEffect(false)
-    //         setUnitCostError('Please enter unit cost')
-    //         return false;
-    //       }
-    //       if (propertyCost === '') {
-    //         setIsLoadingEffect(false)
-    //         setPropertyCostError('Please enter property cost')
-    //         return false;
-    //       }
-    //     }
-    //   }
-    //   if (constructionStatus === 1 || propertySubType === "Warehouse") {
-    //     if (availableFromDate === '') {
-    //       setIsLoadingEffect(false)
-    //       setAvailableFromDateError('Please select available from date')
-    //       return false;
-    //     }
-    //     if (ageofProperty === '') {
-    //       setIsLoadingEffect(false)
-    //       setAgeofPropertyError('Please enter age of property')
-    //       return false;
-    //     }
-    //   }
-    //   if (constructionStatus !== 1) {
-    //     if (possessionEndDate === '') {
-    //       setIsLoadingEffect(false)
-    //       setPossessionEndDateError('Please select possession end date')
-    //       return false;
-    //     }
-    //   }
+    if (propertySubType === '') {
+      setIsLoadingEffect(false)
+      setPropertySubTypeError('Please select property sub type')
+      return false;
+    }
 
-    //   if (propertySubType === "Independent House" || propertySubType === "Independent Villa") {
-    //     if (pentHouse === '') {
-    //       setIsLoadingEffect(false)
-    //       setPentHouseError('Please select pent house')
-    //       return false;
-    //     }
-    //   }
-    // }
+    if (getpropertyDetails?.property_for === "Sell") {
+      if (constructionStatus === '') {
+        setIsLoadingEffect(false)
+        setConstructionStatusError('Please select construction status')
+        return false;
+      }
+    }
+
+    if ((propertySubType === 'Apartment' || propertySubType === "Flat" || propertySubType === "Land" || propertySubType === "Independent House" || propertySubType === "Independent Villa")) {
+      if (bhk === '') {
+        setIsLoadingEffect(false)
+        setBhkError('Please select bhk')
+        return false;
+      }
+      if (bhk === 5 && customBhk === '') {
+        setIsLoadingEffect(false)
+        setCustomBhkError('Please enter bhk')
+        return false;
+      }
+    }
 
     const selectedFacilities = Object.keys(facilities)
       .filter((key) => facilities[key]) // Filter only `true` values
@@ -664,7 +581,7 @@ function Propertydetailswrapper({
       pent_house: pentHouse || null,
 
       builtup_unit: unitCost || null,
-
+      types: preferredTenantType || null,
       business_types: suitableFor || null,
       unit_flat_house_no: unit_flat_house_no || null,
       user_id: parseInt(user_id),
@@ -828,6 +745,7 @@ function Propertydetailswrapper({
       setWidthArea(propertyDetails?.width_area?.toString() || '')
       setSuitableFor(propertyDetails?.business_types || '')
       setPentHouse(propertyDetails?.pent_house || '')
+      setPreferredTenantType(propertyDetails?.types || '')
     }
   }, [propertyDetails])
 
@@ -1057,7 +975,8 @@ function Propertydetailswrapper({
           </div>
           <div className='grid grid-cols-6 gap-2'>
             {
-              allPropertySubTypes.length > 0 && allPropertySubTypes.map((item, index) => {
+              allPropertySubTypes.length > 0 &&
+              allPropertySubTypes.map((item, index) => {
                 const icon = propertySubTypeIcon[item.name] || propertySubTypeIcon['default'];
                 return (
                   <div key={index} onClick={() => updatePropertySubType(item.name)} className={`flex flex-col justify-center items-center gap-2 border-2 rounded-md px-4 py-2 w-[100%] cursor-pointer ${propertySubType === item.name ? 'bg-[#1D3A76] border-[#1D3A76] ' : 'border-[#d7d5d5ba] '} `}>
@@ -1553,8 +1472,8 @@ function Propertydetailswrapper({
                   <div className='flex flex-row items-center gap-6'>
                     {
                       preferedTenantList.map((item, index) => (
-                        <div key={index} onClick={() => updatePreferredTenantType(item.name)} className={`group cursor-pointer px-8 py-2 rounded-md  ${preferredTenantType === item.name ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                          <p className={`text-[10px] font-sans ${preferredTenantType === item.name ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>{item.name}</p>
+                        <div key={index} onClick={() => updatePreferredTenantType(item.value)} className={`group cursor-pointer px-8 py-2 rounded-md  ${preferredTenantType === item.value ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                          <p className={`text-[10px] font-sans ${preferredTenantType === item.value ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>{item.name}</p>
                         </div>
                       ))
                     }
@@ -1809,7 +1728,7 @@ function Propertydetailswrapper({
           <>
             {
               (propertySubType === "Warehouse" || propertySubType === "Plot" || propertySubType === "Others") ?
-                <div className='mb-5'>
+                <div className='mb-5 mt-3'>
                   <div className='flex gap-1 mb-4'>
                     <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Plot No.</p>
                     <IconAsterisk size={8} color='#FF0000' />
