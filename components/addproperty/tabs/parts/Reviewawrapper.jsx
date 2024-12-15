@@ -1,7 +1,5 @@
 import { IconCheck } from '@tabler/icons-react'
-import Image from 'next/image'
 import React, { useEffect } from 'react'
-import property from '@/public/assets/property.png'
 import Link from 'next/link'
 import { useUserDetails } from '@/components/zustand/useUserDetails'
 import { usePathname, useSearchParams, useRouter } from 'next/navigation'
@@ -9,8 +7,6 @@ import Propertiesgallery from './Propertiesgallery'
 import { usePropertyDetails } from '@/components/zustand/usePropertyDetails'
 function Reviewawrapper({ allpropertyDetails, propertyGallery }) {
     const userInfo = useUserDetails((state) => state.userInfo)
-    let user_id = userInfo?.user_id || null
-    let access_token = userInfo?.access_token || null
     const updatePropertyDetails = usePropertyDetails((state) => state.updatePropertyDetails)
     const pathname = usePathname()
     const searchParams = useSearchParams()
@@ -34,9 +30,14 @@ function Reviewawrapper({ allpropertyDetails, propertyGallery }) {
         }
     }, [active_step])
 
+    let available_from_date = 'N/A'; // Default value if no valid date is provided
 
-    let available_from = new Date(allpropertyDetails?.available_from)
-    let available_from_date = available_from?.toISOString().split('T')[0]
+    if (allpropertyDetails?.available_from) {
+        const available_from = new Date(allpropertyDetails.available_from);
+        if (!isNaN(available_from)) {
+            available_from_date = available_from.toISOString().split('T')[0];
+        }
+    }
 
 
     return (

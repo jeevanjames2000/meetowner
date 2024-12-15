@@ -836,7 +836,6 @@ function Propertydetailswrapper({
       })
   }
 
-
   const getAllFacilities = () => {
     Propertyapi.get('getfaclities', {
       params: {
