@@ -330,17 +330,34 @@ function Propertydetailswrapper({
     Lawn: false,
     Transformer_Yard: false,
     Amphitheatre: false,
-    Lawn_with_Stepping_Stones: false
-
+    Lawn_with_Stepping_Stones: false,
+    None: false,
   });
 
   // Handler function to toggle checkboxes
   const updateFacilties = (event) => {
     const { id, checked } = event.target;
-    setFacilities((prevState) => ({
-      ...prevState,
-      [id]: checked, // Update the selected facility
-    }));
+    // if None value selected then uncheck all the checkboxes and if any other value selected then uncheck None checkbox
+    if (id === 'None') {
+      setFacilities((prevState) => {
+        const updatedFacilities = { ...prevState };
+        for (const key in updatedFacilities) {
+          updatedFacilities[key] = false,
+            updatedFacilities[id] = checked;
+        }
+        return updatedFacilities;
+      });
+    } else {
+      setFacilities((prevState) => ({
+        ...prevState,
+        None: false,
+        [id]: checked, // Update the selected facility
+      }));
+    }
+    // setFacilities((prevState) => ({
+    //   ...prevState,
+    //   [id]: checked, // Update the selected facility
+    // }));
   };
 
   const [passengerLifts, setPassengerLifts] = useState('')
@@ -2051,6 +2068,7 @@ function Propertydetailswrapper({
               autoComplete='off'
               value={availableFromDate}
               onChange={updateAvailableFromDate}
+              min={new Date().toISOString().split('T')[0]}
             />
           </div>
           {availableFromDateError && <p className='text-[#FF0000] text-xs font-sans'>Please select Available From date</p>}
@@ -2091,6 +2109,7 @@ function Propertydetailswrapper({
                 autoComplete='off'
                 value={possessionEndDate}
                 onChange={updatePossessionEndDate}
+                min={new Date().toISOString().split('T')[0]}
               />
             </div>
             {possessionEndDateError && <p className='text-[#FF0000] text-xs font-sans'>Please select possession end date</p>}

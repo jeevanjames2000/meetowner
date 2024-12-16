@@ -25,10 +25,10 @@ function Agreementcard(item) {
             </div>
 
             <button
-                className="flex items-center text-[#699BA0] ml-auto h-7 py-1 text-[11px] font-[700] rounded-md focus:outline-none bg-transparent hover:bg-[#e6f5f2] transition-all"
+                className="flex items-center text-[#699BA0] ml-auto h-7 py-1 text-[12px] font-[700] rounded-md focus:outline-none bg-transparent hover:bg-[#e6f5f2] transition-all"
             >
                 Create agreement
-                <div className="bg-[#699BA0] h-3 w-3 flex items-center justify-center rounded-full ml-2">
+                <div className="bg-[#699BA0] h-4 w-4 flex items-center justify-center rounded-full ml-2">
                     <IconChevronRight color="#ffffff" stroke={2} className="w-3 h-3" />
                 </div>
             </button>

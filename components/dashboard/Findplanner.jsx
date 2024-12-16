@@ -4,33 +4,32 @@ import React from 'react'
 
 function Planfinder() {
     return (
-        <div className='bg-[#F4EBD7] w-full h-fit flex flex-row rounded-[10px] pl-5 pt-5 gap-2'>
-            <Image
-                src={find_planner}
-                alt={"find_planner"}
-                className="w-[30%] h-full object-cover rounded-lg"
-
-
-            />
-            <div className=' w-full flex flex-row items-center justify-between px-10'>
-                <div className="space-y-1 ">
-                    <p className="text-[12px] font-[700] text-[#6d6c6c]">
-                        Not sure which Package is best for you?
-                    </p>
-
-                    <p className="text-[11px] font-[400] text-[#6d6c6c]">
-                        Let us help you out with our interactive plan finder
-                    </p>
-                </div>
-                <button
-                    className="upgrade-btn bg-[#53c0ac] text-[#ffffff] text-[12px] font-[700] py-1 px-3 rounded-[5px]  hover:bg-[#53c0ac]/70 focus:outline-none"
-                  
-                >
-                   Find my plan
-                </button>
+        <div className='bg-[#F4EBD7] w-full flex flex-row rounded-[10px] items-center p-5 gap-2'>
+            <div className='w-[30%]'>
+                <Image
+                    src={find_planner}
+                    alt={"find_planner"}
+                    className="h-full object-cover rounded-lg"
+                />
             </div>
+            <div className='w-[70%]'>
+                <div className='flex flex-row items-center gap-1'>
+                    <div className="space-y-1 w-[75%] ">
+                        <p className="text-[25px] font-[700] text-[#6d6c6c]">
+                            Not sure which Package is best for you?
+                        </p>
 
-
+                        <p className="text-[14px] font-[400] text-[#6d6c6c]">
+                            Let us help you out with our interactive plan finder
+                        </p>
+                    </div>
+                        <button
+                            className="w-[25%] mr-3 bg-[#53c0ac] text-[#ffffff] text-[14px] font-[700] py-1 px-1 rounded-[5px]  hover:bg-[#53c0ac]/70 focus:outline-none"
+                        >
+                            Find plan
+                        </button>
+                </div>
+            </div>
         </div>
     )
 }
