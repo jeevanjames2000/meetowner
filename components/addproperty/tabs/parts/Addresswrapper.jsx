@@ -11,15 +11,12 @@ import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 
 function Addresswrapper({ updateActiveTab, addressDetails }) {
-
   const userInfo = useUserDetails((state) => state.userInfo)
   let user_id = userInfo?.user_id || null
   let access_token = userInfo?.access_token || null
   const getpropertyDetails = usePropertyDetails((state) => state.propertydetails)
 
   const searchParams = useSearchParams()
-  const active_step = searchParams.get('active_step')
-  const status = searchParams.get('status')
   const unique_property_id = searchParams.get('unique_property_id')
 
   const [isLoadingEffect, setIsLoadingEffect] = useState(false)
@@ -105,6 +102,7 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
     Propertyapi.post('/addAddressdetails', {
       city_id: city,
       unit_flat_house_no: flatNo,
+      property_name: propertyName,
       floors: floorNo,
       total_floors: totalFloors,
       location_id: locality,
@@ -164,7 +162,7 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
   useEffect(() => {
     if (addressDetails !== null) {
       setCity(addressDetails?.city_id || '')
-      setPropertyName(addressDetails?.unit_flat_house_no || '')
+      setPropertyName(addressDetails?.property_name || '')
       setFlatNo(addressDetails?.unit_flat_house_no || '')
       setFloorNo(addressDetails?.floors || '')
       setTotalFloors(addressDetails?.total_floors || '')
@@ -230,12 +228,12 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
         <div className='py-2 bg-[#E2EAED]'>
           <p className='text-lg font-bold text-[#1D3A76] text-center font-sans'>Add Address</p>
         </div>
-        <div className='w-full overflow-y-auto px-5 py-3' style={{ height: 'calc(100vh - 220px)' }}>
+        <div className='w-full overflow-y-auto px-5 py-3 h-[calc(100vh-220px)]'>
           <div className='mb-5'>
             <div className='w-[40%]'>
               <Select
                 label='City'
-                labelClassName='!text-[#1D3A76] text-sm font-medium font-sans'
+                labelClassName='!text-[#1D3A76] text-[13px] font-medium font-sans'
                 data={allCities}
                 searchable
                 withAsterisk
@@ -249,13 +247,13 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
           </div>
           <div className='my-4'>
             <div className='flex gap-1'>
-              <p className='text-[#1D3A76] text-sm font-medium font-sans'>Property/project Name</p>
+              <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Property/project Name</p>
               <IconAsterisk size={8} color='#FF0000' />
             </div>
             <input
               type='text'
               placeholder='Building /Apartment/Society Name'
-              className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans '
+              className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans '
               autoComplete='off'
               value={propertyName}
               onChange={updatePropertyName}
@@ -264,13 +262,13 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
           </div>
           <div className='my-4'>
             <div className='flex gap-1'>
-              <p className='text-[#1D3A76] text-sm font-medium font-sans'>Locality</p>
+              <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Locality</p>
               <IconAsterisk size={8} color='#FF0000' />
             </div>
             <input
               type='text'
               placeholder='Locality'
-              className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans '
+              className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans '
               autoComplete='off'
               value={locality}
               onChange={updateLocality}
@@ -279,13 +277,13 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
           </div>
           <div className='my-4'>
             <div className='flex gap-1'>
-              <p className='text-[#1D3A76] text-sm font-medium font-sans'>Flat No.</p>
+              <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Flat No.</p>
               <IconAsterisk size={8} color='#FF0000' />
             </div>
             <input
               type='number'
               placeholder='Flat No.'
-              className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans '
+              className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans '
               autoComplete='off'
               value={flatNo}
               onChange={updateFlatNo}
@@ -293,17 +291,17 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
             {flatNoError && <p className='text-[#FF0000] text-xs font-sans'>Please enter Flat No.</p>}
           </div>
           {
-            (getpropertyDetails?.property_in === "Commercial" && getpropertyDetails?.property_for === "Sell") &&
+            getpropertyDetails?.property_for === "Sell" &&
             <>
               <div className='my-4'>
                 <div className='flex gap-1'>
-                  <p className='text-[#1D3A76] text-sm font-medium font-sans'>Floor No.</p>
+                  <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Floor No.</p>
                   <IconAsterisk size={8} color='#FF0000' />
                 </div>
                 <input
                   type='number'
                   placeholder='Floor No.'
-                  className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans '
+                  className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans '
                   autoComplete='off'
                   value={floorNo}
                   onChange={updateFloorNo}
@@ -312,13 +310,13 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
               </div>
               <div className='my-4'>
                 <div className='flex gap-1'>
-                  <p className='text-[#1D3A76] text-sm font-medium font-sans'>Total Floors</p>
+                  <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Total Floors</p>
                   <IconAsterisk size={8} color='#FF0000' />
                 </div>
                 <input
                   type='number'
                   placeholder='Toatl Floors'
-                  className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans '
+                  className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans '
                   autoComplete='off'
                   value={totalFloors}
                   onChange={updateTotalFloors}
@@ -327,9 +325,7 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
               </div>
             </>
           }
-
         </div>
-
         <div className='flex flex-row justify-between items-center  px-6 pt-3'>
           <div onClick={() => updateActiveTab('propertydetails', 'completed', unique_property_id)} className='bg-[#000] px-8 py-2 rounded-md cursor-pointer'>
             <p className='text-white text-[10px]'>Back</p>
@@ -338,11 +334,10 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
             <p className='text-white text-[10px]'>Post property</p>
           </div>
         </div>
+        <LoadingOverlay isLoading={isLoadingEffect} />
       </div>
-
-      <LoadingOverlay isLoading={isLoadingEffect} />
-
-      {isModalOpen &&
+      {
+        isModalOpen &&
         <Modal
           open={isModalOpen}
           onClose={() => setModalOpen(false)}
