@@ -437,6 +437,7 @@ function Propertydetailswrapper({
     setZoneType(value)
     setZoneTypeError('')
   }
+  console.log('zoneType', zoneType)
 
   const [processionStatus, setProcessionStatus] = useState('')
   const [processionStatusError, setProcessionStatusError] = useState('')
@@ -2007,7 +2008,7 @@ function Propertydetailswrapper({
         {
           (propertySubType === 'Office' || propertySubType === "Retail Shop" || propertySubType === "Show Room") &&
           <>
-            <p className='text-[#1D3A76] text-[13px] font-medium font-sans mt-6'>Lift & Stair Cases </p>
+            <p className='text-[#1D3A76] text-[14px] font-medium font-sans mt-6'>Lift & Stair Cases </p>
             <div className='grid grid-cols-3 gap-2 mt-3'>
               <div className='mb-6 '>
                 <div className='flex gap-1'>
@@ -2056,7 +2057,7 @@ function Propertydetailswrapper({
               </div>
             </div>
 
-            <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Parking</p>
+            <p className='text-[#1D3A76] text-[14px] font-medium font-sans'>Parking</p>
             <div className='grid grid-cols-3 gap-2 mt-3'>
               <div className='mb-6 '>
                 <div className='flex gap-1'>
@@ -2090,7 +2091,7 @@ function Propertydetailswrapper({
               </div>
             </div>
 
-            <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Washrooms</p>
+            <p className='text-[#1D3A76] text-[14px] font-medium font-sans'>Washrooms</p>
             <div className='grid grid-cols-3 gap-2 mt-3'>
               <div className='mb-6 '>
                 <div className='flex gap-1'>
