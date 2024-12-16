@@ -113,7 +113,7 @@ function Photoswrapper({ updateActiveTab }) {
           </p>
         </div>
         <div className="px-5 py-3">
-          <div className="mt-3 overflow-y-auto h-[calc(100vh-240px)]">
+          <div className="mt-3 overflow-y-auto h-[calc(100vh-243px)]">
             <div className="flex items-center justify-center w-full">
               <label
                 htmlFor="dropzone-file"
@@ -180,13 +180,15 @@ function Photoswrapper({ updateActiveTab }) {
                         <label for="featured_image"
                           className="ms-2 text-xs font-medium text-gray-900">Set As Featured Image.</label>
                       </div> */}
-                    <button
-                      onClick={() => handleSetFeatured(index)}
-                      className={` px-2 py-1 my-2 text-xs text-center ${featuredIndex === index ? "bg-green-500 text-white" : "bg-gray-500 text-white"
-                        }`}
-                    >
-                      {featuredIndex === index ? "Featured Image" : "Set as Featured Image"}
-                    </button>
+                    <div className="flex flex-row items-center justify-center">
+                      <button
+                        onClick={() => handleSetFeatured(index)}
+                        className={`px-3 rounded-md py-2 my-2 text-xs text-center ${featuredIndex === index ? "bg-green-500 text-white" : "bg-gray-500 text-white"
+                          }`}
+                      >
+                        {featuredIndex === index ? "✔ Featured Image" : "Set as Featured Image"}
+                      </button>
+                    </div>
                     <button
                       className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 text-xs opacity-0 group-hover:opacity-100 transition-opacity"
                       onClick={() => removePreview(index)}
@@ -199,7 +201,7 @@ function Photoswrapper({ updateActiveTab }) {
             </div>
           </div>
         </div>
-        <div className='flex flex-row justify-between items-center  px-6 pt-3'>
+        <div className='flex flex-row justify-between items-center  px-6 py-3'>
           <div onClick={() => updateActiveTab('address', 'completed', unique_property_id)} className='bg-[#000] px-8 py-2 rounded-md cursor-pointer'>
             <p className='text-white text-[10px]'>Back</p>
           </div>
