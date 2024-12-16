@@ -445,6 +445,28 @@ function Propertydetailswrapper({
     setProcessionStatusError('')
   }
 
+  const [investorPlot, setInvetorPlot] = useState('')
+  const [investorPlotError, setInvestorPlotError] = useState('')
+  const updateInvestorPlot = (value) => {
+    setInvetorPlot(value)
+    setInvestorPlotError('')
+  }
+
+  const [builderPlot, setBuilderPlot] = useState('')
+  const [builderPlotError, setBuilderPlotError] = useState('')
+  const updateBuilderPlot = (value) => {
+    setBuilderPlot(value)
+    setBuilderPlotError('')
+  }
+
+  const [loanFacility, setLoanFacility] = useState('')
+  const [loanFacilityError, setLoanFacilityError] = useState('')
+  const updateLoanFacility = (value) => {
+    setLoanFacility(value)
+    setLoanFacilityError('')
+  }
+
+
   const [furnishingModal, setFurnishingModal] = useState(false)
   const openFurnishingModal = () => {
     setFurnishingModal(true)
@@ -1076,7 +1098,50 @@ function Propertydetailswrapper({
         }
       }
     }
-
+    if (getpropertyDetails?.property_in === "Residential" && getpropertyDetails?.property_for === "Sell") {
+      if (!investorPlot) {
+        setIsLoadingEffect(false)
+        toast.error('Please select investor plot', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setInvestorPlotError('Please select investor plot')
+        return false;
+      }
+      if (!builderPlot) {
+        setIsLoadingEffect(false)
+        toast.error('Please select builder plot', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setBuilderPlotError('Please select builder plot')
+        return false;
+      }
+    }
+    if (!loanFacility) {
+      setIsLoadingEffect(false)
+      toast.error('Please select loan facility', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      })
+      setLoanFacilityError('Please select loan facility')
+      return false;
+    }
     if (!facing) {
       setIsLoadingEffect(false)
       toast.error('Please select facing', {
@@ -1312,7 +1377,9 @@ function Propertydetailswrapper({
       unit_flat_house_no: unit_flat_house_no || null,
       business_types: suitableFor || null,
       zone_types: zoneType || null,
-
+      investor_plot: investorPlot || null,
+      builder_plot: builderPlot || null,
+      loan_facility: loanFacility || null,
       // additional
       facing: facing || null,
       car_parking: new_car_parking || null,
@@ -1485,6 +1552,9 @@ function Propertydetailswrapper({
       setPreferredTenantType(propertyDetails?.types || '')
       setProcessionStatus(propertyDetails?.procession_status || '')
       setServantRoom(propertyDetails?.servant_room || '')
+      setInvetorPlot(propertyDetails?.investor_plot || '')
+      setBuilderPlot(propertyDetails?.builder_plot || '')
+      setLoanFacility(propertyDetails?.loan_facility || '')
     }
   }, [propertyDetails])
 
@@ -1634,7 +1704,7 @@ function Propertydetailswrapper({
       setPreferredTenantType('')
       setBrokerage('')
     }
-    if (getpropertyDetails?.property_in === 'Residencial') {
+    if (getpropertyDetails?.property_in === 'Residential') {
       setPassengerLifts('')
       setServiceLifts('')
       setStairCases('')
@@ -2540,6 +2610,58 @@ function Propertydetailswrapper({
             }
           </>
         }
+
+        {
+          (getpropertyDetails?.property_in === "Residential" && getpropertyDetails?.property_for === "Sell") &&
+          <>
+            <div className='my-4'>
+              <div className='flex gap-1 mb-2'>
+                <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Investor Plot</p>
+                <IconAsterisk size={8} color='#FF0000' />
+              </div>
+              <div className='flex flex-row items-center gap-6'>
+                <div onClick={() => updateInvestorPlot('Yes')} className={`group cursor-pointer px-8 py-2 rounded-md  ${investorPlot === 'Yes' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${investorPlot === 'Yes' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Yes</p>
+                </div>
+                <div onClick={() => updateInvestorPlot('No')} className={`group cursor-pointer px-8 py-2 rounded-md  ${investorPlot === 'No' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${investorPlot === 'No' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>No</p>
+                </div>
+                {investorPlotError && <p className='text-[#FF0000] text-xs font-sans'>Please select investor plot</p>}
+              </div>
+            </div>
+            <div className='my-4'>
+              <div className='flex gap-1 mb-2'>
+                <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Builder Plot</p>
+                <IconAsterisk size={8} color='#FF0000' />
+              </div>
+              <div className='flex flex-row items-center gap-6'>
+                <div onClick={() => updateBuilderPlot('Yes')} className={`group cursor-pointer px-8 py-2 rounded-md  ${builderPlot === 'Yes' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${builderPlot === 'Yes' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Yes</p>
+                </div>
+                <div onClick={() => updateBuilderPlot('No')} className={`group cursor-pointer px-8 py-2 rounded-md  ${builderPlot === 'No' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${builderPlot === 'No' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>No</p>
+                </div>
+              </div>
+              {builderPlotError && <p className='text-[#FF0000] text-xs font-sans'>Please select builder plot</p>}
+            </div>
+          </>
+        }
+
+        <div className='my-4'>
+          <div className='flex gap-1 mb-2'>
+            <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Loan Facility</p>
+            <IconAsterisk size={8} color='#FF0000' />
+          </div>
+          <div className='flex flex-row items-center gap-6'>
+            <div onClick={() => updateLoanFacility('Yes')} className={`group cursor-pointer px-8 py-2 rounded-md  ${loanFacility === 'Yes' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+              <p className={`text-[10px] font-sans ${loanFacility === 'Yes' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Yes</p>
+            </div>
+            <div onClick={() => updateLoanFacility('No')} className={`group cursor-pointer px-8 py-2 rounded-md  ${loanFacility === 'No' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+              <p className={`text-[10px] font-sans ${loanFacility === 'No' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>No</p>
+            </div>
+          </div>
+          {loanFacilityError && <p className='text-[#FF0000] text-xs font-sans'>Please select loan facility</p>}
+        </div>
 
         <div className='mt-3'>
           <p className='text-[#1D3A76] text-md mb-3 font-medium font-sans'>Add Additional Details</p>

@@ -22,6 +22,15 @@ function Photoswrapper({ updateActiveTab }) {
   const [featuredIndex, setFeaturedIndex] = useState(null);
 
   const handleFileUpload = (event) => {
+    // allow only jpg, jpeg, png, gif extensions
+    const allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+    const files = Array.from(event.target.files);
+    const invalidFiles = files.filter((file) => !allowedExtensions.test(file.name));
+    if (invalidFiles.length > 0) {
+      alert('Please upload only jpg, jpeg, png, gif files');
+      return;
+    }
+
     const uploadedFiles = Array.from(event.target.files);
     const newFiles = [...files, ...uploadedFiles];
     setFiles(newFiles);
@@ -143,6 +152,9 @@ function Photoswrapper({ updateActiveTab }) {
                   </svg>
                   <p className="mb-2 text-sm text-gray-500">
                     Drag & Drop or click to upload
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    Allowed Extensions (jpg, jpeg, png, gif)
                   </p>
                 </div>
                 <input
