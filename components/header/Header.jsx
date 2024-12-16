@@ -37,7 +37,7 @@ function Header() {
                 // boxShadow: scrollY > 120 ? '0px 4px 8px rgba(0, 0, 0, 0.1)' : 'none'
             }}
             transition={{ duration: 0.3 }}
-            className={`h-[65px] bg-[#F2F2F2] overflow-visible w-full py-2  transition-all duration-1000 ${scrollY > 120 ? 'fixed top-0 z-50' : ''}`}
+            className={`h-[65px] bg-[#F2F2F2] overflow-visible w-full py-2 transition-all duration-1000  ${scrollY > 120 ? 'fixed top-0 z-50' : ''}`}
         >
             <div className="flex flex-row justify-between items-center shadow-xl py-2 bg-[#F2F2F2] px-4 md:px-[4vw] lg:px-[6vw]">
                 <Link href="/dashboard">

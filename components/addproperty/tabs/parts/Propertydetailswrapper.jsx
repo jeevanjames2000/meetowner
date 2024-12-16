@@ -1466,6 +1466,8 @@ function Propertydetailswrapper({
       setSuitableFor(propertyDetails?.business_types || '')
       setPentHouse(propertyDetails?.pent_house || '')
       setPreferredTenantType(propertyDetails?.types || '')
+      setProcessionStatus(propertyDetails?.procession_status || '')
+      setServantRoom(propertyDetails?.servant_room || '')
     }
   }, [propertyDetails])
 
@@ -1640,7 +1642,6 @@ function Propertydetailswrapper({
   }, [])
 
   // const [isFocused, setIsFocused] = useState(false);
-
   const propertySubTypeIcon = {
     'default': (
       <svg width="40" height="30" viewBox="0 0 53 43" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -2679,7 +2680,7 @@ function Propertydetailswrapper({
           />
           {addressError && <p className='text-[#FF0000] text-xs font-sans'>Please enter address</p>}
         </div> */}
-        <div className='mb-5'>
+        <div className='my-5'>
           <div className='flex gap-1 mb-4'>
             <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Servant Room?</p>
             <IconAsterisk size={8} color='#FF0000' />
