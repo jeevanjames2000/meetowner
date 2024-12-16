@@ -52,7 +52,7 @@ function Header() {
                                     pathname === '/addproperty' ? null : (
                                         <Link href="/addproperty" className='bg-[#1D3A76] flex flex-row items-center gap-2 p-2 rounded-md'>
                                             <IconHomePlus color='#fff' size={18} />
-                                            <button className='text-white text-sm font-medium'>Add Property</button>
+                                            <button className='text-white text-sm font-[700]'>Add Property</button>
                                         </Link>
                                     )
                                 }
