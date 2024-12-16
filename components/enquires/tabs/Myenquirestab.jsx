@@ -5,12 +5,11 @@ import enquiry_1 from '@/public/assets/enquiry_1.png';
 import enquiry_2 from '@/public/assets/enquiry_2.png';
 import enquiry_3 from '@/public/assets/enquiry_3.png';
 import enquiry_4 from '@/public/assets/enquiry_4.png';
-import guaranteed_enquiries from '@/public/assets/guaranteed_enquiries.png'
 import Link from 'next/link';
-import Image from 'next/image';
+
 import Enquirycard from '../Enquirycard';
 function Myenquirestab() {
-    
+
     const property = [
         {
             id: 1,
@@ -19,8 +18,9 @@ function Myenquirestab() {
             id_number: '(MD-240102165030)',
             date: 'August-12-2024',
             trade: 'Apartment for sell',
-            location: 'Kokapet, Hyderabad, Telangana',
+            location: 'Lakescape, Kondapur, Telangana, India',
             area: '1250 yards',
+            price: '2 cr'
         },
         {
             id: 2,
@@ -29,8 +29,9 @@ function Myenquirestab() {
             id_number: '(MD-240102165031)',
             date: 'September-05-2024',
             trade: 'Independent Villa for rent',
-            location: 'Gachibowli, Hyderabad, Telangana',
+            location: 'Lakescape, Kondapur, Telangana, India',
             area: '2500 sq. ft.',
+            price: '2 cr'
         },
         {
             id: 3,
@@ -41,6 +42,7 @@ function Myenquirestab() {
             trade: 'Commercial Space for lease',
             location: 'Madhapur, Hyderabad, Telangana',
             area: '3500 sq. ft.',
+            price: '2 cr'
         },
         {
             id: 4,
@@ -50,25 +52,12 @@ function Myenquirestab() {
             date: 'June-15-2024',
             trade: 'Residential Plot for sell',
             location: 'Manikonda, Hyderabad, Telangana',
-            area: '2000 sq. yards',
+            area: '2000 sq.yds',
+            price: '2 cr'
         },
     ];
     return (
         <>
-            <p className="flex items-center justify-start pl-3 py-3 text-[16px] text-[#ffffff] font-[500] bg-[#31539A] rounded-md">
-                Enquiries for: 2 BHK Apartment in Kondapur (Rent)
-            </p>
-            <div className="flex items-center justify-between">
-                <p className="text-[14px] text-[#252525] font-[400]">
-                    Displaying 4 out of 25 Enquiries
-                </p>
-                <button
-                    className="flex items-center text-[#252525] border border-[#B5B5B5] rounded-full h-7 px-4 text-[12px] font-[400] focus:outline-none bg-transparent hover:bg-[#1D3A76] hover:text-white"
-                >
-                    Download
-                    <IconDownload className="ml-2 w-4 h-4" />
-                </button>
-            </div>
             {property.length !== 0 ? (
                 property.map((item) => (
                     <Enquirycard
@@ -80,6 +69,7 @@ function Myenquirestab() {
                         trade={item.trade}
                         location={item.location}
                         area={item.area}
+                        price={item.price}
                     />
                 ))
             ) : (
@@ -126,35 +116,7 @@ function Myenquirestab() {
                     </li>
                 </ul>
             </nav>
-            <div className=' grid grid-cols-3 md:grid-cols-12 items-center justify-between  bg-[#F4EBD7] h-fit w-full rounded-[10px] px-6 py-3  '>
-                <div className=' col-span-6 flex flex-col gap-2'>
-                    <p className='text-[12px] font-[600] text-[#1D3A76]/70 '>
-                        Get Guaranteed <span className=' text-[#1D3A76] text-[14px] font-[600]'>THIRTY ENQUIRIES  </span>
-                    </p>
-                    <p className='text-[10px] font-[600] text-[#727272] '>
-                        With Owner Packages
-                    </p>
-                    <div className=' flex gap-4'>
-                        <button
-                            className=" bg-[#53c0ac] text-white px-6 py-1  text-[16px]  font-[600] rounded-lg 
-                   focus:outline-none"
-                        >
-                            Upgrade Now
-                        </button>
-                        <button
-                            className="  text-[#5E7796] px-6 py-1  text-[12px]  font-[400] 
-                   focus:outline-none"
-                        >
-                            View more
-                        </button>
-                    </div>
 
-                </div>
-
-                <div className='col-span-6 h-full w-full '>
-                    <Image src={guaranteed_enquiries} alt={"guaranteed_enquiries"} className=" ml-auto  object-cover w-[200px]" />
-                </div>
-            </div>
         </>
     )
 }

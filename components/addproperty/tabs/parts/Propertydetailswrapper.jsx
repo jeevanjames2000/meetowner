@@ -10,26 +10,24 @@ import { useSearchParams } from 'next/navigation';
 import Errorpanel from '@/components/shared/Errorpanel';
 import { toast } from 'react-toastify';
 import { usePropertyDetails } from '@/components/zustand/usePropertyDetails';
-import { all } from 'axios';
-function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
+function Propertydetailswrapper({
+  updateActiveTab, propertyDetails, preferedTenantList,
+  bacloniesList, bedroomtypesList, businesstypesList,
+  facingList, furnishedtypesList, occupancyList,
+  ownershipList, zoneList
+}) {
   const userInfo = useUserDetails((state) => state.userInfo)
   let user_id = userInfo?.user_id || null
   let access_token = userInfo?.access_token || null
   const getpropertyDetails = usePropertyDetails((state) => state.propertydetails)
 
-  const property_in = getpropertyDetails?.property_in
-  const property_for = getpropertyDetails?.property_for
-
   const searchParams = useSearchParams()
-  const active_step = searchParams.get('active_step')
-  const status = searchParams.get('status')
   const unique_property_id = searchParams.get('unique_property_id')
 
   const [isLoadingEffect, setIsLoadingEffect] = useState(false)
   const [propertySubType, setPropertySubType] = useState('')
   const [propertySubTypeError, setPropertySubTypeError] = useState('')
   const updatePropertySubType = (type) => {
-    console.log('propertySubType', type)
     setPropertySubType(type)
     setPropertySubTypeError('')
   }
@@ -423,6 +421,13 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
     setZoneTypeError('')
   }
 
+  const [processionStatus, setProcessionStatus] = useState('')
+  const [processionStatusError, setProcessionStatusError] = useState('')
+  const updateProcessionStatus = (value) => {
+    setProcessionStatus(value)
+    setProcessionStatusError('')
+  }
+
   const [furnishingModal, setFurnishingModal] = useState(false)
   const openFurnishingModal = () => {
     setFurnishingModal(true)
@@ -436,116 +441,753 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
 
   const updatePropertyDetails = () => {
     setIsLoadingEffect(true)
-    // if (property_in === "Residencial" && property_for === "Sell") {
-    //   if (propertySubType === 'Apartment' || propertySubType === 'Flat' || propertySubType === 'Land') {
-    //     if (constructionStatus === "Ready to move") {
-    //       if (bhk === '') {
-    //         setIsLoadingEffect(false)
-    //         setBhkError('Please select BHK')
-    //         return false;
-    //       }
-    //       if (bathroom === '') {
-    //         setIsLoadingEffect(false)
-    //         setBathroomError('Please select bathroom')
-    //         return false;
-    //       }
-    //       if (balcony === '') {
-    //         setIsLoadingEffect(false)
-    //         setBalconyError('Please select balcony')
-    //         return false;
-    //       }
-    //       if (furnishType === '') {
-    //         setIsLoadingEffect(false)
-    //         setFurnishTypeError('Please select furnish type')
-    //         return false;
-    //       }
-    //       if (availableFromDate === '') {
-    //         setIsLoadingEffect(false)
-    //         setAvailableFromDateError('Please select available from date')
-    //         return false;
-    //       }
-    //       if (ageofProperty === '') {
-    //         setIsLoadingEffect(false)
-    //         setAgeofPropertyError('Please enter age of property')
-    //         return false;
-    //       }
-    //       if (builtupArea === '') {
-    //         setIsLoadingEffect(false)
-    //         setBuiltupAreaError('Please enter builtup area')
-    //         return false;
-    //       }
-    //       if (carpetArea === '') {
-    //         setIsLoadingEffect(false)
-    //         setCarpetAreaError('Please enter carpet area')
-    //         return false;
-    //       }
-    //       if (unitCost === '') {
-    //         setIsLoadingEffect(false)
-    //         setUnitCostError('Please enter unit cost')
-    //         return false;
-    //       }
-    //       if (propertyCost === '') {
-    //         setIsLoadingEffect(false)
-    //         setPropertyCostError('Please enter property cost')
-    //         return false;
-    //       }
+    if (!propertySubType) {
+      setIsLoadingEffect(false)
+      toast.error('Please select property sub type', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      })
+      setPropertySubTypeError('Please select property sub type')
+      return false;
+    }
+    if (getpropertyDetails?.property_for === "Sell") {
+      if (!constructionStatus) {
+        setIsLoadingEffect(false)
+        toast.error('Please select construction status', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setConstructionStatusError('Please select construction status')
+        return false;
+      }
+    }
+    if (propertySubType === 'Apartment' || propertySubType === "Flat" || propertySubType === "Land" || propertySubType === "Independent House" || propertySubType === "Independent Villa") {
+      if (!bhk) {
+        setIsLoadingEffect(false)
+        toast.error('Please select bhk', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setBhkError('Please select bhk')
+        return false;
+      }
+      if (bhk === 5 && !customBhk) {
+        setIsLoadingEffect(false)
+        toast.error('Please enter custom bhk', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setCustomBhkError('Please enter bhk')
+        return false;
+      }
+    }
+    if (propertySubType === 'Apartment' || propertySubType === "Flat" || propertySubType === "Land") {
+      if (!bathroom) {
+        setIsLoadingEffect(false)
+        toast.error('Please select bathroom', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setBathroomError('Please select bathroom')
+        return false;
+      }
+      if (bathroom === 5 && !customBathroom) {
+        setIsLoadingEffect(false)
+        toast.error('Please enter bathroom', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setCustomBathroomError('Please enter bathroom')
+        return false;
+      }
+      if (!balcony) {
+        setIsLoadingEffect(false)
+        toast.error('Please select balcony', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setBalconyError('Please select balcony')
+        return false;
+      }
+      if (balcony === 5 && !customBalcony) {
+        setIsLoadingEffect(false)
+        toast.error('Please enter balcony', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setCustomBalconyError('Please enter balcony')
+        return false;
+      }
+      if (!furnishType) {
+        setIsLoadingEffect(false)
+        toast.error('Please select furnish Type', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setFurnishTypeError('Please select furnish type')
+        return false;
+      }
+    }
+    if (propertySubType === 'Office' || propertySubType === "Retail Shop" || propertySubType === "Show Room") {
+      if (!passengerLifts) {
+        setIsLoadingEffect(false)
+        toast.error('Please enter passenger lifts', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setPassengerLiftsError('Please enter passenger lifts')
+        return false;
+      }
+      if (!serviceLifts) {
+        setIsLoadingEffect(false)
+        toast.error('Please enter service lifts', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setServiceLiftsError('Please enter service lifts')
+        return false;
+      }
+      if (!stairCases) {
+        setIsLoadingEffect(false)
+        toast.error('Please enter stair cases', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setStairCasesError('Please enter stair cases')
+        return false;
+      }
+      if (!privateParking) {
+        setIsLoadingEffect(false)
+        toast.error('Please enter private parking', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setPrivateParkingError('Please enter private parking')
+        return false;
+      }
+      if (!publicParking) {
+        setIsLoadingEffect(false)
+        toast.error('Please enter public parking', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setPublicParkingError('Please enter public parking')
+        return false;
+      }
+      if (!privateWashrooms) {
+        setIsLoadingEffect(false)
+        toast.error('Please enter private washrooms', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setPrivateWashroomsError('Please enter private washrooms')
+        return false;
+      }
+      if (!publicWashrooms) {
+        setIsLoadingEffect(false)
+        toast.error('Please enter public washrooms', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setPublicWashroomsError('Please enter public washrooms')
+        return false;
+      }
+    }
+    if (!availableFromDate) {
+      setIsLoadingEffect(false)
+      toast.error('Please select available from Date', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      })
+      setAvailableFromDateError('Please select available from date')
+      return false;
+    }
+    if (constructionStatus === 1 || propertySubType === "Warehouse" || getpropertyDetails?.property_for === "Rent") {
+      if (!ageofProperty) {
+        setIsLoadingEffect(false)
+        toast.error('Please enter age of property', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setAgeofPropertyError('Please enter age of property')
+        return false;
+      }
+    }
+    if (constructionStatus === 2 || propertySubType === "Warehouse") {
+      if (!possessionEndDate) {
+        setIsLoadingEffect(false)
+        toast.error('Please select possesion end Date', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setPossessionEndDateError('Please select possession end date')
+        return false;
+      }
+    }
+    if (getpropertyDetails.property_for === "Rent") {
+      if (!monthlyRent) {
+        setIsLoadingEffect(false)
+        toast.error('Please enter monthly rent', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setMonthlyRentError('Please enter monthly rent')
+        return false;
+      }
+      if (!maintenceCharges) {
+        setIsLoadingEffect(false)
+        toast.error('Please enter maintenance charges', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setMaintenceChargesError('Please enter maintenance charges')
+        return false;
+      }
+      if (!securityDeposit) {
+        setIsLoadingEffect(false)
+        toast.error('Please enter security deposit', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setSecurityDepositError('Please enter security deposit')
+        return false;
+      }
+      if (!lockInPeriod) {
+        setIsLoadingEffect(false)
+        toast.error('Please enter lockin period', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setLockInPeriodError('Please enter lock in period')
+        return false;
+      }
+      if (!brokerage) {
+        setIsLoadingEffect(false)
+        toast.error('Please enter brokerage charge', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setBrokerageError('Please enter brokerage')
+        return false;
+      }
+      if (!preferredTenantType) {
+        setIsLoadingEffect(false)
+        toast.error('Please select prefered tenant type', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setPreferredTenantTypeError('Please select preferred tenant type')
+        return false;
+      }
+    }
+    if (propertySubType === "Apartment" || propertySubType === "Flat" || propertySubType === "Land" || propertySubType === "Office" || propertySubType === "Retail Shop" || propertySubType === "Show Room" || propertySubType === "Independent House" || propertySubType === "Independent Villa") {
+      if (!builtupArea) {
+        setIsLoadingEffect(false)
+        toast.error('Please enter built up area', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setBuiltupAreaError('Please enter builtup area')
+        return false;
+      }
+      if (!carpetArea) {
+        setIsLoadingEffect(false)
+        toast.error('Please enter carpet area', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setCarpetAreaError('Please enter carpet area')
+        return false;
+      }
+    }
+    if (!(propertySubType === "Independent House" || propertySubType === "Independent Villa") || (propertySubType === "Plot" || propertySubType === "Warehouse" || propertySubType === "Others")) {
+      if (!lengthArea) {
+        setIsLoadingEffect(false)
+        toast.error('Please enter length area', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setLengthAreaError('Please enter length area')
+        return false;
+      }
+      if (!widthArea) {
+        setIsLoadingEffect(false)
+        toast.error('Please width area', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setWidthAreaError('Please enter width area')
+        return false;
+      }
+    }
+    if ((propertySubType === "Independent House" || propertySubType === "Independent Villa") || propertySubType === "Plot" || propertySubType === "Warehouse" || propertySubType === "Others") {
+      if (!plotArea) {
+        setIsLoadingEffect(false)
+        toast.error('Please enter plot area', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setPlotAreaError('Please enter plot area')
+        return false;
+      }
+    }
+    if (propertySubType === "Independent House" || propertySubType === "Independent Villa") {
+      if (!pentHouse) {
+        setIsLoadingEffect(false)
+        toast.error('Please select pent house', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setPentHouseError('Please select pent house')
+        return false;
+      }
+    }
+    if (getpropertyDetails.property_for === "Sell") {
+      if (!(propertySubType === "Independent House" || propertySubType === "Independent House")) {
+        if (!unitCost) {
+          setIsLoadingEffect(false)
+          toast.error('Please enter unit cost', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          })
+          setUnitCostError('Please enter unit cost')
+          return false;
+        }
+      }
+      if (!propertyCost) {
+        setIsLoadingEffect(false)
+        toast.error('Please enter property cost', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setPropertyCostError('Please enter property cost')
+        return false;
+      }
+    }
+    if (propertySubType === "Plot") {
+      if (!processionStatus) {
+        setIsLoadingEffect(false)
+        toast.error('Please select possession status', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setProcessionStatusError('Please select possession status')
+        return false;
+      }
+    }
+    if (getpropertyDetails?.property_in === 'Commercial' && getpropertyDetails?.property_for === 'Sell') {
+      if (!ownerShip) {
+        setIsLoadingEffect(false)
+        toast.error('Please select ownership type', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setOwnerShipError('Please select ownership type')
+        return false;
+      }
+    }
+    // facilities
+    if (propertySubType === "Apartment" || propertySubType === "Flat" || propertySubType === "Land" || propertySubType === "Office" || propertySubType === "Retail Shop" || propertySubType === "Show Room") {
+      const selectedFacilities = Object.keys(facilities)
+        .filter((key) => facilities[key])
+        .join(", ");
+      if (!selectedFacilities) {
+        setIsLoadingEffect(false)
+        toast.error('Please select atleast one facilities', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        return false;
+      }
 
-    //     }
-    //   } else {
-    //     if (constructionStatus === "Ready to move") {
-    //       if (availableFromDate === '') {
-    //         setIsLoadingEffect(false)
-    //         setAvailableFromDateError('Please select available from date')
-    //         return false;
-    //       }
-    //       if (ageofProperty === '') {
-    //         setIsLoadingEffect(false)
-    //         setAgeofPropertyError('Please enter age of property')
-    //         return false;
-    //       }
-    //       if (plotArea === '') {
-    //         setIsLoadingEffect(false)
-    //         setPlotAreaError('Please enter plot area')
-    //         return false;
-    //       }
-    //       if (lengthArea === '') {
-    //         setIsLoadingEffect(false)
-    //         setLengthAreaError('Please enter length area')
-    //         return false;
-    //       }
-    //       if (widthArea === '') {
-    //         setIsLoadingEffect(false)
-    //         setWidthAreaError('Please enter width area')
-    //         return false;
-    //       }
-    //       if (unitCost === '') {
-    //         setIsLoadingEffect(false)
-    //         setUnitCostError('Please enter unit cost')
-    //         return false;
-    //       }
-    //       if (propertyCost === '') {
-    //         setIsLoadingEffect(false)
-    //         setPropertyCostError('Please enter property cost')
-    //         return false;
-    //       }
-    //     }
-    //   }
-    //   if (constructionStatus !== "Ready to move") {
-    //     if (possessionEndDate === '') {
-    //       setIsLoadingEffect(false)
-    //       setPossessionEndDateError('Please select possession end date')
-    //       return false;
-    //     }
-    //   }
+    }
+    if (!otherInfo) {
+      setIsLoadingEffect(false)
+      toast.error('Please other info', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      })
+      setOtherInfoError('Please enter other info')
+      return false;
+    }
+    if (getpropertyDetails?.property_in === "Commercial") {
+      if (propertySubType === "Warehouse" || propertySubType === "Plot" || propertySubType === "Others") {
+        if (!plotNumber) {
+          setIsLoadingEffect(false)
+          toast.error('Please enter plot number', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          })
+          setPlotNumberError('Please enter plot number')
+          return false;
+        }
+      } else {
+        if (!flatNumber) {
+          setIsLoadingEffect(false)
+          toast.error('Please enter flat number', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          })
+          setFlatNumberError('Please enter flat number')
+          return false;
+        }
+      }
+      if (propertySubType === "Retail Shop" || propertySubType === "Show Room" || propertySubType === "Plot" || propertySubType === "Others") {
+        if (!suitableFor) {
+          setIsLoadingEffect(false)
+          toast.error('Please select Suitable For', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          })
+          setSuitableForError('Please select suitable for')
+          return false;
+        }
+      } else {
+        if (!zoneType) {
+          setIsLoadingEffect(false)
+          toast.error('Please select zone type', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          })
+          setZoneTypeError('Please select zone type')
+          return false;
+        }
+      }
+    }
 
-    //   if (propertySubType === "Independent House" || propertySubType === "Independent Villa") {
-    //     if (pentHouse === '') {
-    //       setIsLoadingEffect(false)
-    //       setPentHouseError('Please select pent house')
-    //       return false;
-    //     }
-    //   }
-    // }
+    if (!facing) {
+      setIsLoadingEffect(false)
+      toast.error('Please select facing', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      })
+      setFacingError('Please select facing')
+      return false;
+    }
+    if (!propertySubType === "Plot") {
+      if (!carParking) {
+        setIsLoadingEffect(false)
+        toast.error('Please select car parking', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setCarParkingError('Please select car parking')
+        return false;
+      }
+      if (carParking === '4plus' && !customCarParking) {
+        setIsLoadingEffect(false)
+        toast.error('Please enter car parking', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setCustomCarParkingError('Please enter car parking')
+        return false;
+      }
+      if (!bikeParking) {
+        setIsLoadingEffect(false)
+        toast.error('Please enter bike parking', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setBikeParkingError('Please select bike parking')
+        return false;
+      }
+      if (bikeParking === '4plus' && !customBikeParking) {
+        setIsLoadingEffect(false)
+        toast.error('Please enter bike parking', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setCustomBikeParkingError('Please enter bike parking')
+        return false;
+      }
+      if (!openParking) {
+        setIsLoadingEffect(false)
+        toast.error('Please select open parking', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setOpenParkingError('Please select open parking')
+        return false;
+      }
+      if (openParking === '4plus' && !customOpenParking) {
+        setIsLoadingEffect(false)
+        toast.error('Please enter open parking', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setCustomOpenParkingError('Please enter open parking')
+        return false;
+      }
+    }
+    if (!servantRoom) {
+      setIsLoadingEffect(false)
+      toast.error('Please select servant room', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      })
+      setServantRoomError('Please select servant room')
+      return false;
+    }
+    if (!propertyDescription) {
+      setIsLoadingEffect(false)
+      toast.error('Please enter property description', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      })
+      setPropertyDescriptionError('Please enter property description')
+      return false;
+    }
 
     const selectedFacilities = Object.keys(facilities)
       .filter((key) => facilities[key]) // Filter only `true` values
@@ -574,7 +1216,7 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
     }
 
     let new_bathroom;
-    if (bathroom === '4+') {
+    if (bathroom === '4plus') {
       new_bathroom = customBathroom
     } else {
       new_bathroom = bathroom
@@ -588,21 +1230,21 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
     }
 
     let new_car_parking;
-    if (carParking === '4+') {
+    if (carParking === '4plus') {
       new_car_parking = customCarParking
     } else {
       new_car_parking = carParking
     }
 
     let new_bike_parking;
-    if (bikeParking === '4+') {
+    if (bikeParking === '4plus') {
       new_bike_parking = customBikeParking
     } else {
       new_bike_parking = bikeParking
     }
 
     let new_open_parking;
-    if (openParking === '4+') {
+    if (openParking === '4plus') {
       new_open_parking = customOpenParking
     } else {
       new_open_parking = openParking
@@ -617,32 +1259,6 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
       bathroom: new_bathroom,
       balconies: new_balcony,
       furnished_status: furnishType,
-      property_age: ageofProperty || null,
-
-      monthly_rent: monthlyRent || null,
-      maintenance: maintenceCharges || null,
-      security_deposit: securityDeposit || null,
-      lock_in: lockInPeriod || null,
-      brokerage_charge: brokerage || null,
-
-      area_units: areaUnits || null,
-      builtup_area: builtupArea || null,
-      carpet_area: carpetArea || null,
-      unitCost: unitCost || null,
-      property_cost: propertyCost || null,
-      facilities: selectedFacilities || null,
-      other_info: otherInfo || null,
-      // additional
-      facing: facing || null,
-      car_parking: new_car_parking || null,
-      bike_parking: new_bike_parking || null,
-      open_parking: new_open_parking || null,
-      description: propertyDescription || null,
-
-      lock_in: lockInPeriod || null,
-      length_area: parseFloat(lengthArea) || null,
-      width_area: parseFloat(widthArea) || null,
-      google_address: address || null,
 
       passenger_lifts: passengerLifts || null,
       service_lifts: serviceLifts || null,
@@ -651,18 +1267,43 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
       public_parking: publicParking || null,
       private_washrooms: privateWashrooms || null,
       public_washrooms: publicWashrooms || null,
-      // 
       available_from: new_available_from_date || null,
+
+      property_age: ageofProperty || null,
       under_construction: new_possession_end_date || null,
-      ownership_type: ownerShip || null,
+      monthly_rent: monthlyRent || null,
+      maintenance: maintenceCharges || null,
+      security_deposit: securityDeposit || null,
+      lock_in: lockInPeriod || null,
+      brokerage_charge: brokerage || null,
+
+      types: preferredTenantType || null,
+      area_units: areaUnits || null,
+      builtup_area: builtupArea || null,
+      carpet_area: carpetArea || null,
+      length_area: parseFloat(lengthArea) || null,
+      width_area: parseFloat(widthArea) || null,
+
       plot_area: plotArea || null,
-      zone_types: zoneType || null,
       pent_house: pentHouse || null,
-
       builtup_unit: unitCost || null,
-
-      business_types: suitableFor || null,
+      property_cost: propertyCost || null,
+      procession_status: processionStatus || null,
+      ownership_type: ownerShip || null,
+      facilities: selectedFacilities || null,
+      other_info: otherInfo || null,
       unit_flat_house_no: unit_flat_house_no || null,
+      business_types: suitableFor || null,
+      zone_types: zoneType || null,
+
+      // additional
+      facing: facing || null,
+      car_parking: new_car_parking || null,
+      bike_parking: new_bike_parking || null,
+      open_parking: new_open_parking || null,
+      servant_room: servantRoom || null,
+      description: propertyDescription || null,
+
       user_id: parseInt(user_id),
       unique_property_id: unique_property_id,
     }, {
@@ -723,21 +1364,21 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
       setReraApproved(propertyDetails?.rera_approved || '')
       setConstructionStatus(propertyDetails?.occupancy || '')
       if (parseInt(propertyDetails?.bedrooms) > 4) {
-        setBhk('4plus')
+        setBhk(5)
         setCustomBhk(propertyDetails?.bedrooms || '')
       } else {
         setBhk(propertyDetails?.bedrooms || '')
         setCustomBhk('')
       }
       if (parseInt(propertyDetails?.bathroom) > 4) {
-        setBathroom('4plus')
+        setBathroom(5)
         setCustomBathroom(propertyDetails?.bathroom || '')
       } else {
         setBathroom(propertyDetails?.bathroom || '')
         setCustomBathroom('')
       }
       if (parseInt(propertyDetails?.balconies) > 4) {
-        setBalcony('4plus')
+        setBalcony(5)
         setCustomBalcony(propertyDetails?.balconies || '')
       } else {
         setBalcony(propertyDetails?.balconies || '')
@@ -763,21 +1404,21 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
       setOtherInfo(propertyDetails?.other_info || '')
       setFacing(propertyDetails?.facing || '')
       if (parseInt(propertyDetails?.car_parking) > 4) {
-        setCarParking('4plus')
+        setCarParking("4plus")
         setCustomCarParking(propertyDetails?.car_parking || '')
       } else {
         setCarParking(propertyDetails?.car_parking || '')
         setCustomCarParking('')
       }
       if (parseInt(propertyDetails?.bike_parking) > 4) {
-        setBikeParking('4plus')
+        setBikeParking("4plus")
         setCustomBikeParking(propertyDetails?.bike_parking || '')
       } else {
         setBikeParking(propertyDetails?.bike_parking || '')
         setCustomBikeParking('')
       }
       if (parseInt(propertyDetails?.open_parking) > 4) {
-        setOpenParking('4plus')
+        setOpenParking("4plus")
         setCustomOpenParking(propertyDetails?.open_parking || '')
       } else {
         setOpenParking(propertyDetails?.open_parking || '')
@@ -824,6 +1465,9 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
       setWidthArea(propertyDetails?.width_area?.toString() || '')
       setSuitableFor(propertyDetails?.business_types || '')
       setPentHouse(propertyDetails?.pent_house || '')
+      setPreferredTenantType(propertyDetails?.types || '')
+      setProcessionStatus(propertyDetails?.procession_status || '')
+      setServantRoom(propertyDetails?.servant_room || '')
     }
   }, [propertyDetails])
 
@@ -872,221 +1516,6 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
       })
   }
 
-  const [allPreferredTenantTypes, setAllPreferredTenantTypes] = useState([])
-  const getPreferedTenantTypes = () => {
-    Propertyapi.get('getpreferedtenanttypes', {
-      params: {
-        user_id: user_id
-      },
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${access_token}`
-      }
-    })
-
-      .then((response) => {
-        let data = response.data
-        if (data.status === 'error') {
-          let finalResponse = {
-            'message': data.message,
-            'server_res': data
-          }
-          setErrorMessages(finalResponse)
-        }
-        if (data.status === 'success') {
-          setAllPreferredTenantTypes(data?.prefered_tenant_types || [])
-          return false;
-        }
-      })
-      .catch((error) => {
-        console.log(error)
-        let finalresponse;
-        if (error.response !== undefined) {
-          finalresponse = {
-            'message': error.message,
-            'server_res': error.response.data
-          };
-        } else {
-          finalresponse = {
-            'message': error.message,
-            'server_res': null
-          };
-        }
-        setErrorMessages(finalresponse);
-        return false;
-      })
-  }
-
-  const [allBaclcanies, setAllBalconies] = useState([])
-  const getAllBalconies = () => {
-    Propertyapi.get('getbaclonies', {
-      params: {
-        user_id: user_id
-      },
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${access_token}`
-      }
-    })
-
-      .then((response) => {
-        let data = response.data
-        if (data.status === 'error') {
-          let finalResponse = {
-            'message': data.message,
-          }
-          setErrorMessages(finalResponse)
-        }
-        if (data.status === 'success') {
-          setAllBalconies(data?.balconies || [])
-          return false;
-        }
-      }
-      )
-      .catch((error) => {
-        console.log(error)
-        let finalresponse;
-        if (error.response !== undefined) {
-          finalresponse = {
-            'message': error.message,
-          };
-        } else {
-          finalresponse = {
-            'message': error.message,
-          };
-        }
-        setErrorMessages(finalresponse);
-        return false;
-      })
-  }
-
-  const [allBedRooms, setAllBedRooms] = useState([])
-  const getAllBedRooms = () => {
-    Propertyapi.get('getbedroomtypes', {
-      params: {
-        user_id: user_id
-      },
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${access_token}`
-      }
-    })
-      .then((response) => {
-        let data = response.data
-        if (data.status === 'error') {
-          let finalResponse = {
-            'message': data.message,
-          }
-          setErrorMessages(finalResponse)
-        }
-        if (data.status === 'success') {
-          setAllBedRooms(data?.bedrooms || [])
-          return false;
-        }
-      }
-      )
-      .catch((error) => {
-        console.log(error)
-        let finalresponse;
-        if (error.response !== undefined) {
-          finalresponse = {
-            'message': error.message,
-          };
-        } else {
-          finalresponse = {
-            'message': error.message,
-          };
-        }
-        setErrorMessages(finalresponse);
-        return false;
-      })
-  }
-
-  const [allBusinessTypes, setAllBusinessTypes] = useState([])
-  const getBusinessTypes = () => {
-    Propertyapi.get('getbusinesstypes', {
-      params: {
-        user_id: user_id
-      },
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${access_token}`
-      }
-    })
-
-      .then((response) => {
-        let data = response.data
-        if (data.status === 'error') {
-          let finalResponse = {
-            'message': data.message,
-          }
-          setErrorMessages(finalResponse)
-        }
-        if (data.status === 'success') {
-          setAllBusinessTypes(data?.business_types || [])
-          return false;
-        }
-      }
-      )
-      .catch((error) => {
-        console.log(error)
-        let finalresponse;
-        if (error.response !== undefined) {
-          finalresponse = {
-            'message': error.message,
-          };
-        } else {
-          finalresponse = {
-            'message': error.message,
-          };
-        }
-        setErrorMessages(finalresponse);
-        return false;
-      })
-  }
-
-  const [allFacing, setAllFacing] = useState([])
-  const getAllFacing = () => {
-    Propertyapi.get('getfacing', {
-      params: {
-        user_id: user_id
-      },
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${access_token}`
-      }
-    })
-      .then((response) => {
-        let data = response.data
-        if (data.status === 'error') {
-          let finalResponse = {
-            'message': data.message,
-          }
-          setErrorMessages(finalResponse)
-        }
-        if (data.status === 'success') {
-          setAllFacing(data?.facing || [])
-          return false;
-        }
-      }
-      )
-      .catch((error) => {
-        console.log(error)
-        let finalresponse;
-        if (error.response !== undefined) {
-          finalresponse = {
-            'message': error.message,
-          };
-        } else {
-          finalresponse = {
-            'message': error.message,
-          };
-        }
-        setErrorMessages(finalresponse);
-        return false;
-      })
-  }
-
   const [allFloors, setAllFloors] = useState([])
   const getAllFloors = () => {
     Propertyapi.get('getfloors', {
@@ -1120,182 +1549,6 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
             'message': error.message,
           };
         } else {
-          finalresponse = {
-            'message': error.message,
-          };
-        }
-        setErrorMessages(finalresponse);
-        return false;
-      })
-  }
-
-  const [allFurnishedTypes, setAllFurnishedTypes] = useState([])
-  const getFurnishedTypes = () => {
-    Propertyapi.get('getFurnishedStatus', {
-      params: {
-        user_id: user_id
-      },
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${access_token}`
-      }
-    })
-      .then((response) => {
-        let data = response.data
-        if (data.status === 'error') {
-          let finalResponse = {
-            'message': data.message,
-          }
-          setErrorMessages(finalResponse)
-        }
-        if (data.status === 'success') {
-          setAllFurnishedTypes(data?.furnished_status || [])
-          return false;
-        }
-      }
-
-      )
-      .catch((error) => {
-        console.log(error)
-        let finalresponse;
-        if (error.response !== undefined) {
-          finalresponse = {
-            'message': error.message,
-          };
-        }
-        else {
-          finalresponse = {
-            'message': error.message,
-          };
-        }
-        setErrorMessages(finalresponse);
-        return false;
-      })
-  }
-
-  const [allOccupancyTypes, setAllOccupancyTypes] = useState([])
-  const getOccupancyTypes = () => {
-    Propertyapi.get('getOccupancy', {
-      params: {
-        user_id: user_id
-      },
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${access_token}`
-      }
-    })
-
-      .then((response) => {
-        let data = response.data
-        if (data.status === 'error') {
-          let finalResponse = {
-            'message': data.message,
-          }
-          setErrorMessages(finalResponse)
-        }
-        if (data.status === 'success') {
-          setAllOccupancyTypes(data?.occupancy || [])
-          return false;
-        }
-      }
-      )
-      .catch((error) => {
-        console.log(error)
-        let finalresponse;
-        if (error.response !== undefined) {
-          finalresponse = {
-            'message': error.message,
-          };
-        }
-        else {
-          finalresponse = {
-            'message': error.message,
-          };
-        }
-        setErrorMessages(finalresponse);
-        return false;
-      })
-  }
-
-  const [allOwnerShipTypes, setAllOwnerShipTypes] = useState([])
-  const getOwnerShipTypes = () => {
-    Propertyapi.get('getOwnerShipType', {
-      params: {
-        user_id: user_id
-      },
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${access_token}`
-      }
-    })
-
-      .then((response) => {
-        let data = response.data
-        if (data.status === 'error') {
-          let finalResponse = {
-            'message': data.message,
-          }
-          setErrorMessages(finalResponse)
-        }
-        if (data.status === 'success') {
-          setAllOwnerShipTypes(data?.ownership_type || [])
-          return false;
-        }
-      }
-      )
-      .catch((error) => {
-        console.log(error)
-        let finalresponse;
-        if (error.response !== undefined) {
-          finalresponse = {
-            'message': error.message,
-          };
-        }
-        else {
-          finalresponse = {
-            'message': error.message,
-          };
-        }
-        setErrorMessages(finalresponse);
-        return false;
-      })
-  }
-
-  const [allZoneTypes, setAllZoneTypes] = useState([])
-  const getZoneTypes = () => {
-    Propertyapi.get('getZoneTypes', {
-      params: {
-        user_id: user_id
-      },
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${access_token}`
-      }
-    })
-
-      .then((response) => {
-        let data = response.data
-        if (data.status === 'error') {
-          let finalResponse = {
-            'message': data.message,
-          }
-          setErrorMessages(finalResponse)
-        }
-        if (data.status === 'success') {
-          setAllZoneTypes(data?.zone_types || [])
-          return false;
-        }
-      }
-      )
-      .catch((error) => {
-        console.log(error)
-        let finalresponse;
-        if (error.response !== undefined) {
-          finalresponse = {
-            'message': error.message,
-          };
-        }
-        else {
           finalresponse = {
             'message': error.message,
           };
@@ -1348,7 +1601,6 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
       })
   }
 
-
   useEffect(() => {
     if (getpropertyDetails?.property_for === 'Rent') {
       setConstructionStatus('')
@@ -1382,22 +1634,14 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
     }
   }, [getpropertyDetails])
 
+
   useEffect(() => {
     getPropertySubTypes()
-    getPreferedTenantTypes()
-    getAllBalconies()
-    getAllBedRooms()
-    getBusinessTypes()
-    getAllFacing()
     // getAllFloors()
-    getFurnishedTypes()
-    getOccupancyTypes()
-    getOwnerShipTypes()
-    getZoneTypes()
     getAllFacilities()
   }, [])
 
-
+  // const [isFocused, setIsFocused] = useState(false);
   const propertySubTypeIcon = {
     'default': (
       <svg width="40" height="30" viewBox="0 0 53 43" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1424,9 +1668,9 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
         <path d="M43.5556 19.0556C40.5611 19.0556 38.1111 21.5056 38.1111 24.5H35.3889V0L0 13.6111V49H49V24.5C49 21.5056 46.55 19.0556 43.5556 19.0556ZM5.44444 17.3406L29.9444 7.92167V24.5H16.3333V43.5556H5.44444V17.3406ZM43.5556 43.5556H35.3889V35.3889H29.9444V43.5556H21.7778V29.9444H43.5556V43.5556Z" fill='#909090' />
       </svg>
     ),
-    'plot': (
+    'Plot': (
       <svg width="40" height="30" viewBox="0 0 49 49" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M45.9375 0H3.0625C2.25027 0 1.47132 0.397114 0.896985 1.10398C0.322655 1.81085 0 2.76957 0 3.76923V45.2308C0 46.2304 0.322655 47.1892 0.896985 47.896C1.47132 48.6029 2.25027 49 3.0625 49H45.9375C46.7497 49 47.5287 48.6029 48.103 47.896C48.6773 47.1892 49 46.2304 49 45.2308V3.76923C49 2.76957 48.6773 1.81085 48.103 1.10398C47.5287 0.397114 46.7497 0 45.9375 0ZM3.0625 45.2308V3.76923H45.9375V45.2308H3.0625Z" fill={propertySubType === 'plot' ? '#fff' : '#909090'} />
+        <path d="M45.9375 0H3.0625C2.25027 0 1.47132 0.397114 0.896985 1.10398C0.322655 1.81085 0 2.76957 0 3.76923V45.2308C0 46.2304 0.322655 47.1892 0.896985 47.896C1.47132 48.6029 2.25027 49 3.0625 49H45.9375C46.7497 49 47.5287 48.6029 48.103 47.896C48.6773 47.1892 49 46.2304 49 45.2308V3.76923C49 2.76957 48.6773 1.81085 48.103 1.10398C47.5287 0.397114 46.7497 0 45.9375 0ZM3.0625 45.2308V3.76923H45.9375V45.2308H3.0625Z" fill='#909090' />
         <path d="M7.65625 13.1914H22.9687V39.576H7.65625V13.1914ZM10.1063 36.5606H20.5187V26.0068H10.1063V36.5606ZM20.5187 16.2068H10.1063V22.9914H20.5187V16.2068Z" fill='#909090' />
         <path d="M26.0312 35.8065H41.3437V9.42188H26.0312V35.8065ZM28.4813 12.4373H38.8937V22.9911H28.4813V12.4373ZM38.8937 32.7911H28.4813V26.0065H38.8937V32.7911Z" fill='#909090' />
       </svg>
@@ -1446,12 +1690,13 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
       <div className='w-full overflow-y-auto px-5 py-3 h-[calc(100vh-220px)]'>
         <div className='mb-5'>
           <div className='flex gap-1 mb-4'>
-            <p className='text-[#1D3A76] text-sm font-medium font-sans'>Property Sub Type</p>
+            <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Property Sub Type</p>
             <IconAsterisk size={8} color='#FF0000' />
           </div>
           <div className='grid grid-cols-6 gap-2'>
             {
-              allPropertySubTypes.length > 0 && allPropertySubTypes.map((item, index) => {
+              allPropertySubTypes.length > 0 &&
+              allPropertySubTypes.map((item, index) => {
                 const icon = propertySubTypeIcon[item.name] || propertySubTypeIcon['default'];
                 return (
                   <div key={index} onClick={() => updatePropertySubType(item.name)} className={`flex flex-col justify-center items-center gap-2 border-2 rounded-md px-4 py-2 w-[100%] cursor-pointer ${propertySubType === item.name ? 'bg-[#1D3A76] border-[#1D3A76] ' : 'border-[#d7d5d5ba] '} `}>
@@ -1466,7 +1711,7 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
         </div>
         <div className='mb-5'>
           <div className='flex gap-1 mb-4'>
-            <p className='text-[#1D3A76] text-sm font-medium font-sans'>Rera Approved</p>
+            <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Rera Approved</p>
             <IconAsterisk size={8} color='#FF0000' />
           </div>
           <div className='flex flex-row items-center gap-6'>
@@ -1483,12 +1728,13 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
           getpropertyDetails?.property_for === "Sell" &&
           <div className='mb-5'>
             <div className='flex gap-1 mb-4'>
-              <p className='text-[#1D3A76] text-sm font-medium font-sans'>Construction Status</p>
+              <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Construction Status</p>
               <IconAsterisk size={8} color='#FF0000' />
             </div>
             <div className='flex flex-row items-center gap-6'>
               {
-                allOccupancyTypes.length > 0 && allOccupancyTypes.map((item, index) => {
+                occupancyList.length > 0 &&
+                occupancyList.map((item, index) => {
                   return (
                     <div key={index} onClick={() => updateConstructionStatus(item.value)} className={`group cursor-pointer px-8 py-2 rounded-md  ${constructionStatus === item.value ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
                       <p className={`text-[10px] font-sans ${constructionStatus === item.value ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>{item.name}</p>
@@ -1497,73 +1743,78 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
                 }
                 )
               }
-              {/* <div onClick={() => updateConstructionStatus('Ready to move')} className={`group cursor-pointer px-8 py-2 rounded-md  ${constructionStatus === 'Ready to move' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                <p className={`text-[10px] font-sans ${constructionStatus === 'Ready to move' ? 'text-white ' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Ready to Move</p>
-              </div>
-              <div onClick={() => updateConstructionStatus('Under Construction')} className={`group cursor-pointer px-8 py-2 rounded-md  ${constructionStatus === 'Under Construction' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                <p className={`text-[10px] font-sans ${constructionStatus === 'Under Construction' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Under Construction</p>
-              </div> */}
             </div>
             {constructionStatusError && <p className='text-[#FF0000] text-xs font-sans'>Please select construction status</p>}
           </div>
         }
         {
-          getpropertyDetails?.property_in === "Residencial" &&
+          (propertySubType === 'Apartment' || propertySubType === "Flat" || propertySubType === "Land" || propertySubType === "Independent House" || propertySubType === "Independent Villa") &&
+          <div className='mb-5'>
+            <div className='flex gap-1 mb-4'>
+              <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>BHK</p>
+              <IconAsterisk size={8} color='#FF0000' />
+            </div>
+            <div className='flex flex-row items-center gap-6'>
+              {
+                bedroomtypesList.length > 0 &&
+                bedroomtypesList.map((item, index) => {
+                  return (
+                    <div key={index} onClick={() => updateBhk(item.value)} className={`group cursor-pointer px-8 py-2 rounded-md  ${bhk === item.value ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                      <p className={`text-[10px] font-sans ${bhk === item.value ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>{item.name} BHK</p>
+                    </div>
+                  )
+                })
+              }
+            </div>
+            {
+              bhk === 5 &&
+              <div className='my-5'>
+                <div className='flex gap-1'>
+                  <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Custom BHK</p>
+                  <IconAsterisk size={8} color='#FF0000' />
+                </div>
+                <input
+                  type='text'
+                  placeholder='Enter Custom BHK'
+                  className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans'
+                  autoComplete='off'
+                  value={customBhk}
+                  onChange={updateCustomBhk}
+                />
+                {customBhkError && <p className='text-[#FF0000] text-xs font-sans'>Please enter custom BHK</p>}
+              </div>
+              // <div className="relative my-5">
+              //   {(isFocused || customBhk) &&
+              //     <div className='flex items-center gap-1'>
+              //       <label
+              //         className={`absolute left-0 text-[13px] font-medium font-sans text-[#1D3A76] transition-all duration-200 -top-4`}
+              //       >
+              //         Custom BHK
+              //       </label>
+              //       <IconAsterisk size={8} color='#FF0000' />
+              //     </div>
+              //   }
+              //   <input
+              //     type="text"
+              //     placeholder="Enter Custom BHK"
+              //     className="border-b border-[#c3c3c3] font-semibold w-full py-2 text-[13px] font-sans focus:outline-none"
+              //     autoComplete="off"
+              //     value={customBhk}
+              //     onChange={updateCustomBhk}
+              //     onFocus={() => setIsFocused(true)}
+              //     onBlur={() => setIsFocused(false)}
+              //   />
+              // </div>
+            }
+            {bhkError && <p className='text-[#FF0000] text-xs font-sans'>Please select BHK</p>}
+          </div>
+        }
+        {
           (propertySubType === 'Apartment' || propertySubType === "Flat" || propertySubType === "Land") &&
           <>
             <div className='mb-5'>
               <div className='flex gap-1 mb-4'>
-                <p className='text-[#1D3A76] text-sm font-medium font-sans'>BHK</p>
-                <IconAsterisk size={8} color='#FF0000' />
-              </div>
-              <div className='flex flex-row items-center gap-6'>
-                {
-                  allBedRooms.map((item, index) => {
-                    return (
-                      <div key={index} onClick={() => updateBhk(item.value)} className={`group cursor-pointer px-8 py-2 rounded-md  ${bhk === item.value ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                        <p className={`text-[10px] font-sans ${bhk === item.value ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>{item.name} BHK</p>
-                      </div>
-                    )
-                  })
-                }
-                {/* <div onClick={() => updateBhk('1')} className={`group cursor-pointer px-8 py-2 rounded-md  ${bhk === '1' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                  <p className={`text-[10px] font-sans ${bhk === '1' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>1 BHK</p>
-                </div>
-                <div onClick={() => updateBhk('2')} className={`group cursor-pointer px-8 py-2 rounded-md  ${bhk === '2' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                  <p className={`text-[10px] font-sans ${bhk === '2' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>2 BHK</p>
-                </div>
-                <div onClick={() => updateBhk('3')} className={`group cursor-pointer px-8 py-2 rounded-md  ${bhk === '3' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                  <p className={`text-[10px] font-sans ${bhk === '3' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>3 BHK</p>
-                </div>
-                <div onClick={() => updateBhk('4')} className={`group cursor-pointer px-8 py-2 rounded-md  ${bhk === '4' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                  <p className={`text-[10px] font-sans ${bhk === '4' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>4 BHK</p>
-                </div>
-                <div onClick={() => updateBhk('4plus')} className={`group cursor-pointer px-8 py-2 rounded-md  ${bhk === '4plus' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                  <p className={`text-[10px] font-sans ${bhk === '4plus' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>4+ BHK</p>
-                </div> */}
-              </div>
-              {
-                bhk === 5 &&
-                <div className='my-5'>
-                  <div className='flex gap-1'>
-                    <p className='text-[#1D3A76] text-sm font-medium font-sans'>Custom BHK</p>
-                    <IconAsterisk size={8} color='#FF0000' />
-                  </div>
-                  <input
-                    type='text'
-                    placeholder='Enter Custom BHK'
-                    className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans'
-                    autoComplete='off'
-                    value={customBhk}
-                    onChange={updateCustomBhk}
-                  />
-                </div>
-              }
-              {bhkError && <p className='text-[#FF0000] text-xs font-sans'>Please select BHK</p>}
-            </div>
-            <div className='mb-5'>
-              <div className='flex gap-1 mb-4'>
-                <p className='text-[#1D3A76] text-sm font-medium font-sans'>Bathroom</p>
+                <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Bathroom</p>
                 <IconAsterisk size={8} color='#FF0000' />
               </div>
               <div className='flex flex-row items-center gap-6'>
@@ -1587,30 +1838,31 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
                 bathroom === '4plus' &&
                 <div className='my-5'>
                   <div className='flex gap-1'>
-                    <p className='text-[#1D3A76] text-sm font-medium font-sans'>Custom Bathroom</p>
+                    <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Custom Bathroom</p>
                     <IconAsterisk size={8} color='#FF0000' />
                   </div>
                   <input
                     type='text'
                     placeholder='Enter Custom Bathrooms'
-                    className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans'
+                    className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans'
                     autoComplete='off'
                     value={customBathroom}
                     onChange={updateCustomBathroom}
                   />
+                  {customBathroomError && <p className='text-[#FF0000] text-xs font-sans'>Please enter custom bathroom</p>}
                 </div>
               }
               {bathroomError && <p className='text-[#FF0000] text-xs font-sans'>Please select bathroom</p>}
             </div>
             <div className='mb-5'>
               <div className='flex gap-1 mb-4'>
-                <p className='text-[#1D3A76] text-sm font-medium font-sans'>Balcony</p>
+                <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Balcony</p>
                 <IconAsterisk size={8} color='#FF0000' />
               </div>
               <div className='flex flex-row items-center gap-6'>
                 {
-                  allBaclcanies.length > 0 &&
-                  allBaclcanies.map((item, index) => {
+                  bacloniesList.length > 0 &&
+                  bacloniesList.map((item, index) => {
                     return (
                       <div key={index} onClick={() => updateBalcony(item.value)} className={`group cursor-pointer px-8 py-2 rounded-md  ${balcony === item.value ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
                         <p className={`text-[10px] font-sans ${balcony === item.value ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>{item.name} </p>
@@ -1624,78 +1876,61 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
                 balcony === 5 &&
                 <div className='my-5'>
                   <div className='flex gap-1'>
-                    <p className='text-[#1D3A76] text-sm font-medium font-sans'>Custom Balcony</p>
+                    <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Custom Balcony</p>
                     <IconAsterisk size={8} color='#FF0000' />
                   </div>
                   <input
                     type='text'
                     placeholder='Enter Custom Balcony'
-                    className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans'
+                    className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans'
                     autoComplete='off'
                     value={customBalcony}
                     onChange={updateCustomBalcony}
                   />
+                  {customBalconyError && <p className='text-[#FF0000] text-xs font-sans'>Please enter custom balcony</p>}
                 </div>
               }
               {balconyError && <p className='text-[#FF0000] text-xs font-sans'>Please select balcony</p>}
             </div>
             <div className='mb-5'>
               <div className='flex gap-1 mb-4'>
-                <p className='text-[#1D3A76] text-sm font-medium font-sans'>Furnish Type</p>
+                <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Furnish Type</p>
                 <IconAsterisk size={8} color='#FF0000' />
               </div>
               <div className='grid grid-cols-3 gap-2'>
                 {
-                  allFurnishedTypes.map((item, index) => {
+                  furnishedtypesList.length > 0 &&
+                  furnishedtypesList.map((item, index) => {
                     return (
-                      <div key={index} onClick={() => updateFurnishType(item.value)} className={`flex flex-col justify-center items-center gap-2 border-2 rounded-md px-4 py-2 w-[100%] cursor-pointer ${furnishType === item.value ? 'bg-[#1D3A76] border-[#1D3A76] ' : 'border-[#d7d5d5ba] '}`}>
-                        <p className={`text-xs text-center font-medium ${furnishType === item.value ? 'text-white' : 'text-[#1D3A76]'} `}>{item.name}</p>
+                      <div key={index} onClick={() => updateFurnishType(item.value)} className={`group flex flex-col justify-center items-center gap-2 border-2 rounded-md px-4 py-2 w-[100%] cursor-pointer ${furnishType === item.value ? 'bg-[#1D3A76] border-[#1D3A76] ' : 'border-[#d7d5d5ba] hover:bg-[#1D3A76]'}`}>
+                        <p className={`text-xs text-center font-medium ${furnishType === item.value ? 'text-white' : 'text-[#1D3A76] group-hover:text-white'} `}>{item.name}</p>
                       </div>
                     )
                   }
                   )
                 }
-                {/* <div onClick={() => updateFurnishType('fullyfurnished')} className={`flex flex-row items-center gap-4 border-2 rounded-md px-4 py-2 w-[80%] cursor-pointer ${furnishType === "fullyfurnished" ? 'bg-[#1D3A76] border-[#1D3A76] ' : 'border-[#d7d5d5ba] '}`}>
-                  <svg width="20" height="20" viewBox="0 0 33 27" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M6 27C5.575 27 5.219 26.856 4.932 26.568C4.645 26.28 4.501 25.924 4.5 25.5V24C3.25 24 2.1875 23.5625 1.3125 22.6875C0.4375 21.8125 0 20.75 0 19.5V12C0 10.75 0.4375 9.6875 1.3125 8.8125C2.1875 7.9375 3.25 7.5 4.5 7.5V4.5C4.5 3.25 4.9375 2.1875 5.8125 1.3125C6.6875 0.4375 7.75 0 9 0H24C25.25 0 26.3125 0.4375 27.1875 1.3125C28.0625 2.1875 28.5 3.25 28.5 4.5V7.5C29.75 7.5 30.8125 7.9375 31.6875 8.8125C32.5625 9.6875 33 10.75 33 12V19.5C33 20.75 32.5625 21.8125 31.6875 22.6875C30.8125 23.5625 29.75 24 28.5 24V25.5C28.5 25.925 28.356 26.2815 28.068 26.5695C27.78 26.8575 27.424 27.001 27 27C26.576 26.999 26.22 26.855 25.932 26.568C25.644 26.281 25.5 25.925 25.5 25.5V24H7.5V25.5C7.5 25.925 7.356 26.2815 7.068 26.5695C6.78 26.8575 6.424 27.001 6 27ZM4.5 21H28.5C28.925 21 29.2815 20.856 29.5695 20.568C29.8575 20.28 30.001 19.924 30 19.5V12C30 11.575 29.856 11.219 29.568 10.932C29.28 10.645 28.924 10.501 28.5 10.5C28.076 10.499 27.72 10.643 27.432 10.932C27.144 11.221 27 11.577 27 12V18H6V12C6 11.575 5.856 11.219 5.568 10.932C5.28 10.645 4.924 10.501 4.5 10.5C4.076 10.499 3.72 10.643 3.432 10.932C3.144 11.221 3 11.577 3 12V19.5C3 19.925 3.144 20.2815 3.432 20.5695C3.72 20.8575 4.076 21.001 4.5 21ZM9 15H24V12C24 11.325 24.1375 10.7125 24.4125 10.1625C24.6875 9.6125 25.05 9.125 25.5 8.7V4.5C25.5 4.075 25.356 3.719 25.068 3.432C24.78 3.145 24.424 3.001 24 3H9C8.575 3 8.219 3.144 7.932 3.432C7.645 3.72 7.501 4.076 7.5 4.5V8.7C7.95 9.125 8.3125 9.6125 8.5875 10.1625C8.8625 10.7125 9 11.325 9 12V15Z" fill={furnishType === 'fullyfurnished' ? '#fff' : '#909090'} />
-                  </svg>
-                  <p className={` text-[10px] text-center font-sans ${furnishType === "fullyfurnished" ? 'text-white' : 'text-[#909090]'}`}>Fully Furnished</p>
-                </div>
-                <div onClick={() => updateFurnishType('semifurnished')} className={`flex flex-row items-center gap-4 border-2 rounded-md px-4 py-2 w-[80%] cursor-pointer ${furnishType === "semifurnished" ? 'bg-[#1D3A76] border-[#1D3A76] ' : 'border-[#d7d5d5ba] '}`}>
-                  <svg width="20" height="20" viewBox="0 0 33 27" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M6 27C5.575 27 5.219 26.856 4.932 26.568C4.645 26.28 4.501 25.924 4.5 25.5V24C3.25 24 2.1875 23.5625 1.3125 22.6875C0.4375 21.8125 0 20.75 0 19.5V12C0 10.75 0.4375 9.6875 1.3125 8.8125C2.1875 7.9375 3.25 7.5 4.5 7.5V4.5C4.5 3.25 4.9375 2.1875 5.8125 1.3125C6.6875 0.4375 7.75 0 9 0H24C25.25 0 26.3125 0.4375 27.1875 1.3125C28.0625 2.1875 28.5 3.25 28.5 4.5V7.5C29.75 7.5 30.8125 7.9375 31.6875 8.8125C32.5625 9.6875 33 10.75 33 12V19.5C33 20.75 32.5625 21.8125 31.6875 22.6875C30.8125 23.5625 29.75 24 28.5 24V25.5C28.5 25.925 28.356 26.2815 28.068 26.5695C27.78 26.8575 27.424 27.001 27 27C26.576 26.999 26.22 26.855 25.932 26.568C25.644 26.281 25.5 25.925 25.5 25.5V24H7.5V25.5C7.5 25.925 7.356 26.2815 7.068 26.5695C6.78 26.8575 6.424 27.001 6 27ZM4.5 21H28.5C28.925 21 29.2815 20.856 29.5695 20.568C29.8575 20.28 30.001 19.924 30 19.5V12C30 11.575 29.856 11.219 29.568 10.932C29.28 10.645 28.924 10.501 28.5 10.5C28.076 10.499 27.72 10.643 27.432 10.932C27.144 11.221 27 11.577 27 12V18H6V12C6 11.575 5.856 11.219 5.568 10.932C5.28 10.645 4.924 10.501 4.5 10.5C4.076 10.499 3.72 10.643 3.432 10.932C3.144 11.221 3 11.577 3 12V19.5C3 19.925 3.144 20.2815 3.432 20.5695C3.72 20.8575 4.076 21.001 4.5 21ZM9 15H24V12C24 11.325 24.1375 10.7125 24.4125 10.1625C24.6875 9.6125 25.05 9.125 25.5 8.7V4.5C25.5 4.075 25.356 3.719 25.068 3.432C24.78 3.145 24.424 3.001 24 3H9C8.575 3 8.219 3.144 7.932 3.432C7.645 3.72 7.501 4.076 7.5 4.5V8.7C7.95 9.125 8.3125 9.6125 8.5875 10.1625C8.8625 10.7125 9 11.325 9 12V15Z" fill={furnishType === 'semifurnished' ? '#fff' : '#909090'} />
-                  </svg>
-                  <p className={` text-[10px] text-center font-sans ${furnishType === "semifurnished" ? 'text-white' : 'text-[#909090]'}`}>Semi Furnished</p>
-                </div>
-                <div onClick={() => updateFurnishType('unfurnished')} className={`flex flex-row items-center gap-4 border-2 rounded-md px-4 py-2 w-[80%] cursor-pointer ${furnishType === "unfurnished" ? 'bg-[#1D3A76] border-[#1D3A76] ' : 'border-[#d7d5d5ba] '}`}>
-                  <svg width="20" height="20" viewBox="0 0 26 29" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M1.69574 15.826H6.78268V10.1739H3.9566C3.50689 10.1739 3.0756 9.99523 2.7576 9.67723C2.43961 9.35924 2.26096 8.92794 2.26096 8.47823V1.69565C2.26096 1.24593 2.43961 0.814638 2.7576 0.496643C3.0756 0.178648 3.50689 0 3.9566 0H22.0435C22.4932 0 22.9245 0.178648 23.2425 0.496643C23.5605 0.814638 23.7391 1.24593 23.7391 1.69565V8.47823C23.7391 8.92794 23.5605 9.35924 23.2425 9.67723C22.9245 9.99523 22.4932 10.1739 22.0435 10.1739H19.2174V15.826H24.3044C24.7541 15.826 25.1854 16.0047 25.5034 16.3227C25.8214 16.6407 26 17.072 26 17.5217V19.7825C26 20.2322 25.8214 20.6635 25.5034 20.9815C25.1854 21.2995 24.7541 21.4782 24.3044 21.4782H22.6087V27.6955C22.6087 27.8455 22.5492 27.9892 22.4432 28.0952C22.3372 28.2012 22.1934 28.2608 22.0435 28.2608C21.8936 28.2608 21.7498 28.2012 21.6438 28.0952C21.5378 27.9892 21.4783 27.8455 21.4783 27.6955V21.4782H4.52182V27.6955C4.52182 27.8455 4.46227 27.9892 4.35627 28.0952C4.25027 28.2012 4.10651 28.2608 3.9566 28.2608C3.8067 28.2608 3.66293 28.2012 3.55694 28.0952C3.45094 27.9892 3.39139 27.8455 3.39139 27.6955V21.4782H1.69574C1.24603 21.4782 0.814735 21.2995 0.49674 20.9815C0.178745 20.6635 9.72748e-05 20.2322 9.72748e-05 19.7825V17.5217C9.72748e-05 17.072 0.178745 16.6407 0.49674 16.3227C0.814735 16.0047 1.24603 15.826 1.69574 15.826ZM22.6087 8.47823V1.69565C22.6087 1.54574 22.5492 1.40198 22.4432 1.29598C22.3372 1.18998 22.1934 1.13043 22.0435 1.13043H3.9566C3.8067 1.13043 3.66293 1.18998 3.55694 1.29598C3.45094 1.40198 3.39139 1.54574 3.39139 1.69565V8.47823C3.39139 8.62813 3.45094 8.7719 3.55694 8.8779C3.66293 8.9839 3.8067 9.04344 3.9566 9.04344H22.0435C22.1934 9.04344 22.3372 8.9839 22.4432 8.8779C22.5492 8.7719 22.6087 8.62813 22.6087 8.47823ZM18.087 10.1739H7.91311V15.826H18.087V10.1739ZM1.13053 19.7825C1.13053 19.9324 1.19008 20.0762 1.29607 20.1822C1.40207 20.2882 1.54584 20.3477 1.69574 20.3477H24.3044C24.4543 20.3477 24.598 20.2882 24.704 20.1822C24.81 20.0762 24.8696 19.9324 24.8696 19.7825V17.5217C24.8696 17.3718 24.81 17.228 24.704 17.122C24.598 17.016 24.4543 16.9565 24.3044 16.9565H1.69574C1.54584 16.9565 1.40207 17.016 1.29607 17.122C1.19008 17.228 1.13053 17.3718 1.13053 17.5217V19.7825Z" fill={furnishType === 'unfurnished' ? '#fff' : '#909090'} />
-                  </svg>
-                  <p className={` text-[10px] text-center font-sans ${furnishType === "unfurnished" ? 'text-white' : 'text-[#909090]'}`}>Unfurnished</p>
-                </div> */}
               </div>
               {furnishTypeError && <p className='text-[#FF0000] text-xs font-sans'>Please select furnish type</p>}
             </div>
             <div onClick={openFurnishingModal} className='cursor-pointer'>
-              <p className='text-[#1D3A76] text-sm mb-4 font-medium font-sans'>+ Add Furnishings/ Amenties</p>
+              <p className='text-[#1D3A76] text-[13px] mb-4 font-medium font-sans'>+ Add Furnishings/ Amenties</p>
             </div>
           </>
         }
         {
-          getpropertyDetails?.property_in === "Commercial" &&
           (propertySubType === 'Office' || propertySubType === "Retail Shop" || propertySubType === "Show Room") &&
           <>
-            <p className='text-[#1D3A76] text-sm font-medium font-sans mt-6'>Lift & Stair Cases </p>
+            <p className='text-[#1D3A76] text-[13px] font-medium font-sans mt-6'>Lift & Stair Cases </p>
             <div className='grid grid-cols-3 gap-2 mt-3'>
               <div className='mb-6 '>
                 <div className='flex gap-1'>
-                  <p className='text-[#1D3A76] text-sm font-medium font-sans'> Passenger Lifts</p>
+                  <p className='text-[#1D3A76] text-[13px] font-medium font-sans'> Passenger Lifts</p>
                   <IconAsterisk size={8} color='#FF0000' />
                 </div>
                 <input
                   type='text'
                   placeholder='Enter Passenger Lifts'
-                  className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans'
+                  className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans'
                   autoComplete='off'
                   value={passengerLifts}
                   onChange={updatePassengerLifts}
@@ -1704,13 +1939,13 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
               </div>
               <div className='mb-6 '>
                 <div className='flex gap-1'>
-                  <p className='text-[#1D3A76] text-sm font-medium font-sans'> Service Lifts</p>
+                  <p className='text-[#1D3A76] text-[13px] font-medium font-sans'> Service Lifts</p>
                   <IconAsterisk size={8} color='#FF0000' />
                 </div>
                 <input
                   type='text'
                   placeholder='Enter Service Lifts'
-                  className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans'
+                  className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans'
                   autoComplete='off'
                   value={serviceLifts}
                   onChange={updateServiceLifts}
@@ -1719,13 +1954,13 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
               </div>
               <div className='mb-6 '>
                 <div className='flex gap-1'>
-                  <p className='text-[#1D3A76] text-sm font-medium font-sans'>Stair Cases</p>
+                  <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Stair Cases</p>
                   <IconAsterisk size={8} color='#FF0000' />
                 </div>
                 <input
                   type='text'
                   placeholder='Enter Stair Cases'
-                  className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans'
+                  className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans'
                   autoComplete='off'
                   value={stairCases}
                   onChange={updateStairCases}
@@ -1734,17 +1969,17 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
               </div>
             </div>
 
-            <p className='text-[#1D3A76] text-sm font-medium font-sans'>Parking</p>
+            <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Parking</p>
             <div className='grid grid-cols-3 gap-2 mt-3'>
               <div className='mb-6 '>
                 <div className='flex gap-1'>
-                  <p className='text-[#1D3A76] text-sm font-medium font-sans'>Private Parking</p>
+                  <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Private Parking</p>
                   <IconAsterisk size={8} color='#FF0000' />
                 </div>
                 <input
                   type='text'
                   placeholder='Enter Private Parking'
-                  className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans'
+                  className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans'
                   autoComplete='off'
                   value={privateParking}
                   onChange={updatePrivateParking}
@@ -1753,13 +1988,13 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
               </div>
               <div className='mb-6 '>
                 <div className='flex gap-1'>
-                  <p className='text-[#1D3A76] text-sm font-medium font-sans'>Public Parking</p>
+                  <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Public Parking</p>
                   <IconAsterisk size={8} color='#FF0000' />
                 </div>
                 <input
                   type='text'
                   placeholder='Enter Public Parking'
-                  className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans'
+                  className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans'
                   autoComplete='off'
                   value={publicParking}
                   onChange={updatePublicParking}
@@ -1768,17 +2003,17 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
               </div>
             </div>
 
-            <p className='text-[#1D3A76] text-sm font-medium font-sans'>Washrooms</p>
+            <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Washrooms</p>
             <div className='grid grid-cols-3 gap-2 mt-3'>
               <div className='mb-6 '>
                 <div className='flex gap-1'>
-                  <p className='text-[#1D3A76] text-sm font-medium font-sans'>Private Washrooms</p>
+                  <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Private Washrooms</p>
                   <IconAsterisk size={8} color='#FF0000' />
                 </div>
                 <input
                   type='text'
                   placeholder='Enter Private Washrooms'
-                  className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans'
+                  className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans'
                   autoComplete='off'
                   value={privateWashrooms}
                   onChange={updatePrivateWashrooms}
@@ -1787,13 +2022,13 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
               </div>
               <div className='mb-6 '>
                 <div className='flex gap-1'>
-                  <p className='text-[#1D3A76] text-sm font-medium font-sans'>Public Washrooms</p>
+                  <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Public Washrooms</p>
                   <IconAsterisk size={8} color='#FF0000' />
                 </div>
                 <input
                   type='text'
                   placeholder='Enter Public Washrooms'
-                  className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans'
+                  className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans'
                   autoComplete='off'
                   value={publicWashrooms}
                   onChange={updatePublicWashrooms}
@@ -1803,32 +2038,29 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
             </div>
           </>
         }
-        {
-          getpropertyDetails?.property_in && getpropertyDetails?.property_for === "Sell" &&
-          <div className='mb-5'>
-            <div className='flex gap-1 mb-4'>
-              <p className='text-[#1D3A76] text-sm font-medium font-sans'>Available From</p>
-              <IconAsterisk size={8} color='#FF0000' />
-            </div>
-            <div className='border border-[#909090] rounded-md w-[20%] px-3'>
-              <input
-                type="date"
-                id="date"
-                className='text-[14px] w-full py-1 outline-none'
-                autoComplete='off'
-                value={availableFromDate}
-                onChange={updateAvailableFromDate}
-              />
-            </div>
-            {availableFromDateError && <p className='text-[#FF0000] text-xs font-sans'>Please select Available From date</p>}
+        <div className='mb-5'>
+          <div className='flex gap-1 mb-4'>
+            <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Available From </p>
+            <IconAsterisk size={8} color='#FF0000' />
           </div>
-        }
+          <div className='border border-[#909090] rounded-md w-[20%] px-3'>
+            <input
+              type="date"
+              id="date"
+              className='text-[14px] w-full py-1 outline-none'
+              autoComplete='off'
+              value={availableFromDate}
+              onChange={updateAvailableFromDate}
+            />
+          </div>
+          {availableFromDateError && <p className='text-[#FF0000] text-xs font-sans'>Please select Available From date</p>}
+        </div>
         {
-          (constructionStatus === 'Ready to move') || (getpropertyDetails?.property_in === "Commercial" && (propertySubType === "Warehouse")) &&
+          (constructionStatus === 1 || propertySubType === "Warehouse" || getpropertyDetails?.property_for === "Rent") &&
           <div className='mb-5 w-[40%]'>
             <Select
               label='Age of Property'
-              labelClassName='!text-[#1D3A76] text-sm font-medium font-sans'
+              labelClassName='!text-[#1D3A76] text-[13px] font-medium font-sans'
               data={[
                 { value: '5', label: '0-5' },
                 { value: '10', label: '5-10' },
@@ -1845,10 +2077,10 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
           </div>
         }
         {
-          (constructionStatus === 'Under Construction') || (getpropertyDetails?.property_in === "Commercial" && (propertySubType === "Warehouse")) &&
+          (constructionStatus === 2 || propertySubType === "Warehouse") &&
           <div className='mb-5'>
             <div className='flex gap-1 mb-4'>
-              <p className='text-[#1D3A76] text-sm font-medium font-sans'>Possesion End</p>
+              <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Possesion End</p>
               <IconAsterisk size={8} color='#FF0000' />
             </div>
             <div className='border border-[#909090] rounded-md w-[20%] px-3'>
@@ -1865,17 +2097,17 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
           </div>
         }
         {
-          getpropertyDetails?.property_in && getpropertyDetails.property_for === "Rent" &&
+          getpropertyDetails.property_for === "Rent" &&
           <>
             <div className='my-6'>
               <div className='flex gap-1'>
-                <p className='text-[#1D3A76] text-sm font-medium font-sans'>Monthly Rent</p>
+                <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Monthly Rent</p>
                 <IconAsterisk size={8} color='#FF0000' />
               </div>
               <input
                 type='text'
                 placeholder='Cost(per month)'
-                className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans '
+                className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans '
                 autoComplete='off'
                 value={monthlyRent}
                 onChange={updateMonthlyRent}
@@ -1884,13 +2116,13 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
             </div>
             <div className='my-6'>
               <div className='flex gap-1'>
-                <p className='text-[#1D3A76] text-sm font-medium font-sans'>Maintence Charge(per Month)</p>
+                <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Maintence Charge(per Month)</p>
                 <IconAsterisk size={8} color='#FF0000' />
               </div>
               <input
                 type='text'
                 placeholder='Maintence Charges(per month)'
-                className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans'
+                className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans'
                 autoComplete='off'
                 value={maintenceCharges}
                 onChange={updateMaintenceCharges}
@@ -1899,43 +2131,43 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
             </div>
             <div className='mb-5'>
               <div className='flex gap-1 mb-4'>
-                <p className='text-[#1D3A76] text-sm font-medium font-sans'>Security Deposit</p>
+                <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Security Deposit</p>
                 <IconAsterisk size={8} color='#FF0000' />
               </div>
               <div className='flex flex-row items-center gap-6'>
-                <div onClick={() => updateSecurityDeposit('0')} className={`group cursor-pointer px-8 py-2 rounded-md  ${securityDeposit === '0' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                  <p className={`text-[10px] font-sans ${securityDeposit === '0' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>None</p>
-                </div>
                 <div onClick={() => updateSecurityDeposit('1')} className={`group cursor-pointer px-8 py-2 rounded-md  ${securityDeposit === '1' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
                   <p className={`text-[10px] font-sans ${securityDeposit === '1' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>1 Month</p>
                 </div>
                 <div onClick={() => updateSecurityDeposit('2')} className={`group cursor-pointer px-8 py-2 rounded-md  ${securityDeposit === '2' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
                   <p className={`text-[10px] font-sans ${securityDeposit === '2' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>2 Months</p>
                 </div>
+                <div onClick={() => updateSecurityDeposit('3')} className={`group cursor-pointer px-8 py-2 rounded-md  ${securityDeposit === '3' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${securityDeposit === '3' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>3 Months</p>
+                </div>
               </div>
               {securityDepositError && <p className='text-[#FF0000] text-xs font-sans'>Please select security deposit</p>}
             </div>
             <div className='mb-5'>
               <div className='flex gap-1 mb-4'>
-                <p className='text-[#1D3A76] text-sm font-medium font-sans'>Lock In Period</p>
+                <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Lock In Period</p>
                 <IconAsterisk size={8} color='#FF0000' />
               </div>
               <div className='flex flex-row items-center gap-6'>
-                <div onClick={() => updateLockInPeriod('none')} className={`group cursor-pointer px-8 py-2 rounded-md  ${lockInPeriod === 'none' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                  <p className={`text-[10px] font-sans ${lockInPeriod === 'none' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>1 Month</p>
+                <div onClick={() => updateLockInPeriod('1')} className={`group cursor-pointer px-8 py-2 rounded-md  ${lockInPeriod === '1' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${lockInPeriod === '1' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>1 Month</p>
                 </div>
-                <div onClick={() => updateLockInPeriod('onemonth')} className={`group cursor-pointer px-8 py-2 rounded-md  ${lockInPeriod === 'onemonth' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                  <p className={`text-[10px] font-sans ${lockInPeriod === 'onemonth' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>1 Month</p>
+                <div onClick={() => updateLockInPeriod('2')} className={`group cursor-pointer px-8 py-2 rounded-md  ${lockInPeriod === '2' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${lockInPeriod === '2' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>2 Months</p>
                 </div>
-                <div onClick={() => updateLockInPeriod('twomonths')} className={`group cursor-pointer px-8 py-2 rounded-md  ${lockInPeriod === 'twomonths' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                  <p className={`text-[10px] font-sans ${lockInPeriod === 'twomonths' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>2 Months</p>
+                <div onClick={() => updateLockInPeriod('3')} className={`group cursor-pointer px-8 py-2 rounded-md  ${lockInPeriod === '3' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${lockInPeriod === '3' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>3 Months</p>
                 </div>
               </div>
               {lockInPeriodError && <p className='text-[#FF0000] text-xs font-sans'>Please select lock in period</p>}
             </div>
             <div className='mb-5'>
               <div className='flex gap-1 mb-4'>
-                <p className='text-[#1D3A76] text-sm font-medium font-sans'>Do You Charge Brokerage?</p>
+                <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Do You Charge Brokerage?</p>
                 <IconAsterisk size={8} color='#FF0000' />
               </div>
               <div className='flex flex-row items-center gap-6'>
@@ -1951,34 +2183,31 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
               </div>
               {brokerageError && <p className='text-[#FF0000] text-xs font-sans'>Please select brokerage</p>}
             </div>
-            {
-              (getpropertyDetails?.property_in === "Residencial" && getpropertyDetails.property_for === "Rent") &&
-              <div className='mb-5'>
-                <div className='flex gap-1 mb-4'>
-                  <p className='text-[#1D3A76] text-sm font-medium font-sans'>Prefered Tenant Type</p>
-                  <IconAsterisk size={8} color='#FF0000' />
-                </div>
-                {
-                  allPreferredTenantTypes?.length > 0 &&
-                  <div className='flex flex-row items-center gap-6'>
-                    {
-                      allPreferredTenantTypes.map((item, index) => (
-                        <div key={index} onClick={() => updatePreferredTenantType(item.name)} className={`group cursor-pointer px-8 py-2 rounded-md  ${preferredTenantType === item.name ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                          <p className={`text-[10px] font-sans ${preferredTenantType === item.name ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>{item.name}</p>
-                        </div>
-                      ))
-                    }
-                  </div>
-                }
-                {preferredTenantTypeError && <p className='text-[#FF0000] text-xs font-sans'>Please select preferred tenant type</p>}
+            <div className='mb-5'>
+              <div className='flex gap-1 mb-4'>
+                <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Prefered Tenant Type</p>
+                <IconAsterisk size={8} color='#FF0000' />
               </div>
-            }
+              {
+                preferedTenantList?.length > 0 &&
+                <div className='flex flex-row items-center gap-6'>
+                  {
+                    preferedTenantList.map((item, index) => (
+                      <div key={index} onClick={() => updatePreferredTenantType(item.value)} className={`group cursor-pointer px-8 py-2 rounded-md  ${preferredTenantType === item.value ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                        <p className={`text-[10px] font-sans ${preferredTenantType === item.value ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>{item.name}</p>
+                      </div>
+                    ))
+                  }
+                </div>
+              }
+              {preferredTenantTypeError && <p className='text-[#FF0000] text-xs font-sans'>Please select preferred tenant type</p>}
+            </div>
           </>
         }
         <div className='mb-5 w-[40%]'>
           <Select
             label='Area units'
-            labelClassName='!text-[#1D3A76] text-sm font-medium font-sans'
+            labelClassName='!text-[#1D3A76] text-[13px] font-medium font-sans'
             data={[
               { value: 'sq.ft', label: 'sq.ft' },
               { value: 'sq.yd', label: 'sq.yd' },
@@ -1992,104 +2221,100 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
           />
           {areaUnitsError && <p className='text-[#FF0000] text-xs font-sans'>Please select one</p>}
         </div>
-        <div className='grid grid-cols-3 gap-2 mt-3'>
+        <div className='grid grid-cols-1 gap-2 mt-2'>
           {
-            getpropertyDetails?.property_in && getpropertyDetails.property_for &&
-              (propertySubType === "Apartment" || propertySubType === "Flat" || propertySubType === "Land" || propertySubType === "Office" || propertySubType === "Retail Shop" || propertySubType === "Show Room") ?
-              <>
-                <div className='mt-6'>
-                  <div className='flex gap-1'>
-                    <p className='text-[#1D3A76] text-sm font-medium font-sans'>Built-up Area({areaUnits})</p>
-                    <IconAsterisk size={8} color='#FF0000' />
-                  </div>
-                  <input
-                    type='number'
-                    placeholder='Built-up Area'
-                    className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans'
-                    autoComplete='off'
-                    value={builtupArea}
-                    onChange={updateBuiltupArea}
-                  />
-                  {builtupAreaError && <p className='text-[#FF0000] text-xs font-sans'>Please enter built-up area</p>}
+            (propertySubType === "Apartment" || propertySubType === "Flat" || propertySubType === "Land" || propertySubType === "Office" || propertySubType === "Retail Shop" || propertySubType === "Show Room" || propertySubType === "Independent House" || propertySubType === "Independent Villa") &&
+            <>
+              <div className='mt-3'>
+                <div className='flex gap-1'>
+                  <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Built-up Area({areaUnits})</p>
+                  <IconAsterisk size={8} color='#FF0000' />
                 </div>
-                <div className='mt-6'>
-                  <div className='flex gap-1'>
-                    <p className='text-[#1D3A76] text-sm font-medium font-sans'>Carpet Area({areaUnits})</p>
-                    <IconAsterisk size={8} color='#FF0000' />
-                  </div>
-                  <input
-                    type='number'
-                    placeholder='Carpet Area'
-                    className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans'
-                    autoComplete='off'
-                    value={carpetArea}
-                    onChange={updateCarpetArea}
-                  />
-                  {carpetAreaError && <p className='text-[#FF0000] text-xs font-sans'>Please enter carpet area</p>}
+                <input
+                  type='number'
+                  placeholder='Built-up Area'
+                  className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans'
+                  autoComplete='off'
+                  value={builtupArea}
+                  onChange={updateBuiltupArea}
+                />
+                {builtupAreaError && <p className='text-[#FF0000] text-xs font-sans'>Please enter built-up area</p>}
+              </div>
+              <div className='mt-3'>
+                <div className='flex gap-1'>
+                  <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Carpet Area({areaUnits})</p>
+                  <IconAsterisk size={8} color='#FF0000' />
                 </div>
-              </>
-              :
-              null
+                <input
+                  type='number'
+                  placeholder='Carpet Area'
+                  className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans'
+                  autoComplete='off'
+                  value={carpetArea}
+                  onChange={updateCarpetArea}
+                />
+                {carpetAreaError && <p className='text-[#FF0000] text-xs font-sans'>Please enter carpet area</p>}
+              </div>
+            </>
           }
           {
-            (getpropertyDetails?.property_in && getpropertyDetails.property_for) &&
-              (propertySubType === "Independent House" || propertySubType === "Independent Villa" || propertySubType === "plot" || propertySubType === "Warehouse" || propertySubType === "Plot" || propertySubType === "Others") ?
-              <>
-                <div className='mt-6 '>
-                  <div className='flex gap-1'>
-                    <p className='text-[#1D3A76] text-sm font-medium font-sans'>Length Area({areaUnits})</p>
-                    <IconAsterisk size={8} color='#FF0000' />
-                  </div>
-                  <input
-                    type='text'
-                    placeholder='length Area'
-                    className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans'
-                    autoComplete='off'
-                    value={lengthArea}
-                    onChange={updateLengthArea}
-                  />
-                  {lengthAreaError && <p className='text-[#FF0000] text-xs font-sans'>Please enter length area</p>}
+            (!(propertySubType === "Independent House" || propertySubType === "Independent Villa") || (propertySubType === "Plot" || propertySubType === "Warehouse" || propertySubType === "Others")) &&
+            <>
+              <div className='mt-3 '>
+                <div className='flex gap-1'>
+                  <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Length Area({areaUnits})</p>
+                  <IconAsterisk size={8} color='#FF0000' />
                 </div>
-                <div className='my-6'>
-                  <div className='flex gap-1'>
-                    <p className='text-[#1D3A76] text-sm font-medium font-sans'>Plot Area({areaUnits})</p>
-                    <IconAsterisk size={8} color='#FF0000' />
-                  </div>
-                  <input
-                    type='text'
-                    placeholder='Plot Area'
-                    className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans'
-                    autoComplete='off'
-                    value={plotArea}
-                    onChange={updatePlotArea}
-                  />
-                  {plotAreaError && <p className='text-[#FF0000] text-xs font-sans'>Please enter plot area</p>}
+                <input
+                  type='text'
+                  placeholder='length Area'
+                  className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans'
+                  autoComplete='off'
+                  value={lengthArea}
+                  onChange={updateLengthArea}
+                />
+                {lengthAreaError && <p className='text-[#FF0000] text-xs font-sans'>Please enter length area</p>}
+              </div>
+              <div className='my-3'>
+                <div className='flex gap-1'>
+                  <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Width Area({areaUnits})</p>
+                  <IconAsterisk size={8} color='#FF0000' />
                 </div>
-                <div className='my-6'>
-                  <div className='flex gap-1'>
-                    <p className='text-[#1D3A76] text-sm font-medium font-sans'>Width Area({areaUnits})</p>
-                    <IconAsterisk size={8} color='#FF0000' />
-                  </div>
-                  <input
-                    type='text'
-                    placeholder='Width Area'
-                    className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans'
-                    autoComplete='off'
-                    value={widthArea}
-                    onChange={updateWidthArea}
-                  />
-                  {widthAreaError && <p className='text-[#FF0000] text-xs font-sans'>Please enter width area</p>}
-                </div>
-              </>
-              :
-              null
+                <input
+                  type='text'
+                  placeholder='Width Area'
+                  className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans'
+                  autoComplete='off'
+                  value={widthArea}
+                  onChange={updateWidthArea}
+                />
+                {widthAreaError && <p className='text-[#FF0000] text-xs font-sans'>Please enter width area</p>}
+              </div>
+            </>
           }
           {
-            getpropertyDetails?.property_in && getpropertyDetails.property_for &&
+            ((propertySubType === "Independent House" || propertySubType === "Independent Villa") || propertySubType === "Plot" || propertySubType === "Warehouse" || propertySubType === "Others") &&
+            <div className='my-3'>
+              <div className='flex gap-1'>
+                <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Plot Area({areaUnits})</p>
+                <IconAsterisk size={8} color='#FF0000' />
+              </div>
+              <input
+                type='text'
+                placeholder='Plot Area'
+                className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans'
+                autoComplete='off'
+                value={plotArea}
+                onChange={updatePlotArea}
+              />
+              {plotAreaError && <p className='text-[#FF0000] text-xs font-sans'>Please enter plot area</p>}
+            </div>
+          }
+          {
             (propertySubType === "Independent House" || propertySubType === "Independent Villa") &&
-            <div className='mb-5'>
+            <div className='mb-3'>
               <div className='flex gap-1 mb-4'>
-                <p className='text-[#1D3A76] text-sm font-medium font-sans'>Pent House</p>
+                <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Pent House</p>
                 <IconAsterisk size={8} color='#FF0000' />
               </div>
               <div className='flex flex-row items-center gap-6'>
@@ -2104,126 +2329,129 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
             </div>
           }
           {
-            getpropertyDetails?.property_in === 'Residencial' && getpropertyDetails.property_for === "Sell" && propertySubType ?
-              <>
-                <div className='my-6'>
+            getpropertyDetails.property_for === "Sell" &&
+            <>
+              {
+                !(propertySubType === "Independent House" || propertySubType === "Independent House") &&
+                <div className='mt-2'>
                   <div className='flex gap-1'>
-                    <p className='text-[#1D3A76] text-sm font-medium font-sans'>Unit Cost</p>
+                    <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Unit Cost</p>
                     <IconAsterisk size={8} color='#FF0000' />
                   </div>
                   <input
                     type='number'
                     placeholder='unit cost'
-                    className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans'
+                    className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans'
                     autoComplete='off'
                     value={unitCost}
                     onChange={updateUnitCost}
                   />
                   {unitCostError && <p className='text-[#FF0000] text-xs font-sans'>Please enter unit cost</p>}
                 </div>
-                <div className='mb-6'>
-                  <div className='flex gap-1'>
-                    <p className='text-[#1D3A76] text-sm font-medium font-sans'>Property Cost</p>
-                    <IconAsterisk size={8} color='#FF0000' />
-                  </div>
-                  <input
-                    type='number'
-                    placeholder='property cost'
-                    className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans'
-                    autoComplete='off'
-                    value={propertyCost}
-                    onChange={updatePropertyCost}
-                  />
-                  {propertyCostError && <p className='text-[#FF0000] text-xs font-sans'>Please enter property cost</p>}
+              }
+              <div className='my-3'>
+                <div className='flex gap-1'>
+                  <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Property Cost</p>
+                  <IconAsterisk size={8} color='#FF0000' />
                 </div>
-              </>
-              :
-              null
+                <input
+                  type='number'
+                  placeholder='property cost'
+                  className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans'
+                  autoComplete='off'
+                  value={propertyCost}
+                  onChange={updatePropertyCost}
+                />
+                {propertyCostError && <p className='text-[#FF0000] text-xs font-sans'>Please enter property cost</p>}
+              </div>
+            </>
           }
         </div>
+        {
+          propertySubType === "Plot" &&
+          <div className='mb-5 mt-3'>
+            <div className='flex gap-1 mb-4'>
+              <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Procession Status</p>
+              <IconAsterisk size={8} color='#FF0000' />
+            </div>
+            <div className='flex flex-row items-center gap-6'>
+              <div onClick={() => updateProcessionStatus('Immediate')} className={`group cursor-pointer px-8 py-2 rounded-md  ${processionStatus === 'Immediate' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                <p className={`text-[10px] font-sans ${processionStatus === 'Immediate' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Immediate</p>
+              </div>
+              <div onClick={() => updateProcessionStatus('Future')} className={`group cursor-pointer px-8 py-2 rounded-md  ${processionStatus === 'Future' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                <p className={`text-[10px] font-sans ${processionStatus === 'Future' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Future</p>
+              </div>
+            </div>
+            {processionStatusError && <p className='text-[#FF0000] text-xs font-sans'>Please select one</p>}
+          </div>
+        }
         {/* ownership */}
         {
           (getpropertyDetails?.property_in === 'Commercial' && getpropertyDetails?.property_for === 'Sell') &&
           <div className='mb-5 mt-2'>
             <div className='flex gap-1'>
-              <p className='text-[#1D3A76] text-sm font-medium font-sans'>Ownership</p>
+              <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Ownership</p>
               <IconAsterisk size={8} color='#FF0000' />
             </div>
             <div className='grid grid-cols-4 gap-3 mt-2'>
               {
-                allOwnerShipTypes?.length > 0 &&
-                allOwnerShipTypes.map((item, index) => (
+                ownershipList?.length > 0 &&
+                ownershipList.map((item, index) => (
                   <div key={index} onClick={() => updateOwnerShip(item.value)} className={`group cursor-pointer px-8 py-2 rounded-md  ${ownerShip === item.value ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
                     <p className={`text-[10px] font-sans ${ownerShip === item.value ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>{item.name}</p>
                   </div>
                 ))
               }
-              {/* <div onClick={() => updateOwnerShip('Freehold')} className={`group cursor-pointer px-8 py-2 rounded-md  ${ownerShip === 'Freehold' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                <p className={`text-[10px] font-sans ${ownerShip === 'Freehold' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Freehold</p>
-              </div>
-              <div onClick={() => updateOwnerShip('Leasehold')} className={`group cursor-pointer px-8 py-2 rounded-md  ${ownerShip === 'Leasehold' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                <p className={`text-[10px] font-sans ${ownerShip === 'Leasehold' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Leasehold</p>
-              </div>
-              <div onClick={() => updateOwnerShip('Cooperative society')} className={`group cursor-pointer px-8 py-2 rounded-md  ${ownerShip === 'Cooperative society' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                <p className={`text-[10px] font-sans ${ownerShip === 'Cooperative society' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Cooperative society</p>
-              </div>
-              <div onClick={() => updateOwnerShip('Power of attorney')} className={`group cursor-pointer px-8 py-2 rounded-md  ${ownerShip === 'Power of attorney' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                <p className={`text-[10px] font-sans ${ownerShip === 'Power of attorney' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Power of attorney</p>
-              </div> */}
             </div>
             {ownerShipError && <p className='text-[#FF0000] text-xs font-sans'>Please select Ownership</p>}
           </div>
         }
         {/* facilities */}
         {
-          getpropertyDetails?.property_in &&
-            propertySubType === "Apartment" || propertySubType === "Flat" || propertySubType === "Land" || propertySubType === "Office" || propertySubType === "Retail Shop" || propertySubType === "Show Room" ?
-            <div>
-              <p className='text-[#1D3A76] text-sm mb-3 mt-6 font-sans font-medium'>Facilities</p>
-              <ul className="grid grid-cols-3 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg">
-                {Object.keys(facilities).map((facility) => (
-                  <li key={facility} className="w-full border-b border-gray-200 sm:border-b-0 border-r">
-                    <div className="flex items-center ps-3">
-                      <input
-                        id={facility}
-                        type="checkbox"
-                        checked={facilities[facility]}
-                        onChange={updateFacilties}
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
-                      />
-                      <label
-                        htmlFor={facility}
-                        className="w-full py-3 ms-2 text-sm font-medium text-gray-900"
-                      >
-                        {facility.charAt(0).toUpperCase() + facility.slice(1)}
-                      </label>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
-            :
-            null
+          (propertySubType === "Apartment" || propertySubType === "Flat" || propertySubType === "Land" || propertySubType === "Office" || propertySubType === "Retail Shop" || propertySubType === "Show Room") &&
+          <div>
+            <p className='text-[#1D3A76] text-[13px] mb-3 mt-6 font-sans font-medium'>Facilities</p>
+            <ul className="grid grid-cols-3 text-[13px] font-medium text-gray-900 bg-white border border-gray-200 rounded-lg">
+              {Object.keys(facilities).map((facility) => (
+                <li key={facility} className="w-full border-b border-gray-200 sm:border-b-0 border-r">
+                  <div className="flex items-center ps-3">
+                    <input
+                      id={facility}
+                      type="checkbox"
+                      checked={facilities[facility]}
+                      onChange={updateFacilties}
+                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                    />
+                    <label
+                      htmlFor={facility}
+                      className="w-full py-3 ms-2 text-[13px] font-medium text-gray-900"
+                    >
+                      {facility.charAt(0).toUpperCase() + facility.slice(1)}
+                    </label>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
         }
         <Textarea
           label="Enter other attractive offers (Max 100 characters)"
           placeholder="your details of property"
           withAsterisk
-          textareaClassName='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans'
-          labelClassName='text-[#1D3A76] text-sm font-medium font-sans mt-6'
+          textareaClassName='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans'
+          labelClassName='text-[#1D3A76] text-[12px] font-medium font-sans mt-3'
           value={otherInfo}
           onChange={updateOtherInfo}
           error={otherInfoError}
         />
-
         {
-          (getpropertyDetails?.property_in === "Commercial" && getpropertyDetails?.property_for) &&
+          getpropertyDetails?.property_in === "Commercial" &&
           <>
             {
               (propertySubType === "Warehouse" || propertySubType === "Plot" || propertySubType === "Others") ?
-                <div className='mb-5'>
+                <div className='mb-5 mt-3'>
                   <div className='flex gap-1 mb-4'>
-                    <p className='text-[#1D3A76] text-sm font-medium font-sans'>Plot No.</p>
+                    <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Plot No.</p>
                     <IconAsterisk size={8} color='#FF0000' />
                   </div>
                   <div className='border border-[#909090] rounded-md w-[20%] px-3'>
@@ -2242,7 +2470,7 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
                 :
                 <div className='mb-5'>
                   <div className='flex gap-1 mb-4'>
-                    <p className='text-[#1D3A76] text-sm font-medium font-sans'>Flat No.</p>
+                    <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Flat No.</p>
                     <IconAsterisk size={8} color='#FF0000' />
                   </div>
                   <div className='border border-[#909090] rounded-md w-[20%] px-3'>
@@ -2264,8 +2492,8 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
                 <div className='mb-5 w-[40%]'>
                   <Select
                     label='Suitable'
-                    labelClassName='!text-[#1D3A76] text-sm font-medium font-sans'
-                    data={allBusinessTypes}
+                    labelClassName='!text-[#1D3A76] text-[13px] font-medium font-sans'
+                    data={businesstypesList}
                     searchable
                     withAsterisk
                     value={suitableFor}
@@ -2279,8 +2507,8 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
                 <div className='mb-5 w-[40%]'>
                   <Select
                     label='Zone Type'
-                    labelClassName='!text-[#1D3A76] text-sm font-medium font-sans'
-                    data={allZoneTypes}
+                    labelClassName='!text-[#1D3A76] text-[13px] font-medium font-sans'
+                    data={zoneList}
                     searchable
                     withAsterisk
                     value={zoneType}
@@ -2294,186 +2522,167 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
           </>
         }
 
-        <div className='my-5'>
-          <p className='text-[#1D3A76] text-sm mb-4 font-medium font-sans'>Add Additional Details</p>
-          <p className='text-[#AEAEAE] text-sm font-sans font-medium mb-2'>Facing</p>
+        <div className='mt-3'>
+          <p className='text-[#1D3A76] text-md mb-3 font-medium font-sans'>Add Additional Details</p>
+          <p className='text-[#1D3A76] text-[13px] font-sans font-medium mb-2'>Facing</p>
           <div className='grid grid-cols-4 gap-3'>
             {
-              allFacing.length > 0 &&
-              allFacing.map((item, index) => (
+              facingList.length > 0 &&
+              facingList.map((item, index) => (
                 <div key={index} onClick={() => updateFacing(item.value)} className={`group cursor-pointer px-8 py-2 rounded-md  ${facing === item.value ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
                   <p className={`text-[10px] font-sans ${facing === item.value ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>{item.name}</p>
                 </div>
               ))
             }
-            {/* <div onClick={() => updateFacing('north')} className={`group cursor-pointer px-8 py-2 rounded-md  ${facing === 'north' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-              <p className={`text-[10px] font-sans ${facing === 'north' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>North</p>
-            </div>
-            <div onClick={() => updateFacing('east')} className={`group cursor-pointer px-8 py-2 rounded-md  ${facing === 'east' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-              <p className={`text-[10px] font-sans ${facing === 'east' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>East</p>
-            </div>
-            <div onClick={() => updateFacing('west')} className={`group cursor-pointer px-8 py-2 rounded-md  ${facing === 'west' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-              <p className={`text-[10px] font-sans ${facing === 'west' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>West</p>
-            </div>
-            <div onClick={() => updateFacing('south')} className={`group cursor-pointer px-8 py-2 rounded-md  ${facing === 'south' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-              <p className={`text-[10px] font-sans ${facing === 'south' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>South</p>
-            </div>
-            <div onClick={() => updateFacing('northeast')} className={`group cursor-pointer px-8 py-2 rounded-md  ${facing === 'northeast' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-              <p className={`text-[10px] font-sans ${facing === 'northeast' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>North-East</p>
-            </div>
-            <div onClick={() => updateFacing('northwest')} className={`group cursor-pointer px-8 py-2 rounded-md  ${facing === 'northwest' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-              <p className={`text-[10px] font-sans ${facing === 'northwest' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>North-West</p>
-            </div>
-            <div onClick={() => updateFacing('southeast')} className={`group cursor-pointer px-8 py-2 rounded-md  ${facing === 'southeast' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-              <p className={`text-[10px] font-sans ${facing === 'southeast' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>South-East</p>
-            </div>
-            <div onClick={() => updateFacing('southwest')} className={`group cursor-pointer px-8 py-2 rounded-md  ${facing === 'southwest' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-              <p className={`text-[10px] font-sans ${facing === 'southwest' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>South-West</p>
-            </div> */}
           </div>
           {facingError && <p className='text-[#FF0000] text-xs font-sans'>Please select facing</p>}
         </div>
-        <div className='mb-5'>
-          <div className='flex gap-1 mb-4'>
-            <p className='text-[#1D3A76] text-sm font-medium font-sans'>Car Parking</p>
-            <IconAsterisk size={8} color='#FF0000' />
-          </div>
-          <div className='flex flex-row items-center gap-6'>
-            <div onClick={() => updateCarParking('0')} className={`group cursor-pointer px-8 py-2 rounded-md  ${carParking === '0' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-              <p className={`text-[10px] font-sans ${carParking === '0' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>0</p>
-            </div>
-            <div onClick={() => updateCarParking('1')} className={`group cursor-pointer px-8 py-2 rounded-md  ${carParking === '1' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-              <p className={`text-[10px] font-sans ${carParking === '1' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>1 </p>
-            </div>
-            <div onClick={() => updateCarParking('2')} className={`group cursor-pointer px-8 py-2 rounded-md  ${carParking === '2' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-              <p className={`text-[10px] font-sans ${carParking === '2' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>2 </p>
-            </div>
-            <div onClick={() => updateCarParking('3')} className={`group cursor-pointer px-8 py-2 rounded-md  ${carParking === '3' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-              <p className={`text-[10px] font-sans ${carParking === '3' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>3 </p>
-            </div>
-            <div onClick={() => updateCarParking('4plus')} className={`group cursor-pointer px-8 py-2 rounded-md  ${carParking === '4plus' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-              <p className={`text-[10px] font-sans ${carParking === '4plus' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>4+ </p>
-            </div>
-          </div>
-          {
-            carParking === '4plus' &&
-            <div className='my-5'>
-              <div className='flex gap-1'>
-                <p className='text-[#1D3A76] text-sm font-medium font-sans'>Custom Car Parking</p>
+        {
+          !propertySubType === "Plot" &&
+          <>
+            <div className='my-4'>
+              <div className='flex gap-1 mb-2'>
+                <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Car Parking</p>
                 <IconAsterisk size={8} color='#FF0000' />
               </div>
-              <input
-                type='text'
-                placeholder='Enter Custom Car Parking'
-                className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans'
-                autoComplete='off'
-                value={customCarParking}
-                onChange={updateCustomCarParking}
-              />
+              <div className='flex flex-row items-center gap-6'>
+                <div onClick={() => updateCarParking('0')} className={`group cursor-pointer px-8 py-2 rounded-md  ${carParking === '0' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${carParking === '0' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>0</p>
+                </div>
+                <div onClick={() => updateCarParking('1')} className={`group cursor-pointer px-8 py-2 rounded-md  ${carParking === '1' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${carParking === '1' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>1 </p>
+                </div>
+                <div onClick={() => updateCarParking('2')} className={`group cursor-pointer px-8 py-2 rounded-md  ${carParking === '2' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${carParking === '2' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>2 </p>
+                </div>
+                <div onClick={() => updateCarParking('3')} className={`group cursor-pointer px-8 py-2 rounded-md  ${carParking === '3' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${carParking === '3' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>3 </p>
+                </div>
+                <div onClick={() => updateCarParking('4plus')} className={`group cursor-pointer px-8 py-2 rounded-md  ${carParking === '4plus' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${carParking === '4plus' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>4+ </p>
+                </div>
+              </div>
+              {
+                carParking === '4plus' &&
+                <div className='my-5'>
+                  <div className='flex gap-1'>
+                    <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Custom Car Parking</p>
+                    <IconAsterisk size={8} color='#FF0000' />
+                  </div>
+                  <input
+                    type='text'
+                    placeholder='Enter Custom Car Parking'
+                    className='border-b border-[#c3c3c3] w-full py-1 focus:outline-none text-[13px] font-sans'
+                    autoComplete='off'
+                    value={customCarParking}
+                    onChange={updateCustomCarParking}
+                  />
+                </div>
+              }
+              {carParkingError && <p className='text-[#FF0000] text-xs font-sans'>Please select car parking</p>}
             </div>
-          }
-          {carParkingError && <p className='text-[#FF0000] text-xs font-sans'>Please select car parking</p>}
-        </div>
-        <div className='mb-5'>
-          <div className='flex gap-1 mb-4'>
-            <p className='text-[#1D3A76] text-sm font-medium font-sans'>Bike Parking</p>
-            <IconAsterisk size={8} color='#FF0000' />
-          </div>
-          <div className='flex flex-row items-center gap-6'>
-            <div onClick={() => updateBikeParking('0')} className={`group cursor-pointer px-8 py-2 rounded-md  ${bikeParking === '0' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-              <p className={`text-[10px] font-sans ${bikeParking === '0' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>0</p>
-            </div>
-            <div onClick={() => updateBikeParking('1')} className={`group cursor-pointer px-8 py-2 rounded-md  ${bikeParking === '1' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-              <p className={`text-[10px] font-sans ${bikeParking === '1' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>1 </p>
-            </div>
-            <div onClick={() => updateBikeParking('2')} className={`group cursor-pointer px-8 py-2 rounded-md  ${bikeParking === '2' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-              <p className={`text-[10px] font-sans ${bikeParking === '2' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>2 </p>
-            </div>
-            <div onClick={() => updateBikeParking('3')} className={`group cursor-pointer px-8 py-2 rounded-md  ${bikeParking === '3' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-              <p className={`text-[10px] font-sans ${bikeParking === '3' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>3 </p>
-            </div>
-            <div onClick={() => updateBikeParking('4plus')} className={`group cursor-pointer px-8 py-2 rounded-md  ${bikeParking === '4plus' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-              <p className={`text-[10px] font-sans ${bikeParking === '4plus' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>4+ </p>
-            </div>
-          </div>
-          {
-            bikeParking === '4plus' &&
-            <div className='my-5'>
-              <div className='flex gap-1'>
-                <p className='text-[#1D3A76] text-sm font-medium font-sans'>Custom Bike Parking</p>
+            <div className=''>
+              <div className='flex gap-1 mb-2'>
+                <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Bike Parking</p>
                 <IconAsterisk size={8} color='#FF0000' />
               </div>
-              <input
-                type='text'
-                placeholder='Enter Custom Car Parking'
-                className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans'
-                autoComplete='off'
-                value={customBikeParking}
-                onChange={updateCustomBikeParking}
-              />
+              <div className='flex flex-row items-center gap-6'>
+                <div onClick={() => updateBikeParking('0')} className={`group cursor-pointer px-8 py-2 rounded-md  ${bikeParking === '0' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${bikeParking === '0' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>0</p>
+                </div>
+                <div onClick={() => updateBikeParking('1')} className={`group cursor-pointer px-8 py-2 rounded-md  ${bikeParking === '1' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${bikeParking === '1' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>1 </p>
+                </div>
+                <div onClick={() => updateBikeParking('2')} className={`group cursor-pointer px-8 py-2 rounded-md  ${bikeParking === '2' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${bikeParking === '2' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>2 </p>
+                </div>
+                <div onClick={() => updateBikeParking('3')} className={`group cursor-pointer px-8 py-2 rounded-md  ${bikeParking === '3' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${bikeParking === '3' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>3 </p>
+                </div>
+                <div onClick={() => updateBikeParking('4plus')} className={`group cursor-pointer px-8 py-2 rounded-md  ${bikeParking === '4plus' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${bikeParking === '4plus' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>4+ </p>
+                </div>
+              </div>
+              {
+                bikeParking === '4plus' &&
+                <div className='my-5'>
+                  <div className='flex gap-1'>
+                    <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Custom Bike Parking</p>
+                    <IconAsterisk size={8} color='#FF0000' />
+                  </div>
+                  <input
+                    type='text'
+                    placeholder='Enter Custom Bike Parking'
+                    className='border-b border-[#c3c3c3] w-full py-1 focus:outline-none text-[13px] font-sans'
+                    autoComplete='off'
+                    value={customBikeParking}
+                    onChange={updateCustomBikeParking}
+                  />
+                </div>
+              }
+              {bikeParkingError && <p className='text-[#FF0000] text-xs font-sans'>Please select bike parking</p>}
             </div>
-          }
-          {bikeParkingError && <p className='text-[#FF0000] text-xs font-sans'>Please select bike parking</p>}
-        </div>
-        <div className='mb-5'>
-          <div className='flex gap-1 mb-4'>
-            <p className='text-[#1D3A76] text-sm font-medium font-sans'>Open Parking</p>
-            <IconAsterisk size={8} color='#FF0000' />
-          </div>
-          <div className='flex flex-row items-center gap-6'>
-            <div onClick={() => updateOpenParking('0')} className={`group cursor-pointer px-8 py-2 rounded-md  ${openParking === '0' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-              <p className={`text-[10px] font-sans ${openParking === '0' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>0</p>
-            </div>
-            <div onClick={() => updateOpenParking('1')} className={`group cursor-pointer px-8 py-2 rounded-md  ${openParking === '1' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-              <p className={`text-[10px] font-sans ${openParking === '1' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>1 </p>
-            </div>
-            <div onClick={() => updateOpenParking('2')} className={`group cursor-pointer px-8 py-2 rounded-md  ${openParking === '2' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-              <p className={`text-[10px] font-sans ${openParking === '2' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>2 </p>
-            </div>
-            <div onClick={() => updateOpenParking('3')} className={`group cursor-pointer px-8 py-2 rounded-md  ${openParking === '3' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-              <p className={`text-[10px] font-sans ${openParking === '3' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>3 </p>
-            </div>
-            <div onClick={() => updateOpenParking('4plus')} className={`group cursor-pointer px-8 py-2 rounded-md  ${openParking === '4plus' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-              <p className={`text-[10px] font-sans ${openParking === '4plus' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>4+ </p>
-            </div>
-          </div>
-          {
-            openParking === '4plus' &&
-            <div className='my-5'>
-              <div className='flex gap-1'>
-                <p className='text-[#1D3A76] text-sm font-medium font-sans'>Custom Open Parking</p>
+            <div className='my-3'>
+              <div className='flex gap-1 mb-2'>
+                <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Open Parking</p>
                 <IconAsterisk size={8} color='#FF0000' />
               </div>
-              <input
-                type='text'
-                placeholder='Enter Custom Open Parking'
-                className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans'
-                autoComplete='off'
-                value={customOpenParking}
-                onChange={updateCustomOpenParking}
-              />
+              <div className='flex flex-row items-center gap-6'>
+                <div onClick={() => updateOpenParking('0')} className={`group cursor-pointer px-8 py-2 rounded-md  ${openParking === '0' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${openParking === '0' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>0</p>
+                </div>
+                <div onClick={() => updateOpenParking('1')} className={`group cursor-pointer px-8 py-2 rounded-md  ${openParking === '1' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${openParking === '1' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>1 </p>
+                </div>
+                <div onClick={() => updateOpenParking('2')} className={`group cursor-pointer px-8 py-2 rounded-md  ${openParking === '2' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${openParking === '2' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>2 </p>
+                </div>
+                <div onClick={() => updateOpenParking('3')} className={`group cursor-pointer px-8 py-2 rounded-md  ${openParking === '3' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${openParking === '3' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>3 </p>
+                </div>
+                <div onClick={() => updateOpenParking('4plus')} className={`group cursor-pointer px-8 py-2 rounded-md  ${openParking === '4plus' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${openParking === '4plus' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>4+ </p>
+                </div>
+              </div>
+              {
+                openParking === '4plus' &&
+                <div className='my-5'>
+                  <div className='flex gap-1'>
+                    <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Custom Open Parking</p>
+                    <IconAsterisk size={8} color='#FF0000' />
+                  </div>
+                  <input
+                    type='text'
+                    placeholder='Enter Custom Open Parking'
+                    className='border-b border-[#c3c3c3] w-full py-1 focus:outline-none text-[13px] font-sans '
+                    autoComplete='off'
+                    value={customOpenParking}
+                    onChange={updateCustomOpenParking}
+                  />
+                </div>
+              }
+              {openParkingError && <p className='text-[#FF0000] text-xs font-sans'>Please select open parking</p>}
             </div>
-          }
-          {openParkingError && <p className='text-[#FF0000] text-xs font-sans'>Please select open parking</p>}
-        </div>
+          </>
+        }
         {/* <div className='my-6'>
           <div className='flex gap-1'>
-            <p className='text-[#1D3A76] text-sm font-medium font-sans'>Address</p>
+            <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Address</p>
             <IconAsterisk size={8} color='#FF0000' />
           </div>
-          <input
+          <input  
             type='text'
             placeholder='Address'
-            className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans'
+            className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans'
             autoComplete='off'
             value={address}
             onChange={updateAddress}
           />
           {addressError && <p className='text-[#FF0000] text-xs font-sans'>Please enter address</p>}
-        </div>
-        <div className='mb-5'>
+        </div> */}
+        <div className='my-5'>
           <div className='flex gap-1 mb-4'>
-            <p className='text-[#1D3A76] text-sm font-medium font-sans'>Servant Room?</p>
+            <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Servant Room?</p>
             <IconAsterisk size={8} color='#FF0000' />
           </div>
           <div className='flex flex-row items-center gap-6'>
@@ -2485,16 +2694,16 @@ function Propertydetailswrapper({ updateActiveTab, propertyDetails }) {
             </div>
           </div>
           {servantRoomError && <p className='text-[#FF0000] text-xs font-sans'>Please select servant room</p>}
-        </div> */}
+        </div>
         <div className='mt-6'>
           <div className='flex gap-1'>
-            <p className='text-[#1D3A76] text-sm font-medium font-sans'>Property Description</p>
+            <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Property Description</p>
             <IconAsterisk size={8} color='#FF0000' />
           </div>
           <input
             type='text'
             placeholder='Property Description'
-            className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-sm font-sans'
+            className='border-b border-[#c3c3c3] w-full py-1 text-[12px] focus:outline-none font-sans'
             autoComplete='off'
             value={propertyDescription}
             onChange={updatePropertyDescription}

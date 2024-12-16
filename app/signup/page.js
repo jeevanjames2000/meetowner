@@ -6,10 +6,10 @@ import person_with_laptop from '@/public/assets/person_with_laptop.png'
 import Image from 'next/image'
 import Signupform from '@/components/signup/Signupform'
 import Userapi from '@/components/api/Userapi'
-
+ 
 async function page() {
   const getusertypesfetch = await getUsertypesfetch();
-
+ 
   //check error getusertypesfetch
   if (getusertypesfetch.status === 'error') {
     return (
@@ -18,14 +18,14 @@ async function page() {
       </div>
     )
   }
-
+ 
   const usertypedata = getusertypesfetch.usertypedata;
-
+ 
   const filteredusertypedata = usertypedata.filter(
     (type) => type.label !== "admin" && type.label !== "user"
   );
-
-
+ 
+ 
   return (
     <>
       <Header />
@@ -84,7 +84,7 @@ async function page() {
               width={400}
             />
           </div>
-
+ 
           {/* Right Column */}
           <div className="flex items-center justify-start col-span-6">
             <Signupform
@@ -96,15 +96,14 @@ async function page() {
     </>
   )
 }
-
+ 
 export default page
-
+ 
 async function getUsertypesfetch() {
   try {
     const response = await Userapi.get('/usertypes');
     const data = response.data;
     console.log('data:', data);
-
     if (data.status === 'error') {
       let data = {
         status: 'error',
@@ -113,7 +112,6 @@ async function getUsertypesfetch() {
       }
       return data;
     }
-
     let finaldata = {
       status: 'success',
       message: 'user types fetched successfully',

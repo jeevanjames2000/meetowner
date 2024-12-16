@@ -48,8 +48,8 @@ function Ownersreview() {
     ];
 
     return (
-        <div className="bg-[#F4EBD7] w-full h-fit p-6 rounded-lg space-y-8">
-        <p className="text-[#1D3A76] text-[20px] font-[600]">Owners Speak</p>
+        <div className="bg-[#F4EBD7] w-full h-fit pt-5 px-6 pb-8 rounded-lg space-y-8">
+        <p className="text-[#1D3A76] text-[16px] font-[700] pl-6">Owners Speak</p>
         <div className="relative px-2">
             <Swiper
                 modules={[Navigation]}

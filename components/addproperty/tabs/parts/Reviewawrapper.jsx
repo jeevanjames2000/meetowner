@@ -1,7 +1,5 @@
 import { IconCheck } from '@tabler/icons-react'
-import Image from 'next/image'
 import React, { useEffect } from 'react'
-import property from '@/public/assets/property.png'
 import Link from 'next/link'
 import { useUserDetails } from '@/components/zustand/useUserDetails'
 import { usePathname, useSearchParams, useRouter } from 'next/navigation'
@@ -9,8 +7,6 @@ import Propertiesgallery from './Propertiesgallery'
 import { usePropertyDetails } from '@/components/zustand/usePropertyDetails'
 function Reviewawrapper({ allpropertyDetails, propertyGallery }) {
     const userInfo = useUserDetails((state) => state.userInfo)
-    let user_id = userInfo?.user_id || null
-    let access_token = userInfo?.access_token || null
     const updatePropertyDetails = usePropertyDetails((state) => state.updatePropertyDetails)
     const pathname = usePathname()
     const searchParams = useSearchParams()
@@ -34,6 +30,15 @@ function Reviewawrapper({ allpropertyDetails, propertyGallery }) {
         }
     }, [active_step])
 
+    let available_from_date = 'N/A'; // Default value if no valid date is provided
+
+    if (allpropertyDetails?.available_from) {
+        const available_from = new Date(allpropertyDetails.available_from);
+        if (!isNaN(available_from)) {
+            available_from_date = available_from.toISOString().split('T')[0];
+        }
+    }
+
 
     return (
         <div className='relative'>
@@ -49,19 +54,16 @@ function Reviewawrapper({ allpropertyDetails, propertyGallery }) {
                         <p className='font-semibold font-sans text-sm'>Congratulations!</p>
                         <p className='text-xs mt-1'>Your listing is being reviewed.</p>
                     </div>
-                    <div className='flex flex-row w-full gap-4 p-2'>
-                        <div className='w-[20%]'>
-                            <Propertiesgallery
-                                propertyGallery={propertyGallery}
-                            />
-                        </div>
-                        {/* <Image src={allpropertyDetails?.image || property} width={200} height={200} /> */}
-                        <div className='w-[80%] flex justify-between items-center'>
+                    <div className='grid grid-cols-2 w-full gap-4 p-2'>
+                        <Propertiesgallery
+                            propertyGallery={propertyGallery}
+                        />
+                        <div className='flex justify-between items-center'>
                             <div className='flex flex-col gap-2'>
                                 <p className='font-sans text-[#6D6C6C] text-xs font-semibold'>₹ {allpropertyDetails?.monthly_rent}</p>
                                 <p className='text-[#6D6C6C] font-sans text-xs'>{allpropertyDetails?.bedrooms} {allpropertyDetails?.sub_type} for {allpropertyDetails?.property_for} </p>
                                 <p className='text-[#6D6C6C] font-sans text-xs'>{allpropertyDetails?.builtup_area} sq.ft. | {allpropertyDetails?.furnished_status} | SVN</p>
-                                <p className='text-[#6D6C6C] font-semibold font-sans text-xs'>Avilable from 24/08/2024</p>
+                                <p className='text-[#6D6C6C] font-semibold font-sans text-xs'>Avilable from {available_from_date}</p>
                             </div>
                             <div className='cursor-pointer border border-[#287DB0] bg-[#FEFDF8] py-2 px-4 rounded-md'>
                                 <p className='font-bold text-xs text-[#287DB0]'>Edit Details</p>

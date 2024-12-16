@@ -16,14 +16,14 @@ function Ownersreviewcard(item) {
             </div>
             <div className="space-y-1  col-span-3 row-span-1 w-full">
 
-                <p className="text-[16px] font-[600] text-[#000000] leading-tight">
+                <p className="text-[12px] font-[600] text-[#000000] leading-tight">
                     {item.owner_name}
                 </p>
 
-                <p className="text-[12px] font-[500] text-[#1D3A76]">
+                <p className="text-[11px] font-[600] text-[#1D3A76]">
                     {item.review_headline}
                 </p>
-                <p className="text-[12px] font-[300] text-[#6d6c6c] pb-3">
+                <p className="text-[10px] font-[600] text-[#6d6c6c] pb-3">
                     {item.review}
                 </p>
                 <div className="flex">

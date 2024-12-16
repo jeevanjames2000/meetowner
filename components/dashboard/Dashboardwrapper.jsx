@@ -13,14 +13,14 @@ const Dashboardsidebarsection = dynamic(() => import('./Dasboradsidebar/Dashboar
 
 function Dashboardwrapper() {
     return (
-        <div className="grid grid-cols-12 gap-8 px-[80px] mt-5 w-full">
+        <div className="grid grid-cols-12 gap-10 px-[80px] mt-16 w-full">
             {/* First Child: Spanning 8 Columns */}
-            <div className="col-span-12 md:col-span-9 space-y-8 mb-8 ">
-                <div className="bg-[#31539A] px-4 py-2 rounded-md flex flex-row items-center gap-4">
+            <div className="col-span-12 md:col-span-8 space-y-10 mb-12">
+                <div className="bg-[#31539A] px-8 py-3 rounded-md flex flex-row items-center gap-10">
                     <div>
-                        <Image src={user_profile} alt="logo" width={40} height={40} />
+                        <Image src={user_profile} alt="logo" width={48} height={48} />
                     </div>
-                    <p className="text-white text-[15px] font-semibold font-sans">Hello, MEETOWNER!</p>
+                    <p className="text-white text-[16px] font-[600] font-sans tracking-extra-wide">Hello, MEETOWNER!</p>
                 </div>
                 <Checkoutpropertywrapper />
                 <Findplanner />
@@ -30,7 +30,7 @@ function Dashboardwrapper() {
             </div>
 
             {/* Second Child: Spanning 4 Columns */}
-            <div className="col-span-12 md:col-span-3 space-y-8">
+            <div className="col-span-12 md:col-span-4 space-y-8">
                 <Dashboardsidebarsection />
 
             </div>

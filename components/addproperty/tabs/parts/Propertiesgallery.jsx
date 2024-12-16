@@ -30,13 +30,14 @@ function Propertiesgallery({ propertyGallery }) {
                     {propertyGallery.length > 0 ? (
                         propertyGallery.map((item, index) => (
                             <SwiperSlide key={index}>
-                                <Image
-                                    src={item}
-                                    alt={"property"}
-                                    height={150}
-                                    width={150}
-                                    className="object-cover rounded-lg w-full"
-                                />
+                                <div className='w-full h-[200px]'>
+                                    <Image
+                                        src={item}
+                                        alt={"property"}
+                                        fill
+                                        className="object-cover rounded-lg w-full"
+                                    />
+                                </div>
                             </SwiperSlide>
                         ))
                     ) : (
