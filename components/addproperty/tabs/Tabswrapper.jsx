@@ -11,9 +11,13 @@ import Propertyapi from '@/components/api/Propertyapi'
 import { useUserDetails } from '@/components/zustand/useUserDetails'
 import Link from 'next/link'
 
-function Tabswrapper() {
+function Tabswrapper({
+    propertyInList, propertyForList, transactionTypeList,
+    preferedTenantList, bacloniesList, bedroomtypesList,
+    businesstypesList, facingList, furnishedtypesList,
+    occupancyList, ownershipList, zoneList
+}) {
     const userInfo = useUserDetails(state => state.userInfo);
-    console.log('userInfo', userInfo)
     const access_token = useUserDetails(state => state.access_token);
     let user_id = userInfo?.user_id || null
     const searchParams = useSearchParams()
@@ -200,7 +204,6 @@ function Tabswrapper() {
                 console.log(error)
             })
     }
-
     let Status;
     if (activeTab === 'basicdetails') {
         Status = 10
@@ -447,11 +450,11 @@ function Tabswrapper() {
                         }
                     </div>
                 </div>
-                <div className='px-11 space-y-3 absolute bottom-4 '>
-                    <p className='text-[#699BA0] text-sm font-semibold font-sans'>Require Assistance?</p>
-                    <div className='flex flex-row items-center gap-2 border-b-2 pb-2 border-[#699BA0]'>
-                        <IconPhone size={18} color='#699BA0' />
-                        <p className='text-[#699BA0] text-sm font-sans'>+91 9999999999</p>
+                <div className='px-11 space-y-1 absolute bottom-4 '>
+                    <p className='text-[#699BA0] text-xs font-semibold font-sans'>Require Assistance?</p>
+                    <div className='flex flex-row items-center gap-1 border-b-2 pb-1 border-[#699BA0]'>
+                        <IconPhone size={16} color='#699BA0' />
+                        <p className='text-[#699BA0] text-xs font-sans'>+91 9999999999</p>
                     </div>
                 </div>
             </div>
@@ -463,6 +466,9 @@ function Tabswrapper() {
                         updateActiveTab={updateActiveTab}
                         basicDetails={basicDetails}
                         unique_property_id={unique_property_id}
+                        propertyInList={propertyInList}
+                        propertyForList={propertyForList}
+                        transactionTypeList={transactionTypeList}
                     />
                 }
                 {
@@ -470,6 +476,15 @@ function Tabswrapper() {
                     <Propertydetailswrapper
                         propertyDetails={propertyDetails}
                         updateActiveTab={updateActiveTab}
+                        preferedTenantList={preferedTenantList}
+                        bacloniesList={bacloniesList}
+                        bedroomtypesList={bedroomtypesList}
+                        businesstypesList={businesstypesList}
+                        facingList={facingList}
+                        furnishedtypesList={furnishedtypesList}
+                        occupancyList={occupancyList}
+                        ownershipList={ownershipList}
+                        zoneList={zoneList}
                     />
                 }
                 {

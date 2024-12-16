@@ -37,9 +37,10 @@ const Mainnavigation = () => {
                                 initial={{ opacity: 0, y: 15 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: 15 }}
-                                style={{ translateX: "-50%" }}
+                                style={{ translateX: "-50%", zIndex:99999 }}
                                 transition={{ duration: 0.3, ease: "easeOut" }}
-                                className="absolute left-20 top-8 bg-white text-black shadow-md rounded-sm z-50"
+                                className="absolute left-20 top-8 bg-white text-black shadow-md rounded-sm"
+
                             >
                                 <div className="w-[170px] p-4 flex flex-col gap-2" >
                                     <Link href="#">
