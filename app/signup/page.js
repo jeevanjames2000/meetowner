@@ -1,6 +1,6 @@
 import Header from '@/components/header/Header'
 import React from 'react'
-import signup_bg from '@/public/assets/signup_bg.jpg'
+import signup_bg from '@/public/assets/approperties-bg.png'
 import signup_list from '@/public/assets/signup_list.svg'
 import person_with_laptop from '@/public/assets/person_with_laptop.png'
 import Image from 'next/image'
