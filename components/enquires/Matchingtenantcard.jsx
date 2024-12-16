@@ -1,17 +1,15 @@
 import { IconMail, IconPhone } from '@tabler/icons-react'
 import Image from 'next/image'
 import React from 'react'
-
-
-function Enquirycard(item) {
-    return (
+function Matchingtenantcard(item) {
+  return (
+  
         <div className="grid grid-cols-12 items-start gap-3 w-full rounded-[10px] border-[1px] border-[#1d3a7652] bg-[#E2EAED] px-2 py-[10px]">
             <div className='col-span-6 flex w-full space-x-2 pt-4'>
                 <Image
                     src={item.image}
                     alt={"enquiry_1"}
                     className="object-cover w-16 h-16  border-2 border-[#909090] rounded-full p-[0.05rem]"
-
                 />
                 <div className=' space-y-1'>
                     <p className='text-[11px] text-[#252525] font-[700]'>
@@ -75,6 +73,6 @@ function Enquirycard(item) {
             </div>
         </div>
     )
-}
+  }
 
-export default Enquirycard
+export default Matchingtenantcard

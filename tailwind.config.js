@@ -27,6 +27,10 @@ module.exports = {
       }
       
     },
+    letterSpacing: {
+      'extra-wide': '0.3em', // Example: Wider than `tracking-widest`
+   
+    },
   },
   plugins: [],
 };

@@ -57,15 +57,15 @@ function Checkoutpropertywrapper() {
     ];
 
     return (
-        <div className="bg-white rounded-[10px] mt-4 p-4">
+        <div className="bg-[#FFFFFF] rounded-md mt-12 pt-4 pb-6 px-6">
         {/* Header Section */}
         <div className="flex flex-row justify-between items-center">
-            <p className="text-[#1D3A76] text-sm font-semibold">Checkout your property</p>
+            <p className="text-[#1D3A76] text-[16px] font-[700]">Checkout your property</p>
             <button
-                className="text-[#287DB0] border-[2px] border-[#287DB0] px-4 py-1 rounded-md text-[12px] font-semibold"
+                className=" flex items-center justify-center gap-2 text-[#287DB0] border-[1.5px] border-[#287DB0] px-3 py-[1.5px] rounded-l-full rounded-r-full text-[11px] font-bold"
                 aria-label="View all properties"
             >
-                View All
+                View All <IconArrowRight color='#287DB0' className='h-6 w-4' />
             </button>
         </div>
     
@@ -98,7 +98,7 @@ function Checkoutpropertywrapper() {
             {/* Custom Navigation Buttons */}
             <button
                 onClick={() => swiperRef.current?.slidePrev()}
-                className="absolute top-32 -left-2 z-10 transform -translate-y-1/2 bg-[#1D3A76] rounded-full p-1 focus:outline-none"
+                   className="absolute top-[100px] -left-2 z-10 transform -translate-y-1/2 bg-[#1D3A76] rounded-full p-1 focus:outline-none"
                 aria-label="Previous slide"
             >
                 <IconChevronLeft className="h-3 w-3 text-[#ffffff]" />
@@ -106,7 +106,7 @@ function Checkoutpropertywrapper() {
     
             <button
                 onClick={() => swiperRef.current?.slideNext()}
-                className="absolute top-32 -right-2 z-10 transform -translate-y-1/2 bg-[#1D3A76] rounded-full p-1 focus:outline-none"
+                className="absolute top-[100px] -right-2 z-10 transform -translate-y-1/2 bg-[#1D3A76] rounded-full p-1 focus:outline-none"
                 aria-label="Next slide"
             >
                 <IconChevronRight className="h-3 w-3 text-[#ffffff]" />
