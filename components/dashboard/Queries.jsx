@@ -9,11 +9,11 @@ function Queries() {
                     <p className="text-[16px] font-[700] text-[#6d6c6c] ">
                         Have Questions?
                     </p>
-                    <p className="text-[10px] font-[600] text-[#878787]  px-6">
+                    <p className="text-[12px] font-[600] text-[#878787]  px-6">
                         Explore our FAQ section for commonly asked questions
                     </p>
                     <button
-                        className=" bg-[#53c0ac] text-white h-7 w-fit  px-4 rounded-[8px] text-[10px] font-[700] focus:outline-none "
+                        className=" bg-[#53c0ac] text-white h-7 w-fit  px-4 rounded-[8px] text-[12px] font-[700] focus:outline-none "
 
                     >
                         Explore FAQ'S
@@ -26,13 +26,13 @@ function Queries() {
                     </p>
                     <div className=' flex flex-row items-center justify-center'>
                     <IconPhone  size={20}/>
-                    <p className="text-[10px] font-[600] text-[#878787] text-center  px-2">
+                    <p className="text-[14px] font-[600] text-[#878787] text-center  px-2">
                      +91 9121314151
                     </p>
                     </div>
                     <div className=' flex flex-row items-center justify-center'>
                     <IconMail size={20} />
-                    <p className="text-[10px] font-[600] text-[#878787] text-center  px-2">
+                    <p className="text-[14px] font-[600] text-[#878787] text-center  px-2">
                     meetowner.in@gmail.com
 
                     </p>

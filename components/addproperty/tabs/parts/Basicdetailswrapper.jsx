@@ -64,16 +64,43 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
         setIsLoadingEffect(true)
         if (propertyType === '') {
             setPropertyTypeError('Please select property type')
+            toast.error('Please select property type', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            })
             setIsLoadingEffect(false)
             return
         }
         if (lookingTo === '') {
             setLookingToError('Please select looking to')
+            toast.error('Please select looking to', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            })
             setIsLoadingEffect(false)
             return
         }
         if (lookingTo === 1 && transactionType === '') {
             setTransactionTypeError('Please select transaction type')
+            toast.error('Please select transaction type', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            })
             setIsLoadingEffect(false)
             return
         }

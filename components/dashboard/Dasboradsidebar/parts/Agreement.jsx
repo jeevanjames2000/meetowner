@@ -5,19 +5,14 @@ import { Autoplay, Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import { IconArrowLeft, IconArrowRight, IconChevronLeft, IconChevronRight } from '@tabler/icons-react';
-
 import agreement1 from '@/public/assets/agreement1.png'
 import agreement2 from '@/public/assets/agreement2.png'
 import Agreementcard from './Agreementcard';
-
-
-
-
 function Agreement() {
     const swiperRef = useRef(null); // Correct use of useRef
 
     const agreement = [
-      
+
         {
             id: 1,
             image: agreement2,
@@ -26,7 +21,7 @@ function Agreement() {
 
 
         },
-        
+
         {
             id: 2,
             image: agreement2,
@@ -40,8 +35,6 @@ function Agreement() {
 
     return (
         < div className=' flex flex-col space-y-6'>
-
-
             <div className=" relative "> {/* Added relative positioning */}
                 <Swiper
                     modules={[Navigation, Autoplay]} // Add Autoplay to modules

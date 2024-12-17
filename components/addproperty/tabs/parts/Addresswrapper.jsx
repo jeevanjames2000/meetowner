@@ -68,32 +68,86 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
     setIsLoadingEffect(true)
     if (city === '') {
       setIsLoadingEffect(false)
+      toast.error('Please select city', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      })
       setCityError('please enter city')
       return false;
     }
     if (propertyName === '') {
       setIsLoadingEffect(false)
+      toast.error('Please enter property name', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      })
       setPropertyNameError('please enter property name')
       return false;
     }
     if (locality === '') {
       setIsLoadingEffect(false)
+      toast.error('Please Enter locality', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      })
       setLocalityError('please enter locality')
       return false;
     }
     if (flatNo === '') {
       setIsLoadingEffect(false)
+      toast.error('Please enter flat no', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      })
       setFlatNoError('please enter flat no')
       return false;
     }
     if (getpropertyDetails?.property_in === "Commercial" && getpropertyDetails?.property_for === "Sell") {
       if (floorNo === '') {
         setIsLoadingEffect(false)
+        toast.error('Please Enter flat no', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
         setFloorNoError('please enter floor no')
         return false;
       }
       if (totalFloors === '') {
         setIsLoadingEffect(false)
+        toast.error('Please enter total floors', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
         setTotalFloorsError('please enter total floors')
         return false;
       }
