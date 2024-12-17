@@ -1,23 +1,10 @@
 import React from 'react';
-import Tabswrapper from '@/components/addproperty/tabs/Tabswrapper';
 import Propertyapi from '@/components/api/Propertyapi';
-// import { useUserDetails } from '@/components/zustand/useUserDetails';
-// import { useRouter } from 'next/navigation';
+import dynamic from 'next/dynamic';
+
+const Tabswrapper = dynamic(() => import('@/components/addproperty/tabs/Tabswrapper'));
 
 async function Page() {
-    // const router = useRouter();
-    // const isLogged = useUserDetails((state) => state.isLogged);
-
-    // useEffect(() => {
-    //     if (!isLogged) {
-    //         router.push('/signup');
-    //     }
-    // }, [isLogged]);
-
-    // if (!isLogged) {
-    //     return null; // Or a loading spinner, placeholder, etc.
-    // }
-
     const getPropertyInData = await getPropertyIn();
     if (getPropertyInData.status === 'error') {
         return (
