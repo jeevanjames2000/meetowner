@@ -29,7 +29,8 @@ function Listingcard(item) {
                         src={item.image}
                         alt={"property"}
                         className="object-cover h-32 w-52 rounded-bl-[8px]"
-
+                        height={100}
+                        width={150}
                     />
 
 
@@ -43,6 +44,8 @@ function Listingcard(item) {
                                 src={tenantsimage}
                                 alt={"tenantsimage"}
                                 className="object-cover h-4 w-4"
+                                height={100}
+                                width={100}
                             />
                             <p className='text-[12px] font-[400] text-[#1D3A76] pt-1'>{item.interested_tenants}</p>
                         </div>

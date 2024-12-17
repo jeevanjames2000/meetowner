@@ -437,20 +437,19 @@ function Propertydetailswrapper({
     setZoneType(value)
     setZoneTypeError('')
   }
-  console.log('zoneType', zoneType)
 
-  const [processionStatus, setProcessionStatus] = useState('')
-  const [processionStatusError, setProcessionStatusError] = useState('')
-  const updateProcessionStatus = (value) => {
-    setProcessionStatus(value)
-    setProcessionStatusError('')
+  const [possessionStatus, setPossessionStatus] = useState('')
+  const [possessionStatusError, setPossessionStatusError] = useState('')
+  const updatePossessionStatus = (value) => {
+    setPossessionStatus(value)
+    setPossessionStatusError('')
   }
 
-  const [investorPlot, setInvetorPlot] = useState('')
-  const [investorPlotError, setInvestorPlotError] = useState('')
-  const updateInvestorPlot = (value) => {
-    setInvetorPlot(value)
-    setInvestorPlotError('')
+  const [investorProperty, setInvestorProperty] = useState('')
+  const [investorPropertyError, setInvestorPropertyError] = useState('')
+  const updateInvestorProperty = (value) => {
+    setInvestorProperty(value)
+    setInvestorPropertyError('')
   }
 
   const [builderPlot, setBuilderPlot] = useState('')
@@ -476,7 +475,10 @@ function Propertydetailswrapper({
   const closeFurnishingModal = () => {
     setFurnishingModal(false)
   }
-  const [isModalOpen, setModalOpen] = useState(false)
+  const [errorModalOpen, setErrorModalOpen] = useState(false)
+  const closeErrorModal = () => {
+    setErrorModalOpen(false)
+  }
   const [errorMessages, setErrorMessages] = useState('')
 
   const updatePropertyDetails = () => {
@@ -496,22 +498,24 @@ function Propertydetailswrapper({
       return false;
     }
     if (getpropertyDetails?.property_for === "Sell") {
-      if (!constructionStatus) {
-        setIsLoadingEffect(false)
-        toast.error('Please select construction status', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        })
-        setConstructionStatusError('Please select construction status')
-        return false;
+      if (!(propertySubType === "Plot" || propertySubType === "Land")) {
+        if (!constructionStatus) {
+          setIsLoadingEffect(false)
+          toast.error('Please select construction status', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          })
+          setConstructionStatusError('Please select construction status')
+          return false;
+        }
       }
     }
-    if (propertySubType === 'Apartment' || propertySubType === "Flat" || propertySubType === "Land" || propertySubType === "Independent House" || propertySubType === "Independent Villa") {
+    if (propertySubType === 'Apartment' || propertySubType === "Flat" || propertySubType === "Independent House" || propertySubType === "Independent Villa") {
       if (!bhk) {
         setIsLoadingEffect(false)
         toast.error('Please select bhk', {
@@ -541,7 +545,7 @@ function Propertydetailswrapper({
         return false;
       }
     }
-    if (propertySubType === 'Apartment' || propertySubType === "Flat" || propertySubType === "Land") {
+    if (propertySubType === 'Apartment' || propertySubType === "Flat") {
       if (!bathroom) {
         setIsLoadingEffect(false)
         toast.error('Please select bathroom', {
@@ -598,6 +602,8 @@ function Propertydetailswrapper({
         setCustomBalconyError('Please enter balcony')
         return false;
       }
+    }
+    if (propertySubType === 'Apartment' || propertySubType === "Independent House" || propertySubType === "Independent Villa") {
       if (!furnishType) {
         setIsLoadingEffect(false)
         toast.error('Please select furnish Type', {
@@ -713,21 +719,23 @@ function Propertydetailswrapper({
         return false;
       }
     }
-    if (!availableFromDate) {
-      setIsLoadingEffect(false)
-      toast.error('Please select available from Date', {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      })
-      setAvailableFromDateError('Please select available from date')
-      return false;
+    if (getpropertyDetails?.property_for === "Rent") {
+      if (!availableFromDate) {
+        setIsLoadingEffect(false)
+        toast.error('Please select available from Date', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setAvailableFromDateError('Please select available from date')
+        return false;
+      }
     }
-    if (constructionStatus === 1 || propertySubType === "Warehouse" || getpropertyDetails?.property_for === "Rent") {
+    if (constructionStatus === 1 || propertySubType === "Warehouse") {
       if (!ageofProperty) {
         setIsLoadingEffect(false)
         toast.error('Please enter age of property', {
@@ -875,7 +883,7 @@ function Propertydetailswrapper({
         return false;
       }
     }
-    if (!(propertySubType === "Independent House" || propertySubType === "Independent Villa") || (propertySubType === "Plot" || propertySubType === "Warehouse" || propertySubType === "Others")) {
+    if (propertySubType === "Plot" || propertySubType === "Land") {
       if (!lengthArea) {
         setIsLoadingEffect(false)
         toast.error('Please enter length area', {
@@ -905,7 +913,7 @@ function Propertydetailswrapper({
         return false;
       }
     }
-    if ((propertySubType === "Independent House" || propertySubType === "Independent Villa") || propertySubType === "Plot" || propertySubType === "Warehouse" || propertySubType === "Others") {
+    if (propertySubType === "Independent House" || propertySubType === "Independent Villa" || propertySubType === "Plot" || propertySubType === "Warehouse" || propertySubType === "Others") {
       if (!plotArea) {
         setIsLoadingEffect(false)
         toast.error('Please enter plot area', {
@@ -938,7 +946,7 @@ function Propertydetailswrapper({
       }
     }
     if (getpropertyDetails.property_for === "Sell") {
-      if (!(propertySubType === "Independent House" || propertySubType === "Independent House")) {
+      if (!(propertySubType === "Independent House" || propertySubType === "Independent Villa")) {
         if (!unitCost) {
           setIsLoadingEffect(false)
           toast.error('Please enter unit cost', {
@@ -970,7 +978,7 @@ function Propertydetailswrapper({
       }
     }
     if (propertySubType === "Plot") {
-      if (!processionStatus) {
+      if (!possessionStatus) {
         setIsLoadingEffect(false)
         toast.error('Please select possession status', {
           position: "top-right",
@@ -981,7 +989,7 @@ function Propertydetailswrapper({
           draggable: true,
           progress: undefined,
         })
-        setProcessionStatusError('Please select possession status')
+        setPossessionStatusError('Please select possession status')
         return false;
       }
     }
@@ -1002,7 +1010,7 @@ function Propertydetailswrapper({
       }
     }
     // facilities
-    if (propertySubType === "Apartment" || propertySubType === "Flat" || propertySubType === "Land" || propertySubType === "Office" || propertySubType === "Retail Shop" || propertySubType === "Show Room") {
+    if (propertySubType === "Apartment" || propertySubType === "Independent House" || propertySubType === "Independent Villa" || propertySubType === "Flat" || propertySubType === "Office" || propertySubType === "Retail Shop" || propertySubType === "Show Room") {
       const selectedFacilities = Object.keys(facilities)
         .filter((key) => facilities[key])
         .join(", ");
@@ -1099,49 +1107,39 @@ function Propertydetailswrapper({
         }
       }
     }
-    if (getpropertyDetails?.property_in === "Residential" && getpropertyDetails?.property_for === "Sell") {
-      if (!investorPlot) {
-        setIsLoadingEffect(false)
-        toast.error('Please select investor plot', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        })
-        setInvestorPlotError('Please select investor plot')
-        return false;
-      }
-      if (!builderPlot) {
-        setIsLoadingEffect(false)
-        toast.error('Please select builder plot', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        })
-        setBuilderPlotError('Please select builder plot')
-        return false;
+    if (getpropertyDetails?.property_for === "Sell") {
+      if (propertySubType === "Apartment" || propertySubType === "Independent Villa" || propertySubType === "Plot") {
+        if (!investorProperty) {
+          setIsLoadingEffect(false)
+          toast.error('Please select investor property', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          })
+          setInvestorPropertyError('Please select investor property')
+          return false;
+        }
       }
     }
-    if (!loanFacility) {
-      setIsLoadingEffect(false)
-      toast.error('Please select loan facility', {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      })
-      setLoanFacilityError('Please select loan facility')
-      return false;
+    if (getpropertyDetails?.property_for !== "Rent") {
+      if (!loanFacility) {
+        setIsLoadingEffect(false)
+        toast.error('Please select loan facility', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setLoanFacilityError('Please select loan facility')
+        return false;
+      }
     }
     if (!facing) {
       setIsLoadingEffect(false)
@@ -1243,19 +1241,21 @@ function Propertydetailswrapper({
         return false;
       }
     }
-    if (!servantRoom) {
-      setIsLoadingEffect(false)
-      toast.error('Please select servant room', {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      })
-      setServantRoomError('Please select servant room')
-      return false;
+    if (!(propertySubType === "Plot" || propertySubType === "Land")) {
+      if (!servantRoom) {
+        setIsLoadingEffect(false)
+        toast.error('Please select servant room', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setServantRoomError('Please select servant room')
+        return false;
+      }
     }
     if (!propertyDescription) {
       setIsLoadingEffect(false)
@@ -1371,14 +1371,14 @@ function Propertydetailswrapper({
       pent_house: pentHouse || null,
       builtup_unit: unitCost || null,
       property_cost: propertyCost || null,
-      procession_status: processionStatus || null,
+      possession_status: possessionStatus || null,
       ownership_type: ownerShip || null,
       facilities: selectedFacilities || null,
       other_info: otherInfo || null,
       unit_flat_house_no: unit_flat_house_no || null,
       business_types: suitableFor || null,
       zone_types: zoneType || null,
-      investor_plot: investorPlot || null,
+      investor_plot: investorProperty || null,
       builder_plot: builderPlot || null,
       loan_facility: loanFacility || null,
       // additional
@@ -1405,7 +1405,7 @@ function Propertydetailswrapper({
             'server_res': data
           }
           setErrorMessages(finalresponse);
-          setModalOpen(true);
+          setErrorModalOpen(true);
           setIsLoadingEffect(false);
           return false;
         }
@@ -1437,7 +1437,7 @@ function Propertydetailswrapper({
           };
         }
         setErrorMessages(finalresponse);
-        setModalOpen(true);
+        setErrorModalOpen(true);
         setIsLoadingEffect(false);
         return false;
       })
@@ -1551,9 +1551,9 @@ function Propertydetailswrapper({
       setSuitableFor(propertyDetails?.business_types || '')
       setPentHouse(propertyDetails?.pent_house || '')
       setPreferredTenantType(propertyDetails?.types || '')
-      setProcessionStatus(propertyDetails?.procession_status || '')
+      setPossessionStatus(propertyDetails?.possession_status || '')
       setServantRoom(propertyDetails?.servant_room || '')
-      setInvetorPlot(propertyDetails?.investor_plot || '')
+      setInvestorProperty(propertyDetails?.investor_plot || '')
       setBuilderPlot(propertyDetails?.builder_plot || '')
       setLoanFacility(propertyDetails?.loan_facility || '')
     }
@@ -1799,7 +1799,7 @@ function Propertydetailswrapper({
         </div>
         <div className='mb-5'>
           <div className='flex gap-1 mb-4'>
-            <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Rera Approved</p>
+            <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>RERA Approved</p>
             <IconAsterisk size={8} color='#FF0000' />
           </div>
           <div className='flex flex-row items-center gap-6'>
@@ -1813,7 +1813,8 @@ function Propertydetailswrapper({
           {reraApprovedError && <p className='text-[#FF0000] text-xs font-sans'>Please select one option</p>}
         </div>
         {
-          getpropertyDetails?.property_for === "Sell" &&
+          (getpropertyDetails?.property_for === "Sell") &&
+          (!(propertySubType === "Plot" || propertySubType === "Land")) &&
           <div className='mb-5'>
             <div className='flex gap-1 mb-4'>
               <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Construction Status</p>
@@ -1834,9 +1835,10 @@ function Propertydetailswrapper({
             </div>
             {constructionStatusError && <p className='text-[#FF0000] text-xs font-sans'>Please select construction status</p>}
           </div>
+
         }
         {
-          (propertySubType === 'Apartment' || propertySubType === "Flat" || propertySubType === "Land" || propertySubType === "Independent House" || propertySubType === "Independent Villa") &&
+          (propertySubType === 'Apartment' || propertySubType === "Flat" || propertySubType === "Independent House" || propertySubType === "Independent Villa") &&
           <div className='mb-5'>
             <div className='flex gap-1 mb-4'>
               <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>BHK</p>
@@ -1898,7 +1900,7 @@ function Propertydetailswrapper({
           </div>
         }
         {
-          (propertySubType === 'Apartment' || propertySubType === "Flat" || propertySubType === "Land") &&
+          (propertySubType === 'Apartment' || propertySubType === "Flat") &&
           <>
             <div className='mb-5'>
               <div className='flex gap-1 mb-4'>
@@ -1980,6 +1982,11 @@ function Propertydetailswrapper({
               }
               {balconyError && <p className='text-[#FF0000] text-xs font-sans'>Please select balcony</p>}
             </div>
+          </>
+        }
+        {
+          (propertySubType === 'Apartment' || propertySubType === "Independent House" || propertySubType === "Independent Villa") &&
+          <>
             <div className='mb-5'>
               <div className='flex gap-1 mb-4'>
                 <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Furnish Type</p>
@@ -2126,26 +2133,29 @@ function Propertydetailswrapper({
             </div>
           </>
         }
-        <div className='mb-5'>
-          <div className='flex gap-1 mb-4'>
-            <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Available From </p>
-            <IconAsterisk size={8} color='#FF0000' />
-          </div>
-          <div className='border border-[#909090] rounded-md w-[20%] px-3'>
-            <input
-              type="date"
-              id="date"
-              className='text-[14px] w-full py-1 outline-none'
-              autoComplete='off'
-              value={availableFromDate}
-              onChange={updateAvailableFromDate}
-              min={new Date().toISOString().split('T')[0]}
-            />
-          </div>
-          {availableFromDateError && <p className='text-[#FF0000] text-xs font-sans'>Please select Available From date</p>}
-        </div>
         {
-          (constructionStatus === 1 || propertySubType === "Warehouse" || getpropertyDetails?.property_for === "Rent") &&
+          getpropertyDetails?.property_for === "Rent" &&
+          <div className='mb-5'>
+            <div className='flex gap-1 mb-4'>
+              <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Available From </p>
+              <IconAsterisk size={8} color='#FF0000' />
+            </div>
+            <div className='border border-[#909090] rounded-md w-[20%] px-3'>
+              <input
+                type="date"
+                id="date"
+                className='text-[14px] w-full py-1 outline-none'
+                autoComplete='off'
+                value={availableFromDate}
+                onChange={updateAvailableFromDate}
+                min={new Date().toISOString().split('T')[0]}
+              />
+            </div>
+            {availableFromDateError && <p className='text-[#FF0000] text-xs font-sans'>Please select Available From date</p>}
+          </div>
+        }
+        {
+          (constructionStatus === 1 || propertySubType === "Warehouse") &&
           <div className='mb-5 w-[40%]'>
             <Select
               label='Age of Property'
@@ -2348,7 +2358,7 @@ function Propertydetailswrapper({
             </>
           }
           {
-            (!(propertySubType === "Independent House" || propertySubType === "Independent Villa") || (propertySubType === "Plot" || propertySubType === "Warehouse" || propertySubType === "Others")) &&
+            (propertySubType === "Plot" || propertySubType === "Land") &&
             <>
               <div className='mt-3 '>
                 <div className='flex gap-1'>
@@ -2383,7 +2393,7 @@ function Propertydetailswrapper({
             </>
           }
           {
-            ((propertySubType === "Independent House" || propertySubType === "Independent Villa") || propertySubType === "Plot" || propertySubType === "Warehouse" || propertySubType === "Others") &&
+            (propertySubType === "Independent House" || propertySubType === "Independent Villa" || propertySubType === "Plot" || propertySubType === "Warehouse" || propertySubType === "Others") &&
             <div className='my-3'>
               <div className='flex gap-1'>
                 <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Plot Area({areaUnits})</p>
@@ -2422,7 +2432,7 @@ function Propertydetailswrapper({
             getpropertyDetails.property_for === "Sell" &&
             <>
               {
-                !(propertySubType === "Independent House" || propertySubType === "Independent House") &&
+                !(propertySubType === "Independent House" || propertySubType === "Independent Villa") &&
                 <div className='mt-2'>
                   <div className='flex gap-1'>
                     <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Unit Cost</p>
@@ -2461,18 +2471,18 @@ function Propertydetailswrapper({
           propertySubType === "Plot" &&
           <div className='mb-5 mt-3'>
             <div className='flex gap-1 mb-4'>
-              <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Procession Status</p>
+              <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Possession Status</p>
               <IconAsterisk size={8} color='#FF0000' />
             </div>
             <div className='flex flex-row items-center gap-6'>
-              <div onClick={() => updateProcessionStatus('Immediate')} className={`group cursor-pointer px-8 py-2 rounded-md  ${processionStatus === 'Immediate' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                <p className={`text-[10px] font-sans ${processionStatus === 'Immediate' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Immediate</p>
+              <div onClick={() => updatePossessionStatus('Immediate')} className={`group cursor-pointer px-8 py-2 rounded-md  ${possessionStatus === 'Immediate' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                <p className={`text-[10px] font-sans ${possessionStatus === 'Immediate' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Immediate</p>
               </div>
-              <div onClick={() => updateProcessionStatus('Future')} className={`group cursor-pointer px-8 py-2 rounded-md  ${processionStatus === 'Future' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                <p className={`text-[10px] font-sans ${processionStatus === 'Future' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Future</p>
+              <div onClick={() => updatePossessionStatus('Future')} className={`group cursor-pointer px-8 py-2 rounded-md  ${possessionStatus === 'Future' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                <p className={`text-[10px] font-sans ${possessionStatus === 'Future' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Future</p>
               </div>
             </div>
-            {processionStatusError && <p className='text-[#FF0000] text-xs font-sans'>Please select one</p>}
+            {possessionStatusError && <p className='text-[#FF0000] text-xs font-sans'>Please select one</p>}
           </div>
         }
         {/* ownership */}
@@ -2498,7 +2508,7 @@ function Propertydetailswrapper({
         }
         {/* facilities */}
         {
-          (propertySubType === "Apartment" || propertySubType === "Flat" || propertySubType === "Land" || propertySubType === "Office" || propertySubType === "Retail Shop" || propertySubType === "Show Room") &&
+          (propertySubType === "Apartment" || propertySubType === "Independent House" || propertySubType === "Independent Villa" || propertySubType === "Flat" || propertySubType === "Office" || propertySubType === "Retail Shop" || propertySubType === "Show Room") &&
           <div>
             <p className='text-[#1D3A76] text-[13px] mb-3 mt-6 font-sans font-medium'>Facilities</p>
             <ul className="grid grid-cols-3 text-[13px] font-medium text-gray-900 bg-white border border-gray-200 rounded-lg">
@@ -2613,56 +2623,46 @@ function Propertydetailswrapper({
         }
 
         {
-          (getpropertyDetails?.property_in === "Residential" && getpropertyDetails?.property_for === "Sell") &&
+          getpropertyDetails?.property_for === "Sell" &&
+          (propertySubType === "Apartment" || propertySubType === "Independent Villa" || propertySubType === "Plot") &&
           <>
             <div className='my-4'>
               <div className='flex gap-1 mb-2'>
-                <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Investor Plot</p>
+                <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Investor Property</p>
                 <IconAsterisk size={8} color='#FF0000' />
               </div>
               <div className='flex flex-row items-center gap-6'>
-                <div onClick={() => updateInvestorPlot('Yes')} className={`group cursor-pointer px-8 py-2 rounded-md  ${investorPlot === 'Yes' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                  <p className={`text-[10px] font-sans ${investorPlot === 'Yes' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Yes</p>
+                <div onClick={() => updateInvestorProperty('Yes')} className={`group cursor-pointer px-8 py-2 rounded-md  ${investorProperty === 'Yes' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${investorProperty === 'Yes' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Yes</p>
                 </div>
-                <div onClick={() => updateInvestorPlot('No')} className={`group cursor-pointer px-8 py-2 rounded-md  ${investorPlot === 'No' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                  <p className={`text-[10px] font-sans ${investorPlot === 'No' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>No</p>
+                <div onClick={() => updateInvestorProperty('No')} className={`group cursor-pointer px-8 py-2 rounded-md  ${investorProperty === 'No' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${investorProperty === 'No' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>No</p>
                 </div>
-                {investorPlotError && <p className='text-[#FF0000] text-xs font-sans'>Please select investor plot</p>}
               </div>
             </div>
-            <div className='my-4'>
-              <div className='flex gap-1 mb-2'>
-                <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Builder Plot</p>
-                <IconAsterisk size={8} color='#FF0000' />
-              </div>
-              <div className='flex flex-row items-center gap-6'>
-                <div onClick={() => updateBuilderPlot('Yes')} className={`group cursor-pointer px-8 py-2 rounded-md  ${builderPlot === 'Yes' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                  <p className={`text-[10px] font-sans ${builderPlot === 'Yes' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Yes</p>
-                </div>
-                <div onClick={() => updateBuilderPlot('No')} className={`group cursor-pointer px-8 py-2 rounded-md  ${builderPlot === 'No' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                  <p className={`text-[10px] font-sans ${builderPlot === 'No' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>No</p>
-                </div>
-              </div>
-              {builderPlotError && <p className='text-[#FF0000] text-xs font-sans'>Please select builder plot</p>}
-            </div>
+            {investorPropertyError && <p className='text-[#FF0000] text-xs font-sans'>Please select investor Property</p>}
           </>
         }
-
-        <div className='my-4'>
-          <div className='flex gap-1 mb-2'>
-            <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Loan Facility</p>
-            <IconAsterisk size={8} color='#FF0000' />
-          </div>
-          <div className='flex flex-row items-center gap-6'>
-            <div onClick={() => updateLoanFacility('Yes')} className={`group cursor-pointer px-8 py-2 rounded-md  ${loanFacility === 'Yes' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-              <p className={`text-[10px] font-sans ${loanFacility === 'Yes' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Yes</p>
+        {
+          getpropertyDetails?.property_for !== "Rent" &&
+          <>
+            <div className='my-4'>
+              <div className='flex gap-1 mb-2'>
+                <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Loan Facility</p>
+                <IconAsterisk size={8} color='#FF0000' />
+              </div>
+              <div className='flex flex-row items-center gap-6'>
+                <div onClick={() => updateLoanFacility('Yes')} className={`group cursor-pointer px-8 py-2 rounded-md  ${loanFacility === 'Yes' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${loanFacility === 'Yes' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Yes</p>
+                </div>
+                <div onClick={() => updateLoanFacility('No')} className={`group cursor-pointer px-8 py-2 rounded-md  ${loanFacility === 'No' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${loanFacility === 'No' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>No</p>
+                </div>
+              </div>
             </div>
-            <div onClick={() => updateLoanFacility('No')} className={`group cursor-pointer px-8 py-2 rounded-md  ${loanFacility === 'No' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-              <p className={`text-[10px] font-sans ${loanFacility === 'No' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>No</p>
-            </div>
-          </div>
-          {loanFacilityError && <p className='text-[#FF0000] text-xs font-sans'>Please select loan facility</p>}
-        </div>
+            {loanFacilityError && <p className='text-[#FF0000] text-xs font-sans'>Please select loan facility</p>}
+          </>
+        }
 
         <div className='mt-3'>
           <p className='text-[#1D3A76] text-md mb-3 font-medium font-sans'>Add Additional Details</p>
@@ -2822,21 +2822,24 @@ function Propertydetailswrapper({
           />
           {addressError && <p className='text-[#FF0000] text-xs font-sans'>Please enter address</p>}
         </div> */}
-        <div className='my-5'>
-          <div className='flex gap-1 mb-4'>
-            <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Servant Room?</p>
-            <IconAsterisk size={8} color='#FF0000' />
-          </div>
-          <div className='flex flex-row items-center gap-6'>
-            <div onClick={() => updateServantRoom('yes')} className={`group cursor-pointer px-8 py-2 rounded-md  ${servantRoom === 'yes' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-              <p className={`text-[10px] font-sans ${servantRoom === 'yes' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Yes</p>
+        {
+          !(propertySubType === "Plot" || propertySubType === "Land") &&
+          <div className='my-5'>
+            <div className='flex gap-1 mb-4'>
+              <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Servant Room?</p>
+              <IconAsterisk size={8} color='#FF0000' />
             </div>
-            <div onClick={() => updateServantRoom('no')} className={`group cursor-pointer px-8 py-2 rounded-md  ${servantRoom === 'no' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-              <p className={`text-[10px] font-sans ${servantRoom === 'no' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>No</p>
+            <div className='flex flex-row items-center gap-6'>
+              <div onClick={() => updateServantRoom('yes')} className={`group cursor-pointer px-8 py-2 rounded-md  ${servantRoom === 'yes' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                <p className={`text-[10px] font-sans ${servantRoom === 'yes' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Yes</p>
+              </div>
+              <div onClick={() => updateServantRoom('no')} className={`group cursor-pointer px-8 py-2 rounded-md  ${servantRoom === 'no' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                <p className={`text-[10px] font-sans ${servantRoom === 'no' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>No</p>
+              </div>
             </div>
+            {servantRoomError && <p className='text-[#FF0000] text-xs font-sans'>Please select servant room</p>}
           </div>
-          {servantRoomError && <p className='text-[#FF0000] text-xs font-sans'>Please select servant room</p>}
-        </div>
+        }
         <div className='mt-6'>
           <div className='flex gap-1'>
             <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Property Description</p>
@@ -2858,28 +2861,21 @@ function Propertydetailswrapper({
           <p className='text-white text-[10px]'>Back</p>
         </div>
         <div onClick={updatePropertyDetails} className='border border-[#1D3A76] bg-[#1D3A76] px-8 py-2 rounded-md cursor-pointer'>
-          <p className='text-white text-[10px]'>Next, add property details</p>
+          <p className='text-white text-[10px]'>Next, add address details</p>
         </div>
       </div>
       <LoadingOverlay isLoading={isLoadingEffect} />
-      {isModalOpen &&
+      {errorModalOpen &&
         <Modal
-          open={isModalOpen}
-          onClose={() => setModalOpen(false)}
+          open={errorModalOpen}
+          onClose={closeErrorModal}
           size="md"
           zIndex={9999}
         >
           <Errorpanel
             errorMessages={errorMessages}
+            close={closeErrorModal}
           />
-          <div className='flex flex-row justify-end'>
-            <button
-              onClick={() => setModalOpen(false)}
-              className="mt-2 mx-4 px-4 py-2 text-[12px] bg-red-500 text-white rounded hover:bg-red-600"
-            >
-              Close
-            </button>
-          </div>
         </Modal>
       }
       {
@@ -2887,8 +2883,9 @@ function Propertydetailswrapper({
         <Modal
           open={furnishingModal}
           onClose={closeFurnishingModal}
-          size="md"
+          size="lg"
           zIndex={9999}
+          withCloseButton={false}
         >
           <Addfurnishingswrapper
             closeFurnishingModal={closeFurnishingModal}

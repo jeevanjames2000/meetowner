@@ -236,6 +236,7 @@ function SignupForm({ usertypedata, cities }) {
                                     onChange={updateCity}
                                     inputClassName='border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none'
                                     className='!m-0 !p-0'
+                                    dropdownClassName='min-h-[100px] max-h-[160px] z-50 overflow-y-auto'
                                 />
                             </div>
                             <button

@@ -53,6 +53,9 @@ function Loginform() {
     const [accessToken, setAccessToken] = useState('');
 
     const [errorModalOpen, setErrorModalOpen] = useState(false);
+    const closeErrorModal = () => {
+        setErrorModalOpen(false);
+    }
 
     const handleLoginform = (e) => {
         setIsLoadingEffect(true);
@@ -239,21 +242,14 @@ function Loginform() {
             {errorModalOpen &&
                 <Modal
                     open={errorModalOpen}
-                    onClose={() => setErrorModalOpen(false)}
+                    onClose={closeErrorModal}
                     size="md"
                     zIndex={9999}
                 >
                     <Errorpanel
                         errorMessages={errorMessages}
+                        close={closeErrorModal}
                     />
-                    <div className='flex flex-row justify-end'>
-                        <button
-                            onClick={() => setErrorModalOpen(false)}
-                            className="mt-2 mx-4 px-4 py-2 text-[12px] bg-red-500 text-white rounded hover:bg-red-600"
-                        >
-                            Close
-                        </button>
-                    </div>
                 </Modal>
             }
         </>

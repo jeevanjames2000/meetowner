@@ -62,7 +62,10 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
     setTotalFloorsError('')
   }
 
-  const [isModalOpen, setModalOpen] = useState(false);
+  const [errorModalOpen, setErrorModalOpen] = useState(false);
+  const closeErrorModal = () => {
+    setErrorModalOpen(false);
+  }
   const [errorMessages, setErrorMessages] = useState({});
   const updateAddress = () => {
     setIsLoadingEffect(true)
@@ -175,7 +178,7 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
             'server_res': data
           }
           setErrorMessages(finalresponse);
-          setModalOpen(true);
+          setErrorModalOpen(true);
           setIsLoadingEffect(false);
           return false;
         }
@@ -207,7 +210,7 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
           };
         }
         setErrorMessages(finalresponse);
-        setModalOpen(true);
+        setErrorModalOpen(true);
         setIsLoadingEffect(false);
         return false;
       })
@@ -284,7 +287,7 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
         </div>
         <div className='w-full overflow-y-auto px-5 py-3 h-[calc(100vh-220px)]'>
           <div className='mb-5'>
-            <div className='w-[40%]'>
+            <div className='w-[100%]'>
               <Select
                 label='City'
                 labelClassName='!text-[#1D3A76] text-[13px] font-medium font-sans'
@@ -295,6 +298,7 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
                 onChange={updateCity}
                 inputClassName='focus:ring-blue-500 focus:border-blue-500'
                 className='!m-0 !p-0'
+                dropdownClassName='min-h-[100px] max-h-[200px] z-50 overflow-y-auto'                
               />
             </div>
             {cityError && <p className='text-[#FF0000] text-xs font-sans'>Please select one</p>}
@@ -391,24 +395,17 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
         <LoadingOverlay isLoading={isLoadingEffect} />
       </div>
       {
-        isModalOpen &&
+        errorModalOpen &&
         <Modal
-          open={isModalOpen}
-          onClose={() => setModalOpen(false)}
+          open={errorModalOpen}
+          onClose={closeErrorModal}
           size="md"
           zIndex={9999}
         >
           <Errorpanel
             errorMessages={errorMessages}
+            close={closeErrorModal}
           />
-          <div className='flex flex-row justify-end'>
-            <button
-              onClick={() => setModalOpen(false)}
-              className="mt-2 mx-4 px-4 py-2 text-[12px] bg-red-500 text-white rounded hover:bg-red-600"
-            >
-              Close
-            </button>
-          </div>
         </Modal>
       }
     </>

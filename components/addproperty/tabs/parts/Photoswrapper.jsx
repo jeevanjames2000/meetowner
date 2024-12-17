@@ -61,8 +61,9 @@ function Photoswrapper({ updateActiveTab }) {
     setFeaturedIndex(index);
   };
 
-  const [isModalOpen, setModalOpen] = useState(false);
-  const [errorMessages, setErrorMessages] = useState({});
+  const [errorModalOpen, setErrorModalOpen] = useState(false);
+  const closeErrorModal = () => setErrorModalOpen(false);
+  const [errorMessages, setErrorMessages] = useState('');
   const [isLoadingEffect, setIsLoadingEffect] = useState(false);
   const handleSubmitPhotos = () => {
     setIsLoadingEffect(true);
@@ -76,7 +77,6 @@ function Photoswrapper({ updateActiveTab }) {
       alert("Please select a featured image");
       return;
     }
-    console.log('featuredIndex', featuredIndex)
     const formData = new FormData();
     formData.append('user_id', user_id);
     formData.append('unique_property_id', unique_property_id);
@@ -96,6 +96,7 @@ function Photoswrapper({ updateActiveTab }) {
             server_res: data.server_res
           };
           setErrorMessages(finalResponse)
+          setErrorModalOpen(true);
           setIsLoadingEffect(false);
           return;
         }
@@ -109,6 +110,7 @@ function Photoswrapper({ updateActiveTab }) {
           server_res: error.response ? error.response.data : null
         };
         setErrorMessages(errorDetails);
+        setErrorModalOpen(true);
         setIsLoadingEffect(false);
       });
   }
@@ -232,24 +234,17 @@ function Photoswrapper({ updateActiveTab }) {
 
       <LoadingOverlay isLoading={isLoadingEffect} />
 
-      {isModalOpen &&
+      {errorModalOpen &&
         <Modal
-          open={isModalOpen}
-          onClose={() => setModalOpen(false)}
+          open={errorModalOpen}
+          onClose={closeErrorModal}
           size="md"
           zIndex={9999}
         >
           <Errorpanel
             errorMessages={errorMessages}
+            close={closeErrorModal}
           />
-          <div className='flex flex-row justify-end'>
-            <button
-              onClick={() => setModalOpen(false)}
-              className="mt-2 mx-4 px-4 py-2 text-[12px] bg-red-500 text-white rounded hover:bg-red-600"
-            >
-              Close
-            </button>
-          </div>
         </Modal>
       }
     </>
