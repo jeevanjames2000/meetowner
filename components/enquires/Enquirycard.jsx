@@ -5,7 +5,7 @@ import React from 'react'
 
 function Enquirycard(item) {
     return (
-        <div className="grid grid-cols-12 items-start gap-3 w-full rounded-[10px] border-[1px] border-[#1d3a7652] bg-[#E2EAED] px-2 py-[10px]">
+        <div className="grid grid-cols-12 items-start gap-2 w-full rounded-[10px] border-[1px] border-[#1d3a7652] bg-[#E2EAED] px-2 py-[10px]">
             <div className='col-span-6 flex w-full space-x-2 pt-4'>
                 <Image
                     src={item.image}
@@ -36,16 +36,16 @@ function Enquirycard(item) {
                 </div>
 
             </div>
-            <div className='col-span-2 flex flex-col items-center justify-center pt-4'>
+            <div className='col-span-2 flex flex-col items-start justify-start pt-4 space-y-2'>
                 <p className='text-[11px] text-[#252525] font-[700]'>
                     Admin
                 </p>
-                <div className='flex items-center justify-start text-[9px] text-[#252525] font-[700] pt-2 gap-[4px]'>
-                    <IconPhone size={16}/>
+                <div className='flex items-center justify-start text-[9px] text-[#252525] font-[600] gap-[4px]'>
+                    <IconPhone size={14}/>
                     <p>+91 934 345 6789</p>
                 </div>
-                <div className='flex items-center justify-start text-[9px] text-[#252525] font-[700] gap-[4px] leading-tight'>
-                    <IconMail size={16}/>
+                <div className='flex items-center justify-start text-[9px] text-[#252525] font-[600] gap-[4px] leading-tight'>
+                    <IconMail size={14}/>
                     <p> admin@gmail.com </p>
                 </div>
             </div>

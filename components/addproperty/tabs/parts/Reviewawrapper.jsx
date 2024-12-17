@@ -61,7 +61,7 @@ function Reviewawrapper({ allpropertyDetails, propertyGallery }) {
                         <div className='flex justify-between items-center'>
                             <div className='flex flex-col gap-2'>
                                 <p className='font-sans text-[#6D6C6C] text-xs font-semibold'>₹ {allpropertyDetails?.monthly_rent}</p>
-                                <p className='text-[#6D6C6C] font-sans text-xs'>{allpropertyDetails?.bedrooms} {allpropertyDetails?.sub_type} for {allpropertyDetails?.property_for} </p>
+                                <p className='text-[#6D6C6C] font-sans text-xs'>{allpropertyDetails?.bedrooms} BHK, {allpropertyDetails?.sub_type} for {allpropertyDetails?.property_for} </p>
                                 <p className='text-[#6D6C6C] font-sans text-xs'>{allpropertyDetails?.builtup_area} sq.ft. | {allpropertyDetails?.furnished_status} | SVN</p>
                                 <p className='text-[#6D6C6C] font-semibold font-sans text-xs'>Avilable from {available_from_date}</p>
                             </div>

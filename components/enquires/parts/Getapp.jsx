@@ -8,7 +8,7 @@ function Getapp() {
             {/* Top Section */}
             <div className="flex gap-3 pt-3">
                 <div className="w-[83%] flex flex-col">
-                    <p className="text-[10px] font-[600] text-[#ffffff]">
+                    <p className="text-[12px] font-[600] text-[#ffffff]">
                         Get enquiry details & latest updates on the app
                     </p>
                 </div>
@@ -18,7 +18,7 @@ function Getapp() {
                     className="w-[17%] h-[34px] object-contain"
                 />
             </div>
-            <p className="text-[9px] font-[400] text-[#ffffff] py-1">
+            <p className="text-[10px] font-[400] text-[#ffffff] py-1">
                 Scan the QR code or get the app link on your WhatsApp
             </p>
             {/* Bottom Section */}
