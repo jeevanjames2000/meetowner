@@ -104,12 +104,12 @@ function Loginform() {
                 // }, 3000);
                 // return false;
                 openOtpModal()
-                setUserDetails(data?.user_details);
-                setAccessToken(data?.accessToken);
-                setOtpNumber(data?.user_details?.otpNumber);
                 setTimeout(() => {
                     setIsLoadingEffect(false);
                 }, 3000);
+                setUserDetails(data?.user_details);
+                setAccessToken(data?.accessToken);
+                setOtpNumber(data?.user_details?.otpNumber);
                 return false;
             }
         }).catch((error) => {

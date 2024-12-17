@@ -1,5 +1,5 @@
 'use client';
-import { Textinput } from '@nayeshdaggula/tailify';
+import { Select, Textinput } from '@nayeshdaggula/tailify';
 import React, { useState } from 'react'
 import Authapi from '../api/Authapi';
 import { toast } from 'react-toastify'
@@ -10,21 +10,21 @@ import { useRouter } from 'next/navigation';
 import { Modal } from '@nayeshdaggula/tailify';
 import OtpModal from './OtpModal';
 import Link from 'next/link';
- 
-function SignupForm({ usertypedata }) {
+
+function SignupForm({ usertypedata, cities }) {
     const router = useRouter();
     const updateAuthDetails = useUserDetails(state => state.updateAuthDetails);
     const [userType, setUserType] = useState("Builder");
     const [isLoadingEffect, setIsLoadingEffect] = useState(false);
     const [errorMessages, setErrorMessages] = useState('');
- 
+
     const [name, setName] = useState('')
     const [nameError, setNameError] = useState('')
     const updateName = (e) => {
         setName(e.target.value);
         setNameError('')
     }
- 
+
     const [mobile, setMobile] = useState('')
     const [mobileError, setMobileError] = useState('')
     const updateMobile = (e) => {
@@ -33,16 +33,21 @@ function SignupForm({ usertypedata }) {
         if (isNaN(value)) {
             return false;
         }
- 
+
         //allow only 10 digits
         if (value.length > 10) {
             return false;
         }
- 
+
         setMobile(value);
         setMobileError('')
     }
- 
+
+    const [city, setCity] = useState('');
+    const updateCity = (value) => {
+        setCity(value);
+    }
+
     const [otpModal, setOtpModal] = useState(false);
     const openOtpModal = () => {
         setOtpModal(true);
@@ -50,7 +55,7 @@ function SignupForm({ usertypedata }) {
     const closeOtpModal = () => {
         setOtpModal(false);
     }
- 
+
     const [otpNumber, setOtpNumber] = useState('');
     const updateOtpNumber = (value) => {
         setOtpNumber(value);
@@ -58,6 +63,9 @@ function SignupForm({ usertypedata }) {
     const [userDetails, setUserDetails] = useState({});
     const [accessToken, setAccessToken] = useState('');
     const [errorModalOpen, setErrorModalOpen] = useState(false);
+    const closeErrorModal = () => {
+        setErrorModalOpen(false);
+    }
     const handleSignupform = (e) => {
         setIsLoadingEffect(true);
         e.preventDefault();
@@ -76,10 +84,11 @@ function SignupForm({ usertypedata }) {
             setMobileError('Mobile number should be 10 digits');
             return false;
         }
- 
+
         Authapi.post('register', {
             name: name,
             mobile: mobile,
+            city: city,
             userType: userType
         }, {
             headers: {
@@ -149,7 +158,7 @@ function SignupForm({ usertypedata }) {
                 return false;
             })
     }
- 
+
     const handleVerifyOtp = () => {
         if (otpNumber === '') {
             alert('Please enter OTP number')
@@ -168,7 +177,7 @@ function SignupForm({ usertypedata }) {
         });
         router.push('/dashboard');
     }
- 
+
     return (
         <>
             <div className="signupform flex flex-col w-[370px] h-fit gap-4">
@@ -179,7 +188,7 @@ function SignupForm({ usertypedata }) {
                                 key={type.value}
                                 onClick={() => setUserType(type.label)}
                                 className={`cursor-pointer custom-shadow w-fit ${index !== 0 ? "ml-[-14px]" : ""}
-          flex items-center justify-center text-sm text-[#ffffff] py-2 px-6 rounded-tr-[20px]
+          flex items-center justify-center text-sm text-[#ffffff] py-1 px-6 rounded-tr-[20px]
           ${userType === type.label ? 'bg-[#FBAF01] text-[#244385]' : 'bg-[#31539A]'}
           ${index === usertypedata.length - 1 ? "w-[100%] justify-end p-4" : ""}`}
                                 style={{ zIndex: 50 - index * 10 }}
@@ -216,6 +225,18 @@ function SignupForm({ usertypedata }) {
                                         error={mobileError}
                                     />
                                 </div>
+                            </div>
+                            <div className=''>
+                                <Select
+                                    placeholder="Select City"
+                                    data={cities}
+                                    searchable
+                                    withAsterisk
+                                    value={city}
+                                    onChange={updateCity}
+                                    inputClassName='border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none'
+                                    className='!m-0 !p-0'
+                                />
                             </div>
                             <button
                                 onClick={handleSignupform}
@@ -254,25 +275,19 @@ function SignupForm({ usertypedata }) {
                 errorModalOpen &&
                 <Modal
                     open={errorModalOpen}
-                    onClose={() => setErrorModalOpen(false)}
+                    onClose={closeErrorModal}
                     size="md"
                     zIndex={9999}
+                    withCloseButton={false}
                 >
                     <Errorpanel
                         errorMessages={errorMessages}
+                        close={closeErrorModal}
                     />
-                    <div className='flex flex-row justify-end'>
-                        <button
-                            onClick={() => setErrorModalOpen(false)}
-                            className="mt-2 mx-4 px-4 py-2 text-[12px] bg-red-500 text-white rounded hover:bg-red-600"
-                        >
-                            Close
-                        </button>
-                    </div>
                 </Modal>
             }
         </>
     );
 }
- 
+
 export default SignupForm;
