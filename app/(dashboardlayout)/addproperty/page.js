@@ -2,7 +2,9 @@ import React from 'react';
 import Propertyapi from '@/components/api/Propertyapi';
 import dynamic from 'next/dynamic';
 
-const Tabswrapper = dynamic(() => import('@/components/addproperty/tabs/Tabswrapper'));
+const Tabswrapper = dynamic(() => import('@/components/addproperty/tabs/Tabswrapper'), {
+    ssr: false
+});
 
 async function Page() {
     const getPropertyInData = await getPropertyIn();
