@@ -62,6 +62,14 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
     setTotalFloorsError('')
   }
 
+  const [plotNumber, setPlotNumber] = useState('')
+  const [plotNumberError, setPlotNumberError] = useState('')
+  const updatePlotNumber = (e) => {
+    setPlotNumber(e.target.value)
+    setPlotNumberError('')
+  }
+
+
   const [errorModalOpen, setErrorModalOpen] = useState(false);
   const closeErrorModal = () => {
     setErrorModalOpen(false);
@@ -111,24 +119,10 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
       setLocalityError('please enter locality')
       return false;
     }
-    if (flatNo === '') {
-      setIsLoadingEffect(false)
-      toast.error('Please enter flat no', {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      })
-      setFlatNoError('please enter flat no')
-      return false;
-    }
-    if (getpropertyDetails?.property_in === "Commercial" && getpropertyDetails?.property_for === "Sell") {
-      if (floorNo === '') {
+    if (!(getpropertyDetails?.property_sub_type === "Plot" || getpropertyDetails?.property_sub_type === "Land")) {
+      if (!flatNo) {
         setIsLoadingEffect(false)
-        toast.error('Please Enter flat no', {
+        toast.error('Please Enter Flat No.', {
           position: "top-right",
           autoClose: 3000,
           hideProgressBar: true,
@@ -137,12 +131,28 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
           draggable: true,
           progress: undefined,
         })
-        setFloorNoError('please enter floor no')
+        setFlatNoError('please enter flat no')
         return false;
       }
-      if (totalFloors === '') {
+      if (getpropertyDetails?.property_in === "Commercial" || getpropertyDetails.property_sub_type !== "Independent Villa") {
+        if (!floorNo) {
+          setIsLoadingEffect(false)
+          toast.error('Please Enter Floor No.', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          })
+          setFloorNoError('please enter floor no')
+          return false;
+        }
+      }
+      if (!totalFloors) {
         setIsLoadingEffect(false)
-        toast.error('Please enter total floors', {
+        toast.error('Please Enter Total Floors.', {
           position: "top-right",
           autoClose: 3000,
           hideProgressBar: true,
@@ -154,11 +164,27 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
         setTotalFloorsError('please enter total floors')
         return false;
       }
+    } else {
+      if (!plotNumber) {
+        setIsLoadingEffect(false)
+        toast.error('Please Enter Plot No.', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setPlotNumberError('please enter plot no')
+        return false;
+      }
     }
 
     Propertyapi.post('/addAddressdetails', {
       city_id: city,
       unit_flat_house_no: flatNo,
+      plot_number: plotNumber,
       property_name: propertyName,
       floors: floorNo,
       total_floors: totalFloors,
@@ -298,7 +324,7 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
                 onChange={updateCity}
                 inputClassName='focus:ring-blue-500 focus:border-blue-500'
                 className='!m-0 !p-0'
-                dropdownClassName='min-h-[100px] max-h-[200px] z-50 overflow-y-auto'                
+                dropdownClassName='min-h-[100px] max-h-[200px] z-50 overflow-y-auto'
               />
             </div>
             {cityError && <p className='text-[#FF0000] text-xs font-sans'>Please select one</p>}
@@ -333,55 +359,74 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
             />
             {localityError && <p className='text-[#FF0000] text-xs font-sans'>Please enter locality</p>}
           </div>
-          <div className='my-4'>
-            <div className='flex gap-1'>
-              <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Flat No.</p>
-              <IconAsterisk size={8} color='#FF0000' />
-            </div>
-            <input
-              type='number'
-              placeholder='Flat No.'
-              className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans '
-              autoComplete='off'
-              value={flatNo}
-              onChange={updateFlatNo}
-            />
-            {flatNoError && <p className='text-[#FF0000] text-xs font-sans'>Please enter Flat No.</p>}
-          </div>
           {
-            getpropertyDetails?.property_for === "Sell" &&
-            <>
+            !(getpropertyDetails?.property_sub_type === "Plot" || getpropertyDetails?.property_sub_type === "Land") ?
+              <>
+                <div className='my-4'>
+                  <div className='flex gap-1'>
+                    <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>{getpropertyDetails?.property_sub_type === "Independent House" ? 'House No.' : 'Flat No.'}</p>
+                    <IconAsterisk size={8} color='#FF0000' />
+                  </div>
+                  <input
+                    type='number'
+                    placeholder='Flat No.'
+                    className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans '
+                    autoComplete='off'
+                    value={flatNo}
+                    onChange={updateFlatNo}
+                  />
+                  {flatNoError && <p className='text-[#FF0000] text-xs font-sans'>Please enter Flat No.</p>}
+                </div>
+                {
+                  (getpropertyDetails?.property_in === "Commercial" || getpropertyDetails.property_sub_type !== "Independent Villa") &&
+                  <div className='my-4'>
+                    <div className='flex gap-1'>
+                      <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Floor No.</p>
+                      <IconAsterisk size={8} color='#FF0000' />
+                    </div>
+                    <input
+                      type='number'
+                      placeholder='Floor No.'
+                      className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans '
+                      autoComplete='off'
+                      value={floorNo}
+                      onChange={updateFloorNo}
+                    />
+                    {floorNoError && <p className='text-[#FF0000] text-xs font-sans'>Please enter floor No.</p>}
+                  </div>
+                }
+                <div className='my-4'>
+                  <div className='flex gap-1'>
+                    <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Total Floors</p>
+                    <IconAsterisk size={8} color='#FF0000' />
+                  </div>
+                  <input
+                    type='number'
+                    placeholder='Toatl Floors'
+                    className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans '
+                    autoComplete='off'
+                    value={totalFloors}
+                    onChange={updateTotalFloors}
+                  />
+                  {totalFloorsError && <p className='text-[#FF0000] text-xs font-sans'>Please enter total floors</p>}
+                </div>
+              </>
+              :
               <div className='my-4'>
                 <div className='flex gap-1'>
-                  <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Floor No.</p>
+                  <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Plot No.</p>
                   <IconAsterisk size={8} color='#FF0000' />
                 </div>
                 <input
                   type='number'
-                  placeholder='Floor No.'
+                  placeholder='Plot No.'
                   className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans '
                   autoComplete='off'
-                  value={floorNo}
-                  onChange={updateFloorNo}
+                  value={plotNumber}
+                  onChange={updatePlotNumber}
                 />
-                {floorNoError && <p className='text-[#FF0000] text-xs font-sans'>Please enter floor No.</p>}
+                {plotNumberError && <p className='text-[#FF0000] text-xs font-sans'>Please enter plot No.</p>}
               </div>
-              <div className='my-4'>
-                <div className='flex gap-1'>
-                  <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Total Floors</p>
-                  <IconAsterisk size={8} color='#FF0000' />
-                </div>
-                <input
-                  type='number'
-                  placeholder='Toatl Floors'
-                  className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans '
-                  autoComplete='off'
-                  value={totalFloors}
-                  onChange={updateTotalFloors}
-                />
-                {totalFloorsError && <p className='text-[#FF0000] text-xs font-sans'>Please enter total floors</p>}
-              </div>
-            </>
           }
         </div>
         <div className='flex flex-row justify-between items-center  px-6 pt-3'>

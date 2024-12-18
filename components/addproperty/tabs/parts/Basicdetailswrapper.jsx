@@ -150,6 +150,7 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
                 updatePropertyDetails({
                     property_in: data?.property?.property_in,
                     property_for: data?.property?.property_for,
+                    property_sub_type: null
                 })
             })
             .catch((error) => {
