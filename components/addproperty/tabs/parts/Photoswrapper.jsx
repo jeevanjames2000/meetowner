@@ -69,12 +69,28 @@ function Photoswrapper({ updateActiveTab }) {
     setIsLoadingEffect(true);
     if (previews.length === 0) {
       setIsLoadingEffect(false);
-      alert('Please upload at least one photo');
+      toast.error('Please upload atleat one photo', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      })
       return false;
     }
     if (featuredIndex === null) {
       setIsLoadingEffect(false);
-      alert("Please select a featured image");
+      toast.error('Please select a featured image', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      })
       return;
     }
     const formData = new FormData();
