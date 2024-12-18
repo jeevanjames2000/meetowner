@@ -3,8 +3,7 @@ import Image from 'next/image'
 import React from 'react'
 import list from '@/public/assets/list.svg'
 import tenantsimage from '@/public/assets/tenants_image.svg';
-
-
+import imageplacholder from '@/public/assets/imgeplaceholder.jpg';
 function Listingcard(item) {
     return (
         <div className='bg-[#FFFFFF] rounded-[8px]'>
@@ -26,7 +25,7 @@ function Listingcard(item) {
             <div className='grid grid-cols-12 w-full'>
                 <div className=' flex flex-row col-span-6 h-full gap-3'>
                     <Image
-                        src={item.image}
+                        src={item?.image || imageplacholder}
                         alt={"property"}
                         className="object-cover h-32 w-52 rounded-bl-[8px]"
                         height={100}
@@ -53,7 +52,7 @@ function Listingcard(item) {
                 </div>
                 <div className=' flex flex-col col-span-6 py-3 -ml-6 justify-between w-[110%]'>
                     <div className='flex gap-2 pr-4'>
-                        <p className=" flex flex-col text-[11px] font-[400] text-[#6d6c6c] ">Last Added<span className='font-[600] block pt-2 text-[11px]'> {item.added_date}</span></p>
+                        <p className=" flex flex-col text-[11px] font-[400] text-[#6d6c6c] ">Last Added<span className='font-[600] block pt-2 text-[11px]'> {item.last_added_date || `12/07/2024`}</span></p>
                         <p className=" flex flex-col text-[11px] font-[400] text-[#6d6c6c] border-l-[0.09rem] border-r-[0.09rem] border-[#909090] px-3 mx-4 ">Expiry on<span className='font-[600] block pt-2 text-[11px]'> {item.expiry_date}</span></p>
                         <p className="text-[11px] font-[400] text-[#6d6c6c]">
                             Visibility
@@ -66,16 +65,16 @@ function Listingcard(item) {
                         </p>
                     </div>
                     <div className='flex items-center justify-start gap-4 '>
-                        <button className='flex items-center justify-center text-[10px] font-[700] text-[#ffffff] bg-[#038AC9] h-5 px-3 rounded-l-full rounded-r-full gap-2'> 
-                             Edit<IconEdit size={14} stroke={1.5}/>
+                        <button className='flex items-center justify-center text-[10px] font-[700] text-[#ffffff] bg-[#038AC9] h-5 px-3 rounded-l-full rounded-r-full gap-2'>
+                            Edit<IconEdit size={14} stroke={1.5} />
                         </button>
-                         <button className='flex items-center justify-center text-[10px] font-[700] text-[#ffffff]  bg-[#A5413F] h-5 px-3 rounded-l-full rounded-r-full gap-2'> 
-                            Delete<IconTrash size={14} stroke={1.5}/>
+                        <button className='flex items-center justify-center text-[10px] font-[700] text-[#ffffff]  bg-[#A5413F] h-5 px-3 rounded-l-full rounded-r-full gap-2'>
+                            Delete<IconTrash size={14} stroke={1.5} />
                         </button>
                         <button className='py-1 h-7 rounded-[2px] flex flex-row items-center justify-center text-[#ffffff] px-4  bg-[#59788E]  text-[11px] font-[700] ml-3'>
                             View Analytics
                         </button>
-                       <button className='py-1 h-7 rounded-[2px] flex flex-row items-center justify-center text-[#ffffff] px-4  bg-[#59788E]  text-[11px] font-[700]'>
+                        <button className='py-1 h-7 rounded-[2px] flex flex-row items-center justify-center text-[#ffffff] px-4  bg-[#59788E]  text-[11px] font-[700]'>
                             Upgrade Now
                         </button>
                     </div>
