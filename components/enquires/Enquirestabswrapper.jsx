@@ -23,14 +23,24 @@ function Enquirestabswrapper() {
                       ${activeTab === 'matchingtenants' && 'bg-[#E2EAED]'}`}>
                         Matching Tenants(0)
                     </div>
+                    <div onClick={() => updateActiveTab('Future Tab 1')}
+                        className={` cursor-pointer flex items-center justify-start px-2 py-2 pr-2 text-[11px] font-[600] text-[#1D3A76]
+                      ${activeTab === 'Future Tab 1' && 'bg-[#E2EAED]'}`}>
+                        Future Tab 1
+                    </div>
+                    <div onClick={() => updateActiveTab('Future Tab 2')}
+                        className={` cursor-pointer flex items-center justify-start px-2 py-2 pr-2 text-[11px] font-[600] text-[#1D3A76]
+                      ${activeTab === 'Future Tab 2' && 'bg-[#E2EAED]'}`}>
+                        Future Tab 2
+                    </div>
                 </div>
             </div>
-            <div className="basis-[83%] space-y-8 mb-8 mx-6">
+            <div className="basis-[83%] space-y-4 mb-5 mx-6">
                 <p className="flex items-center justify-start px-5 py-[10px] text-[14px] text-[#ffffff] font-[700] bg-[#31539A] rounded-md">
                     Enquiries For: 2 BHK Apartment in Kondapur (Rent)
                 </p>
                 <div className="flex items-center justify-between px-5">
-                    <p className="text-[11px] text-[#252525] font-[600]">
+                    <p className="text-[12px] text-[#252525] font-[600]">
                         Displaying 4 out of 25 Enquiries
                     </p>
                     <button

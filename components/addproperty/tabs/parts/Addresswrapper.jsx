@@ -62,39 +62,121 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
     setTotalFloorsError('')
   }
 
-  const [isModalOpen, setModalOpen] = useState(false);
+  const [plotNumber, setPlotNumber] = useState('')
+  const [plotNumberError, setPlotNumberError] = useState('')
+  const updatePlotNumber = (e) => {
+    setPlotNumber(e.target.value)
+    setPlotNumberError('')
+  }
+
+
+  const [errorModalOpen, setErrorModalOpen] = useState(false);
+  const closeErrorModal = () => {
+    setErrorModalOpen(false);
+  }
   const [errorMessages, setErrorMessages] = useState({});
   const updateAddress = () => {
     setIsLoadingEffect(true)
     if (city === '') {
       setIsLoadingEffect(false)
+      toast.error('Please select city', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      })
       setCityError('please enter city')
       return false;
     }
     if (propertyName === '') {
       setIsLoadingEffect(false)
+      toast.error('Please enter property name', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      })
       setPropertyNameError('please enter property name')
       return false;
     }
     if (locality === '') {
       setIsLoadingEffect(false)
+      toast.error('Please Enter locality', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      })
       setLocalityError('please enter locality')
       return false;
     }
-    if (flatNo === '') {
-      setIsLoadingEffect(false)
-      setFlatNoError('please enter flat no')
-      return false;
-    }
-    if (getpropertyDetails?.property_in === "Commercial" && getpropertyDetails?.property_for === "Sell") {
-      if (floorNo === '') {
+    if (!(getpropertyDetails?.property_sub_type === "Plot" || getpropertyDetails?.property_sub_type === "Land")) {
+      if (!flatNo) {
         setIsLoadingEffect(false)
-        setFloorNoError('please enter floor no')
+        toast.error('Please Enter Flat No.', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setFlatNoError('please enter flat no')
         return false;
       }
-      if (totalFloors === '') {
+      if (getpropertyDetails?.property_in === "Commercial" || getpropertyDetails.property_sub_type !== "Independent Villa") {
+        if (!floorNo) {
+          setIsLoadingEffect(false)
+          toast.error('Please Enter Floor No.', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          })
+          setFloorNoError('please enter floor no')
+          return false;
+        }
+      }
+      if (!totalFloors) {
         setIsLoadingEffect(false)
+        toast.error('Please Enter Total Floors.', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
         setTotalFloorsError('please enter total floors')
+        return false;
+      }
+    } else {
+      if (!plotNumber) {
+        setIsLoadingEffect(false)
+        toast.error('Please Enter Plot No.', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setPlotNumberError('please enter plot no')
         return false;
       }
     }
@@ -102,6 +184,7 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
     Propertyapi.post('/addAddressdetails', {
       city_id: city,
       unit_flat_house_no: flatNo,
+      plot_number: plotNumber,
       property_name: propertyName,
       floors: floorNo,
       total_floors: totalFloors,
@@ -121,7 +204,7 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
             'server_res': data
           }
           setErrorMessages(finalresponse);
-          setModalOpen(true);
+          setErrorModalOpen(true);
           setIsLoadingEffect(false);
           return false;
         }
@@ -153,7 +236,7 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
           };
         }
         setErrorMessages(finalresponse);
-        setModalOpen(true);
+        setErrorModalOpen(true);
         setIsLoadingEffect(false);
         return false;
       })
@@ -230,7 +313,7 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
         </div>
         <div className='w-full overflow-y-auto px-5 py-3 h-[calc(100vh-220px)]'>
           <div className='mb-5'>
-            <div className='w-[40%]'>
+            <div className='w-[100%]'>
               <Select
                 label='City'
                 labelClassName='!text-[#1D3A76] text-[13px] font-medium font-sans'
@@ -241,6 +324,7 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
                 onChange={updateCity}
                 inputClassName='focus:ring-blue-500 focus:border-blue-500'
                 className='!m-0 !p-0'
+                dropdownClassName='min-h-[100px] max-h-[200px] z-50 overflow-y-auto'
               />
             </div>
             {cityError && <p className='text-[#FF0000] text-xs font-sans'>Please select one</p>}
@@ -275,55 +359,74 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
             />
             {localityError && <p className='text-[#FF0000] text-xs font-sans'>Please enter locality</p>}
           </div>
-          <div className='my-4'>
-            <div className='flex gap-1'>
-              <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Flat No.</p>
-              <IconAsterisk size={8} color='#FF0000' />
-            </div>
-            <input
-              type='number'
-              placeholder='Flat No.'
-              className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans '
-              autoComplete='off'
-              value={flatNo}
-              onChange={updateFlatNo}
-            />
-            {flatNoError && <p className='text-[#FF0000] text-xs font-sans'>Please enter Flat No.</p>}
-          </div>
           {
-            getpropertyDetails?.property_for === "Sell" &&
-            <>
+            !(getpropertyDetails?.property_sub_type === "Plot" || getpropertyDetails?.property_sub_type === "Land") ?
+              <>
+                <div className='my-4'>
+                  <div className='flex gap-1'>
+                    <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>{getpropertyDetails?.property_sub_type === "Independent House" ? 'House No.' : 'Flat No.'}</p>
+                    <IconAsterisk size={8} color='#FF0000' />
+                  </div>
+                  <input
+                    type='number'
+                    placeholder='Flat No.'
+                    className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans '
+                    autoComplete='off'
+                    value={flatNo}
+                    onChange={updateFlatNo}
+                  />
+                  {flatNoError && <p className='text-[#FF0000] text-xs font-sans'>Please enter Flat No.</p>}
+                </div>
+                {
+                  (getpropertyDetails?.property_in === "Commercial" || getpropertyDetails.property_sub_type !== "Independent Villa") &&
+                  <div className='my-4'>
+                    <div className='flex gap-1'>
+                      <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Floor No.</p>
+                      <IconAsterisk size={8} color='#FF0000' />
+                    </div>
+                    <input
+                      type='number'
+                      placeholder='Floor No.'
+                      className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans '
+                      autoComplete='off'
+                      value={floorNo}
+                      onChange={updateFloorNo}
+                    />
+                    {floorNoError && <p className='text-[#FF0000] text-xs font-sans'>Please enter floor No.</p>}
+                  </div>
+                }
+                <div className='my-4'>
+                  <div className='flex gap-1'>
+                    <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Total Floors</p>
+                    <IconAsterisk size={8} color='#FF0000' />
+                  </div>
+                  <input
+                    type='number'
+                    placeholder='Toatl Floors'
+                    className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans '
+                    autoComplete='off'
+                    value={totalFloors}
+                    onChange={updateTotalFloors}
+                  />
+                  {totalFloorsError && <p className='text-[#FF0000] text-xs font-sans'>Please enter total floors</p>}
+                </div>
+              </>
+              :
               <div className='my-4'>
                 <div className='flex gap-1'>
-                  <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Floor No.</p>
+                  <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Plot No.</p>
                   <IconAsterisk size={8} color='#FF0000' />
                 </div>
                 <input
                   type='number'
-                  placeholder='Floor No.'
+                  placeholder='Plot No.'
                   className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans '
                   autoComplete='off'
-                  value={floorNo}
-                  onChange={updateFloorNo}
+                  value={plotNumber}
+                  onChange={updatePlotNumber}
                 />
-                {floorNoError && <p className='text-[#FF0000] text-xs font-sans'>Please enter floor No.</p>}
+                {plotNumberError && <p className='text-[#FF0000] text-xs font-sans'>Please enter plot No.</p>}
               </div>
-              <div className='my-4'>
-                <div className='flex gap-1'>
-                  <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Total Floors</p>
-                  <IconAsterisk size={8} color='#FF0000' />
-                </div>
-                <input
-                  type='number'
-                  placeholder='Toatl Floors'
-                  className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans '
-                  autoComplete='off'
-                  value={totalFloors}
-                  onChange={updateTotalFloors}
-                />
-                {totalFloorsError && <p className='text-[#FF0000] text-xs font-sans'>Please enter total floors</p>}
-              </div>
-            </>
           }
         </div>
         <div className='flex flex-row justify-between items-center  px-6 pt-3'>
@@ -337,24 +440,17 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
         <LoadingOverlay isLoading={isLoadingEffect} />
       </div>
       {
-        isModalOpen &&
+        errorModalOpen &&
         <Modal
-          open={isModalOpen}
-          onClose={() => setModalOpen(false)}
+          open={errorModalOpen}
+          onClose={closeErrorModal}
           size="md"
           zIndex={9999}
         >
           <Errorpanel
             errorMessages={errorMessages}
+            close={closeErrorModal}
           />
-          <div className='flex flex-row justify-end'>
-            <button
-              onClick={() => setModalOpen(false)}
-              className="mt-2 mx-4 px-4 py-2 text-[12px] bg-red-500 text-white rounded hover:bg-red-600"
-            >
-              Close
-            </button>
-          </div>
         </Modal>
       }
     </>

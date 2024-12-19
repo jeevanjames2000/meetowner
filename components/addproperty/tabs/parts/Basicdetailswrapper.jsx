@@ -6,9 +6,10 @@ import Propertyapi from '@/components/api/Propertyapi';
 import { useUserDetails } from '@/components/zustand/useUserDetails';
 import { toast } from 'react-toastify';
 import Errorpanel from '@/components/shared/Errorpanel';
-import { Loadingoverlay, Modal, Select } from '@nayeshdaggula/tailify';
+import { Modal, Select } from '@nayeshdaggula/tailify';
 import { usePropertyDetails } from '@/components/zustand/usePropertyDetails';
 import Generalapi from '@/components/api/Generalapi';
+import { Loadingoverlay } from '@/components/tailifycomponents/Loadingoverlay';
 
 function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails, propertyInList, propertyForList, transactionTypeList }) {
     const userInfo = useUserDetails((state) => state.userInfo)
@@ -59,21 +60,52 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
         setLocation(value)
     }
 
-    const [isModalOpen, setModalOpen] = useState(false);
+    const [errorModalOpen, setErrorModalOpen] = useState(false);
+    const closeErrorModal = () => {
+        setErrorModalOpen(false);
+    }
+
     const updateBasicdetails = () => {
         setIsLoadingEffect(true)
         if (propertyType === '') {
             setPropertyTypeError('Please select property type')
+            toast.error('Please select property type', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            })
             setIsLoadingEffect(false)
             return
         }
         if (lookingTo === '') {
             setLookingToError('Please select looking to')
+            toast.error('Please select looking to', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            })
             setIsLoadingEffect(false)
             return
         }
         if (lookingTo === 1 && transactionType === '') {
             setTransactionTypeError('Please select transaction type')
+            toast.error('Please select transaction type', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            })
             setIsLoadingEffect(false)
             return
         }
@@ -100,7 +132,7 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
                         'server_res': data
                     }
                     setErrorMessages(finalresponse);
-                    setModalOpen(true);
+                    setErrorModalOpen(true);
                     setIsLoadingEffect(false);
                     return false;
                 }
@@ -118,6 +150,7 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
                 updatePropertyDetails({
                     property_in: data?.property?.property_in,
                     property_for: data?.property?.property_for,
+                    property_sub_type: null
                 })
             })
             .catch((error) => {
@@ -135,7 +168,7 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
                     };
                 }
                 setErrorMessages(finalresponse);
-                setModalOpen(true);
+                setErrorModalOpen(true);
                 setIsLoadingEffect(false);
                 return false;
             })
@@ -204,7 +237,7 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
             <div className='py-2 bg-[#E2EAED]'>
                 <p className='text-lg font-bold text-[#1D3A76] text-center'>Add Basic Details</p>
             </div>
-            <div className='p-10 h-[calc(100vh-215px)] overflow-y-auto'>
+            <div className='p-10 h-[calc(100vh-220px)] overflow-y-auto'>
                 <>
                     <div className='flex gap-1 mb-4'>
                         <p className='text-[#1D3A76] text-[13px] font-sans font-medium'>Property Type</p>
@@ -255,6 +288,7 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
                                     onChange={updateTransactionType}
                                     inputClassName='focus:ring-blue-500 focus:border-blue-500'
                                     className='!m-0 !p-0'
+                                    dropdownClassName='min-h-[100px] max-h-[200px] z-[9999999999] overflow-y-auto'
                                 />
                                 {transactionTypeError && <p className='text-red-500 text-[10px] mt-2'>{transactionTypeError}</p>}
                             </div>
@@ -298,24 +332,17 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
                 zIndex={9999}
                 overlayBg="rgba(255, 255, 255, 0.6)"
             />
-            {isModalOpen &&
+            {errorModalOpen &&
                 <Modal
-                    open={isModalOpen}
-                    onClose={() => setModalOpen(false)}
+                    open={errorModalOpen}
+                    onClose={closeErrorModal}
                     size="md"
                     zIndex={9999}
                 >
                     <Errorpanel
                         errorMessages={errorMessages}
+                        close={closeErrorModal}
                     />
-                    <div className='flex flex-row justify-end'>
-                        <button
-                            onClick={() => setModalOpen(false)}
-                            className="mt-2 mx-4 px-4 py-2 text-[12px] bg-red-500 text-white rounded hover:bg-red-600"
-                        >
-                            Close
-                        </button>
-                    </div>
                 </Modal>
             }
         </>

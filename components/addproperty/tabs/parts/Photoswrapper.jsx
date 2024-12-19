@@ -22,6 +22,15 @@ function Photoswrapper({ updateActiveTab }) {
   const [featuredIndex, setFeaturedIndex] = useState(null);
 
   const handleFileUpload = (event) => {
+    // allow only jpg, jpeg, png, gif extensions
+    const allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+    const files = Array.from(event.target.files);
+    const invalidFiles = files.filter((file) => !allowedExtensions.test(file.name));
+    if (invalidFiles.length > 0) {
+      alert('Please upload only jpg, jpeg, png, gif files');
+      return;
+    }
+
     const uploadedFiles = Array.from(event.target.files);
     const newFiles = [...files, ...uploadedFiles];
     setFiles(newFiles);
@@ -52,22 +61,38 @@ function Photoswrapper({ updateActiveTab }) {
     setFeaturedIndex(index);
   };
 
-  const [isModalOpen, setModalOpen] = useState(false);
-  const [errorMessages, setErrorMessages] = useState({});
+  const [errorModalOpen, setErrorModalOpen] = useState(false);
+  const closeErrorModal = () => setErrorModalOpen(false);
+  const [errorMessages, setErrorMessages] = useState('');
   const [isLoadingEffect, setIsLoadingEffect] = useState(false);
   const handleSubmitPhotos = () => {
     setIsLoadingEffect(true);
     if (previews.length === 0) {
       setIsLoadingEffect(false);
-      alert('Please upload at least one photo');
+      toast.error('Please upload atleat one photo', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      })
       return false;
     }
     if (featuredIndex === null) {
       setIsLoadingEffect(false);
-      alert("Please select a featured image");
+      toast.error('Please select a featured image', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      })
       return;
     }
-    console.log('featuredIndex', featuredIndex)
     const formData = new FormData();
     formData.append('user_id', user_id);
     formData.append('unique_property_id', unique_property_id);
@@ -87,6 +112,7 @@ function Photoswrapper({ updateActiveTab }) {
             server_res: data.server_res
           };
           setErrorMessages(finalResponse)
+          setErrorModalOpen(true);
           setIsLoadingEffect(false);
           return;
         }
@@ -100,6 +126,7 @@ function Photoswrapper({ updateActiveTab }) {
           server_res: error.response ? error.response.data : null
         };
         setErrorMessages(errorDetails);
+        setErrorModalOpen(true);
         setIsLoadingEffect(false);
       });
   }
@@ -113,7 +140,7 @@ function Photoswrapper({ updateActiveTab }) {
           </p>
         </div>
         <div className="px-5 py-3">
-          <div className="mt-3 overflow-y-auto h-[calc(100vh-240px)]">
+          <div className="mt-3 overflow-y-auto h-[calc(100vh-243px)]">
             <div className="flex items-center justify-center w-full">
               <label
                 htmlFor="dropzone-file"
@@ -143,6 +170,9 @@ function Photoswrapper({ updateActiveTab }) {
                   </svg>
                   <p className="mb-2 text-sm text-gray-500">
                     Drag & Drop or click to upload
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    Allowed Extensions (jpg, jpeg, png, gif)
                   </p>
                 </div>
                 <input
@@ -180,13 +210,15 @@ function Photoswrapper({ updateActiveTab }) {
                         <label for="featured_image"
                           className="ms-2 text-xs font-medium text-gray-900">Set As Featured Image.</label>
                       </div> */}
-                    <button
-                      onClick={() => handleSetFeatured(index)}
-                      className={` px-2 py-1 my-2 text-xs text-center ${featuredIndex === index ? "bg-green-500 text-white" : "bg-gray-500 text-white"
-                        }`}
-                    >
-                      {featuredIndex === index ? "Featured Image" : "Set as Featured Image"}
-                    </button>
+                    <div className="flex flex-row items-center justify-center">
+                      <button
+                        onClick={() => handleSetFeatured(index)}
+                        className={`px-3 rounded-md py-2 my-2 text-xs text-center ${featuredIndex === index ? "bg-green-500 text-white" : "bg-gray-500 text-white"
+                          }`}
+                      >
+                        {featuredIndex === index ? "✔ Featured Image" : "Set as Featured Image"}
+                      </button>
+                    </div>
                     <button
                       className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 text-xs opacity-0 group-hover:opacity-100 transition-opacity"
                       onClick={() => removePreview(index)}
@@ -199,7 +231,7 @@ function Photoswrapper({ updateActiveTab }) {
             </div>
           </div>
         </div>
-        <div className='flex flex-row justify-between items-center  px-6 pt-3'>
+        <div className='flex flex-row justify-between items-center  px-6 py-3'>
           <div onClick={() => updateActiveTab('address', 'completed', unique_property_id)} className='bg-[#000] px-8 py-2 rounded-md cursor-pointer'>
             <p className='text-white text-[10px]'>Back</p>
           </div>
@@ -218,24 +250,17 @@ function Photoswrapper({ updateActiveTab }) {
 
       <LoadingOverlay isLoading={isLoadingEffect} />
 
-      {isModalOpen &&
+      {errorModalOpen &&
         <Modal
-          open={isModalOpen}
-          onClose={() => setModalOpen(false)}
+          open={errorModalOpen}
+          onClose={closeErrorModal}
           size="md"
           zIndex={9999}
         >
           <Errorpanel
             errorMessages={errorMessages}
+            close={closeErrorModal}
           />
-          <div className='flex flex-row justify-end'>
-            <button
-              onClick={() => setModalOpen(false)}
-              className="mt-2 mx-4 px-4 py-2 text-[12px] bg-red-500 text-white rounded hover:bg-red-600"
-            >
-              Close
-            </button>
-          </div>
         </Modal>
       }
     </>
