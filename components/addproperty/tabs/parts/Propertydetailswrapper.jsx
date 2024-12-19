@@ -490,815 +490,815 @@ function Propertydetailswrapper({
 
   const handleSubmitPropertyDetails = () => {
     setIsLoadingEffect(true)
-    // if (!propertySubType) {
-    //   setIsLoadingEffect(false)
-    //   toast.error('Please select property sub type', {
-    //     position: "top-right",
-    //     autoClose: 3000,
-    //     hideProgressBar: true,
-    //     closeOnClick: true,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //     progress: undefined,
-    //   })
-    //   setPropertySubTypeError('Please select property sub type')
-    //   return false;
-    // }
-    // if (getpropertyDetails?.property_for === "Sell") {
-    //   if (!(propertySubType === "Plot" || propertySubType === "Land")) {
-    //     if (!constructionStatus) {
-    //       setIsLoadingEffect(false)
-    //       toast.error('Please select construction status', {
-    //         position: "top-right",
-    //         autoClose: 3000,
-    //         hideProgressBar: true,
-    //         closeOnClick: true,
-    //         pauseOnHover: true,
-    //         draggable: true,
-    //         progress: undefined,
-    //       })
-    //       setConstructionStatusError('Please select construction status')
-    //       return false;
-    //     }
-    //   }
-    // }
-    // if (propertySubType === 'Apartment' || propertySubType === "Flat" || propertySubType === "Independent House" || propertySubType === "Independent Villa") {
-    //   if (!bhk) {
-    //     setIsLoadingEffect(false)
-    //     toast.error('Please select bhk', {
-    //       position: "top-right",
-    //       autoClose: 3000,
-    //       hideProgressBar: true,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //     })
-    //     setBhkError('Please select bhk')
-    //     return false;
-    //   }
-    //   if (bhk === 5 && !customBhk) {
-    //     setIsLoadingEffect(false)
-    //     toast.error('Please enter custom bhk', {
-    //       position: "top-right",
-    //       autoClose: 3000,
-    //       hideProgressBar: true,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //     })
-    //     setCustomBhkError('Please enter bhk')
-    //     return false;
-    //   }
-    // }
-    // if (propertySubType === 'Apartment' || propertySubType === "Flat") {
-    //   if (!bathroom) {
-    //     setIsLoadingEffect(false)
-    //     toast.error('Please select bathroom', {
-    //       position: "top-right",
-    //       autoClose: 3000,
-    //       hideProgressBar: true,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //     })
-    //     setBathroomError('Please select bathroom')
-    //     return false;
-    //   }
-    //   if (bathroom === 5 && !customBathroom) {
-    //     setIsLoadingEffect(false)
-    //     toast.error('Please enter bathroom', {
-    //       position: "top-right",
-    //       autoClose: 3000,
-    //       hideProgressBar: true,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //     })
-    //     setCustomBathroomError('Please enter bathroom')
-    //     return false;
-    //   }
-    //   if (!balcony) {
-    //     setIsLoadingEffect(false)
-    //     toast.error('Please select balcony', {
-    //       position: "top-right",
-    //       autoClose: 3000,
-    //       hideProgressBar: true,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //     })
-    //     setBalconyError('Please select balcony')
-    //     return false;
-    //   }
-    //   if (balcony === 5 && !customBalcony) {
-    //     setIsLoadingEffect(false)
-    //     toast.error('Please enter balcony', {
-    //       position: "top-right",
-    //       autoClose: 3000,
-    //       hideProgressBar: true,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //     })
-    //     setCustomBalconyError('Please enter balcony')
-    //     return false;
-    //   }
-    // }
-    // if (propertySubType === 'Apartment' || propertySubType === "Independent House" || propertySubType === "Independent Villa") {
-    //   if (!furnishType) {
-    //     setIsLoadingEffect(false)
-    //     toast.error('Please select furnish Type', {
-    //       position: "top-right",
-    //       autoClose: 3000,
-    //       hideProgressBar: true,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //     })
-    //     setFurnishTypeError('Please select furnish type')
-    //     return false;
-    //   }
-    // }
-    // if (propertySubType === 'Office' || propertySubType === "Retail Shop" || propertySubType === "Show Room") {
-    //   if (!passengerLifts) {
-    //     setIsLoadingEffect(false)
-    //     toast.error('Please enter passenger lifts', {
-    //       position: "top-right",
-    //       autoClose: 3000,
-    //       hideProgressBar: true,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //     })
-    //     setPassengerLiftsError('Please enter passenger lifts')
-    //     return false;
-    //   }
-    //   if (!serviceLifts) {
-    //     setIsLoadingEffect(false)
-    //     toast.error('Please enter service lifts', {
-    //       position: "top-right",
-    //       autoClose: 3000,
-    //       hideProgressBar: true,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //     })
-    //     setServiceLiftsError('Please enter service lifts')
-    //     return false;
-    //   }
-    //   if (!stairCases) {
-    //     setIsLoadingEffect(false)
-    //     toast.error('Please enter stair cases', {
-    //       position: "top-right",
-    //       autoClose: 3000,
-    //       hideProgressBar: true,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //     })
-    //     setStairCasesError('Please enter stair cases')
-    //     return false;
-    //   }
-    //   if (!privateParking) {
-    //     setIsLoadingEffect(false)
-    //     toast.error('Please enter private parking', {
-    //       position: "top-right",
-    //       autoClose: 3000,
-    //       hideProgressBar: true,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //     })
-    //     setPrivateParkingError('Please enter private parking')
-    //     return false;
-    //   }
-    //   if (!publicParking) {
-    //     setIsLoadingEffect(false)
-    //     toast.error('Please enter public parking', {
-    //       position: "top-right",
-    //       autoClose: 3000,
-    //       hideProgressBar: true,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //     })
-    //     setPublicParkingError('Please enter public parking')
-    //     return false;
-    //   }
-    //   if (!privateWashrooms) {
-    //     setIsLoadingEffect(false)
-    //     toast.error('Please enter private washrooms', {
-    //       position: "top-right",
-    //       autoClose: 3000,
-    //       hideProgressBar: true,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //     })
-    //     setPrivateWashroomsError('Please enter private washrooms')
-    //     return false;
-    //   }
-    //   if (!publicWashrooms) {
-    //     setIsLoadingEffect(false)
-    //     toast.error('Please enter public washrooms', {
-    //       position: "top-right",
-    //       autoClose: 3000,
-    //       hideProgressBar: true,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //     })
-    //     setPublicWashroomsError('Please enter public washrooms')
-    //     return false;
-    //   }
-    // }
-    // if (getpropertyDetails?.property_for === "Rent") {
-    //   if (!availableFromDate) {
-    //     setIsLoadingEffect(false)
-    //     toast.error('Please select available from Date', {
-    //       position: "top-right",
-    //       autoClose: 3000,
-    //       hideProgressBar: true,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //     })
-    //     setAvailableFromDateError('Please select available from date')
-    //     return false;
-    //   }
-    // }
-    // if (constructionStatus === 1) {
-    //   if (!ageofProperty) {
-    //     setIsLoadingEffect(false)
-    //     toast.error('Please enter age of property', {
-    //       position: "top-right",
-    //       autoClose: 3000,
-    //       hideProgressBar: true,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //     })
-    //     setAgeofPropertyError('Please enter age of property')
-    //     return false;
-    //   }
-    // }
-    // if (constructionStatus === 2) {
-    //   if (!possessionEndDate) {
-    //     setIsLoadingEffect(false)
-    //     toast.error('Please select possesion end Date', {
-    //       position: "top-right",
-    //       autoClose: 3000,
-    //       hideProgressBar: true,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //     })
-    //     setPossessionEndDateError('Please select possession end date')
-    //     return false;
-    //   }
-    // }
-    // if (getpropertyDetails.property_for === "Rent") {
-    //   if (!monthlyRent) {
-    //     setIsLoadingEffect(false)
-    //     toast.error('Please enter monthly rent', {
-    //       position: "top-right",
-    //       autoClose: 3000,
-    //       hideProgressBar: true,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //     })
-    //     setMonthlyRentError('Please enter monthly rent')
-    //     return false;
-    //   }
-    //   if (!maintenceCharges) {
-    //     setIsLoadingEffect(false)
-    //     toast.error('Please enter maintenance charges', {
-    //       position: "top-right",
-    //       autoClose: 3000,
-    //       hideProgressBar: true,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //     })
-    //     setMaintenceChargesError('Please enter maintenance charges')
-    //     return false;
-    //   }
-    //   if (!securityDeposit) {
-    //     setIsLoadingEffect(false)
-    //     toast.error('Please enter security deposit', {
-    //       position: "top-right",
-    //       autoClose: 3000,
-    //       hideProgressBar: true,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //     })
-    //     setSecurityDepositError('Please enter security deposit')
-    //     return false;
-    //   }
-    //   if (!lockInPeriod) {
-    //     setIsLoadingEffect(false)
-    //     toast.error('Please enter lockin period', {
-    //       position: "top-right",
-    //       autoClose: 3000,
-    //       hideProgressBar: true,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //     })
-    //     setLockInPeriodError('Please enter lock in period')
-    //     return false;
-    //   }
-    //   if (!brokerage) {
-    //     setIsLoadingEffect(false)
-    //     toast.error('Please enter brokerage charge', {
-    //       position: "top-right",
-    //       autoClose: 3000,
-    //       hideProgressBar: true,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //     })
-    //     setBrokerageError('Please enter brokerage')
-    //     return false;
-    //   }
-    //   if (getpropertyDetails.property_in !== "Commercial" || propertySubType === "Plot" || propertySubType === "Land") {
-    //     if (!preferredTenantType) {
-    //       setIsLoadingEffect(false)
-    //       toast.error('Please select prefered tenant type', {
-    //         position: "top-right",
-    //         autoClose: 3000,
-    //         hideProgressBar: true,
-    //         closeOnClick: true,
-    //         pauseOnHover: true,
-    //         draggable: true,
-    //         progress: undefined,
-    //       })
-    //       setPreferredTenantTypeError('Please select preferred tenant type')
-    //       return false;
-    //     }
-    //   }
-    // }
-    // if (propertySubType === "Apartment" || propertySubType === "Flat" || propertySubType === "Land" || propertySubType === "Office" || propertySubType === "Retail Shop" || propertySubType === "Show Room" || propertySubType === "Independent House" || propertySubType === "Independent Villa") {
-    //   if (!builtupArea) {
-    //     setIsLoadingEffect(false)
-    //     toast.error('Please enter built up area', {
-    //       position: "top-right",
-    //       autoClose: 3000,
-    //       hideProgressBar: true,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //     })
-    //     setBuiltupAreaError('Please enter builtup area')
-    //     return false;
-    //   }
-    //   if (!carpetArea) {
-    //     setIsLoadingEffect(false)
-    //     toast.error('Please enter carpet area', {
-    //       position: "top-right",
-    //       autoClose: 3000,
-    //       hideProgressBar: true,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //     })
-    //     setCarpetAreaError('Please enter carpet area')
-    //     return false;
-    //   }
-    // }
-    // if (propertySubType === "Plot" || propertySubType === "Land") {
-    //   if (!lengthArea) {
-    //     setIsLoadingEffect(false)
-    //     toast.error('Please enter length area', {
-    //       position: "top-right",
-    //       autoClose: 3000,
-    //       hideProgressBar: true,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //     })
-    //     setLengthAreaError('Please enter length area')
-    //     return false;
-    //   }
-    //   if (!widthArea) {
-    //     setIsLoadingEffect(false)
-    //     toast.error('Please width area', {
-    //       position: "top-right",
-    //       autoClose: 3000,
-    //       hideProgressBar: true,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //     })
-    //     setWidthAreaError('Please enter width area')
-    //     return false;
-    //   }
-    // }
-    // if (propertySubType === "Independent House" || propertySubType === "Independent Villa" || propertySubType === "Plot" || propertySubType === "Warehouse" || propertySubType === "Others") {
-    //   if (!plotArea) {
-    //     setIsLoadingEffect(false)
-    //     toast.error('Please enter plot area', {
-    //       position: "top-right",
-    //       autoClose: 3000,
-    //       hideProgressBar: true,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //     })
-    //     setPlotAreaError('Please enter plot area')
-    //     return false;
-    //   }
-    // }
-    // if (propertySubType === "Independent House" || propertySubType === "Independent Villa") {
-    //   if (!pentHouse) {
-    //     setIsLoadingEffect(false)
-    //     toast.error('Please select pent house', {
-    //       position: "top-right",
-    //       autoClose: 3000,
-    //       hideProgressBar: true,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //     })
-    //     setPentHouseError('Please select pent house')
-    //     return false;
-    //   }
-    // }
-    // if (getpropertyDetails.property_for === "Sell") {
-    //   if (!(propertySubType === "Independent House" || propertySubType === "Independent Villa")) {
-    //     if (!unitCost) {
-    //       setIsLoadingEffect(false)
-    //       toast.error('Please enter unit cost', {
-    //         position: "top-right",
-    //         autoClose: 3000,
-    //         hideProgressBar: true,
-    //         closeOnClick: true,
-    //         pauseOnHover: true,
-    //         draggable: true,
-    //         progress: undefined,
-    //       })
-    //       setUnitCostError('Please enter unit cost')
-    //       return false;
-    //     }
-    //   }
-    //   if (!propertyCost) {
-    //     setIsLoadingEffect(false)
-    //     toast.error('Please enter property cost', {
-    //       position: "top-right",
-    //       autoClose: 3000,
-    //       hideProgressBar: true,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //     })
-    //     setPropertyCostError('Please enter property cost')
-    //     return false;
-    //   }
-    // }
-    // if (getpropertyDetails?.property_for === 'Sell') {
-    //   if (!possessionStatus) {
-    //     setIsLoadingEffect(false)
-    //     toast.error('Please select possession status', {
-    //       position: "top-right",
-    //       autoClose: 3000,
-    //       hideProgressBar: true,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //     })
-    //     setPossessionStatusError('Please select possession status')
-    //     return false;
-    //   }
-    // }
-    // if (getpropertyDetails?.property_in === 'Commercial' && getpropertyDetails?.property_for === 'Sell') {
-    //   if (!ownerShip) {
-    //     setIsLoadingEffect(false)
-    //     toast.error('Please select ownership type', {
-    //       position: "top-right",
-    //       autoClose: 3000,
-    //       hideProgressBar: true,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //     })
-    //     setOwnerShipError('Please select ownership type')
-    //     return false;
-    //   }
-    // }
-    // // facilities
-    // if (propertySubType === "Apartment" || propertySubType === "Independent House" || propertySubType === "Independent Villa" || propertySubType === "Flat" || propertySubType === "Office" || propertySubType === "Retail Shop" || propertySubType === "Show Room") {
-    //   const selectedFacilities = Object.keys(facilities)
-    //     .filter((key) => facilities[key])
-    //     .join(", ");
-    //   if (!selectedFacilities) {
-    //     setIsLoadingEffect(false)
-    //     toast.error('Please select atleast one facilities', {
-    //       position: "top-right",
-    //       autoClose: 3000,
-    //       hideProgressBar: true,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //     })
-    //     return false;
-    //   }
+    if (!propertySubType) {
+      setIsLoadingEffect(false)
+      toast.error('Please select property sub type', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      })
+      setPropertySubTypeError('Please select property sub type')
+      return false;
+    }
+    if (getpropertyDetails?.property_for === "Sell") {
+      if (!(propertySubType === "Plot" || propertySubType === "Land")) {
+        if (!constructionStatus) {
+          setIsLoadingEffect(false)
+          toast.error('Please select construction status', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          })
+          setConstructionStatusError('Please select construction status')
+          return false;
+        }
+      }
+    }
+    if (propertySubType === 'Apartment' || propertySubType === "Flat" || propertySubType === "Independent House" || propertySubType === "Independent Villa") {
+      if (!bhk) {
+        setIsLoadingEffect(false)
+        toast.error('Please select bhk', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setBhkError('Please select bhk')
+        return false;
+      }
+      if (bhk === 5 && !customBhk) {
+        setIsLoadingEffect(false)
+        toast.error('Please enter custom bhk', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setCustomBhkError('Please enter bhk')
+        return false;
+      }
+    }
+    if (propertySubType === 'Apartment' || propertySubType === "Flat") {
+      if (!bathroom) {
+        setIsLoadingEffect(false)
+        toast.error('Please select bathroom', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setBathroomError('Please select bathroom')
+        return false;
+      }
+      if (bathroom === 5 && !customBathroom) {
+        setIsLoadingEffect(false)
+        toast.error('Please enter bathroom', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setCustomBathroomError('Please enter bathroom')
+        return false;
+      }
+      if (!balcony) {
+        setIsLoadingEffect(false)
+        toast.error('Please select balcony', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setBalconyError('Please select balcony')
+        return false;
+      }
+      if (balcony === 5 && !customBalcony) {
+        setIsLoadingEffect(false)
+        toast.error('Please enter balcony', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setCustomBalconyError('Please enter balcony')
+        return false;
+      }
+    }
+    if (propertySubType === 'Apartment' || propertySubType === "Independent House" || propertySubType === "Independent Villa") {
+      if (!furnishType) {
+        setIsLoadingEffect(false)
+        toast.error('Please select furnish Type', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setFurnishTypeError('Please select furnish type')
+        return false;
+      }
+    }
+    if (propertySubType === 'Office' || propertySubType === "Retail Shop" || propertySubType === "Show Room") {
+      if (!passengerLifts) {
+        setIsLoadingEffect(false)
+        toast.error('Please enter passenger lifts', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setPassengerLiftsError('Please enter passenger lifts')
+        return false;
+      }
+      if (!serviceLifts) {
+        setIsLoadingEffect(false)
+        toast.error('Please enter service lifts', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setServiceLiftsError('Please enter service lifts')
+        return false;
+      }
+      if (!stairCases) {
+        setIsLoadingEffect(false)
+        toast.error('Please enter stair cases', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setStairCasesError('Please enter stair cases')
+        return false;
+      }
+      if (!privateParking) {
+        setIsLoadingEffect(false)
+        toast.error('Please enter private parking', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setPrivateParkingError('Please enter private parking')
+        return false;
+      }
+      if (!publicParking) {
+        setIsLoadingEffect(false)
+        toast.error('Please enter public parking', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setPublicParkingError('Please enter public parking')
+        return false;
+      }
+      if (!privateWashrooms) {
+        setIsLoadingEffect(false)
+        toast.error('Please enter private washrooms', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setPrivateWashroomsError('Please enter private washrooms')
+        return false;
+      }
+      if (!publicWashrooms) {
+        setIsLoadingEffect(false)
+        toast.error('Please enter public washrooms', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setPublicWashroomsError('Please enter public washrooms')
+        return false;
+      }
+    }
+    if (getpropertyDetails?.property_for === "Rent") {
+      if (!availableFromDate) {
+        setIsLoadingEffect(false)
+        toast.error('Please select available from Date', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setAvailableFromDateError('Please select available from date')
+        return false;
+      }
+    }
+    if (constructionStatus === 1) {
+      if (!ageofProperty) {
+        setIsLoadingEffect(false)
+        toast.error('Please enter age of property', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setAgeofPropertyError('Please enter age of property')
+        return false;
+      }
+    }
+    if (constructionStatus === 2) {
+      if (!possessionEndDate) {
+        setIsLoadingEffect(false)
+        toast.error('Please select possesion end Date', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setPossessionEndDateError('Please select possession end date')
+        return false;
+      }
+    }
+    if (getpropertyDetails.property_for === "Rent") {
+      if (!monthlyRent) {
+        setIsLoadingEffect(false)
+        toast.error('Please enter monthly rent', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setMonthlyRentError('Please enter monthly rent')
+        return false;
+      }
+      if (!maintenceCharges) {
+        setIsLoadingEffect(false)
+        toast.error('Please enter maintenance charges', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setMaintenceChargesError('Please enter maintenance charges')
+        return false;
+      }
+      if (!securityDeposit) {
+        setIsLoadingEffect(false)
+        toast.error('Please enter security deposit', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setSecurityDepositError('Please enter security deposit')
+        return false;
+      }
+      if (!lockInPeriod) {
+        setIsLoadingEffect(false)
+        toast.error('Please enter lockin period', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setLockInPeriodError('Please enter lock in period')
+        return false;
+      }
+      if (!brokerage) {
+        setIsLoadingEffect(false)
+        toast.error('Please enter brokerage charge', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setBrokerageError('Please enter brokerage')
+        return false;
+      }
+      if (getpropertyDetails.property_in !== "Commercial" || propertySubType === "Plot" || propertySubType === "Land") {
+        if (!preferredTenantType) {
+          setIsLoadingEffect(false)
+          toast.error('Please select prefered tenant type', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          })
+          setPreferredTenantTypeError('Please select preferred tenant type')
+          return false;
+        }
+      }
+    }
+    if (propertySubType === "Apartment" || propertySubType === "Flat" || propertySubType === "Land" || propertySubType === "Office" || propertySubType === "Retail Shop" || propertySubType === "Show Room" || propertySubType === "Independent House" || propertySubType === "Independent Villa") {
+      if (!builtupArea) {
+        setIsLoadingEffect(false)
+        toast.error('Please enter built up area', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setBuiltupAreaError('Please enter builtup area')
+        return false;
+      }
+      if (!carpetArea) {
+        setIsLoadingEffect(false)
+        toast.error('Please enter carpet area', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setCarpetAreaError('Please enter carpet area')
+        return false;
+      }
+    }
+    if (propertySubType === "Plot" || propertySubType === "Land") {
+      if (!lengthArea) {
+        setIsLoadingEffect(false)
+        toast.error('Please enter length area', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setLengthAreaError('Please enter length area')
+        return false;
+      }
+      if (!widthArea) {
+        setIsLoadingEffect(false)
+        toast.error('Please width area', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setWidthAreaError('Please enter width area')
+        return false;
+      }
+    }
+    if (propertySubType === "Independent House" || propertySubType === "Independent Villa" || propertySubType === "Plot" || propertySubType === "Warehouse" || propertySubType === "Others") {
+      if (!plotArea) {
+        setIsLoadingEffect(false)
+        toast.error('Please enter plot area', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setPlotAreaError('Please enter plot area')
+        return false;
+      }
+    }
+    if (propertySubType === "Independent House" || propertySubType === "Independent Villa") {
+      if (!pentHouse) {
+        setIsLoadingEffect(false)
+        toast.error('Please select pent house', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setPentHouseError('Please select pent house')
+        return false;
+      }
+    }
+    if (getpropertyDetails.property_for === "Sell") {
+      if (!(propertySubType === "Independent House" || propertySubType === "Independent Villa")) {
+        if (!unitCost) {
+          setIsLoadingEffect(false)
+          toast.error('Please enter unit cost', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          })
+          setUnitCostError('Please enter unit cost')
+          return false;
+        }
+      }
+      if (!propertyCost) {
+        setIsLoadingEffect(false)
+        toast.error('Please enter property cost', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setPropertyCostError('Please enter property cost')
+        return false;
+      }
+    }
+    if (getpropertyDetails?.property_for === 'Sell') {
+      if (!possessionStatus) {
+        setIsLoadingEffect(false)
+        toast.error('Please select possession status', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setPossessionStatusError('Please select possession status')
+        return false;
+      }
+    }
+    if (getpropertyDetails?.property_in === 'Commercial' && getpropertyDetails?.property_for === 'Sell') {
+      if (!ownerShip) {
+        setIsLoadingEffect(false)
+        toast.error('Please select ownership type', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setOwnerShipError('Please select ownership type')
+        return false;
+      }
+    }
+    // facilities
+    if (propertySubType === "Apartment" || propertySubType === "Independent House" || propertySubType === "Independent Villa" || propertySubType === "Flat" || propertySubType === "Office" || propertySubType === "Retail Shop" || propertySubType === "Show Room") {
+      const selectedFacilities = Object.keys(facilities)
+        .filter((key) => facilities[key])
+        .join(", ");
+      if (!selectedFacilities) {
+        setIsLoadingEffect(false)
+        toast.error('Please select atleast one facilities', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        return false;
+      }
 
-    // }
-    // if (!otherInfo) {
-    //   setIsLoadingEffect(false)
-    //   toast.error('Please other info', {
-    //     position: "top-right",
-    //     autoClose: 3000,
-    //     hideProgressBar: true,
-    //     closeOnClick: true,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //     progress: undefined,
-    //   })
-    //   setOtherInfoError('Please enter other info')
-    //   return false;
-    // }
-    // if (getpropertyDetails?.property_in === "Commercial") {
-    //   if (propertySubType === "Warehouse" || propertySubType === "Plot" || propertySubType === "Others") {
-    //     if (!plotNumber) {
-    //       setIsLoadingEffect(false)
-    //       toast.error('Please enter plot number', {
-    //         position: "top-right",
-    //         autoClose: 3000,
-    //         hideProgressBar: true,
-    //         closeOnClick: true,
-    //         pauseOnHover: true,
-    //         draggable: true,
-    //         progress: undefined,
-    //       })
-    //       setPlotNumberError('Please enter plot number')
-    //       return false;
-    //     }
-    //   } else {
-    //     if (!flatNumber) {
-    //       setIsLoadingEffect(false)
-    //       toast.error('Please enter flat number', {
-    //         position: "top-right",
-    //         autoClose: 3000,
-    //         hideProgressBar: true,
-    //         closeOnClick: true,
-    //         pauseOnHover: true,
-    //         draggable: true,
-    //         progress: undefined,
-    //       })
-    //       setFlatNumberError('Please enter flat number')
-    //       return false;
-    //     }
-    //   }
-    //   if (propertySubType === "Retail Shop" || propertySubType === "Show Room" || propertySubType === "Plot" || propertySubType === "Others") {
-    //     if (!suitableFor) {
-    //       setIsLoadingEffect(false)
-    //       toast.error('Please select Suitable For', {
-    //         position: "top-right",
-    //         autoClose: 3000,
-    //         hideProgressBar: true,
-    //         closeOnClick: true,
-    //         pauseOnHover: true,
-    //         draggable: true,
-    //         progress: undefined,
-    //       })
-    //       setSuitableForError('Please select suitable for')
-    //       return false;
-    //     }
-    //   } else {
-    //     if (!zoneType) {
-    //       setIsLoadingEffect(false)
-    //       toast.error('Please select zone type', {
-    //         position: "top-right",
-    //         autoClose: 3000,
-    //         hideProgressBar: true,
-    //         closeOnClick: true,
-    //         pauseOnHover: true,
-    //         draggable: true,
-    //         progress: undefined,
-    //       })
-    //       setZoneTypeError('Please select zone type')
-    //       return false;
-    //     }
-    //   }
-    // }
-    // if (getpropertyDetails?.property_for === "Sell") {
-    //   if (propertySubType === "Apartment" || propertySubType === "Independent Villa" || propertySubType === "Plot") {
-    //     if (!investorProperty) {
-    //       setIsLoadingEffect(false)
-    //       toast.error('Please select investor property', {
-    //         position: "top-right",
-    //         autoClose: 3000,
-    //         hideProgressBar: true,
-    //         closeOnClick: true,
-    //         pauseOnHover: true,
-    //         draggable: true,
-    //         progress: undefined,
-    //       })
-    //       setInvestorPropertyError('Please select investor property')
-    //       return false;
-    //     }
-    //   }
-    // }
-    // if (getpropertyDetails?.property_for !== "Rent") {
-    //   if (!loanFacility) {
-    //     setIsLoadingEffect(false)
-    //     toast.error('Please select loan facility', {
-    //       position: "top-right",
-    //       autoClose: 3000,
-    //       hideProgressBar: true,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //     })
-    //     setLoanFacilityError('Please select loan facility')
-    //     return false;
-    //   }
-    // }
-    // if (!facing) {
-    //   setIsLoadingEffect(false)
-    //   toast.error('Please select facing', {
-    //     position: "top-right",
-    //     autoClose: 3000,
-    //     hideProgressBar: true,
-    //     closeOnClick: true,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //     progress: undefined,
-    //   })
-    //   setFacingError('Please select facing')
-    //   return false;
-    // }
-    // if (!propertySubType === "Plot") {
-    //   if (!carParking) {
-    //     setIsLoadingEffect(false)
-    //     toast.error('Please select car parking', {
-    //       position: "top-right",
-    //       autoClose: 3000,
-    //       hideProgressBar: true,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //     })
-    //     setCarParkingError('Please select car parking')
-    //     return false;
-    //   }
-    //   if (carParking === '4plus' && !customCarParking) {
-    //     setIsLoadingEffect(false)
-    //     toast.error('Please enter car parking', {
-    //       position: "top-right",
-    //       autoClose: 3000,
-    //       hideProgressBar: true,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //     })
-    //     setCustomCarParkingError('Please enter car parking')
-    //     return false;
-    //   }
-    //   if (!bikeParking) {
-    //     setIsLoadingEffect(false)
-    //     toast.error('Please enter bike parking', {
-    //       position: "top-right",
-    //       autoClose: 3000,
-    //       hideProgressBar: true,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //     })
-    //     setBikeParkingError('Please select bike parking')
-    //     return false;
-    //   }
-    //   if (bikeParking === '4plus' && !customBikeParking) {
-    //     setIsLoadingEffect(false)
-    //     toast.error('Please enter bike parking', {
-    //       position: "top-right",
-    //       autoClose: 3000,
-    //       hideProgressBar: true,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //     })
-    //     setCustomBikeParkingError('Please enter bike parking')
-    //     return false;
-    //   }
-    //   if (!openParking) {
-    //     setIsLoadingEffect(false)
-    //     toast.error('Please select open parking', {
-    //       position: "top-right",
-    //       autoClose: 3000,
-    //       hideProgressBar: true,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //     })
-    //     setOpenParkingError('Please select open parking')
-    //     return false;
-    //   }
-    //   if (openParking === '4plus' && !customOpenParking) {
-    //     setIsLoadingEffect(false)
-    //     toast.error('Please enter open parking', {
-    //       position: "top-right",
-    //       autoClose: 3000,
-    //       hideProgressBar: true,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       progress: undefined,
-    //     })
-    //     setCustomOpenParkingError('Please enter open parking')
-    //     return false;
-    //   }
-    // }
-    // if (getpropertyDetails?.property_in === "Commercial") {
-    //   if (propertySubType === "Office" || propertySubType === "Show Room" || !(propertySubType === "Retail Shop" || propertySubType === "Warehouse" || propertySubType === "Plot")) {
-    //     if (!pantryRoom) {
-    //       setIsLoadingEffect(false)
-    //       toast.error('Please select pantry room', {
-    //         position: "top-right",
-    //         autoClose: 3000,
-    //         hideProgressBar: true,
-    //         closeOnClick: true,
-    //         pauseOnHover: true,
-    //         draggable: true,
-    //         progress: undefined,
-    //       })
-    //       setPantryRoomError('Please select pantry room')
-    //       return false;
-    //     }
-    //   }
-    // } else {
-    //   if (!(propertySubType === "Plot" || propertySubType === "Land")) {
-    //     if (!servantRoom) {
-    //       setIsLoadingEffect(false)
-    //       toast.error('Please select servant room', {
-    //         position: "top-right",
-    //         autoClose: 3000,
-    //         hideProgressBar: true,
-    //         closeOnClick: true,
-    //         pauseOnHover: true,
-    //         draggable: true,
-    //         progress: undefined,
-    //       })
-    //       setServantRoomError('Please select servant room')
-    //       return false;
-    //     }
-    //   }
-    // }
-    // if (!propertyDescription) {
-    //   setIsLoadingEffect(false)
-    //   toast.error('Please enter property description', {
-    //     position: "top-right",
-    //     autoClose: 3000,
-    //     hideProgressBar: true,
-    //     closeOnClick: true,
-    //     pauseOnHover: true,
-    //     draggable: true,
-    //     progress: undefined,
-    //   })
-    //   setPropertyDescriptionError('Please enter property description')
-    //   return false;
-    // }
+    }
+    if (!otherInfo) {
+      setIsLoadingEffect(false)
+      toast.error('Please other info', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      })
+      setOtherInfoError('Please enter other info')
+      return false;
+    }
+    if (getpropertyDetails?.property_in === "Commercial") {
+      if (propertySubType === "Warehouse" || propertySubType === "Plot" || propertySubType === "Others") {
+        if (!plotNumber) {
+          setIsLoadingEffect(false)
+          toast.error('Please enter plot number', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          })
+          setPlotNumberError('Please enter plot number')
+          return false;
+        }
+      } else {
+        if (!flatNumber) {
+          setIsLoadingEffect(false)
+          toast.error('Please enter flat number', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          })
+          setFlatNumberError('Please enter flat number')
+          return false;
+        }
+      }
+      if (propertySubType === "Retail Shop" || propertySubType === "Show Room" || propertySubType === "Plot" || propertySubType === "Others") {
+        if (!suitableFor) {
+          setIsLoadingEffect(false)
+          toast.error('Please select Suitable For', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          })
+          setSuitableForError('Please select suitable for')
+          return false;
+        }
+      } else {
+        if (!zoneType) {
+          setIsLoadingEffect(false)
+          toast.error('Please select zone type', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          })
+          setZoneTypeError('Please select zone type')
+          return false;
+        }
+      }
+    }
+    if (getpropertyDetails?.property_for === "Sell") {
+      if (propertySubType === "Apartment" || propertySubType === "Independent Villa" || propertySubType === "Plot") {
+        if (!investorProperty) {
+          setIsLoadingEffect(false)
+          toast.error('Please select investor property', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          })
+          setInvestorPropertyError('Please select investor property')
+          return false;
+        }
+      }
+    }
+    if (getpropertyDetails?.property_for !== "Rent") {
+      if (!loanFacility) {
+        setIsLoadingEffect(false)
+        toast.error('Please select loan facility', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setLoanFacilityError('Please select loan facility')
+        return false;
+      }
+    }
+    if (!facing) {
+      setIsLoadingEffect(false)
+      toast.error('Please select facing', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      })
+      setFacingError('Please select facing')
+      return false;
+    }
+    if (!propertySubType === "Plot") {
+      if (!carParking) {
+        setIsLoadingEffect(false)
+        toast.error('Please select car parking', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setCarParkingError('Please select car parking')
+        return false;
+      }
+      if (carParking === '4plus' && !customCarParking) {
+        setIsLoadingEffect(false)
+        toast.error('Please enter car parking', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setCustomCarParkingError('Please enter car parking')
+        return false;
+      }
+      if (!bikeParking) {
+        setIsLoadingEffect(false)
+        toast.error('Please enter bike parking', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setBikeParkingError('Please select bike parking')
+        return false;
+      }
+      if (bikeParking === '4plus' && !customBikeParking) {
+        setIsLoadingEffect(false)
+        toast.error('Please enter bike parking', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setCustomBikeParkingError('Please enter bike parking')
+        return false;
+      }
+      if (!openParking) {
+        setIsLoadingEffect(false)
+        toast.error('Please select open parking', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setOpenParkingError('Please select open parking')
+        return false;
+      }
+      if (openParking === '4plus' && !customOpenParking) {
+        setIsLoadingEffect(false)
+        toast.error('Please enter open parking', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setCustomOpenParkingError('Please enter open parking')
+        return false;
+      }
+    }
+    if (getpropertyDetails?.property_in === "Commercial") {
+      if (propertySubType === "Office" || propertySubType === "Show Room" || !(propertySubType === "Retail Shop" || propertySubType === "Warehouse" || propertySubType === "Plot")) {
+        if (!pantryRoom) {
+          setIsLoadingEffect(false)
+          toast.error('Please select pantry room', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          })
+          setPantryRoomError('Please select pantry room')
+          return false;
+        }
+      }
+    } else {
+      if (!(propertySubType === "Plot" || propertySubType === "Land")) {
+        if (!servantRoom) {
+          setIsLoadingEffect(false)
+          toast.error('Please select servant room', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          })
+          setServantRoomError('Please select servant room')
+          return false;
+        }
+      }
+    }
+    if (!propertyDescription) {
+      setIsLoadingEffect(false)
+      toast.error('Please enter property description', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      })
+      setPropertyDescriptionError('Please enter property description')
+      return false;
+    }
 
     const selectedFacilities = Object.keys(facilities)
       .filter((key) => facilities[key]) // Filter only `true` values
