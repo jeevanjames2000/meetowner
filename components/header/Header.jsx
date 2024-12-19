@@ -55,7 +55,7 @@ function Header() {
                         <div className="flex flex-row justify-start items-center gap-4">
                             <div className="hidden md:flex flex-row items-center justify-start gap-2">
                                 <IconDeviceIpad color="#1D3A76" size={18} />
-                                <Link href="#" className="text-[#1D3A76] text-sm font-medium font-sans">Download App</Link>
+                                <Link href="/downloadapp" className="text-[#1D3A76] text-sm font-medium font-sans">Download App</Link>
                             </div>
                             <div className="hidden md:flex">
                                 <Link href="/addproperty" className="flex flex-row items-center gap-2 p-2 rounded-md">
