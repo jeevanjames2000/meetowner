@@ -126,7 +126,7 @@ async function Page() {
     const zoneList = getZoneTypesData.zoneList;
 
     return (
-        <div className='px-[80px] mt-8'>
+        <div className='px-[80px] my-5'>
             <div className='p-1 border border-[#699BA0] rounded-md'>
                 <Tabswrapper
                     propertyInList={propertyInList}

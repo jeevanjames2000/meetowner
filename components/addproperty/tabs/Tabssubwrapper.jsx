@@ -450,7 +450,7 @@ function Tabssubwrapper({
                         }
                     </div>
                 </div>
-                <div className='px-11 space-y-1 absolute bottom-4 '>
+                <div className='px-11 space-y-1 absolute bottom-8 '>
                     <p className='text-[#699BA0] text-xs font-semibold font-sans'>Require Assistance?</p>
                     <div className='flex flex-row items-center gap-1 border-b-2 pb-1 border-[#699BA0]'>
                         <IconPhone size={16} color='#699BA0' />

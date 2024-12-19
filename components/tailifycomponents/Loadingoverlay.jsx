@@ -3,10 +3,10 @@ import React from 'react';
 const Loadingoverlay = ({
     visible,
     zIndex = 1000,
-    overlayBg = 'rgba(255, 255, 255, 0.75)',
+    overlayBg = 'rgb(227 227 227 / 60%)',
     position = 'fixed',
     loaderSize = '3rem',
-    loaderColor = 'rgba(255, 255, 255, 0.5)',
+    loaderColor = '#228be6',
 }) => {
     if (!visible) return null;
 

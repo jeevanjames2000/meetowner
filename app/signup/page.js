@@ -6,10 +6,11 @@ import person_with_laptop from '@/public/assets/person_with_laptop.png'
 import Image from 'next/image'
 import Signupform from '@/components/signup/Signupform'
 import Userapi from '@/components/api/Userapi'
- 
+import Generalapi from '@/components/api/Generalapi'
+
 async function page() {
   const getusertypesfetch = await getUsertypesfetch();
- 
+
   //check error getusertypesfetch
   if (getusertypesfetch.status === 'error') {
     return (
@@ -18,14 +19,23 @@ async function page() {
       </div>
     )
   }
- 
+
   const usertypedata = getusertypesfetch.usertypedata;
- 
+
   const filteredusertypedata = usertypedata.filter(
     (type) => type.label !== "admin" && type.label !== "user"
   );
- 
- 
+
+  const getcities = await getCities();
+  if (getcities.status === 'error') {
+    return (
+      <div>
+        <p>Error fetching cities</p>
+      </div>
+    )
+  }
+  const cities = getcities.cities;
+
   return (
     <>
       <Header />
@@ -84,11 +94,12 @@ async function page() {
               width={400}
             />
           </div>
- 
+
           {/* Right Column */}
           <div className="flex items-center justify-start col-span-6">
             <Signupform
               usertypedata={filteredusertypedata}
+              cities={cities}
             />
           </div>
         </div>
@@ -96,14 +107,13 @@ async function page() {
     </>
   )
 }
- 
+
 export default page
- 
+
 async function getUsertypesfetch() {
   try {
     const response = await Userapi.get('/usertypes');
     const data = response.data;
-    console.log('data:', data);
     if (data.status === 'error') {
       let data = {
         status: 'error',
@@ -124,6 +134,35 @@ async function getUsertypesfetch() {
       status: 'error',
       message: 'Error fetching user types',
       usertypedata: [],
+    }
+    return finaldata;
+  }
+}
+
+async function getCities() {
+  try {
+    const response = await Generalapi.get('/getcities');
+    const data = response.data;
+    if (data.status === 'error') {
+      let data = {
+        status: 'error',
+        message: 'Error fetching cities',
+        cities: [],
+      }
+      return data;
+    }
+    let finaldata = {
+      status: 'success',
+      message: 'cities fetched successfully',
+      cities: data.cities,
+    }
+    return finaldata;
+  } catch (error) {
+    console.error('Error fetching cities:', error);
+    let finaldata = {
+      status: 'error',
+      message: 'Error fetching cities',
+      cities: [],
     }
     return finaldata;
   }
