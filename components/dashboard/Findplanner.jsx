@@ -9,10 +9,8 @@ function Planfinder() {
                 src={find_planner}
                 alt={"find_planner"}
                 className="w-[30%] h-full object-cover rounded-lg"
-
-
             />
-            <div className=' w-full flex flex-row items-center justify-between px-10'>
+            <div className='w-full flex flex-row items-center justify-between px-10'>
                 <div className="space-y-1 ">
                     <p className="text-[12px] font-[700] text-[#6d6c6c]">
                         Not sure which Package is best for you?
@@ -24,13 +22,10 @@ function Planfinder() {
                 </div>
                 <button
                     className="upgrade-btn bg-[#53c0ac] text-[#ffffff] text-[12px] font-[700] py-1 px-3 rounded-[5px]  hover:bg-[#53c0ac]/70 focus:outline-none"
-                  
                 >
-                   Find my plan
+                    Find my plan
                 </button>
             </div>
-
-
         </div>
     )
 }

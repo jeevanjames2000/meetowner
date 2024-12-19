@@ -16,6 +16,11 @@ body {
 .custom-shadow {
   box-shadow: 4px 0px 10px rgba(0, 0, 0, 0.2); 
 }
+/* styles for the downloadapp*/
+.downloadapp .custom-shadow {
+  box-shadow: 0px 0px 12px 8px #00000040;
+
+}
 .listingfilter input::placeholder {
   font-size: 10px; 
  font-family: 700;
