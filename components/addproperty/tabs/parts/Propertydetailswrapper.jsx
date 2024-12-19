@@ -20,6 +20,7 @@ function Propertydetailswrapper({
   let user_id = userInfo?.user_id || null
   let access_token = userInfo?.access_token || null
   const getpropertyDetails = usePropertyDetails((state) => state.propertydetails)
+  const updatePropertyDetails = usePropertyDetails(state => state.updatePropertyDetails)
 
   const searchParams = useSearchParams()
   const unique_property_id = searchParams.get('unique_property_id')
@@ -437,20 +438,19 @@ function Propertydetailswrapper({
     setZoneType(value)
     setZoneTypeError('')
   }
-  console.log('zoneType', zoneType)
 
-  const [processionStatus, setProcessionStatus] = useState('')
-  const [processionStatusError, setProcessionStatusError] = useState('')
-  const updateProcessionStatus = (value) => {
-    setProcessionStatus(value)
-    setProcessionStatusError('')
+  const [possessionStatus, setPossessionStatus] = useState('')
+  const [possessionStatusError, setPossessionStatusError] = useState('')
+  const updatePossessionStatus = (value) => {
+    setPossessionStatus(value)
+    setPossessionStatusError('')
   }
 
-  const [investorPlot, setInvetorPlot] = useState('')
-  const [investorPlotError, setInvestorPlotError] = useState('')
-  const updateInvestorPlot = (value) => {
-    setInvetorPlot(value)
-    setInvestorPlotError('')
+  const [investorProperty, setInvestorProperty] = useState('')
+  const [investorPropertyError, setInvestorPropertyError] = useState('')
+  const updateInvestorProperty = (value) => {
+    setInvestorProperty(value)
+    setInvestorPropertyError('')
   }
 
   const [builderPlot, setBuilderPlot] = useState('')
@@ -467,6 +467,12 @@ function Propertydetailswrapper({
     setLoanFacilityError('')
   }
 
+  const [pantryRoom, setPantryRoom] = useState('')
+  const [pantryRoomError, setPantryRoomError] = useState('')
+  const updatePantryRoom = (value) => {
+    setPantryRoom(value)
+    setPantryRoomError('')
+  }
 
   const [furnishingModal, setFurnishingModal] = useState(false)
   const openFurnishingModal = () => {
@@ -476,801 +482,823 @@ function Propertydetailswrapper({
   const closeFurnishingModal = () => {
     setFurnishingModal(false)
   }
-  const [isModalOpen, setModalOpen] = useState(false)
+  const [errorModalOpen, setErrorModalOpen] = useState(false)
+  const closeErrorModal = () => {
+    setErrorModalOpen(false)
+  }
   const [errorMessages, setErrorMessages] = useState('')
 
-  const updatePropertyDetails = () => {
+  const handleSubmitPropertyDetails = () => {
     setIsLoadingEffect(true)
-    if (!propertySubType) {
-      setIsLoadingEffect(false)
-      toast.error('Please select property sub type', {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      })
-      setPropertySubTypeError('Please select property sub type')
-      return false;
-    }
-    if (getpropertyDetails?.property_for === "Sell") {
-      if (!constructionStatus) {
-        setIsLoadingEffect(false)
-        toast.error('Please select construction status', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        })
-        setConstructionStatusError('Please select construction status')
-        return false;
-      }
-    }
-    if (propertySubType === 'Apartment' || propertySubType === "Flat" || propertySubType === "Land" || propertySubType === "Independent House" || propertySubType === "Independent Villa") {
-      if (!bhk) {
-        setIsLoadingEffect(false)
-        toast.error('Please select bhk', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        })
-        setBhkError('Please select bhk')
-        return false;
-      }
-      if (bhk === 5 && !customBhk) {
-        setIsLoadingEffect(false)
-        toast.error('Please enter custom bhk', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        })
-        setCustomBhkError('Please enter bhk')
-        return false;
-      }
-    }
-    if (propertySubType === 'Apartment' || propertySubType === "Flat" || propertySubType === "Land") {
-      if (!bathroom) {
-        setIsLoadingEffect(false)
-        toast.error('Please select bathroom', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        })
-        setBathroomError('Please select bathroom')
-        return false;
-      }
-      if (bathroom === 5 && !customBathroom) {
-        setIsLoadingEffect(false)
-        toast.error('Please enter bathroom', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        })
-        setCustomBathroomError('Please enter bathroom')
-        return false;
-      }
-      if (!balcony) {
-        setIsLoadingEffect(false)
-        toast.error('Please select balcony', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        })
-        setBalconyError('Please select balcony')
-        return false;
-      }
-      if (balcony === 5 && !customBalcony) {
-        setIsLoadingEffect(false)
-        toast.error('Please enter balcony', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        })
-        setCustomBalconyError('Please enter balcony')
-        return false;
-      }
-      if (!furnishType) {
-        setIsLoadingEffect(false)
-        toast.error('Please select furnish Type', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        })
-        setFurnishTypeError('Please select furnish type')
-        return false;
-      }
-    }
-    if (propertySubType === 'Office' || propertySubType === "Retail Shop" || propertySubType === "Show Room") {
-      if (!passengerLifts) {
-        setIsLoadingEffect(false)
-        toast.error('Please enter passenger lifts', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        })
-        setPassengerLiftsError('Please enter passenger lifts')
-        return false;
-      }
-      if (!serviceLifts) {
-        setIsLoadingEffect(false)
-        toast.error('Please enter service lifts', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        })
-        setServiceLiftsError('Please enter service lifts')
-        return false;
-      }
-      if (!stairCases) {
-        setIsLoadingEffect(false)
-        toast.error('Please enter stair cases', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        })
-        setStairCasesError('Please enter stair cases')
-        return false;
-      }
-      if (!privateParking) {
-        setIsLoadingEffect(false)
-        toast.error('Please enter private parking', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        })
-        setPrivateParkingError('Please enter private parking')
-        return false;
-      }
-      if (!publicParking) {
-        setIsLoadingEffect(false)
-        toast.error('Please enter public parking', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        })
-        setPublicParkingError('Please enter public parking')
-        return false;
-      }
-      if (!privateWashrooms) {
-        setIsLoadingEffect(false)
-        toast.error('Please enter private washrooms', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        })
-        setPrivateWashroomsError('Please enter private washrooms')
-        return false;
-      }
-      if (!publicWashrooms) {
-        setIsLoadingEffect(false)
-        toast.error('Please enter public washrooms', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        })
-        setPublicWashroomsError('Please enter public washrooms')
-        return false;
-      }
-    }
-    if (!availableFromDate) {
-      setIsLoadingEffect(false)
-      toast.error('Please select available from Date', {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      })
-      setAvailableFromDateError('Please select available from date')
-      return false;
-    }
-    if (constructionStatus === 1 || propertySubType === "Warehouse" || getpropertyDetails?.property_for === "Rent") {
-      if (!ageofProperty) {
-        setIsLoadingEffect(false)
-        toast.error('Please enter age of property', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        })
-        setAgeofPropertyError('Please enter age of property')
-        return false;
-      }
-    }
-    if (constructionStatus === 2 || propertySubType === "Warehouse") {
-      if (!possessionEndDate) {
-        setIsLoadingEffect(false)
-        toast.error('Please select possesion end Date', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        })
-        setPossessionEndDateError('Please select possession end date')
-        return false;
-      }
-    }
-    if (getpropertyDetails.property_for === "Rent") {
-      if (!monthlyRent) {
-        setIsLoadingEffect(false)
-        toast.error('Please enter monthly rent', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        })
-        setMonthlyRentError('Please enter monthly rent')
-        return false;
-      }
-      if (!maintenceCharges) {
-        setIsLoadingEffect(false)
-        toast.error('Please enter maintenance charges', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        })
-        setMaintenceChargesError('Please enter maintenance charges')
-        return false;
-      }
-      if (!securityDeposit) {
-        setIsLoadingEffect(false)
-        toast.error('Please enter security deposit', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        })
-        setSecurityDepositError('Please enter security deposit')
-        return false;
-      }
-      if (!lockInPeriod) {
-        setIsLoadingEffect(false)
-        toast.error('Please enter lockin period', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        })
-        setLockInPeriodError('Please enter lock in period')
-        return false;
-      }
-      if (!brokerage) {
-        setIsLoadingEffect(false)
-        toast.error('Please enter brokerage charge', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        })
-        setBrokerageError('Please enter brokerage')
-        return false;
-      }
-      if (!preferredTenantType) {
-        setIsLoadingEffect(false)
-        toast.error('Please select prefered tenant type', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        })
-        setPreferredTenantTypeError('Please select preferred tenant type')
-        return false;
-      }
-    }
-    if (propertySubType === "Apartment" || propertySubType === "Flat" || propertySubType === "Land" || propertySubType === "Office" || propertySubType === "Retail Shop" || propertySubType === "Show Room" || propertySubType === "Independent House" || propertySubType === "Independent Villa") {
-      if (!builtupArea) {
-        setIsLoadingEffect(false)
-        toast.error('Please enter built up area', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        })
-        setBuiltupAreaError('Please enter builtup area')
-        return false;
-      }
-      if (!carpetArea) {
-        setIsLoadingEffect(false)
-        toast.error('Please enter carpet area', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        })
-        setCarpetAreaError('Please enter carpet area')
-        return false;
-      }
-    }
-    if (!(propertySubType === "Independent House" || propertySubType === "Independent Villa") || (propertySubType === "Plot" || propertySubType === "Warehouse" || propertySubType === "Others")) {
-      if (!lengthArea) {
-        setIsLoadingEffect(false)
-        toast.error('Please enter length area', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        })
-        setLengthAreaError('Please enter length area')
-        return false;
-      }
-      if (!widthArea) {
-        setIsLoadingEffect(false)
-        toast.error('Please width area', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        })
-        setWidthAreaError('Please enter width area')
-        return false;
-      }
-    }
-    if ((propertySubType === "Independent House" || propertySubType === "Independent Villa") || propertySubType === "Plot" || propertySubType === "Warehouse" || propertySubType === "Others") {
-      if (!plotArea) {
-        setIsLoadingEffect(false)
-        toast.error('Please enter plot area', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        })
-        setPlotAreaError('Please enter plot area')
-        return false;
-      }
-    }
-    if (propertySubType === "Independent House" || propertySubType === "Independent Villa") {
-      if (!pentHouse) {
-        setIsLoadingEffect(false)
-        toast.error('Please select pent house', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        })
-        setPentHouseError('Please select pent house')
-        return false;
-      }
-    }
-    if (getpropertyDetails.property_for === "Sell") {
-      if (!(propertySubType === "Independent House" || propertySubType === "Independent House")) {
-        if (!unitCost) {
-          setIsLoadingEffect(false)
-          toast.error('Please enter unit cost', {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          })
-          setUnitCostError('Please enter unit cost')
-          return false;
-        }
-      }
-      if (!propertyCost) {
-        setIsLoadingEffect(false)
-        toast.error('Please enter property cost', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        })
-        setPropertyCostError('Please enter property cost')
-        return false;
-      }
-    }
-    if (propertySubType === "Plot") {
-      if (!processionStatus) {
-        setIsLoadingEffect(false)
-        toast.error('Please select possession status', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        })
-        setProcessionStatusError('Please select possession status')
-        return false;
-      }
-    }
-    if (getpropertyDetails?.property_in === 'Commercial' && getpropertyDetails?.property_for === 'Sell') {
-      if (!ownerShip) {
-        setIsLoadingEffect(false)
-        toast.error('Please select ownership type', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        })
-        setOwnerShipError('Please select ownership type')
-        return false;
-      }
-    }
-    // facilities
-    if (propertySubType === "Apartment" || propertySubType === "Flat" || propertySubType === "Land" || propertySubType === "Office" || propertySubType === "Retail Shop" || propertySubType === "Show Room") {
-      const selectedFacilities = Object.keys(facilities)
-        .filter((key) => facilities[key])
-        .join(", ");
-      if (!selectedFacilities) {
-        setIsLoadingEffect(false)
-        toast.error('Please select atleast one facilities', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        })
-        return false;
-      }
+    // if (!propertySubType) {
+    //   setIsLoadingEffect(false)
+    //   toast.error('Please select property sub type', {
+    //     position: "top-right",
+    //     autoClose: 3000,
+    //     hideProgressBar: true,
+    //     closeOnClick: true,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //     progress: undefined,
+    //   })
+    //   setPropertySubTypeError('Please select property sub type')
+    //   return false;
+    // }
+    // if (getpropertyDetails?.property_for === "Sell") {
+    //   if (!(propertySubType === "Plot" || propertySubType === "Land")) {
+    //     if (!constructionStatus) {
+    //       setIsLoadingEffect(false)
+    //       toast.error('Please select construction status', {
+    //         position: "top-right",
+    //         autoClose: 3000,
+    //         hideProgressBar: true,
+    //         closeOnClick: true,
+    //         pauseOnHover: true,
+    //         draggable: true,
+    //         progress: undefined,
+    //       })
+    //       setConstructionStatusError('Please select construction status')
+    //       return false;
+    //     }
+    //   }
+    // }
+    // if (propertySubType === 'Apartment' || propertySubType === "Flat" || propertySubType === "Independent House" || propertySubType === "Independent Villa") {
+    //   if (!bhk) {
+    //     setIsLoadingEffect(false)
+    //     toast.error('Please select bhk', {
+    //       position: "top-right",
+    //       autoClose: 3000,
+    //       hideProgressBar: true,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //       progress: undefined,
+    //     })
+    //     setBhkError('Please select bhk')
+    //     return false;
+    //   }
+    //   if (bhk === 5 && !customBhk) {
+    //     setIsLoadingEffect(false)
+    //     toast.error('Please enter custom bhk', {
+    //       position: "top-right",
+    //       autoClose: 3000,
+    //       hideProgressBar: true,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //       progress: undefined,
+    //     })
+    //     setCustomBhkError('Please enter bhk')
+    //     return false;
+    //   }
+    // }
+    // if (propertySubType === 'Apartment' || propertySubType === "Flat") {
+    //   if (!bathroom) {
+    //     setIsLoadingEffect(false)
+    //     toast.error('Please select bathroom', {
+    //       position: "top-right",
+    //       autoClose: 3000,
+    //       hideProgressBar: true,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //       progress: undefined,
+    //     })
+    //     setBathroomError('Please select bathroom')
+    //     return false;
+    //   }
+    //   if (bathroom === 5 && !customBathroom) {
+    //     setIsLoadingEffect(false)
+    //     toast.error('Please enter bathroom', {
+    //       position: "top-right",
+    //       autoClose: 3000,
+    //       hideProgressBar: true,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //       progress: undefined,
+    //     })
+    //     setCustomBathroomError('Please enter bathroom')
+    //     return false;
+    //   }
+    //   if (!balcony) {
+    //     setIsLoadingEffect(false)
+    //     toast.error('Please select balcony', {
+    //       position: "top-right",
+    //       autoClose: 3000,
+    //       hideProgressBar: true,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //       progress: undefined,
+    //     })
+    //     setBalconyError('Please select balcony')
+    //     return false;
+    //   }
+    //   if (balcony === 5 && !customBalcony) {
+    //     setIsLoadingEffect(false)
+    //     toast.error('Please enter balcony', {
+    //       position: "top-right",
+    //       autoClose: 3000,
+    //       hideProgressBar: true,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //       progress: undefined,
+    //     })
+    //     setCustomBalconyError('Please enter balcony')
+    //     return false;
+    //   }
+    // }
+    // if (propertySubType === 'Apartment' || propertySubType === "Independent House" || propertySubType === "Independent Villa") {
+    //   if (!furnishType) {
+    //     setIsLoadingEffect(false)
+    //     toast.error('Please select furnish Type', {
+    //       position: "top-right",
+    //       autoClose: 3000,
+    //       hideProgressBar: true,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //       progress: undefined,
+    //     })
+    //     setFurnishTypeError('Please select furnish type')
+    //     return false;
+    //   }
+    // }
+    // if (propertySubType === 'Office' || propertySubType === "Retail Shop" || propertySubType === "Show Room") {
+    //   if (!passengerLifts) {
+    //     setIsLoadingEffect(false)
+    //     toast.error('Please enter passenger lifts', {
+    //       position: "top-right",
+    //       autoClose: 3000,
+    //       hideProgressBar: true,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //       progress: undefined,
+    //     })
+    //     setPassengerLiftsError('Please enter passenger lifts')
+    //     return false;
+    //   }
+    //   if (!serviceLifts) {
+    //     setIsLoadingEffect(false)
+    //     toast.error('Please enter service lifts', {
+    //       position: "top-right",
+    //       autoClose: 3000,
+    //       hideProgressBar: true,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //       progress: undefined,
+    //     })
+    //     setServiceLiftsError('Please enter service lifts')
+    //     return false;
+    //   }
+    //   if (!stairCases) {
+    //     setIsLoadingEffect(false)
+    //     toast.error('Please enter stair cases', {
+    //       position: "top-right",
+    //       autoClose: 3000,
+    //       hideProgressBar: true,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //       progress: undefined,
+    //     })
+    //     setStairCasesError('Please enter stair cases')
+    //     return false;
+    //   }
+    //   if (!privateParking) {
+    //     setIsLoadingEffect(false)
+    //     toast.error('Please enter private parking', {
+    //       position: "top-right",
+    //       autoClose: 3000,
+    //       hideProgressBar: true,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //       progress: undefined,
+    //     })
+    //     setPrivateParkingError('Please enter private parking')
+    //     return false;
+    //   }
+    //   if (!publicParking) {
+    //     setIsLoadingEffect(false)
+    //     toast.error('Please enter public parking', {
+    //       position: "top-right",
+    //       autoClose: 3000,
+    //       hideProgressBar: true,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //       progress: undefined,
+    //     })
+    //     setPublicParkingError('Please enter public parking')
+    //     return false;
+    //   }
+    //   if (!privateWashrooms) {
+    //     setIsLoadingEffect(false)
+    //     toast.error('Please enter private washrooms', {
+    //       position: "top-right",
+    //       autoClose: 3000,
+    //       hideProgressBar: true,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //       progress: undefined,
+    //     })
+    //     setPrivateWashroomsError('Please enter private washrooms')
+    //     return false;
+    //   }
+    //   if (!publicWashrooms) {
+    //     setIsLoadingEffect(false)
+    //     toast.error('Please enter public washrooms', {
+    //       position: "top-right",
+    //       autoClose: 3000,
+    //       hideProgressBar: true,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //       progress: undefined,
+    //     })
+    //     setPublicWashroomsError('Please enter public washrooms')
+    //     return false;
+    //   }
+    // }
+    // if (getpropertyDetails?.property_for === "Rent") {
+    //   if (!availableFromDate) {
+    //     setIsLoadingEffect(false)
+    //     toast.error('Please select available from Date', {
+    //       position: "top-right",
+    //       autoClose: 3000,
+    //       hideProgressBar: true,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //       progress: undefined,
+    //     })
+    //     setAvailableFromDateError('Please select available from date')
+    //     return false;
+    //   }
+    // }
+    // if (constructionStatus === 1) {
+    //   if (!ageofProperty) {
+    //     setIsLoadingEffect(false)
+    //     toast.error('Please enter age of property', {
+    //       position: "top-right",
+    //       autoClose: 3000,
+    //       hideProgressBar: true,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //       progress: undefined,
+    //     })
+    //     setAgeofPropertyError('Please enter age of property')
+    //     return false;
+    //   }
+    // }
+    // if (constructionStatus === 2) {
+    //   if (!possessionEndDate) {
+    //     setIsLoadingEffect(false)
+    //     toast.error('Please select possesion end Date', {
+    //       position: "top-right",
+    //       autoClose: 3000,
+    //       hideProgressBar: true,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //       progress: undefined,
+    //     })
+    //     setPossessionEndDateError('Please select possession end date')
+    //     return false;
+    //   }
+    // }
+    // if (getpropertyDetails.property_for === "Rent") {
+    //   if (!monthlyRent) {
+    //     setIsLoadingEffect(false)
+    //     toast.error('Please enter monthly rent', {
+    //       position: "top-right",
+    //       autoClose: 3000,
+    //       hideProgressBar: true,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //       progress: undefined,
+    //     })
+    //     setMonthlyRentError('Please enter monthly rent')
+    //     return false;
+    //   }
+    //   if (!maintenceCharges) {
+    //     setIsLoadingEffect(false)
+    //     toast.error('Please enter maintenance charges', {
+    //       position: "top-right",
+    //       autoClose: 3000,
+    //       hideProgressBar: true,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //       progress: undefined,
+    //     })
+    //     setMaintenceChargesError('Please enter maintenance charges')
+    //     return false;
+    //   }
+    //   if (!securityDeposit) {
+    //     setIsLoadingEffect(false)
+    //     toast.error('Please enter security deposit', {
+    //       position: "top-right",
+    //       autoClose: 3000,
+    //       hideProgressBar: true,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //       progress: undefined,
+    //     })
+    //     setSecurityDepositError('Please enter security deposit')
+    //     return false;
+    //   }
+    //   if (!lockInPeriod) {
+    //     setIsLoadingEffect(false)
+    //     toast.error('Please enter lockin period', {
+    //       position: "top-right",
+    //       autoClose: 3000,
+    //       hideProgressBar: true,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //       progress: undefined,
+    //     })
+    //     setLockInPeriodError('Please enter lock in period')
+    //     return false;
+    //   }
+    //   if (!brokerage) {
+    //     setIsLoadingEffect(false)
+    //     toast.error('Please enter brokerage charge', {
+    //       position: "top-right",
+    //       autoClose: 3000,
+    //       hideProgressBar: true,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //       progress: undefined,
+    //     })
+    //     setBrokerageError('Please enter brokerage')
+    //     return false;
+    //   }
+    //   if (getpropertyDetails.property_in !== "Commercial" || propertySubType === "Plot" || propertySubType === "Land") {
+    //     if (!preferredTenantType) {
+    //       setIsLoadingEffect(false)
+    //       toast.error('Please select prefered tenant type', {
+    //         position: "top-right",
+    //         autoClose: 3000,
+    //         hideProgressBar: true,
+    //         closeOnClick: true,
+    //         pauseOnHover: true,
+    //         draggable: true,
+    //         progress: undefined,
+    //       })
+    //       setPreferredTenantTypeError('Please select preferred tenant type')
+    //       return false;
+    //     }
+    //   }
+    // }
+    // if (propertySubType === "Apartment" || propertySubType === "Flat" || propertySubType === "Land" || propertySubType === "Office" || propertySubType === "Retail Shop" || propertySubType === "Show Room" || propertySubType === "Independent House" || propertySubType === "Independent Villa") {
+    //   if (!builtupArea) {
+    //     setIsLoadingEffect(false)
+    //     toast.error('Please enter built up area', {
+    //       position: "top-right",
+    //       autoClose: 3000,
+    //       hideProgressBar: true,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //       progress: undefined,
+    //     })
+    //     setBuiltupAreaError('Please enter builtup area')
+    //     return false;
+    //   }
+    //   if (!carpetArea) {
+    //     setIsLoadingEffect(false)
+    //     toast.error('Please enter carpet area', {
+    //       position: "top-right",
+    //       autoClose: 3000,
+    //       hideProgressBar: true,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //       progress: undefined,
+    //     })
+    //     setCarpetAreaError('Please enter carpet area')
+    //     return false;
+    //   }
+    // }
+    // if (propertySubType === "Plot" || propertySubType === "Land") {
+    //   if (!lengthArea) {
+    //     setIsLoadingEffect(false)
+    //     toast.error('Please enter length area', {
+    //       position: "top-right",
+    //       autoClose: 3000,
+    //       hideProgressBar: true,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //       progress: undefined,
+    //     })
+    //     setLengthAreaError('Please enter length area')
+    //     return false;
+    //   }
+    //   if (!widthArea) {
+    //     setIsLoadingEffect(false)
+    //     toast.error('Please width area', {
+    //       position: "top-right",
+    //       autoClose: 3000,
+    //       hideProgressBar: true,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //       progress: undefined,
+    //     })
+    //     setWidthAreaError('Please enter width area')
+    //     return false;
+    //   }
+    // }
+    // if (propertySubType === "Independent House" || propertySubType === "Independent Villa" || propertySubType === "Plot" || propertySubType === "Warehouse" || propertySubType === "Others") {
+    //   if (!plotArea) {
+    //     setIsLoadingEffect(false)
+    //     toast.error('Please enter plot area', {
+    //       position: "top-right",
+    //       autoClose: 3000,
+    //       hideProgressBar: true,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //       progress: undefined,
+    //     })
+    //     setPlotAreaError('Please enter plot area')
+    //     return false;
+    //   }
+    // }
+    // if (propertySubType === "Independent House" || propertySubType === "Independent Villa") {
+    //   if (!pentHouse) {
+    //     setIsLoadingEffect(false)
+    //     toast.error('Please select pent house', {
+    //       position: "top-right",
+    //       autoClose: 3000,
+    //       hideProgressBar: true,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //       progress: undefined,
+    //     })
+    //     setPentHouseError('Please select pent house')
+    //     return false;
+    //   }
+    // }
+    // if (getpropertyDetails.property_for === "Sell") {
+    //   if (!(propertySubType === "Independent House" || propertySubType === "Independent Villa")) {
+    //     if (!unitCost) {
+    //       setIsLoadingEffect(false)
+    //       toast.error('Please enter unit cost', {
+    //         position: "top-right",
+    //         autoClose: 3000,
+    //         hideProgressBar: true,
+    //         closeOnClick: true,
+    //         pauseOnHover: true,
+    //         draggable: true,
+    //         progress: undefined,
+    //       })
+    //       setUnitCostError('Please enter unit cost')
+    //       return false;
+    //     }
+    //   }
+    //   if (!propertyCost) {
+    //     setIsLoadingEffect(false)
+    //     toast.error('Please enter property cost', {
+    //       position: "top-right",
+    //       autoClose: 3000,
+    //       hideProgressBar: true,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //       progress: undefined,
+    //     })
+    //     setPropertyCostError('Please enter property cost')
+    //     return false;
+    //   }
+    // }
+    // if (getpropertyDetails?.property_for === 'Sell') {
+    //   if (!possessionStatus) {
+    //     setIsLoadingEffect(false)
+    //     toast.error('Please select possession status', {
+    //       position: "top-right",
+    //       autoClose: 3000,
+    //       hideProgressBar: true,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //       progress: undefined,
+    //     })
+    //     setPossessionStatusError('Please select possession status')
+    //     return false;
+    //   }
+    // }
+    // if (getpropertyDetails?.property_in === 'Commercial' && getpropertyDetails?.property_for === 'Sell') {
+    //   if (!ownerShip) {
+    //     setIsLoadingEffect(false)
+    //     toast.error('Please select ownership type', {
+    //       position: "top-right",
+    //       autoClose: 3000,
+    //       hideProgressBar: true,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //       progress: undefined,
+    //     })
+    //     setOwnerShipError('Please select ownership type')
+    //     return false;
+    //   }
+    // }
+    // // facilities
+    // if (propertySubType === "Apartment" || propertySubType === "Independent House" || propertySubType === "Independent Villa" || propertySubType === "Flat" || propertySubType === "Office" || propertySubType === "Retail Shop" || propertySubType === "Show Room") {
+    //   const selectedFacilities = Object.keys(facilities)
+    //     .filter((key) => facilities[key])
+    //     .join(", ");
+    //   if (!selectedFacilities) {
+    //     setIsLoadingEffect(false)
+    //     toast.error('Please select atleast one facilities', {
+    //       position: "top-right",
+    //       autoClose: 3000,
+    //       hideProgressBar: true,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //       progress: undefined,
+    //     })
+    //     return false;
+    //   }
 
-    }
-    if (!otherInfo) {
-      setIsLoadingEffect(false)
-      toast.error('Please other info', {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      })
-      setOtherInfoError('Please enter other info')
-      return false;
-    }
-    if (getpropertyDetails?.property_in === "Commercial") {
-      if (propertySubType === "Warehouse" || propertySubType === "Plot" || propertySubType === "Others") {
-        if (!plotNumber) {
-          setIsLoadingEffect(false)
-          toast.error('Please enter plot number', {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          })
-          setPlotNumberError('Please enter plot number')
-          return false;
-        }
-      } else {
-        if (!flatNumber) {
-          setIsLoadingEffect(false)
-          toast.error('Please enter flat number', {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          })
-          setFlatNumberError('Please enter flat number')
-          return false;
-        }
-      }
-      if (propertySubType === "Retail Shop" || propertySubType === "Show Room" || propertySubType === "Plot" || propertySubType === "Others") {
-        if (!suitableFor) {
-          setIsLoadingEffect(false)
-          toast.error('Please select Suitable For', {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          })
-          setSuitableForError('Please select suitable for')
-          return false;
-        }
-      } else {
-        if (!zoneType) {
-          setIsLoadingEffect(false)
-          toast.error('Please select zone type', {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          })
-          setZoneTypeError('Please select zone type')
-          return false;
-        }
-      }
-    }
-    if (getpropertyDetails?.property_in === "Residential" && getpropertyDetails?.property_for === "Sell") {
-      if (!investorPlot) {
-        setIsLoadingEffect(false)
-        toast.error('Please select investor plot', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        })
-        setInvestorPlotError('Please select investor plot')
-        return false;
-      }
-      if (!builderPlot) {
-        setIsLoadingEffect(false)
-        toast.error('Please select builder plot', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        })
-        setBuilderPlotError('Please select builder plot')
-        return false;
-      }
-    }
-    if (!loanFacility) {
-      setIsLoadingEffect(false)
-      toast.error('Please select loan facility', {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      })
-      setLoanFacilityError('Please select loan facility')
-      return false;
-    }
-    if (!facing) {
-      setIsLoadingEffect(false)
-      toast.error('Please select facing', {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      })
-      setFacingError('Please select facing')
-      return false;
-    }
-    if (!propertySubType === "Plot") {
-      if (!carParking) {
-        setIsLoadingEffect(false)
-        toast.error('Please select car parking', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        })
-        setCarParkingError('Please select car parking')
-        return false;
-      }
-      if (carParking === '4plus' && !customCarParking) {
-        setIsLoadingEffect(false)
-        toast.error('Please enter car parking', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        })
-        setCustomCarParkingError('Please enter car parking')
-        return false;
-      }
-      if (!bikeParking) {
-        setIsLoadingEffect(false)
-        toast.error('Please enter bike parking', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        })
-        setBikeParkingError('Please select bike parking')
-        return false;
-      }
-      if (bikeParking === '4plus' && !customBikeParking) {
-        setIsLoadingEffect(false)
-        toast.error('Please enter bike parking', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        })
-        setCustomBikeParkingError('Please enter bike parking')
-        return false;
-      }
-      if (!openParking) {
-        setIsLoadingEffect(false)
-        toast.error('Please select open parking', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        })
-        setOpenParkingError('Please select open parking')
-        return false;
-      }
-      if (openParking === '4plus' && !customOpenParking) {
-        setIsLoadingEffect(false)
-        toast.error('Please enter open parking', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        })
-        setCustomOpenParkingError('Please enter open parking')
-        return false;
-      }
-    }
-    if (!servantRoom) {
-      setIsLoadingEffect(false)
-      toast.error('Please select servant room', {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      })
-      setServantRoomError('Please select servant room')
-      return false;
-    }
-    if (!propertyDescription) {
-      setIsLoadingEffect(false)
-      toast.error('Please enter property description', {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      })
-      setPropertyDescriptionError('Please enter property description')
-      return false;
-    }
+    // }
+    // if (!otherInfo) {
+    //   setIsLoadingEffect(false)
+    //   toast.error('Please other info', {
+    //     position: "top-right",
+    //     autoClose: 3000,
+    //     hideProgressBar: true,
+    //     closeOnClick: true,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //     progress: undefined,
+    //   })
+    //   setOtherInfoError('Please enter other info')
+    //   return false;
+    // }
+    // if (getpropertyDetails?.property_in === "Commercial") {
+    //   if (propertySubType === "Warehouse" || propertySubType === "Plot" || propertySubType === "Others") {
+    //     if (!plotNumber) {
+    //       setIsLoadingEffect(false)
+    //       toast.error('Please enter plot number', {
+    //         position: "top-right",
+    //         autoClose: 3000,
+    //         hideProgressBar: true,
+    //         closeOnClick: true,
+    //         pauseOnHover: true,
+    //         draggable: true,
+    //         progress: undefined,
+    //       })
+    //       setPlotNumberError('Please enter plot number')
+    //       return false;
+    //     }
+    //   } else {
+    //     if (!flatNumber) {
+    //       setIsLoadingEffect(false)
+    //       toast.error('Please enter flat number', {
+    //         position: "top-right",
+    //         autoClose: 3000,
+    //         hideProgressBar: true,
+    //         closeOnClick: true,
+    //         pauseOnHover: true,
+    //         draggable: true,
+    //         progress: undefined,
+    //       })
+    //       setFlatNumberError('Please enter flat number')
+    //       return false;
+    //     }
+    //   }
+    //   if (propertySubType === "Retail Shop" || propertySubType === "Show Room" || propertySubType === "Plot" || propertySubType === "Others") {
+    //     if (!suitableFor) {
+    //       setIsLoadingEffect(false)
+    //       toast.error('Please select Suitable For', {
+    //         position: "top-right",
+    //         autoClose: 3000,
+    //         hideProgressBar: true,
+    //         closeOnClick: true,
+    //         pauseOnHover: true,
+    //         draggable: true,
+    //         progress: undefined,
+    //       })
+    //       setSuitableForError('Please select suitable for')
+    //       return false;
+    //     }
+    //   } else {
+    //     if (!zoneType) {
+    //       setIsLoadingEffect(false)
+    //       toast.error('Please select zone type', {
+    //         position: "top-right",
+    //         autoClose: 3000,
+    //         hideProgressBar: true,
+    //         closeOnClick: true,
+    //         pauseOnHover: true,
+    //         draggable: true,
+    //         progress: undefined,
+    //       })
+    //       setZoneTypeError('Please select zone type')
+    //       return false;
+    //     }
+    //   }
+    // }
+    // if (getpropertyDetails?.property_for === "Sell") {
+    //   if (propertySubType === "Apartment" || propertySubType === "Independent Villa" || propertySubType === "Plot") {
+    //     if (!investorProperty) {
+    //       setIsLoadingEffect(false)
+    //       toast.error('Please select investor property', {
+    //         position: "top-right",
+    //         autoClose: 3000,
+    //         hideProgressBar: true,
+    //         closeOnClick: true,
+    //         pauseOnHover: true,
+    //         draggable: true,
+    //         progress: undefined,
+    //       })
+    //       setInvestorPropertyError('Please select investor property')
+    //       return false;
+    //     }
+    //   }
+    // }
+    // if (getpropertyDetails?.property_for !== "Rent") {
+    //   if (!loanFacility) {
+    //     setIsLoadingEffect(false)
+    //     toast.error('Please select loan facility', {
+    //       position: "top-right",
+    //       autoClose: 3000,
+    //       hideProgressBar: true,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //       progress: undefined,
+    //     })
+    //     setLoanFacilityError('Please select loan facility')
+    //     return false;
+    //   }
+    // }
+    // if (!facing) {
+    //   setIsLoadingEffect(false)
+    //   toast.error('Please select facing', {
+    //     position: "top-right",
+    //     autoClose: 3000,
+    //     hideProgressBar: true,
+    //     closeOnClick: true,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //     progress: undefined,
+    //   })
+    //   setFacingError('Please select facing')
+    //   return false;
+    // }
+    // if (!propertySubType === "Plot") {
+    //   if (!carParking) {
+    //     setIsLoadingEffect(false)
+    //     toast.error('Please select car parking', {
+    //       position: "top-right",
+    //       autoClose: 3000,
+    //       hideProgressBar: true,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //       progress: undefined,
+    //     })
+    //     setCarParkingError('Please select car parking')
+    //     return false;
+    //   }
+    //   if (carParking === '4plus' && !customCarParking) {
+    //     setIsLoadingEffect(false)
+    //     toast.error('Please enter car parking', {
+    //       position: "top-right",
+    //       autoClose: 3000,
+    //       hideProgressBar: true,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //       progress: undefined,
+    //     })
+    //     setCustomCarParkingError('Please enter car parking')
+    //     return false;
+    //   }
+    //   if (!bikeParking) {
+    //     setIsLoadingEffect(false)
+    //     toast.error('Please enter bike parking', {
+    //       position: "top-right",
+    //       autoClose: 3000,
+    //       hideProgressBar: true,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //       progress: undefined,
+    //     })
+    //     setBikeParkingError('Please select bike parking')
+    //     return false;
+    //   }
+    //   if (bikeParking === '4plus' && !customBikeParking) {
+    //     setIsLoadingEffect(false)
+    //     toast.error('Please enter bike parking', {
+    //       position: "top-right",
+    //       autoClose: 3000,
+    //       hideProgressBar: true,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //       progress: undefined,
+    //     })
+    //     setCustomBikeParkingError('Please enter bike parking')
+    //     return false;
+    //   }
+    //   if (!openParking) {
+    //     setIsLoadingEffect(false)
+    //     toast.error('Please select open parking', {
+    //       position: "top-right",
+    //       autoClose: 3000,
+    //       hideProgressBar: true,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //       progress: undefined,
+    //     })
+    //     setOpenParkingError('Please select open parking')
+    //     return false;
+    //   }
+    //   if (openParking === '4plus' && !customOpenParking) {
+    //     setIsLoadingEffect(false)
+    //     toast.error('Please enter open parking', {
+    //       position: "top-right",
+    //       autoClose: 3000,
+    //       hideProgressBar: true,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //       progress: undefined,
+    //     })
+    //     setCustomOpenParkingError('Please enter open parking')
+    //     return false;
+    //   }
+    // }
+    // if (getpropertyDetails?.property_in === "Commercial") {
+    //   if (propertySubType === "Office" || propertySubType === "Show Room" || !(propertySubType === "Retail Shop" || propertySubType === "Warehouse" || propertySubType === "Plot")) {
+    //     if (!pantryRoom) {
+    //       setIsLoadingEffect(false)
+    //       toast.error('Please select pantry room', {
+    //         position: "top-right",
+    //         autoClose: 3000,
+    //         hideProgressBar: true,
+    //         closeOnClick: true,
+    //         pauseOnHover: true,
+    //         draggable: true,
+    //         progress: undefined,
+    //       })
+    //       setPantryRoomError('Please select pantry room')
+    //       return false;
+    //     }
+    //   }
+    // } else {
+    //   if (!(propertySubType === "Plot" || propertySubType === "Land")) {
+    //     if (!servantRoom) {
+    //       setIsLoadingEffect(false)
+    //       toast.error('Please select servant room', {
+    //         position: "top-right",
+    //         autoClose: 3000,
+    //         hideProgressBar: true,
+    //         closeOnClick: true,
+    //         pauseOnHover: true,
+    //         draggable: true,
+    //         progress: undefined,
+    //       })
+    //       setServantRoomError('Please select servant room')
+    //       return false;
+    //     }
+    //   }
+    // }
+    // if (!propertyDescription) {
+    //   setIsLoadingEffect(false)
+    //   toast.error('Please enter property description', {
+    //     position: "top-right",
+    //     autoClose: 3000,
+    //     hideProgressBar: true,
+    //     closeOnClick: true,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //     progress: undefined,
+    //   })
+    //   setPropertyDescriptionError('Please enter property description')
+    //   return false;
+    // }
 
     const selectedFacilities = Object.keys(facilities)
       .filter((key) => facilities[key]) // Filter only `true` values
@@ -1371,14 +1399,14 @@ function Propertydetailswrapper({
       pent_house: pentHouse || null,
       builtup_unit: unitCost || null,
       property_cost: propertyCost || null,
-      procession_status: processionStatus || null,
+      possession_status: possessionStatus || null,
       ownership_type: ownerShip || null,
       facilities: selectedFacilities || null,
       other_info: otherInfo || null,
       unit_flat_house_no: unit_flat_house_no || null,
       business_types: suitableFor || null,
       zone_types: zoneType || null,
-      investor_plot: investorPlot || null,
+      investor_property: investorProperty || null,
       builder_plot: builderPlot || null,
       loan_facility: loanFacility || null,
       // additional
@@ -1388,6 +1416,7 @@ function Propertydetailswrapper({
       open_parking: new_open_parking || null,
       servant_room: servantRoom || null,
       description: propertyDescription || null,
+      pantry_room: pantryRoom || null,
 
       user_id: parseInt(user_id),
       unique_property_id: unique_property_id,
@@ -1405,7 +1434,7 @@ function Propertydetailswrapper({
             'server_res': data
           }
           setErrorMessages(finalresponse);
-          setModalOpen(true);
+          setErrorModalOpen(true);
           setIsLoadingEffect(false);
           return false;
         }
@@ -1417,6 +1446,11 @@ function Propertydetailswrapper({
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
+        })
+        updatePropertyDetails({
+          property_in: getpropertyDetails?.property_in,
+          property_for: getpropertyDetails?.property_for,
+          property_sub_type: propertySubType,
         })
         let property_id = data?.property?.unique_property_id
         updateActiveTab('address', 'inprogress', property_id)
@@ -1437,7 +1471,7 @@ function Propertydetailswrapper({
           };
         }
         setErrorMessages(finalresponse);
-        setModalOpen(true);
+        setErrorModalOpen(true);
         setIsLoadingEffect(false);
         return false;
       })
@@ -1551,9 +1585,9 @@ function Propertydetailswrapper({
       setSuitableFor(propertyDetails?.business_types || '')
       setPentHouse(propertyDetails?.pent_house || '')
       setPreferredTenantType(propertyDetails?.types || '')
-      setProcessionStatus(propertyDetails?.procession_status || '')
+      setPossessionStatus(propertyDetails?.possession_status || '')
       setServantRoom(propertyDetails?.servant_room || '')
-      setInvetorPlot(propertyDetails?.investor_plot || '')
+      setInvestorProperty(propertyDetails?.investor_property || '')
       setBuilderPlot(propertyDetails?.builder_plot || '')
       setLoanFacility(propertyDetails?.loan_facility || '')
     }
@@ -1774,6 +1808,16 @@ function Propertydetailswrapper({
     <div className='relative'>
       <div className='py-2 bg-[#E2EAED]'>
         <p className='text-lg font-bold text-[#1D3A76] text-center font-sans'>Add Property Details</p>
+        <div className='flex'>
+          <div className='flex items-center gap-1 mt-1 px-5'>
+            <p className=' text-xs font-sans font-bold'>Property Type:</p>
+            <p className=' text-xs font-sans '>{getpropertyDetails?.property_in}</p>
+          </div>
+          <div className='flex items-center gap-1 mt-1 px-5'>
+            <p className=' text-xs font-sans font-bold'>Looking To:</p>
+            <p className=' text-xs font-sans '>{getpropertyDetails?.property_for}</p>
+          </div>
+        </div>
       </div>
       <div className='w-full overflow-y-auto px-5 py-3 h-[calc(100vh-220px)]'>
         <div className='mb-5'>
@@ -1799,7 +1843,7 @@ function Propertydetailswrapper({
         </div>
         <div className='mb-5'>
           <div className='flex gap-1 mb-4'>
-            <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Rera Approved</p>
+            <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>RERA Approved</p>
             <IconAsterisk size={8} color='#FF0000' />
           </div>
           <div className='flex flex-row items-center gap-6'>
@@ -1813,7 +1857,8 @@ function Propertydetailswrapper({
           {reraApprovedError && <p className='text-[#FF0000] text-xs font-sans'>Please select one option</p>}
         </div>
         {
-          getpropertyDetails?.property_for === "Sell" &&
+          (getpropertyDetails?.property_for === "Sell") &&
+          (!(propertySubType === "Plot" || propertySubType === "Land")) &&
           <div className='mb-5'>
             <div className='flex gap-1 mb-4'>
               <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Construction Status</p>
@@ -1834,9 +1879,10 @@ function Propertydetailswrapper({
             </div>
             {constructionStatusError && <p className='text-[#FF0000] text-xs font-sans'>Please select construction status</p>}
           </div>
+
         }
         {
-          (propertySubType === 'Apartment' || propertySubType === "Flat" || propertySubType === "Land" || propertySubType === "Independent House" || propertySubType === "Independent Villa") &&
+          (propertySubType === 'Apartment' || propertySubType === "Flat" || propertySubType === "Independent House" || propertySubType === "Independent Villa") &&
           <div className='mb-5'>
             <div className='flex gap-1 mb-4'>
               <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>BHK</p>
@@ -1898,7 +1944,7 @@ function Propertydetailswrapper({
           </div>
         }
         {
-          (propertySubType === 'Apartment' || propertySubType === "Flat" || propertySubType === "Land") &&
+          (propertySubType === 'Apartment' || propertySubType === "Flat") &&
           <>
             <div className='mb-5'>
               <div className='flex gap-1 mb-4'>
@@ -1980,6 +2026,11 @@ function Propertydetailswrapper({
               }
               {balconyError && <p className='text-[#FF0000] text-xs font-sans'>Please select balcony</p>}
             </div>
+          </>
+        }
+        {
+          (propertySubType === 'Apartment' || propertySubType === "Independent House" || propertySubType === "Independent Villa") &&
+          <>
             <div className='mb-5'>
               <div className='flex gap-1 mb-4'>
                 <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Furnish Type</p>
@@ -2016,7 +2067,7 @@ function Propertydetailswrapper({
                   <IconAsterisk size={8} color='#FF0000' />
                 </div>
                 <input
-                  type='text'
+                  type='number'
                   placeholder='Enter Passenger Lifts'
                   className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans'
                   autoComplete='off'
@@ -2031,7 +2082,7 @@ function Propertydetailswrapper({
                   <IconAsterisk size={8} color='#FF0000' />
                 </div>
                 <input
-                  type='text'
+                  type='number'
                   placeholder='Enter Service Lifts'
                   className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans'
                   autoComplete='off'
@@ -2046,7 +2097,7 @@ function Propertydetailswrapper({
                   <IconAsterisk size={8} color='#FF0000' />
                 </div>
                 <input
-                  type='text'
+                  type='number'
                   placeholder='Enter Stair Cases'
                   className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans'
                   autoComplete='off'
@@ -2065,7 +2116,7 @@ function Propertydetailswrapper({
                   <IconAsterisk size={8} color='#FF0000' />
                 </div>
                 <input
-                  type='text'
+                  type='number'
                   placeholder='Enter Private Parking'
                   className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans'
                   autoComplete='off'
@@ -2080,7 +2131,7 @@ function Propertydetailswrapper({
                   <IconAsterisk size={8} color='#FF0000' />
                 </div>
                 <input
-                  type='text'
+                  type='number'
                   placeholder='Enter Public Parking'
                   className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans'
                   autoComplete='off'
@@ -2099,7 +2150,7 @@ function Propertydetailswrapper({
                   <IconAsterisk size={8} color='#FF0000' />
                 </div>
                 <input
-                  type='text'
+                  type='number'
                   placeholder='Enter Private Washrooms'
                   className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans'
                   autoComplete='off'
@@ -2114,7 +2165,7 @@ function Propertydetailswrapper({
                   <IconAsterisk size={8} color='#FF0000' />
                 </div>
                 <input
-                  type='text'
+                  type='number'
                   placeholder='Enter Public Washrooms'
                   className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans'
                   autoComplete='off'
@@ -2126,26 +2177,29 @@ function Propertydetailswrapper({
             </div>
           </>
         }
-        <div className='mb-5'>
-          <div className='flex gap-1 mb-4'>
-            <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Available From </p>
-            <IconAsterisk size={8} color='#FF0000' />
-          </div>
-          <div className='border border-[#909090] rounded-md w-[20%] px-3'>
-            <input
-              type="date"
-              id="date"
-              className='text-[14px] w-full py-1 outline-none'
-              autoComplete='off'
-              value={availableFromDate}
-              onChange={updateAvailableFromDate}
-              min={new Date().toISOString().split('T')[0]}
-            />
-          </div>
-          {availableFromDateError && <p className='text-[#FF0000] text-xs font-sans'>Please select Available From date</p>}
-        </div>
         {
-          (constructionStatus === 1 || propertySubType === "Warehouse" || getpropertyDetails?.property_for === "Rent") &&
+          getpropertyDetails?.property_for === "Rent" &&
+          <div className='mb-5'>
+            <div className='flex gap-1 mb-4'>
+              <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Available From </p>
+              <IconAsterisk size={8} color='#FF0000' />
+            </div>
+            <div className='border border-[#909090] rounded-md w-[20%] px-3'>
+              <input
+                type="date"
+                id="date"
+                className='text-[14px] w-full py-1 outline-none'
+                autoComplete='off'
+                value={availableFromDate}
+                onChange={updateAvailableFromDate}
+                min={new Date().toISOString().split('T')[0]}
+              />
+            </div>
+            {availableFromDateError && <p className='text-[#FF0000] text-xs font-sans'>Please select Available From date</p>}
+          </div>
+        }
+        {
+          (constructionStatus === 1) &&
           <div className='mb-5 w-[40%]'>
             <Select
               label='Age of Property'
@@ -2166,7 +2220,7 @@ function Propertydetailswrapper({
           </div>
         }
         {
-          (constructionStatus === 2 || propertySubType === "Warehouse") &&
+          (constructionStatus === 2) &&
           <div className='mb-5'>
             <div className='flex gap-1 mb-4'>
               <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Possesion End</p>
@@ -2195,7 +2249,7 @@ function Propertydetailswrapper({
                 <IconAsterisk size={8} color='#FF0000' />
               </div>
               <input
-                type='text'
+                type='number'
                 placeholder='Cost(per month)'
                 className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans '
                 autoComplete='off'
@@ -2210,7 +2264,7 @@ function Propertydetailswrapper({
                 <IconAsterisk size={8} color='#FF0000' />
               </div>
               <input
-                type='text'
+                type='number'
                 placeholder='Maintence Charges(per month)'
                 className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans'
                 autoComplete='off'
@@ -2273,25 +2327,28 @@ function Propertydetailswrapper({
               </div>
               {brokerageError && <p className='text-[#FF0000] text-xs font-sans'>Please select brokerage</p>}
             </div>
-            <div className='mb-5'>
-              <div className='flex gap-1 mb-4'>
-                <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Prefered Tenant Type</p>
-                <IconAsterisk size={8} color='#FF0000' />
-              </div>
-              {
-                preferedTenantList?.length > 0 &&
-                <div className='flex flex-row items-center gap-6'>
-                  {
-                    preferedTenantList.map((item, index) => (
-                      <div key={index} onClick={() => updatePreferredTenantType(item.value)} className={`group cursor-pointer px-8 py-2 rounded-md  ${preferredTenantType === item.value ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                        <p className={`text-[10px] font-sans ${preferredTenantType === item.value ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>{item.name}</p>
-                      </div>
-                    ))
-                  }
+            {
+              (getpropertyDetails.property_in !== "Commercial" || propertySubType === "Plot" || propertySubType === "Land") &&
+              <div className='mb-5'>
+                <div className='flex gap-1 mb-4'>
+                  <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Prefered Tenant Type</p>
+                  <IconAsterisk size={8} color='#FF0000' />
                 </div>
-              }
-              {preferredTenantTypeError && <p className='text-[#FF0000] text-xs font-sans'>Please select preferred tenant type</p>}
-            </div>
+                {
+                  preferedTenantList?.length > 0 &&
+                  <div className='flex flex-row items-center gap-6'>
+                    {
+                      preferedTenantList.map((item, index) => (
+                        <div key={index} onClick={() => updatePreferredTenantType(item.value)} className={`group cursor-pointer px-8 py-2 rounded-md  ${preferredTenantType === item.value ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                          <p className={`text-[10px] font-sans ${preferredTenantType === item.value ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>{item.name}</p>
+                        </div>
+                      ))
+                    }
+                  </div>
+                }
+                {preferredTenantTypeError && <p className='text-[#FF0000] text-xs font-sans'>Please select preferred tenant type</p>}
+              </div>
+            }
           </>
         }
         <div className='mb-5 w-[40%]'>
@@ -2348,7 +2405,7 @@ function Propertydetailswrapper({
             </>
           }
           {
-            (!(propertySubType === "Independent House" || propertySubType === "Independent Villa") || (propertySubType === "Plot" || propertySubType === "Warehouse" || propertySubType === "Others")) &&
+            (propertySubType === "Plot" || propertySubType === "Land") &&
             <>
               <div className='mt-3 '>
                 <div className='flex gap-1'>
@@ -2383,7 +2440,7 @@ function Propertydetailswrapper({
             </>
           }
           {
-            ((propertySubType === "Independent House" || propertySubType === "Independent Villa") || propertySubType === "Plot" || propertySubType === "Warehouse" || propertySubType === "Others") &&
+            (propertySubType === "Independent House" || propertySubType === "Independent Villa" || propertySubType === "Plot" || propertySubType === "Warehouse" || propertySubType === "Others") &&
             <div className='my-3'>
               <div className='flex gap-1'>
                 <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Plot Area({areaUnits})</p>
@@ -2422,7 +2479,7 @@ function Propertydetailswrapper({
             getpropertyDetails.property_for === "Sell" &&
             <>
               {
-                !(propertySubType === "Independent House" || propertySubType === "Independent House") &&
+                !(propertySubType === "Independent House" || propertySubType === "Independent Villa") &&
                 <div className='mt-2'>
                   <div className='flex gap-1'>
                     <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Unit Cost</p>
@@ -2458,21 +2515,21 @@ function Propertydetailswrapper({
           }
         </div>
         {
-          propertySubType === "Plot" &&
+          getpropertyDetails?.property_for === 'Sell' &&
           <div className='mb-5 mt-3'>
             <div className='flex gap-1 mb-4'>
-              <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Procession Status</p>
+              <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Possession Status</p>
               <IconAsterisk size={8} color='#FF0000' />
             </div>
             <div className='flex flex-row items-center gap-6'>
-              <div onClick={() => updateProcessionStatus('Immediate')} className={`group cursor-pointer px-8 py-2 rounded-md  ${processionStatus === 'Immediate' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                <p className={`text-[10px] font-sans ${processionStatus === 'Immediate' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Immediate</p>
+              <div onClick={() => updatePossessionStatus('Immediate')} className={`group cursor-pointer px-8 py-2 rounded-md  ${possessionStatus === 'Immediate' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                <p className={`text-[10px] font-sans ${possessionStatus === 'Immediate' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Immediate</p>
               </div>
-              <div onClick={() => updateProcessionStatus('Future')} className={`group cursor-pointer px-8 py-2 rounded-md  ${processionStatus === 'Future' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                <p className={`text-[10px] font-sans ${processionStatus === 'Future' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Future</p>
+              <div onClick={() => updatePossessionStatus('Future')} className={`group cursor-pointer px-8 py-2 rounded-md  ${possessionStatus === 'Future' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                <p className={`text-[10px] font-sans ${possessionStatus === 'Future' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Future</p>
               </div>
             </div>
-            {processionStatusError && <p className='text-[#FF0000] text-xs font-sans'>Please select one</p>}
+            {possessionStatusError && <p className='text-[#FF0000] text-xs font-sans'>Please select one</p>}
           </div>
         }
         {/* ownership */}
@@ -2498,7 +2555,7 @@ function Propertydetailswrapper({
         }
         {/* facilities */}
         {
-          (propertySubType === "Apartment" || propertySubType === "Flat" || propertySubType === "Land" || propertySubType === "Office" || propertySubType === "Retail Shop" || propertySubType === "Show Room") &&
+          (propertySubType === "Apartment" || propertySubType === "Independent House" || propertySubType === "Independent Villa" || propertySubType === "Flat" || propertySubType === "Office" || propertySubType === "Retail Shop" || propertySubType === "Show Room") &&
           <div>
             <p className='text-[#1D3A76] text-[13px] mb-3 mt-6 font-sans font-medium'>Facilities</p>
             <ul className="grid grid-cols-3 text-[13px] font-medium text-gray-900 bg-white border border-gray-200 rounded-lg">
@@ -2613,56 +2670,46 @@ function Propertydetailswrapper({
         }
 
         {
-          (getpropertyDetails?.property_in === "Residential" && getpropertyDetails?.property_for === "Sell") &&
+          getpropertyDetails?.property_for === "Sell" &&
+          (propertySubType === "Apartment" || propertySubType === "Independent Villa" || propertySubType === "Plot") &&
           <>
             <div className='my-4'>
               <div className='flex gap-1 mb-2'>
-                <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Investor Plot</p>
+                <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Investor Property</p>
                 <IconAsterisk size={8} color='#FF0000' />
               </div>
               <div className='flex flex-row items-center gap-6'>
-                <div onClick={() => updateInvestorPlot('Yes')} className={`group cursor-pointer px-8 py-2 rounded-md  ${investorPlot === 'Yes' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                  <p className={`text-[10px] font-sans ${investorPlot === 'Yes' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Yes</p>
+                <div onClick={() => updateInvestorProperty('Yes')} className={`group cursor-pointer px-8 py-2 rounded-md  ${investorProperty === 'Yes' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${investorProperty === 'Yes' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Yes</p>
                 </div>
-                <div onClick={() => updateInvestorPlot('No')} className={`group cursor-pointer px-8 py-2 rounded-md  ${investorPlot === 'No' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                  <p className={`text-[10px] font-sans ${investorPlot === 'No' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>No</p>
+                <div onClick={() => updateInvestorProperty('No')} className={`group cursor-pointer px-8 py-2 rounded-md  ${investorProperty === 'No' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${investorProperty === 'No' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>No</p>
                 </div>
-                {investorPlotError && <p className='text-[#FF0000] text-xs font-sans'>Please select investor plot</p>}
               </div>
             </div>
-            <div className='my-4'>
-              <div className='flex gap-1 mb-2'>
-                <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Builder Plot</p>
-                <IconAsterisk size={8} color='#FF0000' />
-              </div>
-              <div className='flex flex-row items-center gap-6'>
-                <div onClick={() => updateBuilderPlot('Yes')} className={`group cursor-pointer px-8 py-2 rounded-md  ${builderPlot === 'Yes' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                  <p className={`text-[10px] font-sans ${builderPlot === 'Yes' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Yes</p>
-                </div>
-                <div onClick={() => updateBuilderPlot('No')} className={`group cursor-pointer px-8 py-2 rounded-md  ${builderPlot === 'No' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                  <p className={`text-[10px] font-sans ${builderPlot === 'No' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>No</p>
-                </div>
-              </div>
-              {builderPlotError && <p className='text-[#FF0000] text-xs font-sans'>Please select builder plot</p>}
-            </div>
+            {investorPropertyError && <p className='text-[#FF0000] text-xs font-sans'>Please select investor Property</p>}
           </>
         }
-
-        <div className='my-4'>
-          <div className='flex gap-1 mb-2'>
-            <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Loan Facility</p>
-            <IconAsterisk size={8} color='#FF0000' />
-          </div>
-          <div className='flex flex-row items-center gap-6'>
-            <div onClick={() => updateLoanFacility('Yes')} className={`group cursor-pointer px-8 py-2 rounded-md  ${loanFacility === 'Yes' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-              <p className={`text-[10px] font-sans ${loanFacility === 'Yes' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Yes</p>
+        {
+          getpropertyDetails?.property_for !== "Rent" &&
+          <>
+            <div className='my-4'>
+              <div className='flex gap-1 mb-2'>
+                <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Loan Facility</p>
+                <IconAsterisk size={8} color='#FF0000' />
+              </div>
+              <div className='flex flex-row items-center gap-6'>
+                <div onClick={() => updateLoanFacility('Yes')} className={`group cursor-pointer px-8 py-2 rounded-md  ${loanFacility === 'Yes' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${loanFacility === 'Yes' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Yes</p>
+                </div>
+                <div onClick={() => updateLoanFacility('No')} className={`group cursor-pointer px-8 py-2 rounded-md  ${loanFacility === 'No' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${loanFacility === 'No' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>No</p>
+                </div>
+              </div>
             </div>
-            <div onClick={() => updateLoanFacility('No')} className={`group cursor-pointer px-8 py-2 rounded-md  ${loanFacility === 'No' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-              <p className={`text-[10px] font-sans ${loanFacility === 'No' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>No</p>
-            </div>
-          </div>
-          {loanFacilityError && <p className='text-[#FF0000] text-xs font-sans'>Please select loan facility</p>}
-        </div>
+            {loanFacilityError && <p className='text-[#FF0000] text-xs font-sans'>Please select loan facility</p>}
+          </>
+        }
 
         <div className='mt-3'>
           <p className='text-[#1D3A76] text-md mb-3 font-medium font-sans'>Add Additional Details</p>
@@ -2822,21 +2869,42 @@ function Propertydetailswrapper({
           />
           {addressError && <p className='text-[#FF0000] text-xs font-sans'>Please enter address</p>}
         </div> */}
-        <div className='my-5'>
-          <div className='flex gap-1 mb-4'>
-            <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Servant Room?</p>
-            <IconAsterisk size={8} color='#FF0000' />
-          </div>
-          <div className='flex flex-row items-center gap-6'>
-            <div onClick={() => updateServantRoom('yes')} className={`group cursor-pointer px-8 py-2 rounded-md  ${servantRoom === 'yes' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-              <p className={`text-[10px] font-sans ${servantRoom === 'yes' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Yes</p>
+        {
+          getpropertyDetails?.property_in === "Commercial" ?
+            (propertySubType === "Office" || propertySubType === "Show Room" || !(propertySubType === "Retail Shop" || propertySubType === "Warehouse" || propertySubType === "Plot")) &&
+            <div className='my-5'>
+              <div className='flex gap-1 mb-4'>
+                <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Pantry Room?</p>
+                <IconAsterisk size={8} color='#FF0000' />
+              </div>
+              <div className='flex flex-row items-center gap-6'>
+                <div onClick={() => updatePantryRoom('yes')} className={`group cursor-pointer px-8 py-2 rounded-md  ${pantryRoom === 'yes' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${pantryRoom === 'yes' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Yes</p>
+                </div>
+                <div onClick={() => updatePantryRoom('no')} className={`group cursor-pointer px-8 py-2 rounded-md  ${pantryRoom === 'no' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${pantryRoom === 'no' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>No</p>
+                </div>
+              </div>
+              {pantryRoomError && <p className='text-[#FF0000] text-xs font-sans'>Please select pantry room</p>}
             </div>
-            <div onClick={() => updateServantRoom('no')} className={`group cursor-pointer px-8 py-2 rounded-md  ${servantRoom === 'no' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-              <p className={`text-[10px] font-sans ${servantRoom === 'no' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>No</p>
+            :
+            (!(propertySubType === "Plot" || propertySubType === "Land")) &&
+            <div className='my-5'>
+              <div className='flex gap-1 mb-4'>
+                <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Servant Room?</p>
+                <IconAsterisk size={8} color='#FF0000' />
+              </div>
+              <div className='flex flex-row items-center gap-6'>
+                <div onClick={() => updateServantRoom('yes')} className={`group cursor-pointer px-8 py-2 rounded-md  ${servantRoom === 'yes' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${servantRoom === 'yes' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Yes</p>
+                </div>
+                <div onClick={() => updateServantRoom('no')} className={`group cursor-pointer px-8 py-2 rounded-md  ${servantRoom === 'no' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${servantRoom === 'no' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>No</p>
+                </div>
+              </div>
+              {servantRoomError && <p className='text-[#FF0000] text-xs font-sans'>Please select servant room</p>}
             </div>
-          </div>
-          {servantRoomError && <p className='text-[#FF0000] text-xs font-sans'>Please select servant room</p>}
-        </div>
+        }
         <div className='mt-6'>
           <div className='flex gap-1'>
             <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Property Description</p>
@@ -2857,29 +2925,22 @@ function Propertydetailswrapper({
         <div onClick={() => updateActiveTab('basicdetails', 'completed', unique_property_id)} className='bg-[#000] px-8 py-2 rounded-md cursor-pointer'>
           <p className='text-white text-[10px]'>Back</p>
         </div>
-        <div onClick={updatePropertyDetails} className='border border-[#1D3A76] bg-[#1D3A76] px-8 py-2 rounded-md cursor-pointer'>
-          <p className='text-white text-[10px]'>Next, add property details</p>
+        <div onClick={handleSubmitPropertyDetails} className='border border-[#1D3A76] bg-[#1D3A76] px-8 py-2 rounded-md cursor-pointer'>
+          <p className='text-white text-[10px]'>Next, add address details</p>
         </div>
       </div>
       <LoadingOverlay isLoading={isLoadingEffect} />
-      {isModalOpen &&
+      {errorModalOpen &&
         <Modal
-          open={isModalOpen}
-          onClose={() => setModalOpen(false)}
+          open={errorModalOpen}
+          onClose={closeErrorModal}
           size="md"
           zIndex={9999}
         >
           <Errorpanel
             errorMessages={errorMessages}
+            close={closeErrorModal}
           />
-          <div className='flex flex-row justify-end'>
-            <button
-              onClick={() => setModalOpen(false)}
-              className="mt-2 mx-4 px-4 py-2 text-[12px] bg-red-500 text-white rounded hover:bg-red-600"
-            >
-              Close
-            </button>
-          </div>
         </Modal>
       }
       {
@@ -2887,8 +2948,9 @@ function Propertydetailswrapper({
         <Modal
           open={furnishingModal}
           onClose={closeFurnishingModal}
-          size="md"
+          size="lg"
           zIndex={9999}
+          withCloseButton={false}
         >
           <Addfurnishingswrapper
             closeFurnishingModal={closeFurnishingModal}
