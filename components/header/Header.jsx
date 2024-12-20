@@ -9,6 +9,7 @@ import { useUserDetails } from '../zustand/useUserDetails';
 import addproperty from  '@/public/assets/addproperty.svg'
 import downloadapp_svg from '@/public/assets/downloadapp_svg.svg'
 import login from '@/public/assets/login.svg'
+import { IconHomePlus } from '@tabler/icons-react';
 function Header() {
     const userInfo = useUserDetails((state) => state.userInfo);
     const isLogged = useUserDetails((state) => state.isLogged);

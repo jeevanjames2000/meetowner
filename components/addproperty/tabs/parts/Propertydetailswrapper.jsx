@@ -1,6 +1,6 @@
 'use client'
 import LoadingOverlay from '@/components/shared/LoadingOverlay'
-import { Modal, Select, Textarea } from '@nayeshdaggula/tailify'
+import { Modal, Select, Textarea, Textinput } from '@nayeshdaggula/tailify'
 import React, { useEffect, useState } from 'react'
 import Addfurnishingswrapper from './Addfurnishingswrapper';
 import { IconAsterisk } from '@tabler/icons-react';
@@ -1403,7 +1403,8 @@ function Propertydetailswrapper({
       ownership_type: ownerShip || null,
       facilities: selectedFacilities || null,
       other_info: otherInfo || null,
-      unit_flat_house_no: unit_flat_house_no || null,
+      unit_flat_house_no: flatNumber || null,
+      plot_number: plotNumber || null,
       business_types: suitableFor || null,
       zone_types: zoneType || null,
       investor_property: investorProperty || null,
@@ -1567,13 +1568,15 @@ function Propertydetailswrapper({
         let under_construction_date = under_construction?.toISOString().split('T')[0]
         setPossessionEndDate(under_construction_date)
       }
-      if (propertyDetails?.unit_flat_house_no) {
-        if (propertyDetails?.sub_type === "Warehouse" || propertyDetails?.sub_type === "Plot" || propertyDetails?.sub_type === "Others") {
-          setPlotNumber(propertyDetails?.unit_flat_house_no || '')
-        } else {
-          setFlatNumber(propertyDetails?.unit_flat_house_no || '')
-        }
-      }
+      // if (propertyDetails?.unit_flat_house_no) {
+      //   if (propertyDetails?.sub_type === "Warehouse" || propertyDetails?.sub_type === "Plot" || propertyDetails?.sub_type === "Others") {
+      //     setPlotNumber(propertyDetails?.unit_flat_house_no || '')
+      //   } else {
+      //     setFlatNumber(propertyDetails?.unit_flat_house_no || '')
+      //   }
+      // }
+      setPlotNumber(propertyDetails?.plot_number || '')
+      setFlatNumber(propertyDetails?.unit_flat_house_no || '')
       setOwnerShip(propertyDetails?.ownership_type || '')
       setZoneType(propertyDetails?.zone_types || '')
       setUnitCost(propertyDetails?.builtup_unit || '')
