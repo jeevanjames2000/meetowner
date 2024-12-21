@@ -7,19 +7,24 @@ import { Loadingoverlay } from '@/components/tailifycomponents/Loadingoverlay'
 import Propertyapi from '@/components/api/Propertyapi'
 import { useUserDetails } from '@/components/zustand/useUserDetails'
 
-function Propertylists({ totalPages, allListings, totalProperties, limit, handlePageChange, isLoadingEffect, handleDeleteProperty, propertyIn }) {
+function Propertylists({
+    totalPages,
+    allListings,
+    totalProperties,
+    limit,
+    handlePageChange,
+    isLoadingEffect,
+    handleDeleteProperty,
+    propertyIn,
+    propertySubtype,
+    updatePropertySubtype,
+    locality,
+    updateLocality,
+}) {
     const user_info = useUserDetails((state) => state.userInfo)
     const user_id = user_info?.user_id || null
     const access_token = user_info?.access_token || null
 
-    const [locality, setLocality] = useState('locality')
-    const updateLocality = (e) => {
-        setLocality(e.currentTarget.value)
-    }
-    const [propertytype, setPropertytype] = useState('propertytype')
-    const updatePropertytype = (e) => {
-        setPropertytype(e.currentTarget.value)
-    }
     const [filters, setFilters] = useState(false)
     const updateFilters = () => {
         setFilters(!filters)
@@ -88,66 +93,55 @@ function Propertylists({ totalPages, allListings, totalProperties, limit, handle
                                 onChange={updateLocality}
                             />
                             <div className="w-[25%] flex items-center gap-2 pl-1 border border-[#FEFDF8] rounded-sm cursor-pointer">
-                                <form className="w-fit mx-auto">
-                                    <label className="flex items-center cursor-pointer">
-                                        <select
-                                            id="propertytrype"
-                                            value={propertytype}
-                                            onChange={updatePropertytype}
-                                            className="text-[#FEFDF8] text-[10px] font-[700] bg-transparent outline-none h-7"
-                                        >
-                                            {
-                                                allPropertySubTypes.length > 0 &&
-                                                allPropertySubTypes.map((item, index) => (
-                                                    <option className="text-black" key={index} value={item.value}>{item.name}</option>
-                                                ))
+                                <label className="flex items-center cursor-pointer">
+                                    <select
+                                        id="propertytrype"
+                                        value={propertySubtype}
+                                        onChange={updatePropertySubtype}
+                                        className="text-[#FEFDF8] text-[10px] font-[700] bg-transparent outline-none h-7"
+                                    >
+                                        {
+                                            allPropertySubTypes.length > 0 &&
+                                            allPropertySubTypes.map((item, index) => (
+                                                <option className="text-black" key={index} value={item.value}>{item.name}</option>
+                                            ))
 
-                                            }
-                                            {/* <option className="text-black" value="propertytype"> Property Type</option>
-                                            <option className="text-black" value="apartment">Apartment</option>
-                                            <option className="text-black" value="villa">villa</option>
-                                            <option className="text-black" value="Independet house">Independet house</option>
-                                            <option className="text-black" value="Independent floor">Independent floor</option> */}
-                                        </select>
-                                    </label>
-                                </form>
+                                        }
+                                    </select>
+                                </label>
                             </div>
 
                             {/* Verification Status Dropdown */}
                             <div className="w-[25%] flex items-center gap-2 pl-1 border border-[#FEFDF8] rounded-sm cursor-pointer">
-                                <form className="w-fit mx-auto">
-                                    <label className="flex items-center cursor-pointer">
-                                        <select
-                                            id="verificationStatus"
-                                            className="text-[#FEFDF8] text-[10px] font-[700] outline-none h-7 bg-transparent"
-                                        >
-                                            <option value="verificationstatus" className="text-black">
-                                                Verification Status
-                                            </option>
-                                            <option className="text-black" value="verified">Verified</option >
-                                            <option className="text-black" value="unverified">Unverified</option  >
-                                            <option className="text-black" value="pending">Pending</option>
-                                        </select>
-                                    </label>
-                                </form>
+                                <label className="flex items-center cursor-pointer">
+                                    <select
+                                        id="verificationStatus"
+                                        className="text-[#FEFDF8] text-[10px] font-[700] outline-none h-7 bg-transparent"
+                                    >
+                                        <option value="verificationstatus" className="text-black">
+                                            Verification Status
+                                        </option>
+                                        <option className="text-black" value="verified">Verified</option >
+                                        <option className="text-black" value="unverified">Unverified</option  >
+                                        <option className="text-black" value="pending">Pending</option>
+                                    </select>
+                                </label>
                             </div>
                             {/* BHK Dropdown */}
                             <div className="w-fit flex items-center gap-2 px-1 border border-[#FEFDF8] rounded-sm cursor-pointer">
-                                <form className="w-fit">
-                                    <label className="cursor-pointer">
-                                        <select
-                                            id="verificationStatus"
-                                            className="text-[#FEFDF8] text-[10px] font-[700] outline-none h-7 bg-transparent"
-                                        >
-                                            <option value="bhk" className="text-black">
-                                                BHK
-                                            </option>
-                                            <option className="text-black" value="verified">Verified</option >
-                                            <option className="text-black" value="unverified">Unverified</option  >
-                                            <option className="text-black" value="pending">Pending</option>
-                                        </select>
-                                    </label>
-                                </form>
+                                <label className="cursor-pointer">
+                                    <select
+                                        id="verificationStatus"
+                                        className="text-[#FEFDF8] text-[10px] font-[700] outline-none h-7 bg-transparent"
+                                    >
+                                        <option value="bhk" className="text-black">
+                                            BHK
+                                        </option>
+                                        <option className="text-black" value="verified">Verified</option >
+                                        <option className="text-black" value="unverified">Unverified</option  >
+                                        <option className="text-black" value="pending">Pending</option>
+                                    </select>
+                                </label>
                             </div>
                             <button onClick={updateFilters} className=' flex items-center justify-center  rounded-sm  h-7 bg-[#E2EAED] text-[10px] font-[700] text-[#37474F]  px-4  '>
                                 {filters ? 'Close Filters' : 'More Filters'}

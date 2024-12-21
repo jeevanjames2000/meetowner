@@ -46,7 +46,9 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
         setTransactionTypeError('')
     }
     const [location, setLocation] = useState('')
+    const [locationError, setLocationError] = useState('')
     const updateLocation = (value) => {
+        setLocationError('')
         if (value.length > 2) {
             getPlacesFromGoogle({ input: value })
             setShowDropdown(true)
@@ -109,6 +111,21 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
             setIsLoadingEffect(false)
             return
         }
+        if (location === '') {
+            toast.error('Please Select location', {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            })
+            setLocationError('Please Select location')
+            setIsLoadingEffect(false)
+            return
+        }
+
 
         Propertyapi.post('/addbasicdetails', {
             property_in: propertyType,
@@ -117,7 +134,7 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
             user_id: parseInt(user_id),
             unique_property_id: unique_property_id,
             user_type: user_type,
-            location_id: location
+            google_address: location
         }, {
             headers: {
                 'Content-Type': 'application/json',
@@ -179,7 +196,7 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
             setPropertyType(basicDetails?.property_in || '')
             setLookingTo(basicDetails?.property_for || '')
             setTransactionType(basicDetails?.transaction_type || '')
-            setLocation(basicDetails?.location_id || '')
+            setLocation(basicDetails?.google_address || '')
         }
     }, [basicDetails])
 
@@ -304,8 +321,10 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
                         value={location}
                         onChange={(e) => updateLocation(e.target.value)}
                         placeholder='Search location'
-                        className='w-full border border-[#1D3A76] rounded-r-md px-3 py-[5px]  focus:outline-none focus:ring-1 focus:ring-[#1D3A76] focus:border-[#1D3A76]' />
+                        className='w-full border border-[#1D3A76] rounded-r-md px-3 py-[5px]  focus:outline-none focus:ring-1 focus:ring-[#1D3A76] focus:border-[#1D3A76]'
+                    />
                 </div>
+                {locationError && <p className='text-red-500 text-[10px] mt-2'>{locationError}</p>}
                 {
                     showDropdown &&
                     allLocations.length > 0 && (

@@ -5,7 +5,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import listingApi from '../api/listingApi';
 import { useUserDetails } from '../zustand/useUserDetails';
 import { Modal } from '@nayeshdaggula/tailify';
-import { Loadingoverlay } from '../tailifycomponents/Loadingoverlay';
 import Propertylists from './parts/Propertylists';
 import Propertyapi from '../api/Propertyapi';
 import Errorpanel from '../shared/Errorpanel';
@@ -15,8 +14,16 @@ function Listingswrapper() {
     const user_id = userInfo?.user_id;
     const access_token = useUserDetails(state => state.access_token);
 
-    const [propertyIn, setPropertyIn] = useState("Residential"); // Default role value corrected
+    const [propertyIn, setPropertyIn] = useState("Residential");
+    const [propertySubtype, setPropertySubtype] = useState('')
+    const updatePropertySubtype = (e) => {
+        setPropertySubtype(e.currentTarget.value)
+    }
 
+    const [locality, setLocality] = useState('')
+    const updateLocality = (e) => {
+        setLocality(e.currentTarget.value)
+    }
 
     const [isOpen, setIsOpen] = useState({
         buy: false,
@@ -27,7 +34,7 @@ function Listingswrapper() {
     const toggleAccordion = (key) => {
         setIsOpen((prev) => ({
             ...prev,
-            [key]: !prev[key], // Toggle the specific accordion
+            [key]: !prev[key],
         }));
     };
 
@@ -43,13 +50,14 @@ function Listingswrapper() {
     const [totalPages, setTotalPages] = useState(0);
     const [totalProperties, setTotalProperties] = useState(0);
     const [allListings, setAllListings] = useState([]);
-    async function getAllListingsData(newPage, newLimit, newSearchQuery) {
+    async function getAllListingsData(newPage, newLimit, newSearchQuery, newPropertyIn, newPropertySubtype) {
         listingApi.get('/getalllistings', {
             params: {
                 page: newPage,
                 limit: newLimit,
                 searchQuery: newSearchQuery,
-                property_in: propertyIn
+                property_in: newPropertyIn,
+                property_subtype: newPropertySubtype,
             },
             headers: {
                 'Content-Type': 'application/json',
@@ -85,8 +93,8 @@ function Listingswrapper() {
 
     useEffect(() => {
         setIsLoadingEffect(true);
-        getAllListingsData(page, limit, '');
-    }, [propertyIn])
+        getAllListingsData(page, limit, '', propertyIn, propertySubtype);
+    }, [propertyIn, propertySubtype])
 
     const handlePageChange = (page) => {
         setPage(page);
@@ -327,6 +335,10 @@ function Listingswrapper() {
                         isLoadingEffect={isLoadingEffect}
                         handleDeleteProperty={handleDeleteProperty}
                         propertyIn={propertyIn}
+                        propertySubtype={propertySubtype}
+                        updatePropertySubtype={updatePropertySubtype}
+                        locality={locality}
+                        updateLocality={updateLocality}
                     />
                 </div>
             </div >
