@@ -20,6 +20,8 @@ function Propertylists({
     updatePropertySubtype,
     locality,
     updateLocality,
+    bhk,
+    updateBhk
 }) {
     const user_info = useUserDetails((state) => state.userInfo)
     const user_id = user_info?.user_id || null
@@ -75,8 +77,52 @@ function Propertylists({
             })
     }
 
+    const [allBhk, setAllBhk] = useState([])
+    const getBhk = () => {
+        Propertyapi.get('getbedroomtypes', {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${access_token}`
+            }
+        })
+
+            .then((response) => {
+                let data = response.data
+                if (data.status === 'error') {
+                    let finalResponse = {
+                        'message': data.message,
+                        'server_res': data
+                    }
+                    console.log(finalResponse)
+                }
+                if (data.status === 'success') {
+                    setAllBhk(data?.bedrooms || [])
+                    return false;
+                }
+            })
+            .catch((error) => {
+                console.log(error)
+                let finalresponse;
+                if (error.response !== undefined) {
+                    finalresponse = {
+                        'message': error.message,
+                        'server_res': error.response.data
+                    };
+                }
+                else {
+                    finalresponse = {
+                        'message': error.message,
+                        'server_res': null
+                    };
+                }
+                console.log(finalresponse)
+                return false;
+            })
+    }
+
     useEffect(() => {
         getPropertySubTypes()
+        getBhk()
     }, [propertyIn])
 
     return (
@@ -100,6 +146,9 @@ function Propertylists({
                                         onChange={updatePropertySubtype}
                                         className="text-[#FEFDF8] text-[10px] font-[700] bg-transparent outline-none h-7"
                                     >
+                                        <option className="text-black" value="" disabled>
+                                            Select Property Type
+                                        </option>
                                         {
                                             allPropertySubTypes.length > 0 &&
                                             allPropertySubTypes.map((item, index) => (
@@ -131,15 +180,20 @@ function Propertylists({
                             <div className="w-fit flex items-center gap-2 px-1 border border-[#FEFDF8] rounded-sm cursor-pointer">
                                 <label className="cursor-pointer">
                                     <select
-                                        id="verificationStatus"
+                                        id="bhk"
+                                        value={bhk}
+                                        onChange={updateBhk}
                                         className="text-[#FEFDF8] text-[10px] font-[700] outline-none h-7 bg-transparent"
                                     >
-                                        <option value="bhk" className="text-black">
+                                       <option className="text-black" value="" disabled>
                                             BHK
                                         </option>
-                                        <option className="text-black" value="verified">Verified</option >
-                                        <option className="text-black" value="unverified">Unverified</option  >
-                                        <option className="text-black" value="pending">Pending</option>
+                                        {
+                                            allBhk.length > 0 &&
+                                            allBhk.map((item, index) => (
+                                                <option className="text-black" key={index} value={item.value}>{item.name}</option>
+                                            ))
+                                        }
                                     </select>
                                 </label>
                             </div>

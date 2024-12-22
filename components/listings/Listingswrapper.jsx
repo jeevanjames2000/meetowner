@@ -15,6 +15,11 @@ function Listingswrapper() {
     const access_token = useUserDetails(state => state.access_token);
 
     const [propertyIn, setPropertyIn] = useState("Residential");
+    const updatePropertyIn = (value) => {
+        setPropertyIn(value)
+        setPropertySubtype('')
+        setLocality('')
+    }
     const [propertySubtype, setPropertySubtype] = useState('')
     const updatePropertySubtype = (e) => {
         setPropertySubtype(e.currentTarget.value)
@@ -23,6 +28,11 @@ function Listingswrapper() {
     const [locality, setLocality] = useState('')
     const updateLocality = (e) => {
         setLocality(e.currentTarget.value)
+    }
+
+    const [bhk, setBhk] = useState('')
+    const updateBhk = (e) => {
+        setBhk(e.currentTarget.value)
     }
 
     const [isOpen, setIsOpen] = useState({
@@ -93,8 +103,8 @@ function Listingswrapper() {
 
     useEffect(() => {
         setIsLoadingEffect(true);
-        getAllListingsData(page, limit, '', propertyIn, propertySubtype);
-    }, [propertyIn, propertySubtype])
+        getAllListingsData(page, limit, locality, propertyIn, propertySubtype);
+    }, [propertyIn, locality, propertySubtype])
 
     const handlePageChange = (page) => {
         setPage(page);
@@ -159,7 +169,7 @@ function Listingswrapper() {
                                     name="role"
                                     value="Residential"
                                     checked={propertyIn === "Residential"}
-                                    onChange={() => setPropertyIn("Residential")}
+                                    onChange={() => updatePropertyIn("Residential")}
                                     className="hidden"
                                 />
                                 <div className="flex w-full items-center gap-2">
@@ -184,7 +194,7 @@ function Listingswrapper() {
                                     name="role"
                                     value="Commercial"
                                     checked={propertyIn === "Commercial"}
-                                    onChange={() => setPropertyIn("Commercial")}
+                                    onChange={() => updatePropertyIn("Commercial")}
                                     className="hidden"
                                 />
                                 <div className="flex w-full items-center gap-2">
@@ -339,6 +349,8 @@ function Listingswrapper() {
                         updatePropertySubtype={updatePropertySubtype}
                         locality={locality}
                         updateLocality={updateLocality}
+                        bhk={bhk}
+                        updateBhk={updateBhk}
                     />
                 </div>
             </div >
