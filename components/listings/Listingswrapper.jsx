@@ -114,7 +114,7 @@ function Listingswrapper() {
 
     const refreshListings = () => {
         setIsLoadingEffect(true);
-        getAllListingsData(page, limit, '');
+        getAllListingsData(page, limit, locality, propertyIn, propertySubtype);
     }
 
     const handleDeleteProperty = useCallback((unique_property_id) => {
@@ -153,7 +153,6 @@ function Listingswrapper() {
                 setErrorModalOpen(true);
             });
     }, [])
-
 
     return (
         <>
