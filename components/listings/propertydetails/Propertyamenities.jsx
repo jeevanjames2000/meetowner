@@ -28,7 +28,7 @@ import cafeteria from '@/public/assets/cafeteria.svg';
 import pet_allowed from '@/public/assets/pet_allowed.svg';
 import children_play_area from '@/public/assets/children_play_area.svg';
 
-function Propertyamenities() {
+function Propertyamenities({ propertyDetails }) {
     const amenities = [
         { name: "Cricket Pitch", image: cricket_pitch },
         { name: "Swimming Pool", image: swimming_pool },
@@ -60,7 +60,7 @@ function Propertyamenities() {
 
     return (
         <div className="propertyprice space-y-6">
-            <p className="text-[#1D37A6] text-[30px] font-[600]">LAKESCAPE Amenities</p>
+            <p className="text-[#1D37A6] text-[25px] font-[600]">{propertyDetails?.property_name} Amenities</p>
             <div className="custom-shadow bg-[#F3F3F3] p-6 space-y-8">
                 <div className="flex items-center justify-end gap-[14px]">
                     <IconHeart stroke={2} color="#E28B6D" className="h-6 w-6" />

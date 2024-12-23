@@ -2,7 +2,8 @@ import Image from 'next/image'
 import React from 'react'
 import priceplansftsartitech1 from '@/public/assets/priceplansfts-artitech1.png'
 import priceplansftsartitech2 from '@/public/assets/priceplansfts-artitech2.png'
-function Floorplanone() {
+
+function Floorplan({ price, type }) {
     return (
         <div className='floorplan flex'>
             <div className='w-[50%] space-y-5'>
@@ -20,14 +21,14 @@ function Floorplanone() {
                     <p className='text-[14px] text-[#492828] font-[600] underline underline-offset-8'>
                         Price
                     </p>
-                    <p className='text-[14px] text-[#492828] font-[700] '>₹ 93 L</p>
+                    <p className='text-[14px] text-[#492828] font-[700] '>{price}</p>
                 </div>
                 <div className='custom-shadow bg-[#FFFFFF] px-8 pb-2 rounded-lg'>
                     <div className='flex items-center justify-between'>
                         <p className='text-[24px] font-[600] text-[#492828]'>
                             TYPE
                         </p>
-                        <p className='text-[48px] text-[#878787] font-[700]'>1</p>
+                        <p className='text-[48px] text-[#878787] font-[700]'>{type}</p>
                     </div>
                     <Image
                         src={priceplansftsartitech2}
@@ -40,4 +41,4 @@ function Floorplanone() {
     )
 }
 
-export default Floorplanone
+export default Floorplan

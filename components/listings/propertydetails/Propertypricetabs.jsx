@@ -1,32 +1,45 @@
 'use client'
 import React, { useState } from 'react'
-import Floorplanone from './tabs/Floorplanone';
-import Floorplantwo from './tabs/Floorplantwo';
-import Floorplanfour from './tabs/Floorplanfour';
-import Floorplanthree from './tabs/Floorplanthree';
+import Floorplan from './tabs/Floorplan';
 
-function Propertyprice() {
+function Propertyprice({ propertyDetails }) {
     const [activetab, setactivetab] = useState("plan1");
 
     const updateSetactivetab = (value) => {
         setactivetab(value);
     }
 
+    let available_from_date = 'N/A';
+
+    if (propertyDetails?.available_from) {
+        const available_from = new Date(propertyDetails.available_from);
+        if (!isNaN(available_from)) {
+            available_from_date = available_from.toISOString().split('T')[0];
+        }
+    }
+
     return (
         <div className='propertyprice space-y-6'>
-            <p className="text-[#1D37A6] text-[30px] font-[600]">
-                LAKESCAPE Price & Floor Plan
+            <p className="text-[#1D37A6] text-[25px] font-[600]">
+                {propertyDetails?.property_name} Price & Floor Plan
             </p>
             <div className='custom-shadow bg-[#F3F3F3] p-6 space-y-8'>
                 <div className='flex space-x-6'>
                     <div className='custom-apartmentshadow px-8 py-2 flex flex-col items-center justify-center rounded-sm'>
-                        <p className='text-[14px] text-[#434343] font-[700]'>3 BHK</p>
+                        <p className='text-[14px] text-[#434343] font-[700]'>
+                            {
+                                (propertyDetails?.sub_type !== "Plot" || propertyDetails?.sub_type !== "Land" || propertyDetails?.property_in !== "Commercial") ?
+                                    `${propertyDetails?.bedrooms} BHK`
+                                    :
+                                    ''
+                            }
+                        </p>
                         <p className='text-[14px] text-[#1D37A6] font-[600]'>
-                            Apartment
+                            {propertyDetails?.sub_type}
                         </p>
                     </div>
                     <div className='custom-apartmentshadow px-8 py-2 flex flex-col items-center justify-center'>
-                        <p className='text-[14px] text-[#434343] font-[700]'>EAST</p>
+                        <p className='text-[14px] text-[#434343] font-[700]'>{propertyDetails?.facing}</p>
                         <p className='text-[14px] text-[#1D37A6] font-[600]'>
                             Facing
                         </p>
@@ -36,7 +49,7 @@ function Propertyprice() {
                             Possession Starts
                         </p>
                         <p className='text-[14px] text-[#1D37A6] font-[600]'>
-                            Dec, 2025
+                            {available_from_date}
                         </p>
                     </div>
                 </div>
@@ -44,33 +57,60 @@ function Propertyprice() {
                     <button
                         onClick={() => updateSetactivetab("plan1")}
                         className={`text-[12px] hover:text-[#0d6efd] font-[700] pb-[8px] ${activetab === 'plan1' ? 'text-[#1D37A6] border-b-[1.8px] border-[#1D37A6]' : 'text-[#434343]'}`}>
-                        1890 sq.ft
+                        {propertyDetails?.builtup_area ? `${propertyDetails?.builtup_area} sq.ft(builtup_area)` : ''}
                     </button>
                     <button
                         onClick={() => updateSetactivetab("plan2")}
                         className={`text-[12px] hover:text-[#0d6efd] font-[700] pb-[8px] ${activetab === 'plan2' ? 'text-[#1D37A6] border-b-[1.8px] border-[#1D37A6]' : 'text-[#434343]'}`}>
-                        1920 sq.ft
+                        {propertyDetails?.carpet_area ? `${propertyDetails?.carpet_area} sq.ft(carpet_area)` : ''}
                     </button>
                     <button
                         onClick={() => updateSetactivetab("plan3")}
                         className={`text-[12px] hover:text-[#0d6efd] font-[700] pb-[8px] ${activetab === 'plan3' ? 'text-[#1D37A6] border-b-[1.8px] border-[#1D37A6]' : 'text-[#434343]'}`}>
-                        2290 sq.ft
+                        {propertyDetails?.length_area ? `${propertyDetails?.length_area} sq.ft(length_area)` : ''}
                     </button>
                     <button
                         onClick={() => updateSetactivetab("plan4")}
                         className={`text-[12px] hover:text-[#0d6efd] font-[700] pb-[8px] ${activetab === 'plan4' ? 'text-[#1D37A6] border-b-[1.8px] border-[#1D37A6]' : 'text-[#434343]'}`}>
-                        2890 sq.ft
+                        {propertyDetails?.width_area ? `${propertyDetails?.width_area} sq.ft(width_area)` : ''}
+                    </button>
+                    <button
+                        onClick={() => updateSetactivetab("plan5")}
+                        className={`text-[12px] hover:text-[#0d6efd] font-[700] pb-[8px] ${activetab === 'plan5' ? 'text-[#1D37A6] border-b-[1.8px] border-[#1D37A6]' : 'text-[#434343]'}`}>
+                        {propertyDetails?.plot_area ? `${propertyDetails?.plot_area} sq.ft(plot_area)` : ''}
                     </button>
                 </div>
                 <div>
                     {activetab === 'plan1' &&
-                        <Floorplanone />}
+                        <Floorplan
+                            price="₹ 2 Cr - ₹ 4 Cr"
+                            type="1"
+                        />
+                    }
                     {activetab === 'plan2' &&
-                        <Floorplantwo />}
+                        <Floorplan
+                            price="₹ 2 Cr - ₹ 4 Cr"
+                            type="1"
+                        />
+                    }
                     {activetab === 'plan3' &&
-                        <Floorplanthree />}
+                        <Floorplan
+                            price="₹ 2 Cr - ₹ 4 Cr"
+                            type="1"
+                        />
+                    }
                     {activetab === 'plan4' &&
-                        <Floorplanfour />}
+                        <Floorplan
+                            price="₹ 2 Cr - ₹ 4 Cr"
+                            type="1"
+                        />
+                    }
+                    {activetab === 'plan5' &&
+                        <Floorplan
+                            price="₹ 2 Cr - ₹ 4 Cr"
+                            type="1"
+                        />
+                    }
                 </div>
             </div>
         </div>

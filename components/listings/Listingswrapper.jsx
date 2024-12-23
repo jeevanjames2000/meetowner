@@ -19,15 +19,36 @@ function Listingswrapper() {
         setPropertyIn(value)
         setPropertySubtype('')
         setLocality('')
+        if (value === "Commercial") {
+            setBhkhide(false)
+            setBhk('')
+        } else {
+            setBhkhide(true)
+            setBhk('')
+        }
     }
+    const [bhkhide, setBhkhide] = useState(true)
     const [propertySubtype, setPropertySubtype] = useState('')
     const updatePropertySubtype = (e) => {
-        setPropertySubtype(e.currentTarget.value)
+        let value = e.currentTarget.value
+        setPropertySubtype(value)
+        if (value === 4 || value === 5) {
+            setBhkhide(false)
+            setBhk('')
+        } else {
+            setBhkhide(true)
+            setBhk('')
+        }
     }
 
     const [locality, setLocality] = useState('')
     const updateLocality = (e) => {
         setLocality(e.currentTarget.value)
+    }
+
+    const [propertyFor, setPropertyFor] = useState('')
+    const updatePropertyFor = (e) => {
+        setPropertyFor(e.currentTarget.value)
     }
 
     const [bhk, setBhk] = useState('')
@@ -60,7 +81,7 @@ function Listingswrapper() {
     const [totalPages, setTotalPages] = useState(0);
     const [totalProperties, setTotalProperties] = useState(0);
     const [allListings, setAllListings] = useState([]);
-    async function getAllListingsData(newPage, newLimit, newSearchQuery, newPropertyIn, newPropertySubtype) {
+    async function getAllListingsData(newPage, newLimit, newSearchQuery, newPropertyIn, newPropertySubtype, newPropertyFor, newBhk) {
         listingApi.get('/getalllistings', {
             params: {
                 page: newPage,
@@ -68,6 +89,8 @@ function Listingswrapper() {
                 searchQuery: newSearchQuery,
                 property_in: newPropertyIn,
                 property_subtype: newPropertySubtype,
+                property_for: newPropertyFor,
+                bedrooms: newBhk
             },
             headers: {
                 'Content-Type': 'application/json',
@@ -103,8 +126,8 @@ function Listingswrapper() {
 
     useEffect(() => {
         setIsLoadingEffect(true);
-        getAllListingsData(page, limit, locality, propertyIn, propertySubtype);
-    }, [propertyIn, locality, propertySubtype])
+        getAllListingsData(page, limit, locality, propertyIn, propertySubtype, propertyFor, bhk);
+    }, [propertyIn, locality, propertySubtype, propertyFor, bhk])
 
     const handlePageChange = (page) => {
         setPage(page);
@@ -114,7 +137,7 @@ function Listingswrapper() {
 
     const refreshListings = () => {
         setIsLoadingEffect(true);
-        getAllListingsData(page, limit, locality, propertyIn, propertySubtype);
+        getAllListingsData(page, limit, locality, propertyIn, propertySubtype, propertyFor, bhk);
     }
 
     const handleDeleteProperty = useCallback((unique_property_id) => {
@@ -348,8 +371,11 @@ function Listingswrapper() {
                         updatePropertySubtype={updatePropertySubtype}
                         locality={locality}
                         updateLocality={updateLocality}
+                        bhkhide={bhkhide}
                         bhk={bhk}
                         updateBhk={updateBhk}
+                        propertyFor={propertyFor}
+                        updatePropertyFor={updatePropertyFor}
                     />
                 </div>
             </div >

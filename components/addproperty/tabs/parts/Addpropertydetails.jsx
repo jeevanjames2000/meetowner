@@ -10,7 +10,7 @@ import { useSearchParams } from 'next/navigation';
 import Errorpanel from '@/components/shared/Errorpanel';
 import { toast } from 'react-toastify';
 import { usePropertyDetails } from '@/components/zustand/usePropertyDetails';
-function Propertydetailswrapper({
+function Addpropertydetails({
   updateActiveTab, propertyDetails, preferedTenantList,
   bacloniesList, bedroomtypesList, businesstypesList,
   facingList, furnishedtypesList, occupancyList,
@@ -135,7 +135,7 @@ function Propertydetailswrapper({
       }
     } else {
       if (type === "Plot" || type === "Land") {
-        servantRoom('')
+        setServantRoom('')
       }
     }
   }
@@ -3054,4 +3054,4 @@ function Propertydetailswrapper({
   )
 }
 
-export default Propertydetailswrapper
+export default Addpropertydetails

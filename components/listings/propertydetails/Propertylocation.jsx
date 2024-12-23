@@ -7,7 +7,7 @@ import sports_arena from '@/public/assets/sports_arena.svg';
 import airport_travel from '@/public/assets/airport_travel.svg';
 import parks_walkers_zone from '@/public/assets/parks_walkers_zone.svg';
 
-function Propertylocation() {
+function Propertylocation({propertyDetails}) {
     const nearbyAmenities = [
         { name: "International Schools", distance: "200m", image: international_schools },
         { name: "Best Hospital Services", distance: "300m", image: hospitals },
@@ -20,8 +20,8 @@ function Propertylocation() {
     return (
         <div className="propertyprice space-y-6">
             <div>
-                <p className="text-[#1D37A6] text-[30px] font-[600]">Property Location</p>
-                <p className="text-[#00609E] text-[18px] font-[400]">Kondapur, Hyderabad</p>
+                <p className="text-[#1D37A6] text-[25px] font-[600]">Property Location</p>
+                <p className="text-[#00609E] text-[18px] font-[400]">{propertyDetails?.google_address}</p>
             </div>
             <div className="custom-shadow bg-[#F3F3F3] p-6 space-y-8">
                 <p className="text-[#00609E] text-[18px] font-[700] text-center">Around This Property</p>

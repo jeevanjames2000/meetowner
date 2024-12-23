@@ -20,8 +20,11 @@ function Propertylists({
     updatePropertySubtype,
     locality,
     updateLocality,
+    bhkhide,
     bhk,
-    updateBhk
+    updateBhk,
+    propertyFor,
+    updatePropertyFor,
 }) {
     const user_info = useUserDetails((state) => state.userInfo)
     const user_id = user_info?.user_id || null
@@ -67,6 +70,48 @@ function Propertylists({
                         'server_res': error.response.data
                     };
                 } else {
+                    finalresponse = {
+                        'message': error.message,
+                        'server_res': null
+                    };
+                }
+                console.log(finalresponse)
+                return false;
+            })
+    }
+
+    const [allPropertyFor, setAllPropertyFor] = useState([])
+    const getPropertyFor = () => {
+        Propertyapi.get('getPropertyFor', {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${access_token}`
+            }
+        })
+            .then((response) => {
+                let data = response.data
+                if (data.status === 'error') {
+                    let finalResponse = {
+                        'message': data.message,
+                        'server_res': data
+                    }
+                    console.log(finalResponse)
+                }
+                if (data.status === 'success') {
+                    setAllPropertyFor(data?.property_for || [])
+                    return false;
+                }
+            })
+            .catch((error) => {
+                console.log(error)
+                let finalresponse;
+                if (error.response !== undefined) {
+                    finalresponse = {
+                        'message': error.message,
+                        'server_res': error.response.data
+                    };
+                }
+                else {
                     finalresponse = {
                         'message': error.message,
                         'server_res': null
@@ -123,6 +168,7 @@ function Propertylists({
     useEffect(() => {
         getPropertySubTypes()
         getBhk()
+        getPropertyFor()
     }, [propertyIn])
 
     return (
@@ -133,11 +179,32 @@ function Propertylists({
                         <div className='flex flex-wrap gap-3'>
                             <input
                                 type='text'
-                                placeholder='Locality'
+                                placeholder='search location'
                                 className='w-[25%] px-4 text-[#FEFDF8] text-[10px] font-[700] bg-transparent  h-7 border border-[#FEFDF8] rounded-sm focus:outline-none'
                                 value={locality}
                                 onChange={updateLocality}
                             />
+                            <div className="w-[25%] flex items-center gap-2 pl-1 border border-[#FEFDF8] rounded-sm cursor-pointer">
+                                <label className="flex items-center cursor-pointer">
+                                    <select
+                                        id="propertyfor"
+                                        value={propertyFor}
+                                        onChange={updatePropertyFor}
+                                        className="text-[#FEFDF8] text-[10px] font-[700] bg-transparent outline-none h-7"
+                                    >
+                                        <option className="text-black" value="" disabled>
+                                            Property for
+                                        </option>
+                                        {
+                                            allPropertyFor.length > 0 &&
+                                            allPropertyFor.map((item, index) => (
+                                                <option className="text-black" key={index} value={item.value}>{item.name}</option>
+                                            ))
+
+                                        }
+                                    </select>
+                                </label>
+                            </div>
                             <div className="w-[25%] flex items-center gap-2 pl-1 border border-[#FEFDF8] rounded-sm cursor-pointer">
                                 <label className="flex items-center cursor-pointer">
                                     <select
@@ -147,7 +214,7 @@ function Propertylists({
                                         className="text-[#FEFDF8] text-[10px] font-[700] bg-transparent outline-none h-7"
                                     >
                                         <option className="text-black" value="" disabled>
-                                            Select Property Type
+                                            Property Type
                                         </option>
                                         {
                                             allPropertySubTypes.length > 0 &&
@@ -159,6 +226,28 @@ function Propertylists({
                                     </select>
                                 </label>
                             </div>
+                            {bhkhide &&
+                                <div className="w-fit flex items-center gap-2 px-1 border border-[#FEFDF8] rounded-sm cursor-pointer">
+                                    <label className="cursor-pointer">
+                                        <select
+                                            id="bhk"
+                                            value={bhk}
+                                            onChange={updateBhk}
+                                            className="text-[#FEFDF8] text-[10px] font-[700] outline-none h-7 bg-transparent"
+                                        >
+                                            <option className="text-black" value="" disabled>
+                                                BHK
+                                            </option>
+                                            {
+                                                allBhk.length > 0 &&
+                                                allBhk.map((item, index) => (
+                                                    <option className="text-black" key={index} value={item.value}>{item.name}</option>
+                                                ))
+                                            }
+                                        </select>
+                                    </label>
+                                </div>
+                            }
 
                             {/* Verification Status Dropdown */}
                             <div className="w-[25%] flex items-center gap-2 pl-1 border border-[#FEFDF8] rounded-sm cursor-pointer">
@@ -173,27 +262,6 @@ function Propertylists({
                                         <option className="text-black" value="verified">Verified</option >
                                         <option className="text-black" value="unverified">Unverified</option  >
                                         <option className="text-black" value="pending">Pending</option>
-                                    </select>
-                                </label>
-                            </div>
-                            {/* BHK Dropdown */}
-                            <div className="w-fit flex items-center gap-2 px-1 border border-[#FEFDF8] rounded-sm cursor-pointer">
-                                <label className="cursor-pointer">
-                                    <select
-                                        id="bhk"
-                                        value={bhk}
-                                        onChange={updateBhk}
-                                        className="text-[#FEFDF8] text-[10px] font-[700] outline-none h-7 bg-transparent"
-                                    >
-                                       <option className="text-black" value="" disabled>
-                                            BHK
-                                        </option>
-                                        {
-                                            allBhk.length > 0 &&
-                                            allBhk.map((item, index) => (
-                                                <option className="text-black" key={index} value={item.value}>{item.name}</option>
-                                            ))
-                                        }
                                     </select>
                                 </label>
                             </div>
