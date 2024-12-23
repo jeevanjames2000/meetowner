@@ -1,6 +1,6 @@
 'use client'
 import LoadingOverlay from '@/components/shared/LoadingOverlay'
-import { Modal, Select, Textarea } from '@nayeshdaggula/tailify'
+import { Modal, Select, Textarea, Textinput } from '@nayeshdaggula/tailify'
 import React, { useEffect, useState } from 'react'
 import Addfurnishingswrapper from './Addfurnishingswrapper';
 import { IconAsterisk } from '@tabler/icons-react';
@@ -31,12 +31,125 @@ function Propertydetailswrapper({
   const updatePropertySubType = (type) => {
     setPropertySubType(type)
     setPropertySubTypeError('')
+    if (type === "Plot" || type === "Land") {
+      setBhk('')
+      setBathroom('')
+      setBalcony('')
+      setFurnishType('')
+
+    }
+    if (type === "Warehouse" || type === "Others" || type === "Plot") {
+      setPassengerLifts('')
+      setServiceLifts('')
+      setStairCases('')
+      setPrivateParking('')
+      setPublicParking('')
+      setPrivateWashrooms('')
+      setPublicWashrooms('')
+    }
+    if (!(type === "Apartment" || type === "Flat" || type === "Land" || type === "Office" || type === "Retail Shop" || type === "Show Room" || type === "Independent House" || type === "Independent Villa")) {
+      setBuiltupArea('')
+      setCarpetArea('')
+    }
+    if (!(type === "Plot" || type === "Land")) {
+      setLengthArea('')
+      setWidthArea('')
+    }
+    if (getpropertyDetails?.property_for === "Rent") {
+      if (type === "Plot" || type === "Land") {
+        setConstructionStatus('')
+      }
+    }
+    if (getpropertyDetails.property_for === "Rent" || !(type === "Plot" || type === "Land")) {
+      setPreferredTenantType('')
+    }
+    if (!(type === "Independent House" || type === "Independent Villa" || type === "Plot" || type === "Warehouse" || type === "Others")) {
+      setPlotArea('')
+    }
+    if (!(type === "Independent House" || type === "Independent Villa")) {
+      setPentHouse('')
+    }
+    if (getpropertyDetails.property_for !== "Sell") {
+      if (!(type === "Independent House" || type === "Independent Villa")) {
+        setUnitCost('')
+      }
+      setPropertyCost('')
+    }
+    if (!(type === "Apartment" || type === "Independent House" || type === "Independent Villa" || type === "Flat" || type === "Office" || type === "Retail Shop" || type === "Show Room")) {
+      setFacilities({
+        Lift: false,
+        CCTV: false,
+        Gym: false,
+        Garden: false,
+        Club_House: false,
+        Sports: false,
+        Swimming_Pool: false,
+        Intercom: false,
+        Power_Backup: false,
+        Gated_Community: false,
+        EntryorExit: false,
+        Regular_Water: false,
+        Community_Hall: false,
+        Pet_Allowed: false,
+        Outdoor_Fitness_Station: false,
+        Half_Basket_Ball_Court: false,
+        Gazebo: false,
+        Badmenton_Court: false,
+        Children_Play_area: false,
+        Ample_Greenery: false,
+        Water_Harvesting_Pit: false,
+        Water_Softner: false,
+        Solar_Fencing: false,
+        Security_Cabin: false,
+        Lawn: false,
+        Transformer_Yard: false,
+        Amphitheatre: false,
+        Lawn_with_Stepping_Stones: false,
+        None: false,
+      })
+    }
+    if (!(getpropertyDetails?.property_in === "Commercial")) {
+      if (!(type === "Warehouse" || type === "Plot" || type === "Others")) {
+        setPlotNumber('')
+      } else {
+        setFlatNumber('')
+      } if (!(type === "Retail Shop" || type === "Show Room" || type === "Plot" || type === "Others")) {
+        setSuitableFor('')
+      } else {
+        setZoneType('')
+      }
+    }
+    if (!(getpropertyDetails?.property_for === "Sell")) {
+      if (!(type === "Apartment" || type === "Independent Villa" || type === "Plot")) {
+        setInvestorProperty('')
+      }
+    }
+    if (type === "Plot") {
+      setCarParking('')
+      setOpenParking('')
+      setBikeParking('')
+    }
+    if (!(getpropertyDetails?.property_in === "Commercial")) {
+      if (!(type === "Retail Shop" || type === "Warehouse" || type === "Plot")) {
+        setPantryRoom('')
+      }
+    } else {
+      if (type === "Plot" || type === "Land") {
+        servantRoom('')
+      }
+    }
   }
   const [constructionStatus, setConstructionStatus] = useState('')
   const [constructionStatusError, setConstructionStatusError] = useState('')
   const updateConstructionStatus = (status) => {
     setConstructionStatus(status)
     setConstructionStatusError('')
+    if (status === 1) {
+      setPossessionEndDate('')
+    }
+    if (status === 2) {
+      setAgeofProperty('')
+    }
   }
 
   const [bhk, setBhk] = useState('')
@@ -218,12 +331,6 @@ function Propertydetailswrapper({
   const updateFacing = (facing) => {
     setFacing(facing)
     setFacingError('')
-  }
-  const [address, setAddress] = useState('')
-  const [addressError, setAddressError] = useState('')
-  const updateAddress = (e) => {
-    setAddress(e.target.value)
-    setAddressError('')
   }
   const [servantRoom, setServantRoom] = useState('')
   const [servantRoomError, setServantRoomError] = useState('')
@@ -1403,7 +1510,8 @@ function Propertydetailswrapper({
       ownership_type: ownerShip || null,
       facilities: selectedFacilities || null,
       other_info: otherInfo || null,
-      unit_flat_house_no: unit_flat_house_no || null,
+      unit_flat_house_no: flatNumber || null,
+      plot_number: plotNumber || null,
       business_types: suitableFor || null,
       zone_types: zoneType || null,
       investor_property: investorProperty || null,
@@ -1567,19 +1675,20 @@ function Propertydetailswrapper({
         let under_construction_date = under_construction?.toISOString().split('T')[0]
         setPossessionEndDate(under_construction_date)
       }
-      if (propertyDetails?.unit_flat_house_no) {
-        if (propertyDetails?.sub_type === "Warehouse" || propertyDetails?.sub_type === "Plot" || propertyDetails?.sub_type === "Others") {
-          setPlotNumber(propertyDetails?.unit_flat_house_no || '')
-        } else {
-          setFlatNumber(propertyDetails?.unit_flat_house_no || '')
-        }
-      }
+      // if (propertyDetails?.unit_flat_house_no) {
+      //   if (propertyDetails?.sub_type === "Warehouse" || propertyDetails?.sub_type === "Plot" || propertyDetails?.sub_type === "Others") {
+      //     setPlotNumber(propertyDetails?.unit_flat_house_no || '')
+      //   } else {
+      //     setFlatNumber(propertyDetails?.unit_flat_house_no || '')
+      //   }
+      // }
+      setPlotNumber(propertyDetails?.plot_number || '')
+      setFlatNumber(propertyDetails?.unit_flat_house_no || '')
       setOwnerShip(propertyDetails?.ownership_type || '')
       setZoneType(propertyDetails?.zone_types || '')
       setUnitCost(propertyDetails?.builtup_unit || '')
       setPlotArea(propertyDetails?.plot_area?.toString() || '')
       setPropertyDescription(propertyDetails?.description || '')
-      setAddress(propertyDetails?.google_address || '')
       setLengthArea(propertyDetails?.length_area?.toString() || '')
       setWidthArea(propertyDetails?.width_area?.toString() || '')
       setSuitableFor(propertyDetails?.business_types || '')
@@ -1726,10 +1835,9 @@ function Propertydetailswrapper({
   useEffect(() => {
     if (getpropertyDetails?.property_for === 'Rent') {
       setConstructionStatus('')
+      setPossessionStatus('')
       setLengthArea('')
-      setPlotArea('')
       setWidthArea('')
-      setPentHouse('')
     }
     if (getpropertyDetails?.property_for === 'Sell') {
       setMonthlyRent('')
@@ -1738,6 +1846,7 @@ function Propertydetailswrapper({
       setLockInPeriod('')
       setPreferredTenantType('')
       setBrokerage('')
+      setAvailableFromDate('')
     }
     if (getpropertyDetails?.property_in === 'Residential') {
       setPassengerLifts('')
@@ -1748,14 +1857,13 @@ function Propertydetailswrapper({
       setPrivateWashrooms('')
       setPublicWashrooms('')
     }
-    if (getpropertyDetails?.property_in === 'Commercial') {
-      setMonthlyRent('')
-      setSecurityDeposit('')
-      setBrokerage('')
-      setPreferredTenantType('')
+    if (!(getpropertyDetails?.property_in === 'Commercial' && getpropertyDetails?.property_for === 'Sell')) {
+      setOwnerShip('')
+    }
+    if (getpropertyDetails?.property_for !== "Rent") {
+      setLoanFacility('')
     }
   }, [getpropertyDetails])
-
 
   useEffect(() => {
     getPropertySubTypes()
@@ -1879,7 +1987,6 @@ function Propertydetailswrapper({
             </div>
             {constructionStatusError && <p className='text-[#FF0000] text-xs font-sans'>Please select construction status</p>}
           </div>
-
         }
         {
           (propertySubType === 'Apartment' || propertySubType === "Flat" || propertySubType === "Independent House" || propertySubType === "Independent Villa") &&
@@ -2807,6 +2914,7 @@ function Propertydetailswrapper({
                     value={customBikeParking}
                     onChange={updateCustomBikeParking}
                   />
+                  {customBikeParkingError && <p className='text-[#FF0000] text-xs font-sans'>Please enter custom bike parking</p>}
                 </div>
               }
               {bikeParkingError && <p className='text-[#FF0000] text-xs font-sans'>Please select bike parking</p>}
@@ -2854,21 +2962,6 @@ function Propertydetailswrapper({
             </div>
           </>
         }
-        {/* <div className='my-6'>
-          <div className='flex gap-1'>
-            <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Address</p>
-            <IconAsterisk size={8} color='#FF0000' />
-          </div>
-          <input  
-            type='text'
-            placeholder='Address'
-            className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans'
-            autoComplete='off'
-            value={address}
-            onChange={updateAddress}
-          />
-          {addressError && <p className='text-[#FF0000] text-xs font-sans'>Please enter address</p>}
-        </div> */}
         {
           getpropertyDetails?.property_in === "Commercial" ?
             (propertySubType === "Office" || propertySubType === "Show Room" || !(propertySubType === "Retail Shop" || propertySubType === "Warehouse" || propertySubType === "Plot")) &&

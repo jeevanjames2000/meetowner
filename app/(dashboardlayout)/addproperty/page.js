@@ -8,8 +8,20 @@ async function Page() {
     const getPropertyInData = await getPropertyIn();
     if (getPropertyInData.status === 'error') {
         return (
-            <div>
-                <p>Error fetching propertyIn types</p>
+            <div className="flex items-center justify-center min-h-screen bg-gray-50">
+                <div className="text-center">
+                    <div className="bg-red-100 p-4 rounded-lg shadow-md inline-block">
+                        <p className="text-red-600 text-lg font-medium">
+                            Error fetching property types. Please try again later.
+                        </p>
+                    </div>
+                    <button
+                        onClick={() => window.location.reload()}
+                        className="mt-6 px-4 py-2 bg-red-500 text-white font-semibold rounded-md hover:bg-red-600"
+                    >
+                        Refresh Page
+                    </button>
+                </div>
             </div>
         );
     }

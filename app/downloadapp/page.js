@@ -1,4 +1,3 @@
-'use client'
 import Image from 'next/image'
 import React from 'react'
 import downloadapp_bg from '@/public/assets/downloadapp_bg.png'
