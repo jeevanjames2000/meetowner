@@ -14,12 +14,26 @@ body {
 }
 /* styles for the signup form */
 .custom-shadow {
-  box-shadow: 4px 0px 10px rgba(0, 0, 0, 0.2); 
+  box-shadow: 20px 0px 20px rgba(0, 0, 0, 0.2); 
 }
 /* styles for the downloadapp*/
 .downloadapp .custom-shadow {
   box-shadow: 0px 0px 12px 8px #00000040;
 
+}
+.lakescape-header{
+  box-shadow: 0px 0px 4px 0px #00000040;
+  
+}
+.propertyprice .custom-shadow{
+
+  box-shadow: 0px 0px 22px 0px #D2D2D2;
+}
+.propertyprice .custom-apartmentshadow{
+  box-shadow: 0px 0px 6px 0px #00000040;
+}
+.floorplan .custom-shadow{
+  box-shadow: 0px 0px 20px 0px #a4a4a4;
 }
 .listingfilter input::placeholder {
   font-size: 10px; 

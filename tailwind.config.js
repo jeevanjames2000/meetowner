@@ -25,11 +25,11 @@ module.exports = {
         '2xl': '1536px', // Ultra-wide desktops
         '3xl': '1920px', // Very large screens (gaming monitors, TVs)
       }
-      
+
     },
     letterSpacing: {
       'extra-wide': '0.3em', // Example: Wider than `tracking-widest`
-   
+      'small-wide': '0.1em',
     },
   },
   plugins: [],
