@@ -28,6 +28,11 @@ async function page({ params }) {
 
     return (
         <>
+            <div className='py-4'>
+                <p className="text-[#1d3a76] text-[30px] font-bold tracking-small-wide text-center">
+                    {propertyDetails?.property_name?.toUpperCase()} PROPERTY DETAILS
+                </p>
+            </div>
             <Propertydetailswrapper
                 id={id}
                 propertyDetails={propertyDetails}

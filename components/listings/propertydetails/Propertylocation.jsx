@@ -21,10 +21,10 @@ function Propertylocation({propertyDetails}) {
         <div className="propertyprice space-y-6">
             <div>
                 <p className="text-[#1d3a76] text-[25px] font-[600]">Property Location</p>
-                <p className="text-[#00609E] text-[18px] font-[400]">{propertyDetails?.google_address}</p>
+                <p className="text-[#00609E] text-[14px] font-[400]">{propertyDetails?.google_address}</p>
             </div>
             <div className="custom-shadow bg-[#F3F3F3] p-6 space-y-8">
-                <p className="text-[#00609E] text-[18px] font-[700] text-center">Around This Property</p>
+                <p className="text-[#00609E] text-[18px] font-[600] text-center">Around This Property</p>
                 <div className="grid grid-cols-2 gap-8">
                     {nearbyAmenities.map((amenity, index) => (
                         <div
@@ -36,8 +36,8 @@ function Propertylocation({propertyDetails}) {
                                 alt={amenity.name}
                                 className="w-fit h-fit object-cover"
                             />
-                            <p className="text-[16px] text-[#00609E] font-[400]">{amenity.name}</p>
-                            <p className="text-[#ffffff] text-center text-[14px] bg-[#1F3C88] font-[600] px-3 py-[6px] rounded-md ml-auto">
+                            <p className="text-[14px] text-[#00609E] font-[400]">{amenity.name}</p>
+                            <p className="text-[#ffffff] text-center text-[12px] bg-[#1F3C88] font-[600] px-3 py-[4px] rounded-md ml-auto">
                                 {amenity.distance}
                             </p>
                         </div>

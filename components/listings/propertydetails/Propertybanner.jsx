@@ -3,20 +3,17 @@ import Propertycarousel from './parts/Propertycarousel';
 function Propertybanner({ propertyDetails }) {
     return (
         <div className="flex flex-col space-y-[12px]">
-            <p className="text-[#1d3a76] text-[30px] font-bold tracking-small-wide">
-                {propertyDetails?.property_name?.toUpperCase()} PROPERTY DETAILS
-            </p>
-            <p className="text-[#1d3a76] text-[20px] font-[600]">
+            <p className="text-[#1d3a76] text-[26px] font-[600] font-sans">
                 Property Description
             </p>
-            <p className="text-[#6E6E6E] text-[13px] font-[600] leading-6">{propertyDetails?.description}</p>
+            <p className="text-[#6E6E6E] text-[13px] font-[500] leading-6 font-Montserrat">{propertyDetails?.description}</p>
             <div className='flex flex-row items-start justify-between pt-6'>
                 <div className="">
-                    <p className="text-[26px] font-[600] text-[#1d3a76]">{propertyDetails?.property_name}</p>
-                    <p className="text-[14px] font-[600] text-[#1d3a76] pt-2">{propertyDetails?.google_address}</p>
+                    <p className="text-[26px] font-[600] text-[#1d3a76] font-sans">{propertyDetails?.property_name?.toUpperCase()}</p>
+                    <p className="text-[14px] font-[600] text-[#1d3a76] pt-2 font-sans">{propertyDetails?.google_address}</p>
                 </div>
                 <div className="">
-                    <p className="text-[18px] font-semibold text-[#492828]">
+                    <p className="text-[18px] font-semibold text-[#492828] font-sans">
                         {/* ₹ 2 Cr - ₹ 4 Cr - <span className="text-[#000000] font-[400] text-[18px]"> ₹ 10.k/sq.ft</span> */}
                         {propertyDetails?.property_for === "Sell" ? `₹ ${propertyDetails?.property_cost}` : ` ₹ ${propertyDetails?.monthly_rent} Rent`}
                     </p>

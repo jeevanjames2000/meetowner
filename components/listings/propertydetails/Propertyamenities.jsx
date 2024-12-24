@@ -1,6 +1,7 @@
-import { IconHeart } from '@tabler/icons-react';
+'use client'
+import { IconCheckbox, IconHeart, IconShare } from '@tabler/icons-react';
 import Image from 'next/image';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import amenitiesaskdetailslike from '@/public/assets/amenities-askdetails-like.png';
 import cricket_pitch from '@/public/assets/cricket_pitch.svg';
 import swimming_pool from '@/public/assets/swimming_pool.svg';
@@ -29,64 +30,114 @@ import pet_allowed from '@/public/assets/pet_allowed.svg';
 import children_play_area from '@/public/assets/children_play_area.svg';
 
 function Propertyamenities({ propertyDetails }) {
-    const amenities = [
-        { name: "Cricket Pitch", image: cricket_pitch },
-        { name: "Swimming Pool", image: swimming_pool },
-        { name: "Fire Sprinklers", image: fire_sprinklers },
-        { name: "Fire Fighting System", image: fire_fighting_system },
-        { name: "Footpaths", image: footpaths },
-        { name: "Community Buildings", image: community_buildings },
-        { name: "Internal Roads", image: internal_roads },
-        { name: "Water Conservation", image: water_conservation },
-        { name: "Gym", image: gym },
-        { name: "Business Center", image: business_center },
-        { name: "Club House", image: club_house },
-        { name: "Multipurpose Hall", image: multipurpose_hall },
-        { name: "Library", image: library },
-        { name: "Indoor Games", image: indoor_games },
-        { name: "Cycling & Jogging Track", image: cycling_jogging_track },
-        { name: "Yoga / Meditation", image: yoga_meditation },
-        { name: "Lift", image: lift },
-        { name: "Street Light", image: street_light },
-        { name: "Meter Room", image: meter_room },
-        { name: "Recreation Facilities", image: recreation_facilities },
-        { name: "CCTV", image: cctv },
-        { name: "24/7 Security", image: security },
-        { name: "Cafeteria", image: cafeteria },
-        { name: "Pet Allowed", image: pet_allowed },
-        { name: "Children's Play Area", image: children_play_area },
-    ];
 
+    const [facilities, setFacilities] = useState({
+        Lift: false,
+        CCTV: false,
+        Gym: false,
+        Garden: false,
+        Club_House: false,
+        Sports: false,
+        Swimming_Pool: false,
+        Intercom: false,
+        Power_Backup: false,
+        Gated_Community: false,
+        EntryorExit: false,
+        Regular_Water: false,
+        Community_Hall: false,
+        Pet_Allowed: false,
+        Outdoor_Fitness_Station: false,
+        Half_Basket_Ball_Court: false,
+        Gazebo: false,
+        Badmenton_Court: false,
+        Children_Play_area: false,
+        Ample_Greenery: false,
+        Water_Harvesting_Pit: false,
+        Water_Softner: false,
+        Solar_Fencing: false,
+        Security_Cabin: false,
+        Lawn: false,
+        Transformer_Yard: false,
+        Amphitheatre: false,
+        Lawn_with_Stepping_Stones: false,
+        None: false,
+    });
+
+    useEffect(() => {
+        const facilitiesString = propertyDetails?.facilities || "";
+        const selectedFacilities = facilitiesString.split(", ").map((item) => item.trim());
+        setFacilities((prevState) => {
+            const updatedFacilities = { ...prevState };
+            selectedFacilities.forEach((facility) => {
+                if (updatedFacilities.hasOwnProperty(facility)) {
+                    updatedFacilities[facility] = true;
+                }
+            });
+            return updatedFacilities;
+        });
+    }, [propertyDetails]);
+
+    // const facilityImages = {
+    //     Lift: lift,
+    //     CCTV: cctv,
+    //     Gym: gym,
+    //     Garden: null,
+    //     Cricket_Pitch: cricket_pitch,
+    //     Swimming_Pool: swimming_pool,
+    //     Fire_Sprinklers: fire_sprinklers,
+    //     Fire_Fighting_System: fire_fighting_system,
+    //     Footpaths: footpaths,
+    //     Community_Buildings: community_buildings,
+    //     Internal_Roads: internal_roads,
+    //     Water_Conservation: water_conservation,
+    //     Business_Center: business_center,
+    //     Club_House: club_house,
+    //     Multipurpose_Hall: multipurpose_hall,
+    //     Library: library,
+    //     Indoor_Games: indoor_games,
+    //     Cycling_Jogging_Track: cycling_jogging_track,
+    //     Yoga_Meditation: yoga_meditation,
+    //     Street_Light: street_light,
+    //     Meter_Room: meter_room,
+    //     Recreation_Facilities: recreation_facilities,
+    //     Security: security,
+    //     Cafeteria: cafeteria,
+    //     Pet_Allowed: pet_allowed,
+    //     Children_Play_Area: children_play_area,
+    // }
 
     return (
         <div className="propertyprice space-y-6">
-            <p className="text-[#1d3a76] text-[25px] font-[600]">{propertyDetails?.property_name} Amenities</p>
-            <div className="custom-shadow bg-[#F3F3F3] p-6 space-y-8">
+            <p className="text-[#1d3a76] text-[25px] font-[600]">{propertyDetails?.property_name?.toUpperCase()} FACILITIES</p>
+            <div className="custom-shadow bg-[#F3F3F3] p-6 space-y-2">
                 <div className="flex items-center justify-end gap-[14px]">
-                    <IconHeart stroke={2} color="#E28B6D" className="h-6 w-6" />
-                    <Image
-                        src={amenitiesaskdetailslike}
-                        alt="amenities-askdetails-like"
-                        className="h-5 w-5 object-contain"
-                    />
+                    <IconHeart stroke={2} color="#E28B6D" className="h-5 w-5" />
+                    <IconShare stroke={2} color="#1d3a76" className="h-5 w-5" />
                     <button
                         className="bg-[#079E9E] text-[#ffffff] text-[12px] font-[600] py-1 px-3 rounded-[5px]"
                     >
                         Ask for Details
                     </button>
                 </div>
-                <div className="grid grid-cols-3 ">
-                    {amenities.map((amenity, index) => (
-
-                        <div key={index} className='flex gap-2 items-center justify-start py-4'>
-                            <Image
-                                src={amenity.image}
-                                alt={amenity.name}
-                                className="h-[30px] w-fit object-cover border-[1.9px] border-[#492828] rounded-lg p-[6px]"
-                            />
-                            <p className="text-[13px] text-[#6E6E6E] font-[600]">{amenity.name}</p>
-                        </div>
-                    ))}
+                <div className="grid grid-cols-6 ">
+                    {
+                        Object.keys(facilities).map((facility, index) => {
+                            if (facilities[facility]) {
+                                return (
+                                    <div key={index} className="flex gap-2 items-center justify-start py-4">
+                                        {/* <Image
+                                            src={pet_allowed}
+                                            alt={facility}
+                                            className="h-[30px] w-fit object-cover border-[1.9px] border-[#492828] rounded-lg p-[6px]"
+                                        /> */}
+                                        <IconCheckbox stroke={2} color="#1d3a76" className="h-5 w-5" />
+                                        <p className="text-[14px] text-[#6E6E6E] font-[500] font-Montserrat">{facility}</p>
+                                    </div>
+                                );
+                            }
+                            return null;
+                        })
+                    }
                 </div>
             </div>
         </div>

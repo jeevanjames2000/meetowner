@@ -46,6 +46,9 @@ function Property({ propertyDetails }) {
                             ''
                     }
                 </p>
+                <div className='bg-[#E28B6D] px-2 py-2 rounded-md'>
+                    <p className='text-[10px] text-white font-semibold font-sans'>Contact Developer</p>
+                </div>
             </div>
             <Swiper
                 modules={[Navigation, Autoplay, FreeMode, Thumbs]}
