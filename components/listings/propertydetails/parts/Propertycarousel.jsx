@@ -15,10 +15,16 @@ function Property({ propertyDetails }) {
     return (
         <div className="relative w-full">
             <div className="flex space-x-2 my-3">
+                <p className="text-[14px] font-semibold text-[#00609E] px-2 py-[2px]">
+                    {propertyDetails?.property_in}
+                </p>
+                <p className="text-[14px] font-semibold text-[#00609E] border-l-[1.8px] border-r-[1.8px] border-[#8787874F] px-2 py-[2px]">
+                    {propertyDetails?.property_for}
+                </p>
                 <p className="text-[14px] font-semibold text-[#00609E] py-[2px]">
                     {
                         (propertyDetails?.sub_type !== "Plot" || propertyDetails?.sub_type !== "Land" || propertyDetails?.property_in !== "Commercial") ?
-                            `${propertyDetails?.bedrooms} BHK ${propertyDetails?.sub_type}`
+                            `${propertyDetails?.bedrooms || 'No'} BHK ${propertyDetails?.sub_type}`
                             :
                             ''
                     }
@@ -27,9 +33,14 @@ function Property({ propertyDetails }) {
                     {propertyDetails?.property_for === "Sell" ? `₹ ${propertyDetails?.property_cost}` : ` ₹ ${propertyDetails?.monthly_rent} Rent`}
                 </p>
                 <p className="text-[14px] font-semibold text-[#00609E] border-r-[1.8px] border-[#8787874F] pr-2 py-[2px]">{propertyDetails?.facing}</p>
+                {
+                    (propertyDetails?.sub_type === "Apartment" || propertyDetails?.sub_type === "Independent House" || propertyDetails?.sub_type === "Independent Villa") &&
+                    <p className="text-[14px] font-semibold text-[#00609E] border-r-[1.8px] border-[#8787874F] pr-2 py-[2px]">{propertyDetails?.furnished_status ? `${propertyDetails?.furnished_status} Furnished` : ''}</p>
+                }
                 <p className="text-[14px] font-semibold text-[#00609E] py-[2px]">
                     {
-                        (propertyDetails?.sub_type !== "Plot" || propertyDetails?.sub_type !== "Land") ?
+                        (propertyDetails?.property_for === "Sell") &&
+                            (!(propertyDetails?.sub_type === "Plot" || propertyDetails?.sub_type === "Land")) ?
                             `${propertyDetails?.occupancy}`
                             :
                             ''

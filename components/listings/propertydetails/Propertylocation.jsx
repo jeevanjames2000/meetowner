@@ -20,7 +20,7 @@ function Propertylocation({propertyDetails}) {
     return (
         <div className="propertyprice space-y-6">
             <div>
-                <p className="text-[#1D37A6] text-[25px] font-[600]">Property Location</p>
+                <p className="text-[#1d3a76] text-[25px] font-[600]">Property Location</p>
                 <p className="text-[#00609E] text-[18px] font-[400]">{propertyDetails?.google_address}</p>
             </div>
             <div className="custom-shadow bg-[#F3F3F3] p-6 space-y-8">

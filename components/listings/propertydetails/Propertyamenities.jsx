@@ -60,7 +60,7 @@ function Propertyamenities({ propertyDetails }) {
 
     return (
         <div className="propertyprice space-y-6">
-            <p className="text-[#1D37A6] text-[25px] font-[600]">{propertyDetails?.property_name} Amenities</p>
+            <p className="text-[#1d3a76] text-[25px] font-[600]">{propertyDetails?.property_name} Amenities</p>
             <div className="custom-shadow bg-[#F3F3F3] p-6 space-y-8">
                 <div className="flex items-center justify-end gap-[14px]">
                     <IconHeart stroke={2} color="#E28B6D" className="h-6 w-6" />
