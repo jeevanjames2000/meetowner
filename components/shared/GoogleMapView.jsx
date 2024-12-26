@@ -45,7 +45,9 @@ const GoogleMapView = ({ propertiesData }) => {
     };
 
     useEffect(() => {
-        fetchCoordinates();
+        if (propertiesData?.google_address) {
+            fetchCoordinates();
+        }
     }, [propertiesData]);
 
     return (

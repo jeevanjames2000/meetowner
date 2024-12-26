@@ -49,6 +49,7 @@ function Listingswrapper({ occupancyList }) {
     const [propertyFor, setPropertyFor] = useState('')
     const updatePropertyFor = (e) => {
         setPropertyFor(e.currentTarget.value)
+        setOccupancy('')
     }
 
     const [bhk, setBhk] = useState('')
@@ -64,6 +65,16 @@ function Listingswrapper({ occupancyList }) {
     const [propertyId, setPropertyId] = useState('')
     const updatePropertyId = (e) => {
         setPropertyId(e.currentTarget.value)
+    }
+
+    const [minPriceRange, setMinPriceRange] = useState(0)
+    const updateMinPriceRange = (e) => {
+        setMinPriceRange(Number(e.currentTarget.value))
+    }
+
+    const [maxPriceRange, setMaxPriceRange] = useState(0)
+    const updateMaxPriceRange = (e) => {
+        setMaxPriceRange(Number(e.currentTarget.value))
     }
 
 
@@ -88,7 +99,7 @@ function Listingswrapper({ occupancyList }) {
     }
 
     const [page, setPage] = useState(1);
-    const [limit, setLimit] = useState(10);
+    const [limit, setLimit] = useState(2);
     const [totalPages, setTotalPages] = useState(0);
     const [totalProperties, setTotalProperties] = useState(0);
     const [allListings, setAllListings] = useState([]);
@@ -102,7 +113,8 @@ function Listingswrapper({ occupancyList }) {
                 property_subtype: newPropertySubtype,
                 property_for: newPropertyFor,
                 bedrooms: newBhk,
-                occupancy: newOccupancy
+                occupancy: newOccupancy,
+                unique_property_id: newPropertyId
             },
             headers: {
                 'Content-Type': 'application/json',
@@ -139,17 +151,60 @@ function Listingswrapper({ occupancyList }) {
     useEffect(() => {
         setIsLoadingEffect(true);
         getAllListingsData(page, limit, locality, propertyIn, propertySubtype, propertyFor, bhk, occupancy);
-    }, [propertyIn, locality, propertySubtype, propertyFor, bhk, occupancy])
+        if (user_id) {
+            getPropertiesCount();
+        }
+    }, [user_id, propertyIn, locality, propertySubtype, propertyFor, bhk, occupancy, propertyId])
 
     const handlePageChange = (page) => {
         setPage(page);
         setIsLoadingEffect(true);
-        getAllListingsData(page, limit, locality, propertyIn, propertySubtype, propertyFor, bhk, occupancy);
+        getAllListingsData(page, limit, locality, propertyIn, propertySubtype, propertyFor, bhk, occupancy, propertyId);
     };
+
+    const [propertiesCount, setPropertiesCount] = useState({});
+    const getPropertiesCount = () => {
+        listingApi.get('/propertiesCount', {
+            params: {
+                user_id: user_id
+            },
+        })
+            .then((response) => {
+                let data = response.data
+                if (data.status === 'error') {
+                    let finalresponse = {
+                        'message': data.message,
+                    }
+                    setErrorMessages(finalresponse);
+                    setErrorModalOpen(true);
+                    return false;
+                }
+                setPropertiesCount(data?.propertiesCount || {});
+            }
+            )
+            .catch((error) => {
+                let finalresponse = {
+                    'message': error.message,
+                }
+                setErrorMessages(finalresponse);
+                setErrorModalOpen(true);
+            });
+    }
 
     const refreshListings = () => {
         setIsLoadingEffect(true);
-        getAllListingsData(page, limit, locality, propertyIn, propertySubtype, propertyFor, bhk, occupancy);
+        getAllListingsData(page, limit, locality, propertyIn, propertySubtype, propertyFor, bhk, occupancy, propertyId);
+    }
+
+    const handleResetFilters = () => {
+        setPropertyIn("Residential")
+        setPropertySubtype('')
+        setLocality('')
+        setBhkhide(true)
+        setBhk('')
+        setPropertyFor('')
+        setOccupancy('')
+        setPropertyId('')
     }
 
     const handleDeleteProperty = useCallback((unique_property_id) => {
@@ -259,7 +314,7 @@ function Listingswrapper({ occupancyList }) {
                             >
                                 <p className="text-[12px] font-bold">Buy</p>
                                 <div className="flex flex-row gap-14">
-                                    <p className="font-bold text-[12px]">(0)</p>
+                                    <p className="font-bold text-[12px]">({propertiesCount?.properties_for_sell})</p>
                                     <IconChevronDown
                                         stroke={1.5}
                                         size={16}
@@ -269,14 +324,14 @@ function Listingswrapper({ occupancyList }) {
                             </div>
                             {isOpen.buy && (
                                 <div className="mt-2 flex flex-col gap-2 pl-3 pb-2">
-                                    <Link href="/profile" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
-                                        Apartment(0)
+                                    <Link href="#" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                        Apartment({propertiesCount?.apartments})
                                     </Link>
-                                    <Link href="/profile" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
-                                        Independent Floor(0)
+                                    <Link href="#" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                        Independent House({propertiesCount?.independent_house})
                                     </Link>
-                                    <Link href="/profile" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
-                                        Villa(0)
+                                    <Link href="#" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                        Villa({propertiesCount?.independent_villa})
                                     </Link>
                                 </div>
                             )}
@@ -290,7 +345,7 @@ function Listingswrapper({ occupancyList }) {
                             >
                                 <p className="text-[12px] font-bold">Rent</p>
                                 <div className="flex flex-row gap-14">
-                                    <p className="font-bold text-[12px]">(0)</p>
+                                    <p className="font-bold text-[12px]">({propertiesCount?.properties_for_rent})</p>
                                     <IconChevronDown
                                         stroke={1.5}
                                         size={16}
@@ -300,25 +355,22 @@ function Listingswrapper({ occupancyList }) {
                             </div>
                             {isOpen.rent && (
                                 <div className="mt-2 flex flex-col gap-2 pl-3 pb-2">
-                                    <Link href="/profile" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
-                                        All(2)
-                                    </Link>
-                                    <Link href="/profile" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                    <Link href="#" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
                                         Reported (0)
                                     </Link>
-                                    <Link href="/profile" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                    <Link href="#" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
                                         Active (0)
                                     </Link>
-                                    <Link href="/profile" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                    <Link href="#" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
                                         Expired (0)
                                     </Link>
-                                    <Link href="/profile" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                    <Link href="#" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
                                         Rejected (0)
                                     </Link>
-                                    <Link href="/profile" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                    <Link href="#" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
                                         Deleted (0)
                                     </Link>
-                                    <Link href="/profile" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                    <Link href="#" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
                                         Expiring Soon (0)
                                     </Link>
                                 </div>
@@ -333,7 +385,7 @@ function Listingswrapper({ occupancyList }) {
                             >
                                 <p className="text-[12px] font-bold">PG</p>
                                 <div className="flex flex-row gap-14">
-                                    <p className="font-bold text-[12px]">(0)</p>
+                                    <p className="font-bold text-[12px]">({propertiesCount?.properties_for_pg})</p>
                                     <IconChevronDown
                                         stroke={1.5}
                                         size={16}
@@ -343,25 +395,25 @@ function Listingswrapper({ occupancyList }) {
                             </div>
                             {isOpen.pg && (
                                 <div className="mt-2 flex flex-col gap-2 pl-3 pb-3">
-                                    <Link href="/profile" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
-                                        All(2)
+                                    <Link href="#" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                        All(0)
                                     </Link>
-                                    <Link href="/profile" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                    <Link href="#" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
                                         Reported (0)
                                     </Link>
-                                    <Link href="/profile" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                    <Link href="#" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
                                         Active (0)
                                     </Link>
-                                    <Link href="/profile" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                    <Link href="#" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
                                         Expired (0)
                                     </Link>
-                                    <Link href="/profile" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                    <Link href="#" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
                                         Rejected (0)
                                     </Link>
-                                    <Link href="/profile" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                    <Link href="#" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
                                         Deleted (0)
                                     </Link>
-                                    <Link href="/profile" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                    <Link href="#" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
                                         Under Review (0)
                                     </Link>
                                 </div>
@@ -393,6 +445,11 @@ function Listingswrapper({ occupancyList }) {
                         updateOccupancy={updateOccupancy}
                         propertyId={propertyId}
                         updatePropertyId={updatePropertyId}
+                        handleResetFilters={handleResetFilters}
+                        minPriceRange={minPriceRange}
+                        updateMinPriceRange={updateMinPriceRange}
+                        maxPriceRange={maxPriceRange}
+                        updateMaxPriceRange={updateMaxPriceRange}
                     />
                 </div>
             </div >

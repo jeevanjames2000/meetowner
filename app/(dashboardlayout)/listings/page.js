@@ -24,6 +24,7 @@ async function page() {
         );
     }
     const occupancyList = getOccupancyData.occupancyList;
+
     return (
         <Listingswrapper
             occupancyList={occupancyList}

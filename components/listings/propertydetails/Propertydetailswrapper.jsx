@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Propertybanner from './Propertybanner'
 import Propertyamenities from './Propertyamenities'
 import Propertypricetabs from './Propertypricetabs'
@@ -11,7 +11,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Modal } from '@nayeshdaggula/tailify'
 import GoogleMapView from '@/components/shared/GoogleMapView'
-// import project_video2 from '@/public/project_video2.mp4'
 function Propertydetailswrapper({ propertyDetails }) {
     const [modal, setModal] = useState(false)
     const openModal = () => {
@@ -21,6 +20,7 @@ function Propertydetailswrapper({ propertyDetails }) {
         setModal(false)
     }
     const images = propertyDetails?.image || [];
+
     return (
         <>
             <div className='flex bg-[#ffffffe6] px-[80px] py-6 gap-6'>
@@ -130,11 +130,11 @@ function Propertydetailswrapper({ propertyDetails }) {
                 size="lg"
                 zIndex={9999}
             >
-                <div className='grid grid-cols-4 gap-1'>
+                <div className='grid grid-cols-4 gap-4'>
                     {images?.slice(2).map((img, index) => (
                         <Image
                             key={index}
-                            src={img} // Replace `img.url` with the actual image path
+                            src={img}
                             alt={`Modal property image ${index + 1}`}
                             className='rounded-lg'
                             width={150}

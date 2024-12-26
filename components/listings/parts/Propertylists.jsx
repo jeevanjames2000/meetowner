@@ -29,7 +29,12 @@ function Propertylists({
     occupancy,
     updateOccupancy,
     propertyId,
-    updatePropertyId
+    updatePropertyId,
+    handleResetFilters,
+    minPriceRange,
+    maxPriceRange,
+    updateMinPriceRange,
+    updateMaxPriceRange
 }) {
     const user_info = useUserDetails((state) => state.userInfo)
     const user_id = user_info?.user_id || null
@@ -276,8 +281,6 @@ function Propertylists({
                         </div>
                         {filters && (
                             <div className='flex flex-wrap gap-3'>
-                                {/* (getpropertyDetails?.property_for === "Sell") &&
-                                 (!(propertySubType === "Plot" || propertySubType === "Land")) && */}
                                 {
                                     parseInt(propertyFor) === 1 &&
                                     <div className="flex items-center gap-4 px-2 w-fit border border-[#FEFDF8] rounded-sm cursor-pointer">
@@ -304,22 +307,29 @@ function Propertylists({
                                 <input
                                     type='text'
                                     placeholder='Property ID'
-                                    className='px-4 text-[#FEFDF8] text-[10px] font-[700] bg-transparent  h-7 border border-[#FEFDF8] rounded-sm cursor-pointer focus:outline-none'
+                                    className='w-[25%] px-4 text-[#FEFDF8] text-[10px] font-[700] bg-transparent  h-7 border border-[#FEFDF8] rounded-sm focus:outline-none'
                                     value={propertyId}
                                     onChange={updatePropertyId}
                                 />
                                 <div className="w-fit flex items-center justify-center gap-2 px-1 border border-[#FEFDF8] rounded-sm cursor-pointer">
-                                    <form action="#" className=" flex items-center justify-center space-x-2">
+                                    <div className=" flex items-center justify-center space-x-2">
                                         <label className="text-[#FEFDF8] text-[10px] font-[700] text-center outline-none bg-transparent">
                                             Price
                                         </label>
 
-                                        <input type="range" id="vol" name="vol" min="0" max="50" />
+                                        <input
+                                            type='range'
+                                            min="500000"
+                                            max="100000000"
+                                            step="10000"
+                                            value={maxPriceRange}
+                                            onChange={updateMaxPriceRange}
+                                        />
                                         <p className="text-[#FEFDF8] text-[10px] font-[700] text-center outline-none">
-                                            0
+                                            {`₹ ${maxPriceRange}`}
                                         </p>
 
-                                    </form>
+                                    </div>
                                 </div>
 
                                 {/* <div className="w-fit flex items-center gap-2 px-1 border border-[#FEFDF8] rounded-sm cursor-pointer">
@@ -358,7 +368,7 @@ function Propertylists({
                                     </form>
                                 </div> */}
 
-                                <button className=' flex items-center justify-center  rounded-sm  h-7 bg-[#E2EAED] text-[10px] font-[700] text-[#37474F] px-4  '>
+                                <button onClick={handleResetFilters} className=' flex items-center justify-center  rounded-sm  h-7 bg-[#E2EAED] text-[10px] font-[700] text-[#37474F] px-4  '>
                                     Reset
                                 </button>
                             </div>

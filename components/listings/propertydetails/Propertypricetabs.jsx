@@ -18,6 +18,31 @@ function Propertyprice({ propertyDetails }) {
         }
     }
 
+    const formatPrice = (price) => {
+        if (price >= 10000000) {
+            return (price / 10000000).toFixed(2) + ' Cr'; // Crores
+        } else if (price >= 100000) {
+            return (price / 100000).toFixed(2) + ' Lac'; // Lakhs
+        } else if (price >= 1000) {
+            return (price / 1000).toFixed(2) + ' K'; // Thousands
+        }
+        return price;
+    };
+
+    //     <p className="text-[18px] font-semibold text-[#492828] font-sans">
+    //     {/* ₹ 2 Cr - ₹ 4 Cr - <span className="text-[#000000] font-[400] text-[18px]"> ₹ 10.k/sq.ft</span> */}
+    //     {propertyDetails?.property_for === "Sell" ? `₹ ${formatPrice(propertyDetails?.property_cost)}` : ` ₹ ${formatPrice(propertyDetails?.monthly_rent)} Rent`}
+    // </p>
+
+    let new_price;
+
+    if (propertyDetails?.property_for === "Sell") {
+        new_price = `₹ ${formatPrice(propertyDetails?.property_cost)}`;
+    }
+    else {
+        new_price = ` ₹ ${formatPrice(propertyDetails?.monthly_rent)} Rent`;
+    }
+
     return (
         <div className='propertyprice space-y-6'>
             <p className="text-[#1d3a76] text-[25px] font-[600]">
@@ -96,32 +121,32 @@ function Propertyprice({ propertyDetails }) {
                 <div>
                     {activetab === 'plan1' &&
                         <Floorplan
-                            price="₹ 2 Cr - ₹ 4 Cr"
+                            price={new_price}
                             type="1"
                         />
                     }
                     {activetab === 'plan2' &&
                         <Floorplan
-                            price="₹ 2 Cr - ₹ 4 Cr"
-                            type="1"
+                            price={new_price}
+                            type="2"
                         />
                     }
                     {activetab === 'plan3' &&
                         <Floorplan
-                            price="₹ 2 Cr - ₹ 4 Cr"
-                            type="1"
+                            price={new_price}
+                            type="3"
                         />
                     }
                     {activetab === 'plan4' &&
                         <Floorplan
-                            price="₹ 2 Cr - ₹ 4 Cr"
-                            type="1"
+                            price={new_price}
+                            type="4"
                         />
                     }
                     {activetab === 'plan5' &&
                         <Floorplan
-                            price="₹ 2 Cr - ₹ 4 Cr"
-                            type="1"
+                            price={new_price}
+                            type="5"
                         />
                     }
                 </div>
