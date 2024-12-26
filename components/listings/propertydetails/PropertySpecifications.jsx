@@ -3,12 +3,12 @@ import amenitiesaskdetailslike from '@/public/assets/amenities-askdetails-like.p
 import Image from 'next/image';
 import { IconHeart } from '@tabler/icons-react';
 import Accordion from '@/components/tailifycomponents/Accordian';
-
+import floor from '@/public/assets/floorandceiling.svg'
 function PropertySpecifications({ propertyDetails }) {
     const accordionItems = [
-        { value: "Apples", emoji: "", description: "Apples are delicious fruits." },
-        { value: "Bananas", emoji: "", description: "Bananas are high in potassium." },
-        { value: "Cherries", emoji: "", description: "Cherries are sweet and tart." },
+        { value: "Floor & Counter", emoji: "", description: "Apples are delicious fruits." },
+        { value: "Fitting", emoji: "", description: "Bananas are high in potassium." },
+        { value: "Wall & Ceiling", emoji: "", description: "Cherries are sweet and tart." },
     ]
 
     return (

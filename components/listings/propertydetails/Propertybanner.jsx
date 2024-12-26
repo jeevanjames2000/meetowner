@@ -17,10 +17,14 @@ function Propertybanner({ propertyDetails }) {
                         {/* ₹ 2 Cr - ₹ 4 Cr - <span className="text-[#000000] font-[400] text-[18px]"> ₹ 10.k/sq.ft</span> */}
                         {propertyDetails?.property_for === "Sell" ? `₹ ${propertyDetails?.property_cost}` : ` ₹ ${propertyDetails?.monthly_rent} Rent`}
                     </p>
-                    <p className="text-[14px] font-medium text-[#1D3A76] text-end">
-                        EMI starts at <span className="text-[#000000]">₹</span> 60.24 K
-                    </p>
-                    <p className="text-[#6E6E6E] text-[12px] font-[400] text-end">All Inclusive Price</p>
+                    {propertyDetails?.property_for === "Sell" &&
+                        <>
+                            <p className="text-[14px] font-medium text-[#1D3A76] text-end">
+                                EMI starts at <span className="text-[#000000]">₹</span> 60.24 K
+                            </p>
+                            <p className="text-[#6E6E6E] text-[12px] font-[400] text-end">All Inclusive Price</p>
+                        </>
+                    }
                 </div>
             </div>
             <div className='space-y-10'>

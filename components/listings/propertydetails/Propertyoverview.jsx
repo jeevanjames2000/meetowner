@@ -324,16 +324,12 @@ function Propertyoverview({ propertyDetails }) {
                                 </div>
                             </div>
                     }
-                    {/* <div className=" flex items-center p-[10px] gap-4"
+                    <div className=" flex items-center p-[10px] gap-4"
                     >
-                        <Image
-                            src={project_area}
-                            alt={`project_area`}
-                            className="w-5 h-5 object-cover"
-                        />
+                        <Image src={project_area} alt={`project_area`} className="w-5 h-5 object-cover" />
                         <div>
-                            <p className="text-[14px] text-[#212529] font-[600]">Project Area</p>
-                            <p className="text-[12px] text-[#434343] font-[600]">10.5 Acres</p>
+                            <p className="text-[14px] text-[#212529] font-[600] font-Montserrat">Project Area</p>
+                            <p className="text-[12px] text-[#434343] font-[600] font-Montserrat">10.5 Acres</p>
                         </div>
                     </div>
                     <div className=" flex items-center p-[10px] gap-4"
@@ -344,8 +340,8 @@ function Propertyoverview({ propertyDetails }) {
                             className="w-5 h-5 object-cover"
                         />
                         <div>
-                            <p className="text-[14px] text-[#212529] font-[600]">Project Size</p>
-                            <p className="text-[12px] text-[#434343] font-[600]">1 Building to 500 untis.</p>
+                            <p className="text-[14px] text-[#212529] font-[600] font-Montserrat">Project Size</p>
+                            <p className="text-[12px] text-[#434343] font-[600] font-Montserrat">1 Building to 500 untis.</p>
                         </div>
                     </div>
                     <div className=" flex items-center justify-start  p-[10px] gap-4"
@@ -356,8 +352,8 @@ function Propertyoverview({ propertyDetails }) {
                             className="w-5 h-5 object-cover"
                         />
                         <div>
-                            <p className="text-[14px] text-[#212529] font-[600]">Sizes</p>
-                            <p className="text-[12px] text-[#434343] font-[600]">1890 sq.ft - 2890 sqft.</p>
+                            <p className="text-[14px] text-[#212529] font-[600] font-Montserrat">Sizes</p>
+                            <p className="text-[12px] text-[#434343] font-[600] font-Montserrat">1890 sq.ft - 2890 sqft.</p>
                         </div>
                     </div>
                     <div className=" flex items-center justify-start  p-[10px] gap-4"
@@ -368,8 +364,8 @@ function Propertyoverview({ propertyDetails }) {
                             className="w-5 h-5 object-cover"
                         />
                         <div>
-                            <p className="text-[14px] text-[#212529] font-[600]">Launch Date</p>
-                            <p className="text-[12px] text-[#434343] font-[600]">JAN 2000.</p>
+                            <p className="text-[14px] text-[#212529] font-[600] font-Montserrat">Launch Date</p>
+                            <p className="text-[12px] text-[#434343] font-[600] font-Montserrat">JAN 2000.</p>
                         </div>
                     </div>
                     <div className=" flex items-center justify-start  p-[10px] gap-4"
@@ -380,8 +376,8 @@ function Propertyoverview({ propertyDetails }) {
                             className="w-5 h-5 object-cover"
                         />
                         <div>
-                            <p className="text-[14px] text-[#212529] font-[600]">Possession Starts</p>
-                            <p className="text-[12px] text-[#434343] font-[600]">JAN 2025.</p>
+                            <p className="text-[14px] text-[#212529] font-[600] font-Montserrat">Possession Starts</p>
+                            <p className="text-[12px] text-[#434343] font-[600] font-Montserrat">JAN 2025.</p>
                         </div>
                     </div>
                     <div className=" flex items-center justify-start  p-[10px] gap-4"
@@ -392,10 +388,10 @@ function Propertyoverview({ propertyDetails }) {
                             className="w-5 h-5 object-cover"
                         />
                         <div>
-                            <p className="text-[14px] text-[#212529] font-[600]">Avg. Price</p>
-                            <p className="text-[12px] text-[#434343] font-[600]">10.45k/sq.ft</p>
+                            <p className="text-[14px] text-[#212529] font-[600] font-Montserrat">Avg. Price</p>
+                            <p className="text-[12px] text-[#434343] font-[600] font-Montserrat">10.45k/sq.ft</p>
                         </div>
-                    </div> */}
+                    </div>
                 </div>
             </div>
         </div>

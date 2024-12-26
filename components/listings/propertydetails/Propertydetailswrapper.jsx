@@ -32,9 +32,9 @@ function Propertydetailswrapper({ propertyDetails }) {
                 <Propertyoverview
                     propertyDetails={propertyDetails}
                 />
-                {/* <PropertySpecifications
+                <PropertySpecifications
                     propertyDetails={propertyDetails}
-                /> */}
+                />
                 <Propertymapview
                     propertyDetails={propertyDetails}
                 />
