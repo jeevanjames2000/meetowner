@@ -9,7 +9,7 @@ import Propertylists from './parts/Propertylists';
 import Propertyapi from '../api/Propertyapi';
 import Errorpanel from '../shared/Errorpanel';
 
-function Listingswrapper() {
+function Listingswrapper({ occupancyList }) {
     const userInfo = useUserDetails((state) => state.userInfo)
     const user_id = userInfo?.user_id;
     const access_token = useUserDetails(state => state.access_token);
@@ -56,6 +56,17 @@ function Listingswrapper() {
         setBhk(e.currentTarget.value)
     }
 
+    const [occupancy, setOccupancy] = useState('')
+    const updateOccupancy = (e) => {
+        setOccupancy(e.currentTarget.value)
+    }
+
+    const [propertyId, setPropertyId] = useState('')
+    const updatePropertyId = (e) => {
+        setPropertyId(e.currentTarget.value)
+    }
+
+
     const [isOpen, setIsOpen] = useState({
         buy: false,
         rent: false,
@@ -81,7 +92,7 @@ function Listingswrapper() {
     const [totalPages, setTotalPages] = useState(0);
     const [totalProperties, setTotalProperties] = useState(0);
     const [allListings, setAllListings] = useState([]);
-    async function getAllListingsData(newPage, newLimit, newSearchQuery, newPropertyIn, newPropertySubtype, newPropertyFor, newBhk) {
+    async function getAllListingsData(newPage, newLimit, newSearchQuery, newPropertyIn, newPropertySubtype, newPropertyFor, newBhk, newOccupancy, newPropertyId) {
         listingApi.get('/getalllistings', {
             params: {
                 page: newPage,
@@ -90,7 +101,8 @@ function Listingswrapper() {
                 property_in: newPropertyIn,
                 property_subtype: newPropertySubtype,
                 property_for: newPropertyFor,
-                bedrooms: newBhk
+                bedrooms: newBhk,
+                occupancy: newOccupancy
             },
             headers: {
                 'Content-Type': 'application/json',
@@ -126,18 +138,18 @@ function Listingswrapper() {
 
     useEffect(() => {
         setIsLoadingEffect(true);
-        getAllListingsData(page, limit, locality, propertyIn, propertySubtype, propertyFor, bhk);
-    }, [propertyIn, locality, propertySubtype, propertyFor, bhk])
+        getAllListingsData(page, limit, locality, propertyIn, propertySubtype, propertyFor, bhk, occupancy);
+    }, [propertyIn, locality, propertySubtype, propertyFor, bhk, occupancy])
 
     const handlePageChange = (page) => {
         setPage(page);
         setIsLoadingEffect(true);
-        getAllListingsData(page, limit, '');
+        getAllListingsData(page, limit, locality, propertyIn, propertySubtype, propertyFor, bhk, occupancy);
     };
 
     const refreshListings = () => {
         setIsLoadingEffect(true);
-        getAllListingsData(page, limit, locality, propertyIn, propertySubtype, propertyFor, bhk);
+        getAllListingsData(page, limit, locality, propertyIn, propertySubtype, propertyFor, bhk, occupancy);
     }
 
     const handleDeleteProperty = useCallback((unique_property_id) => {
@@ -376,6 +388,11 @@ function Listingswrapper() {
                         updateBhk={updateBhk}
                         propertyFor={propertyFor}
                         updatePropertyFor={updatePropertyFor}
+                        occupancyList={occupancyList}
+                        occupancy={occupancy}
+                        updateOccupancy={updateOccupancy}
+                        propertyId={propertyId}
+                        updatePropertyId={updatePropertyId}
                     />
                 </div>
             </div >

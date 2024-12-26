@@ -25,6 +25,11 @@ function Propertylists({
     updateBhk,
     propertyFor,
     updatePropertyFor,
+    occupancyList,
+    occupancy,
+    updateOccupancy,
+    propertyId,
+    updatePropertyId
 }) {
     const user_info = useUserDetails((state) => state.userInfo)
     const user_id = user_info?.user_id || null
@@ -271,26 +276,40 @@ function Propertylists({
                         </div>
                         {filters && (
                             <div className='flex flex-wrap gap-3'>
-                                <div className="flex items-center gap-4 px-2 w-fit border border-[#FEFDF8] rounded-sm cursor-pointer">
-                                    <form className="w-fit mx-auto">
+                                {/* (getpropertyDetails?.property_for === "Sell") &&
+                                 (!(propertySubType === "Plot" || propertySubType === "Land")) && */}
+                                {
+                                    parseInt(propertyFor) === 1 &&
+                                    <div className="flex items-center gap-4 px-2 w-fit border border-[#FEFDF8] rounded-sm cursor-pointer">
                                         <label className="flex items-center cursor-pointer">
                                             <select
-                                                id="bhk"
+                                                id="occupancy"
                                                 className="text-[#FEFDF8] text-[10px] font-[700]  outline-none h-7 bg-transparent"
+                                                value={occupancy}
+                                                onChange={updateOccupancy}
                                             >
-                                                <option className=" text-black" value="possessionstatus">
-                                                    Possession Status
+                                                <option className=" text-black" value="" disabled>
+                                                    Occupancy status
                                                 </option>
-                                                <option className="text-black" value="yes">Yes</option>
-                                                <option className="text-black" value="no">No</option>
+                                                {
+                                                    occupancyList.length > 0 &&
+                                                    occupancyList.map((item, index) => (
+                                                        <option className=" text-black" key={index} value={item.value}>{item.name}</option>
+                                                    ))
+                                                }
                                             </select>
                                         </label>
-                                    </form>
-                                </div>
-                                <input type='text' placeholder='Property ID' className='px-4 text-[#FEFDF8] text-[10px] font-[700] bg-transparent  h-7 border border-[#FEFDF8] rounded-sm cursor-pointer focus:outline-none' />
+                                    </div>
+                                }
+                                <input
+                                    type='text'
+                                    placeholder='Property ID'
+                                    className='px-4 text-[#FEFDF8] text-[10px] font-[700] bg-transparent  h-7 border border-[#FEFDF8] rounded-sm cursor-pointer focus:outline-none'
+                                    value={propertyId}
+                                    onChange={updatePropertyId}
+                                />
                                 <div className="w-fit flex items-center justify-center gap-2 px-1 border border-[#FEFDF8] rounded-sm cursor-pointer">
-
-                                    <form action="/action_page.php" className=" flex items-center justify-center space-x-2">
+                                    <form action="#" className=" flex items-center justify-center space-x-2">
                                         <label className="text-[#FEFDF8] text-[10px] font-[700] text-center outline-none bg-transparent">
                                             Price
                                         </label>
@@ -301,9 +320,9 @@ function Propertylists({
                                         </p>
 
                                     </form>
-
                                 </div>
-                                <div className="w-fit flex items-center gap-2 px-1 border border-[#FEFDF8] rounded-sm cursor-pointer">
+
+                                {/* <div className="w-fit flex items-center gap-2 px-1 border border-[#FEFDF8] rounded-sm cursor-pointer">
                                     <form className="w-fit">
                                         <label className="cursor-pointer">
                                             <select
@@ -337,7 +356,8 @@ function Propertylists({
                                             </select>
                                         </label>
                                     </form>
-                                </div>
+                                </div> */}
+
                                 <button className=' flex items-center justify-center  rounded-sm  h-7 bg-[#E2EAED] text-[10px] font-[700] text-[#37474F] px-4  '>
                                     Reset
                                 </button>

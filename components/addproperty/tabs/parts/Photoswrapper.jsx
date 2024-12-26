@@ -20,25 +20,52 @@ function Photoswrapper({ updateActiveTab }) {
   const [files, setFiles] = useState([]);
   const [previews, setPreviews] = useState([]);
   const [featuredIndex, setFeaturedIndex] = useState(null);
+  // const handleFileUpload = (event) => {
+  //   // allow only jpg, jpeg, png, gif extensions
+  //   const allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+  //   const files = Array.from(event.target.files);
+  //   const invalidFiles = files.filter((file) => !allowedExtensions.test(file.name));
+  //   if (invalidFiles.length > 0) {
+  //     alert('Please upload only jpg, jpeg, png, gif files');
+  //     return;
+  //   }
+
+  //   const uploadedFiles = Array.from(event.target.files);
+  //   const newFiles = [...files, ...uploadedFiles];
+  //   setFiles(newFiles);
+
+  //   const newPreviews = uploadedFiles.map((file) =>
+  //     URL.createObjectURL(file)
+  //   );
+  //   setPreviews([...previews, ...newPreviews]);
+  // };
 
   const handleFileUpload = (event) => {
-    // allow only jpg, jpeg, png, gif extensions
+    // Allow only jpg, jpeg, png, gif extensions
     const allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
-    const files = Array.from(event.target.files);
-    const invalidFiles = files.filter((file) => !allowedExtensions.test(file.name));
+    const uploadedFiles = Array.from(event.target.files);
+
+    // Filter invalid files
+    const invalidFiles = uploadedFiles.filter((file) => !allowedExtensions.test(file.name));
     if (invalidFiles.length > 0) {
-      alert('Please upload only jpg, jpeg, png, gif files');
+      toast.error('Please upload only jpg, jpeg, png, gif files', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      })
       return;
     }
 
-    const uploadedFiles = Array.from(event.target.files);
-    const newFiles = [...files, ...uploadedFiles];
-    setFiles(newFiles);
+    // Update file state
+    setFiles((prevFiles) => [...prevFiles, ...uploadedFiles]);
 
-    const newPreviews = uploadedFiles.map((file) =>
-      URL.createObjectURL(file)
-    );
-    setPreviews([...previews, ...newPreviews]);
+    // Create previews
+    const newPreviews = uploadedFiles.map((file) => URL.createObjectURL(file));
+    setPreviews((prevPreviews) => [...prevPreviews, ...newPreviews]);
   };
 
   const removePreview = (index) => {

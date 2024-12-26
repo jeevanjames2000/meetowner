@@ -1,6 +1,16 @@
 import Propertycarousel from './parts/Propertycarousel';
 
 function Propertybanner({ propertyDetails }) {
+    const formatPrice = (price) => {
+        if (price >= 10000000) {
+            return (price / 10000000).toFixed(2) + ' Cr'; // Crores
+        } else if (price >= 100000) {
+            return (price / 100000).toFixed(2) + ' Lac'; // Lakhs
+        } else if (price >= 1000) {
+            return (price / 1000).toFixed(2) + ' K'; // Thousands
+        }
+        return price;
+    };
     return (
         <div className="flex flex-col space-y-[12px]">
             <p className="text-[#1d3a76] text-[26px] font-[600] font-sans">
@@ -15,7 +25,7 @@ function Propertybanner({ propertyDetails }) {
                 <div className="">
                     <p className="text-[18px] font-semibold text-[#492828] font-sans">
                         {/* ₹ 2 Cr - ₹ 4 Cr - <span className="text-[#000000] font-[400] text-[18px]"> ₹ 10.k/sq.ft</span> */}
-                        {propertyDetails?.property_for === "Sell" ? `₹ ${propertyDetails?.property_cost}` : ` ₹ ${propertyDetails?.monthly_rent} Rent`}
+                        {propertyDetails?.property_for === "Sell" ? `₹ ${formatPrice(propertyDetails?.property_cost)}` : ` ₹ ${formatPrice(propertyDetails?.monthly_rent)} Rent`}
                     </p>
                     {propertyDetails?.property_for === "Sell" &&
                         <>

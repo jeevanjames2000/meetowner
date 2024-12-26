@@ -11,7 +11,7 @@ const GoogleMapView = ({ propertiesData }) => {
         try {
             const response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json`, {
                 params: {
-                    address: propertiesData.google_address,
+                    address: propertiesData?.google_address,
                     key: 'AIzaSyBmei9lRUUfJI-kLIPNBoc2SxEkwhKHyvU',
                 },
             });
@@ -46,7 +46,7 @@ const GoogleMapView = ({ propertiesData }) => {
 
     useEffect(() => {
         fetchCoordinates();
-    }, [propertiesData?.google_address]);
+    }, [propertiesData]);
 
     return (
         <div className="p-4 bg-white">

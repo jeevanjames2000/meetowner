@@ -34,7 +34,9 @@ function Propertylocation({propertyDetails}) {
                             <Image
                                 src={amenity.image}
                                 alt={amenity.name}
-                                className="w-fit h-fit object-cover"
+                                height={30}
+                                width={30}
+                                className="object-fit"
                             />
                             <p className="text-[14px] text-[#00609E] font-[400]">{amenity.name}</p>
                             <p className="text-[#ffffff] text-center text-[12px] bg-[#1F3C88] font-[600] px-3 py-[4px] rounded-md ml-auto">

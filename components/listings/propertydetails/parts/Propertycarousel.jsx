@@ -12,6 +12,16 @@ function Property({ propertyDetails }) {
     const swiperRef = useRef(null);
     const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
+    const formatPrice = (price) => {
+        if (price >= 10000000) {
+            return (price / 10000000).toFixed(2) + ' Cr'; // Crores
+        } else if (price >= 100000) {
+            return (price / 100000).toFixed(2) + ' Lac'; // Lakhs
+        } else if (price >= 1000) {
+            return (price / 1000).toFixed(2) + ' K'; // Thousands
+        }
+        return price;
+    };
     return (
         <div className="relative w-full">
             <div className="flex space-x-2 my-3">
@@ -30,12 +40,15 @@ function Property({ propertyDetails }) {
                     }
                 </p>
                 <p className="text-[14px] font-semibold text-[#00609E] border-l-[1.8px] border-r-[1.8px] border-[#8787874F] px-2 py-[2px]">
-                    {propertyDetails?.property_for === "Sell" ? `₹ ${propertyDetails?.property_cost}` : ` ₹ ${propertyDetails?.monthly_rent} Rent`}
+                    {propertyDetails?.property_for === "Sell" ? `₹ ${formatPrice(propertyDetails?.property_cost)}` : ` ₹ ${formatPrice(propertyDetails?.monthly_rent)} Rent`}
                 </p>
                 <p className="text-[14px] font-semibold text-[#00609E] border-r-[1.8px] border-[#8787874F] pr-2 py-[2px]">{propertyDetails?.facing}</p>
                 {
                     (propertyDetails?.sub_type === "Apartment" || propertyDetails?.sub_type === "Independent House" || propertyDetails?.sub_type === "Independent Villa") &&
-                    <p className="text-[14px] font-semibold text-[#00609E] border-r-[1.8px] border-[#8787874F] pr-2 py-[2px]">{propertyDetails?.furnished_status ? `${propertyDetails?.furnished_status} Furnished` : ''}</p>
+                    <p className="text-[14px] font-semibold text-[#00609E] border-r-[1.8px] border-[#8787874F] pr-2 py-[2px]">
+                        {/* {propertyDetails?.furnished_status ? `${propertyDetails?.furnished_status} Furnished` : ''} */}
+                        {propertyDetails?.furnished_status ? propertyDetails?.furnished_status === "Unfurinished" ? `${propertyDetails?.furnished_status}` : `${propertyDetails?.furnished_status} Furnished` : ''}
+                    </p>
                 }
                 <p className="text-[14px] font-semibold text-[#00609E] py-[2px]">
                     {
@@ -75,13 +88,13 @@ function Property({ propertyDetails }) {
                     propertyDetails?.image?.length > 0 &&
                     propertyDetails?.image.map((item, index) => (
                         <SwiperSlide key={index}>
-                            <div className='h-[280px]'>
+                            <div className='h-[300px]'>
                                 <Image
                                     src={item}
                                     alt="Property Image"
                                     width={400}
                                     height={280}
-                                    className="h-full w-full object-fit rounded-3xl"
+                                    className="h-full w-full object-fit"
                                 />
                             </div>
                         </SwiperSlide>
@@ -99,7 +112,7 @@ function Property({ propertyDetails }) {
                     onSwiper={setThumbsSwiper}
                     loop={true}
                     spaceBetween={5}
-                    slidesPerView={6}
+                    slidesPerView={3}
                     freeMode={true}
                     watchSlidesProgress={true}
                     modules={[FreeMode, Navigation, Thumbs]}
@@ -108,14 +121,16 @@ function Property({ propertyDetails }) {
                         propertyDetails?.image?.length > 0 &&
                         propertyDetails?.image.map((item, index) => (
                             <SwiperSlide key={index}>
-                                <Image
-                                    key={index}
-                                    src={item}
-                                    alt="slideflowbtm1"
-                                    width={100}
-                                    height={100}
-                                    className="object-fit rounded-sm"
-                                />
+                                <div className='h-[80px] w-[100px]'>
+                                    <Image
+                                        key={index}
+                                        src={item}
+                                        alt="slideflowbtm1"
+                                        width={100}
+                                        height={100}
+                                        className="h-full w-full object-fit rounded-sm"
+                                    />
+                                </div>
                             </SwiperSlide>
                         ))
                     }
