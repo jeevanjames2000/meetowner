@@ -1756,13 +1756,6 @@ function Addpropertydetails({
         let under_construction_date = under_construction?.toISOString().split('T')[0]
         setPossessionEndDate(under_construction_date)
       }
-      // if (propertyDetails?.unit_flat_house_no) {
-      //   if (propertyDetails?.sub_type === "Warehouse" || propertyDetails?.sub_type === "Plot" || propertyDetails?.sub_type === "Others") {
-      //     setPlotNumber(propertyDetails?.unit_flat_house_no || '')
-      //   } else {
-      //     setFlatNumber(propertyDetails?.unit_flat_house_no || '')
-      //   }
-      // }
       setPlotNumber(propertyDetails?.plot_number || '')
       setFlatNumber(propertyDetails?.unit_flat_house_no || '')
       setOwnerShip(propertyDetails?.ownership_type || '')
