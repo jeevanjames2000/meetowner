@@ -8,6 +8,7 @@ import { Modal } from '@nayeshdaggula/tailify';
 import Propertylists from './parts/Propertylists';
 import Propertyapi from '../api/Propertyapi';
 import Errorpanel from '../shared/Errorpanel';
+import { toast } from 'react-toastify';
 
 function Listingswrapper({ occupancyList }) {
     const userInfo = useUserDetails((state) => state.userInfo)
@@ -72,11 +73,10 @@ function Listingswrapper({ occupancyList }) {
         setMinPriceRange(Number(e.currentTarget.value))
     }
 
-    const [maxPriceRange, setMaxPriceRange] = useState(0)
+    const [maxPriceRange, setMaxPriceRange] = useState(100000000)
     const updateMaxPriceRange = (e) => {
         setMaxPriceRange(Number(e.currentTarget.value))
     }
-
 
     const [isOpen, setIsOpen] = useState({
         buy: false,
@@ -103,9 +103,10 @@ function Listingswrapper({ occupancyList }) {
     const [totalPages, setTotalPages] = useState(0);
     const [totalProperties, setTotalProperties] = useState(0);
     const [allListings, setAllListings] = useState([]);
-    async function getAllListingsData(newPage, newLimit, newSearchQuery, newPropertyIn, newPropertySubtype, newPropertyFor, newBhk, newOccupancy, newPropertyId) {
+    async function getAllListingsData(newPage, newLimit, newSearchQuery, newPropertyIn, newPropertySubtype, newPropertyFor, newBhk, newOccupancy, newPropertyId, minPriceRange, maxPriceRange) {
         listingApi.get('/getalllistings', {
             params: {
+                user_id: user_id,
                 page: newPage,
                 limit: newLimit,
                 searchQuery: newSearchQuery,
@@ -114,7 +115,9 @@ function Listingswrapper({ occupancyList }) {
                 property_for: newPropertyFor,
                 bedrooms: newBhk,
                 occupancy: newOccupancy,
-                unique_property_id: newPropertyId
+                unique_property_id: newPropertyId,
+                min_price_range: minPriceRange,
+                max_price_range: maxPriceRange
             },
             headers: {
                 'Content-Type': 'application/json',
@@ -129,6 +132,7 @@ function Listingswrapper({ occupancyList }) {
                         'message': data.message,
                         'server_res': data
                     }
+                    console.log('finalresponse', finalresponse)
                     setErrorMessages(finalresponse);
                     setErrorModalOpen(true);
                     return false;
@@ -143,6 +147,7 @@ function Listingswrapper({ occupancyList }) {
                 let finalresponse = {
                     'message': error.message,
                 }
+                console.log('error', error)
                 setErrorMessages(finalresponse);
                 setErrorModalOpen(true);
             });
@@ -150,16 +155,16 @@ function Listingswrapper({ occupancyList }) {
 
     useEffect(() => {
         setIsLoadingEffect(true);
-        getAllListingsData(page, limit, locality, propertyIn, propertySubtype, propertyFor, bhk, occupancy);
+        getAllListingsData(page, limit, locality, propertyIn, propertySubtype, propertyFor, bhk, occupancy, propertyId, minPriceRange, maxPriceRange);
         if (user_id) {
             getPropertiesCount();
         }
-    }, [user_id, propertyIn, locality, propertySubtype, propertyFor, bhk, occupancy, propertyId])
+    }, [user_id, propertyIn, locality, propertySubtype, propertyFor, bhk, occupancy, propertyId, minPriceRange, maxPriceRange])
 
     const handlePageChange = (page) => {
         setPage(page);
         setIsLoadingEffect(true);
-        getAllListingsData(page, limit, locality, propertyIn, propertySubtype, propertyFor, bhk, occupancy, propertyId);
+        getAllListingsData(page, limit, locality, propertyIn, propertySubtype, propertyFor, bhk, occupancy, propertyId, minPriceRange, maxPriceRange);
     };
 
     const [propertiesCount, setPropertiesCount] = useState({});
@@ -193,7 +198,7 @@ function Listingswrapper({ occupancyList }) {
 
     const refreshListings = () => {
         setIsLoadingEffect(true);
-        getAllListingsData(page, limit, locality, propertyIn, propertySubtype, propertyFor, bhk, occupancy, propertyId);
+        getAllListingsData(page, limit, locality, propertyIn, propertySubtype, propertyFor, bhk, occupancy, propertyId, minPriceRange, maxPriceRange);
     }
 
     const handleResetFilters = () => {
@@ -205,9 +210,23 @@ function Listingswrapper({ occupancyList }) {
         setPropertyFor('')
         setOccupancy('')
         setPropertyId('')
+        setMinPriceRange(500000)
+        setMaxPriceRange(100000000)
     }
 
-    const handleDeleteProperty = useCallback((unique_property_id) => {
+    const [deleteModal, setDeleteModal] = useState(false);
+    const [singlePropertyId, setSinglePropertyId] = useState(null)
+    const openDeleteModal = useCallback((propertyid) => {
+        setSinglePropertyId(propertyid);
+        setDeleteModal(true);
+    }, [])
+
+    const closeDeleteModal = () => {
+        setDeleteModal(false);
+        setSinglePropertyId(null);
+    }
+
+    const handleDeleteProperty = (unique_property_id) => {
         setIsLoadingEffect(true);
         Propertyapi.post(`/deleteProperty`, {
             user_id,
@@ -231,6 +250,8 @@ function Listingswrapper({ occupancyList }) {
                     setErrorModalOpen(true);
                     return false;
                 }
+                setDeleteModal(false)
+                toast.success('Property deleted successfully')
                 refreshListings()
             }
             )
@@ -242,7 +263,7 @@ function Listingswrapper({ occupancyList }) {
                 setErrorMessages(finalresponse);
                 setErrorModalOpen(true);
             });
-    }, [])
+    }
 
     return (
         <>
@@ -429,7 +450,7 @@ function Listingswrapper({ occupancyList }) {
                         handlePageChange={handlePageChange}
                         limit={limit}
                         isLoadingEffect={isLoadingEffect}
-                        handleDeleteProperty={handleDeleteProperty}
+                        openDeleteModal={openDeleteModal}
                         propertyIn={propertyIn}
                         propertySubtype={propertySubtype}
                         updatePropertySubtype={updatePropertySubtype}
@@ -466,6 +487,25 @@ function Listingswrapper({ occupancyList }) {
                     />
                 </Modal>
             }
+            {
+                deleteModal &&
+                <Modal
+                    open={deleteModal}
+                    onClose={closeDeleteModal}
+                    size="md"
+                    zIndex={9999}
+                    withCloseButton={false}
+                >
+                    <div className="flex flex-col items-center justify-center p-4">
+                        <p className="text-[#1D3A76] text-[14px] font-[600]">Are you sure you want to delete this property {singlePropertyId}?</p>
+                        <div className="flex gap-4 pt-4">
+                            <button onClick={() => handleDeleteProperty(singlePropertyId)} className="py-2 px-4 bg-[#038AC9] text-white font-[700] text-[14px] rounded-lg">Yes</button>
+                            <button onClick={closeDeleteModal} className="py-2 px-4 bg-[#A5413F] text-white font-[700] text-[14px] rounded-lg">No</button>
+                        </div>
+                    </div>
+                </Modal>
+            }
+
         </>
     );
 }

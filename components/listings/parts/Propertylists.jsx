@@ -14,7 +14,7 @@ function Propertylists({
     limit,
     handlePageChange,
     isLoadingEffect,
-    handleDeleteProperty,
+    openDeleteModal,
     propertyIn,
     propertySubtype,
     updatePropertySubtype,
@@ -32,8 +32,8 @@ function Propertylists({
     updatePropertyId,
     handleResetFilters,
     minPriceRange,
-    maxPriceRange,
     updateMinPriceRange,
+    maxPriceRange,
     updateMaxPriceRange
 }) {
     const user_info = useUserDetails((state) => state.userInfo)
@@ -181,6 +181,18 @@ function Propertylists({
         getPropertyFor()
     }, [propertyIn])
 
+
+    const formatPrice = (price) => {
+        if (price >= 10000000) {
+            return (price / 10000000).toFixed(2) + ' Cr'; // Crores
+        } else if (price >= 100000) {
+            return (price / 100000).toFixed(2) + ' Lac'; // Lakhs
+        } else if (price >= 1000) {
+            return (price / 1000).toFixed(2) + ' K'; // Thousands
+        }
+        return price;
+    };
+
     return (
         <>
             <div className="listingfilter w-[80%] flex flex-col space-y-4">
@@ -258,8 +270,6 @@ function Propertylists({
                                     </label>
                                 </div>
                             }
-
-                            {/* Verification Status Dropdown */}
                             <div className="w-[25%] flex items-center gap-2 pl-1 border border-[#FEFDF8] rounded-sm cursor-pointer">
                                 <label className="flex items-center cursor-pointer">
                                     <select
@@ -275,6 +285,13 @@ function Propertylists({
                                     </select>
                                 </label>
                             </div>
+                            <input
+                                type='text'
+                                placeholder='Property ID'
+                                className=' w-[25%] px-2 text-[#FEFDF8] text-[10px] font-[700] bg-transparent  h-7 border border-[#FEFDF8] rounded-sm focus:outline-none'
+                                value={propertyId}
+                                onChange={updatePropertyId}
+                            />
                             <button onClick={updateFilters} className=' flex items-center justify-center  rounded-sm  h-7 bg-[#E2EAED] text-[10px] font-[700] text-[#37474F]  px-4  '>
                                 {filters ? 'Close Filters' : 'More Filters'}
                             </button>
@@ -304,29 +321,38 @@ function Propertylists({
                                         </label>
                                     </div>
                                 }
-                                <input
-                                    type='text'
-                                    placeholder='Property ID'
-                                    className='w-[25%] px-4 text-[#FEFDF8] text-[10px] font-[700] bg-transparent  h-7 border border-[#FEFDF8] rounded-sm focus:outline-none'
-                                    value={propertyId}
-                                    onChange={updatePropertyId}
-                                />
-                                <div className="w-fit flex items-center justify-center gap-2 px-1 border border-[#FEFDF8] rounded-sm cursor-pointer">
-                                    <div className=" flex items-center justify-center space-x-2">
+                                <div className='flex flex-row gap-1'>
+                                    <div className=" flex items-center justify-center space-x-2 p-2 border border-[#FEFDF8] rounded-sm">
                                         <label className="text-[#FEFDF8] text-[10px] font-[700] text-center outline-none bg-transparent">
-                                            Price
+                                            Min Price
                                         </label>
-
                                         <input
                                             type='range'
-                                            min="500000"
+                                            min="0"
+                                            max="100000000"
+                                            step="10000"
+                                            value={minPriceRange}
+                                            onChange={updateMinPriceRange}
+                                        />
+                                        <p className="text-[#FEFDF8] text-[10px] font-[700] text-center outline-none">
+                                            {`₹ ${formatPrice(minPriceRange)}`}
+                                        </p>
+
+                                    </div>
+                                    <div className=" flex items-center justify-center space-x-2 p-2 border border-[#FEFDF8] rounded-sm">
+                                        <label className="text-[#FEFDF8] text-[10px] font-[700] text-center outline-none bg-transparent">
+                                            Max Price
+                                        </label>
+                                        <input
+                                            type='range'
+                                            min="0"
                                             max="100000000"
                                             step="10000"
                                             value={maxPriceRange}
                                             onChange={updateMaxPriceRange}
                                         />
                                         <p className="text-[#FEFDF8] text-[10px] font-[700] text-center outline-none">
-                                            {`₹ ${maxPriceRange}`}
+                                            {`₹ ${formatPrice(maxPriceRange)}`}
                                         </p>
 
                                     </div>
@@ -380,7 +406,7 @@ function Propertylists({
                 </div>
                 <div className='w-full'>
                     <p className='flex items-center justify-start pl-3 h-9 bg-[#FEFDF8] text-[12px] text-[#1D3A76] font-[700] rounded-md'>
-                        Showing {limit} out of {totalProperties} Properties
+                        Showing {allListings?.length} out of {totalProperties} Properties
                     </p>
                 </div>
 
@@ -390,8 +416,12 @@ function Propertylists({
                             key={index}
                             unique_property_id={item.unique_property_id}
                             image={item.image}
-                            bedrooms="2 BHK"
-                            property_cost="₹ 15000"
+                            bedrooms={item?.bhk || ''}
+                            property_for={item.property_for}
+                            property_in={item.property_in}
+                            property_cost={item?.property_cost || ''}
+                            monthly_rent={item?.monthly_rent || ''}
+                            furnished_status={item?.furnished_status || ''}
                             area="160 sq.ft"
                             interested_tenants="Two interested tenants"
                             last_added_date={item.last_added_date}
@@ -400,7 +430,7 @@ function Propertylists({
                             property_name={item.property_name}
                             property_subtype={item.property_subtype}
                             description={item.description}
-                            handleDeleteProperty={handleDeleteProperty}
+                            openDeleteModal={openDeleteModal}
                         />
                     ))
                     :

@@ -28,15 +28,6 @@ const GoogleMapView = ({ propertiesData }) => {
         }
     };
 
-    const handleZoom = (delta) => {
-        if (mapCenter) {
-            setMapCenter((prevCenter) => ({
-                ...prevCenter,
-                zoom: (prevCenter?.zoom || 14) + delta,
-            }));
-        }
-    };
-
     const handleViewInMaps = () => {
         if (location) {
             const url = `https://www.google.com/maps?q=${location.lat},${location.lng}`;
@@ -65,22 +56,6 @@ const GoogleMapView = ({ propertiesData }) => {
             ) : (
                 <p className="text-center text-gray-500">Loading map...</p>
             )}
-
-            {/* <div className="flex justify-end gap-2 mt-2">
-                <button
-                    onClick={() => handleZoom(1)}
-                    className="px-3 py-2 bg-blue-600 text-white rounded-full"
-                >
-                    +
-                </button>
-                <button
-                    onClick={() => handleZoom(-1)}
-                    className="px-3 py-2 bg-blue-600 text-white rounded-full"
-                >
-                    -
-                </button>
-            </div> */}
-
             <button
                 onClick={handleViewInMaps}
                 className="mt-4 w-full bg-[#1d3a76] text-white py-3 rounded-md"

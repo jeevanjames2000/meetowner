@@ -163,7 +163,11 @@ function Addpropertydetails({
   const [customBhk, setCustomBhk] = useState('')
   const [customBhkError, setCustomBhkError] = useState('')
   const updateCustomBhk = (e) => {
-    setCustomBhk(e.target.value)
+    let value = e.target.value;
+    if (isNaN(value)) {
+      return false;
+    }
+    setCustomBhk(value)
     setCustomBhkError('')
   }
 
@@ -186,14 +190,22 @@ function Addpropertydetails({
   const [customBathroom, setCustomBathroom] = useState('')
   const [customBathroomError, setCustomBathroomError] = useState('')
   const updateCustomBathroom = (e) => {
-    setCustomBathroom(e.target.value)
+    let value = e.target.value;
+    if (isNaN(value)) {
+      return false;
+    }
+    setCustomBathroom(value)
     setCustomBathroomError('')
   }
 
   const [customBalcony, setCustomBalcony] = useState('')
   const [customBalconyError, setCustomBalconyError] = useState('')
   const updateCustomBalcony = (e) => {
-    setCustomBalcony(e.target.value)
+    let value = e.target.value;
+    if (isNaN(value)) {
+      return false;
+    }
+    setCustomBalcony(value)
     setCustomBalconyError('')
   }
 
@@ -236,6 +248,10 @@ function Addpropertydetails({
   const [customCarParking, setCustomCarParking] = useState('')
   const [customCarParkingError, setCustomCarParkingError] = useState('')
   const updateCustomCarParking = (e) => {
+    let value = e.target.value;
+    if (isNaN(value)) {
+      return false;
+    }
     setCustomCarParking(e.target.value)
     setCustomCarParkingError('')
   }
@@ -257,14 +273,22 @@ function Addpropertydetails({
   const [monthlyRent, setMonthlyRent] = useState('')
   const [monthlyRentError, setMonthlyRentError] = useState('')
   const updateMonthlyRent = (e) => {
-    setMonthlyRent(e.target.value)
+    let value = e.target.value;
+    if (isNaN(value)) {
+      return false;
+    }
+    setMonthlyRent(value)
     setMonthlyRentError('')
   }
 
   const [maintenceCharges, setMaintenceCharges] = useState('')
   const [maintenceChargesError, setMaintenceChargesError] = useState('')
   const updateMaintenceCharges = (e) => {
-    setMaintenceCharges(e.target.value)
+    let value = e.target.value;
+    if (isNaN(value)) {
+      return false;
+    }
+    setMaintenceCharges(value)
     setMaintenceChargesError('')
   }
 
@@ -292,19 +316,31 @@ function Addpropertydetails({
   const [builtupArea, setBuiltupArea] = useState('')
   const [builtupAreaError, setBuiltupAreaError] = useState('')
   const updateBuiltupArea = (e) => {
-    setBuiltupArea(e.target.value)
+    let value = e.target.value;
+    if (isNaN(value)) {
+      return false;
+    }
+    setBuiltupArea(value)
     setBuiltupAreaError('')
   }
   const [carpetArea, setCarpetArea] = useState('')
   const [carpetAreaError, setCarpetAreaError] = useState('')
   const updateCarpetArea = (e) => {
-    setCarpetArea(e.target.value)
+    let value = e.target.value;
+    if (isNaN(value)) {
+      return false;
+    }
+    setCarpetArea(value)
     setCarpetAreaError('')
   }
   const [lengthArea, setLengthArea] = useState('')
   const [lengthAreaError, setLengthAreaError] = useState('')
   const updateLengthArea = (e) => {
-    setLengthArea(e.target.value)
+    let value = e.target.value;
+    if (isNaN(value)) {
+      return false;
+    }
+    setLengthArea(value)
     setLengthAreaError('')
   }
   const [plotArea, setPlotArea] = useState('')
@@ -356,14 +392,22 @@ function Addpropertydetails({
   const [unitCost, setUnitCost] = useState('')
   const [unitCostError, setUnitCostError] = useState('')
   const updateUnitCost = (e) => {
-    setUnitCost(e.target.value)
+    let value = e.target.value;
+    if (isNaN(value)) {
+      return false;
+    }
+    setUnitCost(value)
     setUnitCostError('')
   }
 
   const [propertyCost, setPropertyCost] = useState('')
   const [propertyCostError, setPropertyCostError] = useState('')
   const updatePropertyCost = (e) => {
-    setPropertyCost(e.target.value)
+    let value = e.target.value;
+    if (isNaN(value)) {
+      return false;
+    }
+    setPropertyCost(value)
     setPropertyCostError('')
   }
 
@@ -399,7 +443,11 @@ function Addpropertydetails({
   const [customBikeParking, setCustomBikeParking] = useState('')
   const [customBikeParkingError, setCustomBikeParkingError] = useState('')
   const updateCustomBikeParking = (e) => {
-    setCustomBikeParking(e.target.value)
+    let value = e.target.value;
+    if (isNaN(value)) {
+      return false;
+    }
+    setCustomBikeParking(value)
     setCustomBikeParkingError('')
   }
 
@@ -471,49 +519,74 @@ function Addpropertydetails({
   const [passengerLifts, setPassengerLifts] = useState('')
   const [passengerLiftsError, setPassengerLiftsError] = useState('')
   const updatePassengerLifts = (e) => {
-    setPassengerLifts(e.target.value)
+    let value = e.target.value;
+    if (isNaN(value)) {
+      return false;
+    }
+    setPassengerLifts(value)
     setPassengerLiftsError('')
   }
 
   const [serviceLifts, setServiceLifts] = useState('')
   const [serviceLiftsError, setServiceLiftsError] = useState('')
   const updateServiceLifts = (e) => {
-    setServiceLifts(e.target.value)
+    let value = e.target.value;
+    if (isNaN(value)) {
+      return false;
+    }
+    setServiceLifts(value)
     setServiceLiftsError('')
   }
 
   const [stairCases, setStairCases] = useState('')
   const [stairCasesError, setStairCasesError] = useState('')
   const updateStairCases = (e) => {
-    setStairCases(e.target.value)
+    let value = e.target.value;
+    if (isNaN(value)) {
+      return false;
+    }
+    setStairCases(value)
     setStairCasesError('')
   }
 
   const [privateParking, setPrivateParking] = useState('')
   const [privateParkingError, setPrivateParkingError] = useState('')
   const updatePrivateParking = (e) => {
-    setPrivateParking(e.target.value)
+    let value = e.target.value;
+    if (isNaN(value)) {
+      return false;
+    }
+    setPrivateParking(value)
     setPrivateParkingError('')
   }
 
   const [publicParking, setPublicParking] = useState('')
   const [publicParkingError, setPublicParkingError] = useState('')
   const updatePublicParking = (e) => {
-    setPublicParking(e.target.value)
+    let value = e.target.value;
+    setPublicParking(value)
     setPublicParkingError('')
   }
 
   const [privateWashrooms, setPrivateWashrooms] = useState('')
   const [privateWashroomsError, setPrivateWashroomsError] = useState('')
   const updatePrivateWashrooms = (e) => {
-    setPrivateWashrooms(e.target.value)
+    let value = e.target.value;
+    if (isNaN(value)) {
+      return false;
+    }
+    setPrivateWashrooms(value)
     setPrivateWashroomsError('')
   }
 
   const [publicWashrooms, setPublicWashrooms] = useState('')
   const [publicWashroomsError, setPublicWashroomsError] = useState('')
   const updatePublicWashrooms = (e) => {
-    setPublicWashrooms(e.target.value)
+    let value = e.target.value;
+    if (isNaN(value)) {
+      return false;
+    }
+    setPublicWashrooms(value)
     setPublicWashroomsError('')
   }
 
@@ -521,14 +594,22 @@ function Addpropertydetails({
   const [plotNumber, setPlotNumber] = useState('')
   const [plotNumberError, setPlotNumberError] = useState('')
   const updatePlotNumber = (e) => {
-    setPlotNumber(e.target.value)
+    let value = e.target.value;
+    if (isNaN(value)) {
+      return false;
+    }
+    setPlotNumber(value)
     setPlotNumberError('')
   }
 
   const [flatNumber, setFlatNumber] = useState('')
   const [flatNumberError, setFlatNumberError] = useState('')
   const updateFlatNumber = (e) => {
-    setFlatNumber(e.target.value)
+    let value = e.target.value;
+    if (isNaN(value)) {
+      return false;
+    }
+    setFlatNumber(value)
     setFlatNumberError('')
   }
 
@@ -2014,38 +2095,15 @@ function Addpropertydetails({
                   <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Custom BHK</p>
                   <IconAsterisk size={8} color='#FF0000' />
                 </div>
-                <input
-                  type='text'
-                  placeholder='Enter Custom BHK'
-                  className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans'
-                  autoComplete='off'
+                <Textinput
+                  type='number'
+                  placeholder="Enter Custom bhk"
+                  inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
                   value={customBhk}
                   onChange={updateCustomBhk}
                 />
                 {customBhkError && <p className='text-[#FF0000] text-xs font-sans'>Please enter custom BHK</p>}
               </div>
-              // <div className="relative my-5">
-              //   {(isFocused || customBhk) &&
-              //     <div className='flex items-center gap-1'>
-              //       <label
-              //         className={`absolute left-0 text-[13px] font-medium font-sans text-[#1D3A76] transition-all duration-200 -top-4`}
-              //       >
-              //         Custom BHK
-              //       </label>
-              //       <IconAsterisk size={8} color='#FF0000' />
-              //     </div>
-              //   }
-              //   <input
-              //     type="text"
-              //     placeholder="Enter Custom BHK"
-              //     className="border-b border-[#c3c3c3] font-semibold w-full py-2 text-[13px] font-sans focus:outline-none"
-              //     autoComplete="off"
-              //     value={customBhk}
-              //     onChange={updateCustomBhk}
-              //     onFocus={() => setIsFocused(true)}
-              //     onBlur={() => setIsFocused(false)}
-              //   />
-              // </div>
             }
             {bhkError && <p className='text-[#FF0000] text-xs font-sans'>Please select BHK</p>}
           </div>
@@ -2082,11 +2140,10 @@ function Addpropertydetails({
                     <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Custom Bathroom</p>
                     <IconAsterisk size={8} color='#FF0000' />
                   </div>
-                  <input
-                    type='text'
-                    placeholder='Enter Custom Bathrooms'
-                    className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans'
-                    autoComplete='off'
+                  <Textinput
+                    type="number"
+                    placeholder="Enter Custom bathroom"
+                    inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
                     value={customBathroom}
                     onChange={updateCustomBathroom}
                   />
@@ -2120,11 +2177,10 @@ function Addpropertydetails({
                     <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Custom Balcony</p>
                     <IconAsterisk size={8} color='#FF0000' />
                   </div>
-                  <input
-                    type='text'
-                    placeholder='Enter Custom Balcony'
-                    className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans'
-                    autoComplete='off'
+                  <Textinput
+                    type='number'
+                    placeholder="Enter Custom balcony"
+                    inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
                     value={customBalcony}
                     onChange={updateCustomBalcony}
                   />
@@ -2173,11 +2229,10 @@ function Addpropertydetails({
                   <p className='text-[#1D3A76] text-[13px] font-medium font-sans'> Passenger Lifts</p>
                   <IconAsterisk size={8} color='#FF0000' />
                 </div>
-                <input
+                <Textinput
                   type='number'
-                  placeholder='Enter Passenger Lifts'
-                  className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans'
-                  autoComplete='off'
+                  placeholder="Enter Passenger Lifts"
+                  inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
                   value={passengerLifts}
                   onChange={updatePassengerLifts}
                 />
@@ -2188,11 +2243,10 @@ function Addpropertydetails({
                   <p className='text-[#1D3A76] text-[13px] font-medium font-sans'> Service Lifts</p>
                   <IconAsterisk size={8} color='#FF0000' />
                 </div>
-                <input
+                <Textinput
                   type='number'
-                  placeholder='Enter Service Lifts'
-                  className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans'
-                  autoComplete='off'
+                  placeholder="Enter Service Lifts"
+                  inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
                   value={serviceLifts}
                   onChange={updateServiceLifts}
                 />
@@ -2203,11 +2257,10 @@ function Addpropertydetails({
                   <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Stair Cases</p>
                   <IconAsterisk size={8} color='#FF0000' />
                 </div>
-                <input
+                <Textinput
                   type='number'
-                  placeholder='Enter Stair Cases'
-                  className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans'
-                  autoComplete='off'
+                  placeholder="Enter Stair Cases"
+                  inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
                   value={stairCases}
                   onChange={updateStairCases}
                 />
@@ -2222,11 +2275,10 @@ function Addpropertydetails({
                   <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Private Parking</p>
                   <IconAsterisk size={8} color='#FF0000' />
                 </div>
-                <input
+                <Textinput
                   type='number'
-                  placeholder='Enter Private Parking'
-                  className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans'
-                  autoComplete='off'
+                  placeholder="Enter Private Parking"
+                  inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
                   value={privateParking}
                   onChange={updatePrivateParking}
                 />
@@ -2237,11 +2289,10 @@ function Addpropertydetails({
                   <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Public Parking</p>
                   <IconAsterisk size={8} color='#FF0000' />
                 </div>
-                <input
+                <Textinput
                   type='number'
-                  placeholder='Enter Public Parking'
-                  className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans'
-                  autoComplete='off'
+                  placeholder="Enter Public Parking"
+                  inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
                   value={publicParking}
                   onChange={updatePublicParking}
                 />
@@ -2256,11 +2307,10 @@ function Addpropertydetails({
                   <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Private Washrooms</p>
                   <IconAsterisk size={8} color='#FF0000' />
                 </div>
-                <input
+                <Textinput
                   type='number'
-                  placeholder='Enter Private Washrooms'
-                  className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans'
-                  autoComplete='off'
+                  placeholder="Enter Private Washrooms"
+                  inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
                   value={privateWashrooms}
                   onChange={updatePrivateWashrooms}
                 />
@@ -2271,11 +2321,10 @@ function Addpropertydetails({
                   <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Public Washrooms</p>
                   <IconAsterisk size={8} color='#FF0000' />
                 </div>
-                <input
+                <Textinput
                   type='number'
-                  placeholder='Enter Public Washrooms'
-                  className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans'
-                  autoComplete='off'
+                  placeholder="Enter Public Washrooms"
+                  inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
                   value={publicWashrooms}
                   onChange={updatePublicWashrooms}
                 />
@@ -2355,11 +2404,10 @@ function Addpropertydetails({
                 <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Monthly Rent</p>
                 <IconAsterisk size={8} color='#FF0000' />
               </div>
-              <input
+              <Textinput
                 type='number'
-                placeholder='Cost(per month)'
-                className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans '
-                autoComplete='off'
+                placeholder="Cost(per month)"
+                inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
                 value={monthlyRent}
                 onChange={updateMonthlyRent}
               />
@@ -2370,11 +2418,10 @@ function Addpropertydetails({
                 <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Maintence Charge(per Month)</p>
                 <IconAsterisk size={8} color='#FF0000' />
               </div>
-              <input
+              <Textinput
                 type='number'
-                placeholder='Maintence Charges(per month)'
-                className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans'
-                autoComplete='off'
+                placeholder="Cost(per month)"
+                inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
                 value={maintenceCharges}
                 onChange={updateMaintenceCharges}
               />
@@ -2484,11 +2531,10 @@ function Addpropertydetails({
                   <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Built-up Area({areaUnits})</p>
                   <IconAsterisk size={8} color='#FF0000' />
                 </div>
-                <input
+                <Textinput
                   type='number'
-                  placeholder='Built-up Area'
-                  className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans'
-                  autoComplete='off'
+                  placeholder="Built-up Area"
+                  inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
                   value={builtupArea}
                   onChange={updateBuiltupArea}
                 />
@@ -2499,11 +2545,10 @@ function Addpropertydetails({
                   <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Carpet Area({areaUnits})</p>
                   <IconAsterisk size={8} color='#FF0000' />
                 </div>
-                <input
+                <Textinput
                   type='number'
-                  placeholder='Carpet Area'
-                  className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans'
-                  autoComplete='off'
+                  placeholder="Carpet Area"
+                  inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
                   value={carpetArea}
                   onChange={updateCarpetArea}
                 />
@@ -2519,11 +2564,10 @@ function Addpropertydetails({
                   <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Length Area({areaUnits})</p>
                   <IconAsterisk size={8} color='#FF0000' />
                 </div>
-                <input
-                  type='text'
-                  placeholder='length Area'
-                  className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans'
-                  autoComplete='off'
+                <Textinput
+                  type='number'
+                  placeholder="Length Area"
+                  inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
                   value={lengthArea}
                   onChange={updateLengthArea}
                 />
@@ -2534,11 +2578,9 @@ function Addpropertydetails({
                   <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Width Area({areaUnits})</p>
                   <IconAsterisk size={8} color='#FF0000' />
                 </div>
-                <input
-                  type='text'
-                  placeholder='Width Area'
-                  className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans'
-                  autoComplete='off'
+                <Textinput
+                  placeholder="Width Area"
+                  inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
                   value={widthArea}
                   onChange={updateWidthArea}
                 />
@@ -2553,11 +2595,9 @@ function Addpropertydetails({
                 <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Plot Area({areaUnits})</p>
                 <IconAsterisk size={8} color='#FF0000' />
               </div>
-              <input
-                type='text'
-                placeholder='Plot Area'
-                className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans'
-                autoComplete='off'
+              <Textinput
+                placeholder="Plot Area"
+                inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
                 value={plotArea}
                 onChange={updatePlotArea}
               />
@@ -2592,11 +2632,10 @@ function Addpropertydetails({
                     <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Unit Cost</p>
                     <IconAsterisk size={8} color='#FF0000' />
                   </div>
-                  <input
+                  <Textinput
                     type='number'
-                    placeholder='unit cost'
-                    className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans'
-                    autoComplete='off'
+                    placeholder="Unit Cost"
+                    inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
                     value={unitCost}
                     onChange={updateUnitCost}
                   />
@@ -2608,11 +2647,10 @@ function Addpropertydetails({
                   <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Property Cost</p>
                   <IconAsterisk size={8} color='#FF0000' />
                 </div>
-                <input
+                <Textinput
                   type='number'
-                  placeholder='property cost'
-                  className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans'
-                  autoComplete='off'
+                  placeholder="Property Cost"
+                  inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
                   value={propertyCost}
                   onChange={updatePropertyCost}
                 />
@@ -2709,12 +2747,10 @@ function Addpropertydetails({
                     <IconAsterisk size={8} color='#FF0000' />
                   </div>
                   <div className='border border-[#909090] rounded-md w-[20%] px-3'>
-                    <input
-                      type="number"
-                      id="plotno"
-                      className='text-[14px] w-full py-1 outline-none'
-                      autoComplete='off'
-                      placeholder='Plot Number'
+                    <Textinput
+                      type='number'
+                      placeholder="Plot No"
+                      inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
                       value={plotNumber}
                       onChange={updatePlotNumber}
                     />
@@ -2728,12 +2764,10 @@ function Addpropertydetails({
                     <IconAsterisk size={8} color='#FF0000' />
                   </div>
                   <div className='border border-[#909090] rounded-md w-[20%] px-3'>
-                    <input
-                      type="number"
-                      id="flatno"
-                      className='text-[14px] w-full py-1 outline-none'
-                      autoComplete='off'
-                      placeholder='Flat Number'
+                    <Textinput
+                      type='number'
+                      placeholder="Flat Number"
+                      inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
                       value={flatNumber}
                       onChange={updateFlatNumber}
                     />
@@ -2865,13 +2899,13 @@ function Addpropertydetails({
                     <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Custom Car Parking</p>
                     <IconAsterisk size={8} color='#FF0000' />
                   </div>
-                  <input
-                    type='text'
-                    placeholder='Enter Custom Car Parking'
-                    className='border-b border-[#c3c3c3] w-full py-1 focus:outline-none text-[13px] font-sans'
-                    autoComplete='off'
+                  <Textinput
+                    type='number'
+                    placeholder="Enter Custom Car Parking"
+                    inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
                     value={customCarParking}
                     onChange={updateCustomCarParking}
+                    error={customCarParkingError}
                   />
                 </div>
               }
@@ -2906,11 +2940,10 @@ function Addpropertydetails({
                     <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Custom Bike Parking</p>
                     <IconAsterisk size={8} color='#FF0000' />
                   </div>
-                  <input
-                    type='text'
-                    placeholder='Enter Custom Bike Parking'
-                    className='border-b border-[#c3c3c3] w-full py-1 focus:outline-none text-[13px] font-sans'
-                    autoComplete='off'
+                  <Textinput
+                    type='number'
+                    placeholder="Enter Custom Bike Parking"
+                    inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
                     value={customBikeParking}
                     onChange={updateCustomBikeParking}
                   />
@@ -2948,11 +2981,17 @@ function Addpropertydetails({
                     <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Custom Open Parking</p>
                     <IconAsterisk size={8} color='#FF0000' />
                   </div>
-                  <input
+                  {/* <input
                     type='text'
                     placeholder='Enter Custom Open Parking'
                     className='border-b border-[#c3c3c3] w-full py-1 focus:outline-none text-[13px] font-sans '
                     autoComplete='off'
+                    value={customOpenParking}
+                    onChange={updateCustomOpenParking}
+                  /> */}
+                  <Textinput
+                    placeholder=" Enter Custom Open Parking"
+                    inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
                     value={customOpenParking}
                     onChange={updateCustomOpenParking}
                   />

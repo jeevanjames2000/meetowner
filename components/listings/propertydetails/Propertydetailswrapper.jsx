@@ -56,7 +56,7 @@ function Propertydetailswrapper({ propertyDetails }) {
                 <div className='w-[32%] '>
                     <div className='p-2 bg-white  shadow-xl rounded-lg'>
                         <div className='space-y-4'>
-                            <iframe src="https://www.youtube.com/embed/19g66ezsKAg" allowFullScreen width="100%" />
+                            <iframe src="https://res.cloudinary.com/dd6r2ukms/video/upload/v1735284244/86_Acres_Farm_-_Real_Estate_Drone_Video-_720p_aea4p1.mp4" allowFullScreen width="100%" height="100%" />
                             {/* <video
                                 src={project_video2}
                                 controls
