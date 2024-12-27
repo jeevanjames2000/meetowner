@@ -210,7 +210,7 @@ function Listingswrapper({ occupancyList }) {
         setPropertyFor('')
         setOccupancy('')
         setPropertyId('')
-        setMinPriceRange(500000)
+        setMinPriceRange(0)
         setMaxPriceRange(100000000)
     }
 
