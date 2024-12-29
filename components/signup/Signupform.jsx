@@ -117,21 +117,10 @@ function SignupForm({ usertypedata, cities }) {
                     setIsLoadingEffect(false);
                     return false;
                 } else {
-                    // toast.success(data.message, {
-                    //     position: 'top-right',
-                    //     autoClose: 5000,
-                    //     hideProgressBar: false,
-                    //     closeOnClick: true,
-                    //     pauseOnHover: true,
-                    //     draggable: true,
-                    //     progress: undefined,
-                    // });
                     openOtpModal()
                     setUserDetails(data?.user_details);
                     setAccessToken(data?.accessToken);
                     setOtpNumber(data?.user_details?.otpNumber);
-                    // updateAuthDetails(data.user_details, data.accessToken);
-                    // router.push('/dashboard');
                     setTimeout(() => {
                         setIsLoadingEffect(false);
                     }, 3000);

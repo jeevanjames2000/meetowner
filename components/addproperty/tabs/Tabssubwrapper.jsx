@@ -175,6 +175,7 @@ function Tabssubwrapper({
                 console.log(error)
             })
     }
+
     const [propertyGallery, setPropertyGallery] = useState([])
     const [allpropertyDetails, setAllPropertyDetails] = useState({})
     async function getAllPropertyDetails() {
