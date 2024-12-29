@@ -130,7 +130,6 @@ function Listingswrapper({ occupancyList }) {
                 if (data.status === 'error') {
                     let finalresponse = {
                         'message': data.message,
-                        'server_res': data
                     }
                     console.log('finalresponse', finalresponse)
                     setErrorMessages(finalresponse);

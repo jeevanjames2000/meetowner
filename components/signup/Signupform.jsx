@@ -204,14 +204,14 @@ function SignupForm({ usertypedata, cities }) {
                                 onChange={updateName}
                                 error={nameError}
                                 placeholder="Name"
-                                inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none'
+                                inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
                             />
                             <div className='flex flex-row items-center w-full'>
                                 <div className='w-[20%]'>
                                     <Textinput
                                         value='+91'
                                         placeholder="+91"
-                                        inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none'
+                                        inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
                                         inputProps={{ readOnly: true }}
                                     />
                                 </div>
@@ -219,7 +219,7 @@ function SignupForm({ usertypedata, cities }) {
                                     <Textinput
                                         type='number'
                                         placeholder="xxxxxxxxxx"
-                                        inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none'
+                                        inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
                                         value={mobile}
                                         onChange={updateMobile}
                                         error={mobileError}

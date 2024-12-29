@@ -188,7 +188,7 @@ function Loginform() {
                                     <Textinput
                                         value='+91'
                                         placeholder="+91"
-                                        inputClassName='text-[12px] md:text-[14px] border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none'
+                                        inputClassName='text-[12px] md:text-[14px] border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
                                         inputProps={{ readOnly: true }}
                                     />
                                 </div>
@@ -196,7 +196,7 @@ function Loginform() {
                                     <Textinput
                                         type='number'
                                         placeholder="Enter Mobile Number"
-                                        inputClassName='text-[12px] md:text-[14px] border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none'
+                                        inputClassName='text-[12px] md:text-[14px] border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
                                         value={mobile}
                                         onChange={updateMobile}
                                         error={mobileError}
