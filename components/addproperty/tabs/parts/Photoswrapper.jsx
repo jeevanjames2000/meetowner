@@ -88,7 +88,7 @@ function Photoswrapper({ updateActiveTab }) {
       })
       return false;
     }
-    if (featuredIndex === null) {
+    if (!featuredIndex || featuredIndex === -1) {
       setIsLoadingEffect(false);
       toast.error('Please select a featured image', {
         position: "top-right",
@@ -230,10 +230,10 @@ function Photoswrapper({ updateActiveTab }) {
                 <div className="flex flex-col items-center justify-center pt-5 pb-6">
                   {/*  */}
                   <p className="mb-2 text-sm text-gray-500">
-                    Drag & Drop or click to upload {JSON.stringify(featuredIndex)}
+                    Drag & Drop or click to upload
                   </p>
                   <p className="text-xs text-gray-500">
-                    Allowed Extensions (jpg, jpeg, png, gif) {typeof featuredIndex}
+                    Allowed Extensions (jpg, jpeg, png, gif)
                   </p>
                 </div>
                 <input

@@ -266,6 +266,7 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
       setFloorNo(addressDetails?.floors || '')
       setTotalFloors(addressDetails?.total_floors || '')
       setLocality(addressDetails?.location_id || '')
+      setPlotNumber(addressDetails?.plot_number || '')
     }
   }, [addressDetails])
 

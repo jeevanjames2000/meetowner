@@ -81,7 +81,6 @@ function Tabssubwrapper({
             setPropertyDetailsStatus('completed')
             setPhotosStatus(status)
         } else if (active_step === 'review') {
-            console.log('review id', user_id)
             getAllPropertyDetails()
             setBasicDetailsStatus('completed')
             setAddressStatus('completed')

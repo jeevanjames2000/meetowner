@@ -692,6 +692,21 @@ function Addpropertydetails({
       setPropertySubTypeError('Please select property sub type')
       return false;
     }
+    if (!reraApproved) {
+      setIsLoadingEffect(false)
+      toast.error('Please select rera approved', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      })
+      setReraApprovedError('Please select rera approved')
+      return false;
+    }
+
     if (getpropertyDetails?.property_for === "Sell") {
       if (!(propertySubType === "Plot" || propertySubType === "Land")) {
         if (!constructionStatus) {
