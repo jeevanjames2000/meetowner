@@ -3003,11 +3003,11 @@ function Addpropertydetails({
                 <IconAsterisk size={8} color='#FF0000' />
               </div>
               <div className='flex flex-row items-center gap-6'>
-                <div onClick={() => updatePantryRoom('yes')} className={`group cursor-pointer px-8 py-2 rounded-md  ${pantryRoom === 'yes' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                  <p className={`text-[10px] font-sans ${pantryRoom === 'yes' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Yes</p>
+                <div onClick={() => updatePantryRoom('Yes')} className={`group cursor-pointer px-8 py-2 rounded-md  ${pantryRoom === 'Yes' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${pantryRoom === 'Yes' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Yes</p>
                 </div>
-                <div onClick={() => updatePantryRoom('no')} className={`group cursor-pointer px-8 py-2 rounded-md  ${pantryRoom === 'no' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                  <p className={`text-[10px] font-sans ${pantryRoom === 'no' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>No</p>
+                <div onClick={() => updatePantryRoom('No')} className={`group cursor-pointer px-8 py-2 rounded-md  ${pantryRoom === 'No' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${pantryRoom === 'No' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>No</p>
                 </div>
               </div>
               {pantryRoomError && <p className='text-[#FF0000] text-xs font-sans'>Please select pantry room</p>}
@@ -3020,11 +3020,11 @@ function Addpropertydetails({
                 <IconAsterisk size={8} color='#FF0000' />
               </div>
               <div className='flex flex-row items-center gap-6'>
-                <div onClick={() => updateServantRoom('yes')} className={`group cursor-pointer px-8 py-2 rounded-md  ${servantRoom === 'yes' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                  <p className={`text-[10px] font-sans ${servantRoom === 'yes' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Yes</p>
+                <div onClick={() => updateServantRoom('Yes')} className={`group cursor-pointer px-8 py-2 rounded-md  ${servantRoom === 'Yes' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${servantRoom === 'Yes' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Yes</p>
                 </div>
-                <div onClick={() => updateServantRoom('no')} className={`group cursor-pointer px-8 py-2 rounded-md  ${servantRoom === 'no' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-                  <p className={`text-[10px] font-sans ${servantRoom === 'no' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>No</p>
+                <div onClick={() => updateServantRoom('No')} className={`group cursor-pointer px-8 py-2 rounded-md  ${servantRoom === 'No' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                  <p className={`text-[10px] font-sans ${servantRoom === 'No' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>No</p>
                 </div>
               </div>
               {servantRoomError && <p className='text-[#FF0000] text-xs font-sans'>Please select servant room</p>}
