@@ -68,14 +68,19 @@ function Listingswrapper({ occupancyList }) {
         setPropertyId(e.currentTarget.value)
     }
 
-    const [minPriceRange, setMinPriceRange] = useState(0)
-    const updateMinPriceRange = (e) => {
-        setMinPriceRange(Number(e.currentTarget.value))
-    }
+    // const [minPriceRange, setMinPriceRange] = useState(0)
+    // const updateMinPriceRange = (e) => {
+    //     setMinPriceRange(Number(e.currentTarget.value))
+    // }
 
-    const [maxPriceRange, setMaxPriceRange] = useState(100000000)
-    const updateMaxPriceRange = (e) => {
-        setMaxPriceRange(Number(e.currentTarget.value))
+    // const [maxPriceRange, setMaxPriceRange] = useState(100000000)
+    // const updateMaxPriceRange = (e) => {
+    //     setMaxPriceRange(Number(e.currentTarget.value))
+    // }
+
+    const [priceRange, setPriceRange] = useState([0, 100000000]);
+    const handlePriceRange = (value) => {
+        setPriceRange(value);
     }
 
     const [isOpen, setIsOpen] = useState({
@@ -103,7 +108,7 @@ function Listingswrapper({ occupancyList }) {
     const [totalPages, setTotalPages] = useState(0);
     const [totalProperties, setTotalProperties] = useState(0);
     const [allListings, setAllListings] = useState([]);
-    async function getAllListingsData(newPage, newLimit, newSearchQuery, newPropertyIn, newPropertySubtype, newPropertyFor, newBhk, newOccupancy, newPropertyId, minPriceRange, maxPriceRange) {
+    async function getAllListingsData(newPage, newLimit, newSearchQuery, newPropertyIn, newPropertySubtype, newPropertyFor, newBhk, newOccupancy, newPropertyId, priceRange) {
         listingApi.get('/getalllistings', {
             params: {
                 user_id: user_id,
@@ -116,8 +121,8 @@ function Listingswrapper({ occupancyList }) {
                 bedrooms: newBhk,
                 occupancy: newOccupancy,
                 unique_property_id: newPropertyId,
-                min_price_range: minPriceRange,
-                max_price_range: maxPriceRange
+                min_price_range: priceRange[0],
+                max_price_range: priceRange[1]
             },
             headers: {
                 'Content-Type': 'application/json',
@@ -154,16 +159,16 @@ function Listingswrapper({ occupancyList }) {
 
     useEffect(() => {
         setIsLoadingEffect(true);
-        getAllListingsData(page, limit, locality, propertyIn, propertySubtype, propertyFor, bhk, occupancy, propertyId, minPriceRange, maxPriceRange);
+        getAllListingsData(page, limit, locality, propertyIn, propertySubtype, propertyFor, bhk, occupancy, propertyId, priceRange);
         if (user_id) {
             getPropertiesCount();
         }
-    }, [user_id, propertyIn, locality, propertySubtype, propertyFor, bhk, occupancy, propertyId, minPriceRange, maxPriceRange])
+    }, [user_id, propertyIn, locality, propertySubtype, propertyFor, bhk, occupancy, propertyId, priceRange])
 
     const handlePageChange = (page) => {
         setPage(page);
         setIsLoadingEffect(true);
-        getAllListingsData(page, limit, locality, propertyIn, propertySubtype, propertyFor, bhk, occupancy, propertyId, minPriceRange, maxPriceRange);
+        getAllListingsData(page, limit, locality, propertyIn, propertySubtype, propertyFor, bhk, occupancy, propertyId, priceRange);
     };
 
     const [propertiesCount, setPropertiesCount] = useState({});
@@ -197,7 +202,7 @@ function Listingswrapper({ occupancyList }) {
 
     const refreshListings = () => {
         setIsLoadingEffect(true);
-        getAllListingsData(page, limit, locality, propertyIn, propertySubtype, propertyFor, bhk, occupancy, propertyId, minPriceRange, maxPriceRange);
+        getAllListingsData(page, limit, locality, propertyIn, propertySubtype, propertyFor, bhk, occupancy, propertyId, priceRange);
     }
 
     const handleResetFilters = () => {
@@ -209,8 +214,7 @@ function Listingswrapper({ occupancyList }) {
         setPropertyFor('')
         setOccupancy('')
         setPropertyId('')
-        setMinPriceRange(0)
-        setMaxPriceRange(100000000)
+        setPriceRange([0, 100000000])
     }
 
     const [deleteModal, setDeleteModal] = useState(false);
@@ -466,10 +470,8 @@ function Listingswrapper({ occupancyList }) {
                         propertyId={propertyId}
                         updatePropertyId={updatePropertyId}
                         handleResetFilters={handleResetFilters}
-                        minPriceRange={minPriceRange}
-                        updateMinPriceRange={updateMinPriceRange}
-                        maxPriceRange={maxPriceRange}
-                        updateMaxPriceRange={updateMaxPriceRange}
+                        priceRange={priceRange}
+                        handlePriceRange={handlePriceRange}
                     />
                 </div>
             </div >

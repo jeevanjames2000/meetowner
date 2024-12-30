@@ -6,6 +6,10 @@ import Pagination from '@/components/tailifycomponents/Pagination'
 import { Loadingoverlay } from '@/components/tailifycomponents/Loadingoverlay'
 import Propertyapi from '@/components/api/Propertyapi'
 import { useUserDetails } from '@/components/zustand/useUserDetails'
+// import Slider from 'rc-slider'
+// import "rc-slider/assets/index.css";
+import RangeSlider from "react-range-slider-input";
+import "react-range-slider-input/dist/style.css";
 
 function Propertylists({
     totalPages,
@@ -31,10 +35,8 @@ function Propertylists({
     propertyId,
     updatePropertyId,
     handleResetFilters,
-    minPriceRange,
-    updateMinPriceRange,
-    maxPriceRange,
-    updateMaxPriceRange
+    priceRange,
+    handlePriceRange
 }) {
     const user_info = useUserDetails((state) => state.userInfo)
     const user_id = user_info?.user_id || null
@@ -285,119 +287,71 @@ function Propertylists({
                                     </select>
                                 </label>
                             </div>
-                            <input
-                                type='text'
-                                placeholder='Property ID'
-                                className=' w-[25%] px-2 text-[#FEFDF8] text-[10px] font-[700] bg-transparent  h-7 border border-[#FEFDF8] rounded-sm focus:outline-none'
-                                value={propertyId}
-                                onChange={updatePropertyId}
-                            />
                             <button onClick={updateFilters} className=' flex items-center justify-center  rounded-sm  h-7 bg-[#E2EAED] text-[10px] font-[700] text-[#37474F]  px-4  '>
                                 {filters ? 'Close Filters' : 'More Filters'}
                             </button>
                         </div>
                         {filters && (
-                            <div className='flex flex-wrap gap-3'>
-                                {
-                                    parseInt(propertyFor) === 1 &&
-                                    <div className="flex items-center gap-4 px-2 w-fit border border-[#FEFDF8] rounded-sm cursor-pointer">
-                                        <label className="flex items-center cursor-pointer">
-                                            <select
-                                                id="occupancy"
-                                                className="text-[#FEFDF8] text-[10px] font-[700]  outline-none h-7 bg-transparent"
-                                                value={occupancy}
-                                                onChange={updateOccupancy}
-                                            >
-                                                <option className=" text-black" value="" disabled>
-                                                    Occupancy status
-                                                </option>
-                                                {
-                                                    occupancyList.length > 0 &&
-                                                    occupancyList.map((item, index) => (
-                                                        <option className=" text-black" key={index} value={item.value}>{item.name}</option>
-                                                    ))
-                                                }
-                                            </select>
-                                        </label>
+                            <>
+                                <div className='grid grid-cols-1 gap-4 w-[70%]'>
+                                    <div className='flex flex-row justify-between gap-2 '>
+                                        <div className='border border-[#FEFDF8] rounded-sm h-6 w-[28%] flex items-center justify-between px-2'>
+                                            <div className='flex items-center gap-2'>
+                                                <p className='text-[#FEFDF8] text-[10px] font-[700]'>Min</p>
+                                                <p className='text-[#FEFDF8] text-[10px] font-[700]'>₹ {formatPrice(priceRange[0])}</p>
+                                            </div>
+                                        </div>
+                                        <div className='border border-[#FEFDF8] rounded-sm h-6 w-[28%] flex items-center justify-between px-2'>
+                                            <div className='flex items-center gap-2'>
+                                                <p className='text-[#FEFDF8] text-[10px] font-[700]'>Max</p>
+                                                <p className='text-[#FEFDF8] text-[10px] font-[700]'>₹ {formatPrice(priceRange[1])}</p>
+                                            </div>
+                                        </div>
                                     </div>
-                                }
-                                <div className='flex flex-row gap-1'>
-                                    <div className=" flex items-center justify-center space-x-2 p-2 border border-[#FEFDF8] rounded-sm">
-                                        <label className="text-[#FEFDF8] text-[10px] font-[700] text-center outline-none bg-transparent">
-                                            Min Price
-                                        </label>
-                                        <input
-                                            type='range'
-                                            min="0"
-                                            max="100000000"
-                                            step="10000"
-                                            value={minPriceRange}
-                                            onChange={updateMinPriceRange}
-                                        />
-                                        <p className="text-[#FEFDF8] text-[10px] font-[700] text-center outline-none">
-                                            {`₹ ${formatPrice(minPriceRange)}`}
-                                        </p>
-
-                                    </div>
-                                    <div className=" flex items-center justify-center space-x-2 p-2 border border-[#FEFDF8] rounded-sm">
-                                        <label className="text-[#FEFDF8] text-[10px] font-[700] text-center outline-none bg-transparent">
-                                            Max Price
-                                        </label>
-                                        <input
-                                            type='range'
-                                            min="0"
-                                            max="100000000"
-                                            step="10000"
-                                            value={maxPriceRange}
-                                            onChange={updateMaxPriceRange}
-                                        />
-                                        <p className="text-[#FEFDF8] text-[10px] font-[700] text-center outline-none">
-                                            {`₹ ${formatPrice(maxPriceRange)}`}
-                                        </p>
-
-                                    </div>
+                                    <RangeSlider
+                                        min={0}
+                                        max={100000000}
+                                        step={10000}
+                                        value={priceRange}
+                                        onInput={handlePriceRange}
+                                    />
                                 </div>
-
-                                {/* <div className="w-fit flex items-center gap-2 px-1 border border-[#FEFDF8] rounded-sm cursor-pointer">
-                                    <form className="w-fit">
-                                        <label className="cursor-pointer">
-                                            <select
-                                                id="verificationStatus"
-                                                className="text-[#FEFDF8] text-[10px] font-[700] outline-none h-7 bg-transparent"
-                                            >
-                                                <option value="images" className="text-black">
-                                                    Images
-                                                </option>
-                                                <option className="text-black" value="verified">Verified</option >
-                                                <option className="text-black" value="unverified">Unverified</option  >
-                                                <option className="text-black" value="pending">Pending</option>
-                                            </select>
-                                        </label>
-                                    </form>
+                                <div className='grid grid-cols-3 gap-3'>
+                                    {
+                                        parseInt(propertyFor) === 1 &&
+                                        <div className="flex items-center gap-4 px-2 w-fit border border-[#FEFDF8] rounded-sm cursor-pointer">
+                                            <label className="flex items-center cursor-pointer">
+                                                <select
+                                                    id="occupancy"
+                                                    className="text-[#FEFDF8] text-[10px] font-[700]  outline-none h-7 bg-transparent"
+                                                    value={occupancy}
+                                                    onChange={updateOccupancy}
+                                                >
+                                                    <option className=" text-black" value="" disabled>
+                                                        Occupancy status
+                                                    </option>
+                                                    {
+                                                        occupancyList.length > 0 &&
+                                                        occupancyList.map((item, index) => (
+                                                            <option className=" text-black" key={index} value={item.value}>{item.name}</option>
+                                                        ))
+                                                    }
+                                                </select>
+                                            </label>
+                                        </div>
+                                    }
+                                    <input
+                                        type='text'
+                                        placeholder='Property ID'
+                                        className='px-2 text-[#FEFDF8] text-[10px] font-[700] bg-transparent  h-7 border border-[#FEFDF8] rounded-sm focus:outline-none'
+                                        value={propertyId}
+                                        onChange={updatePropertyId}
+                                    />
+                                    <button onClick={handleResetFilters} className=' rounded-sm  h-7 bg-[#E2EAED] text-[10px] font-[700] text-[#37474F] px-4  '>
+                                        Reset
+                                    </button>
                                 </div>
-
-                                <div className="w-fit flex items-center gap-2 px-1 border border-[#FEFDF8] rounded-sm cursor-pointer">
-                                    <form className="w-fit">
-                                        <label className="cursor-pointer">
-                                            <select
-                                                id="verificationStatus"
-                                                className="text-[#FEFDF8] text-[10px] font-[700] outline-none h-7 bg-transparent"
-                                            >
-                                                <option value="Digilite" className="text-black">
-                                                    Digilite
-                                                </option>
-                                                <option className="text-black" value="verified">Verified</option >
-                                                <option className="text-black" value="unverified">Unverified</option  >
-                                                <option className="text-black" value="pending">Pending</option>
-                                            </select>
-                                        </label>
-                                    </form>
-                                </div> */}
-
-                                <button onClick={handleResetFilters} className=' flex items-center justify-center  rounded-sm  h-7 bg-[#E2EAED] text-[10px] font-[700] text-[#37474F] px-4  '>
-                                    Reset
-                                </button>
-                            </div>
+                            </>
                         )}
                     </div>
                     <div className='col-span-2'>
