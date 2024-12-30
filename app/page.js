@@ -64,13 +64,11 @@ function page() {
               width={400}
             />
           </div>
-
           {/* Right Column */}
           <div className="flex items-center justify-start col-span-6">
             <Loginform />
           </div>
         </div>
-
       </div>
     </div>
   )

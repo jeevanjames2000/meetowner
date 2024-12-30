@@ -4,7 +4,7 @@ import Errorpanel from '@/components/shared/Errorpanel'
 import LoadingOverlay from '@/components/shared/LoadingOverlay'
 import { usePropertyDetails } from '@/components/zustand/usePropertyDetails'
 import { useUserDetails } from '@/components/zustand/useUserDetails'
-import { Modal, Select } from '@nayeshdaggula/tailify'
+import { Modal, Select, Textinput } from '@nayeshdaggula/tailify'
 import { IconAsterisk } from '@tabler/icons-react'
 import { useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
@@ -44,28 +44,44 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
   const [flatNo, setFlatNo] = useState('')
   const [flatNoError, setFlatNoError] = useState('')
   const updateFlatNo = (e) => {
-    setFlatNo(e.target.value)
+    let value = e.target.value
+    if (isNaN(value)) {
+      return false;
+    }
+    setFlatNo(value)
     setFlatNoError('')
   }
 
   const [floorNo, setFloorNo] = useState('')
   const [floorNoError, setFloorNoError] = useState('')
   const updateFloorNo = (e) => {
-    setFloorNo(e.target.value)
+    let value = e.target.value
+    if (isNaN(value)) {
+      return false;
+    }
+    setFloorNo(value)
     setFloorNoError('')
   }
 
   const [totalFloors, setTotalFloors] = useState('')
   const [totalFloorsError, setTotalFloorsError] = useState('')
   const updateTotalFloors = (e) => {
-    setTotalFloors(e.target.value)
+    let value = e.target.value
+    if (isNaN(value)) {
+      return false;
+    }
+    setTotalFloors(value)
     setTotalFloorsError('')
   }
 
   const [plotNumber, setPlotNumber] = useState('')
   const [plotNumberError, setPlotNumberError] = useState('')
   const updatePlotNumber = (e) => {
-    setPlotNumber(e.target.value)
+    let value = e.target.value
+    if (isNaN(value)) {
+      return false;
+    }
+    setPlotNumber(value)
     setPlotNumberError('')
   }
 
@@ -250,6 +266,7 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
       setFloorNo(addressDetails?.floors || '')
       setTotalFloors(addressDetails?.total_floors || '')
       setLocality(addressDetails?.location_id || '')
+      setPlotNumber(addressDetails?.plot_number || '')
     }
   }, [addressDetails])
 
@@ -334,11 +351,9 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
               <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Property/project Name</p>
               <IconAsterisk size={8} color='#FF0000' />
             </div>
-            <input
-              type='text'
-              placeholder='Building /Apartment/Society Name'
-              className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans '
-              autoComplete='off'
+            <Textinput
+              placeholder="Building /Apartment/Society Name"
+              inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
               value={propertyName}
               onChange={updatePropertyName}
             />
@@ -349,11 +364,17 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
               <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Locality</p>
               <IconAsterisk size={8} color='#FF0000' />
             </div>
-            <input
+            {/* <input
               type='text'
               placeholder='Locality'
               className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans '
               autoComplete='off'
+              value={locality}
+              onChange={updateLocality}
+            /> */}
+            <Textinput
+              placeholder="Locality"
+              inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
               value={locality}
               onChange={updateLocality}
             />
@@ -367,11 +388,10 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
                     <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>{getpropertyDetails?.property_sub_type === "Independent House" ? 'House No.' : 'Flat No.'}</p>
                     <IconAsterisk size={8} color='#FF0000' />
                   </div>
-                  <input
+                  <Textinput
                     type='number'
-                    placeholder='Flat No.'
-                    className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans '
-                    autoComplete='off'
+                    placeholder="Flat No."
+                    inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
                     value={flatNo}
                     onChange={updateFlatNo}
                   />
@@ -384,11 +404,10 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
                       <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Floor No.</p>
                       <IconAsterisk size={8} color='#FF0000' />
                     </div>
-                    <input
+                    <Textinput
                       type='number'
-                      placeholder='Floor No.'
-                      className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans '
-                      autoComplete='off'
+                      placeholder="Floor No."
+                      inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
                       value={floorNo}
                       onChange={updateFloorNo}
                     />
@@ -400,11 +419,10 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
                     <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Total Floors</p>
                     <IconAsterisk size={8} color='#FF0000' />
                   </div>
-                  <input
+                  <Textinput
                     type='number'
-                    placeholder='Toatl Floors'
-                    className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans '
-                    autoComplete='off'
+                    placeholder="Total Floors"
+                    inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
                     value={totalFloors}
                     onChange={updateTotalFloors}
                   />
@@ -417,11 +435,10 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
                   <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Plot No.</p>
                   <IconAsterisk size={8} color='#FF0000' />
                 </div>
-                <input
+                <Textinput
                   type='number'
-                  placeholder='Plot No.'
-                  className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans '
-                  autoComplete='off'
+                  placeholder="Plot No."
+                  inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
                   value={plotNumber}
                   onChange={updatePlotNumber}
                 />

@@ -1,29 +1,81 @@
 'use client'
-import { IconChevronDown, IconChevronLeft, IconChevronRight, IconCircle } from '@tabler/icons-react';
+import { IconChevronDown, IconCircle, IconTrash } from '@tabler/icons-react';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
-import Listingcard from './Listingcard';
-import listings_1 from '@/public/assets/listings_1.png';
-import listings_2 from '@/public/assets/listings_2.png';
-import listings_3 from '@/public/assets/listings_3.png';
-import listings_4 from '@/public/assets/listings_4.png';
-import listings_5 from '@/public/assets/listings_5.png';
-import listings_6 from '@/public/assets/listings_6.png';
-import Getapp from '../enquires/parts/Getapp';
+import React, { useCallback, useEffect, useState } from 'react';
 import listingApi from '../api/listingApi';
 import { useUserDetails } from '../zustand/useUserDetails';
-import { toast } from 'react-toastify';
 import { Modal } from '@nayeshdaggula/tailify';
-import { Loadingoverlay } from '../tailifycomponents/Loadingoverlay';
+import Propertylists from './parts/Propertylists';
+import Propertyapi from '../api/Propertyapi';
+import Errorpanel from '../shared/Errorpanel';
+import { toast } from 'react-toastify';
 
-function Listingswrapper() {
+function Listingswrapper({ occupancyList }) {
     const userInfo = useUserDetails((state) => state.userInfo)
+    const user_id = userInfo?.user_id;
     const access_token = useUserDetails(state => state.access_token);
 
-    const [selectedRole, setSelectedRole] = useState("residential_properties"); // Default role value corrected
-    const [filters, setFilters] = useState(false)
-    const updateFilters = () => {
-        setFilters(!filters)
+    const [propertyIn, setPropertyIn] = useState("Residential");
+    const updatePropertyIn = (value) => {
+        setPropertyIn(value)
+        setPropertySubtype('')
+        setLocality('')
+        if (value === "Commercial") {
+            setBhkhide(false)
+            setBhk('')
+        } else {
+            setBhkhide(true)
+            setBhk('')
+        }
+    }
+    const [bhkhide, setBhkhide] = useState(true)
+    const [propertySubtype, setPropertySubtype] = useState('')
+    const updatePropertySubtype = (e) => {
+        let value = e.currentTarget.value
+        setPropertySubtype(value)
+        if (value === 4 || value === 5) {
+            setBhkhide(false)
+            setBhk('')
+        } else {
+            setBhkhide(true)
+            setBhk('')
+        }
+    }
+
+    const [locality, setLocality] = useState('')
+    const updateLocality = (e) => {
+        setLocality(e.currentTarget.value)
+    }
+
+    const [propertyFor, setPropertyFor] = useState('')
+    const updatePropertyFor = (e) => {
+        setPropertyFor(e.currentTarget.value)
+        setOccupancy('')
+    }
+
+    const [bhk, setBhk] = useState('')
+    const updateBhk = (e) => {
+        setBhk(e.currentTarget.value)
+    }
+
+    const [occupancy, setOccupancy] = useState('')
+    const updateOccupancy = (e) => {
+        setOccupancy(e.currentTarget.value)
+    }
+
+    const [propertyId, setPropertyId] = useState('')
+    const updatePropertyId = (e) => {
+        setPropertyId(e.currentTarget.value)
+    }
+
+    const [minPriceRange, setMinPriceRange] = useState(0)
+    const updateMinPriceRange = (e) => {
+        setMinPriceRange(Number(e.currentTarget.value))
+    }
+
+    const [maxPriceRange, setMaxPriceRange] = useState(100000000)
+    const updateMaxPriceRange = (e) => {
+        setMaxPriceRange(Number(e.currentTarget.value))
     }
 
     const [isOpen, setIsOpen] = useState({
@@ -35,98 +87,9 @@ function Listingswrapper() {
     const toggleAccordion = (key) => {
         setIsOpen((prev) => ({
             ...prev,
-            [key]: !prev[key], // Toggle the specific accordion
+            [key]: !prev[key],
         }));
     };
-
-    const [locality, setLocality] = useState('locality')
-    const updateLocality = (e) => {
-        setLocality(e.currentTarget.value)
-    }
-    const [propertytype, setPropertytype] = useState('propertytype')
-    const updatePropertytype = (e) => {
-        setPropertytype(e.currentTarget.value)
-    }
-    const listingdata = [
-        {
-            id: 1,
-            id_number: "1234567890",
-            image: listings_1,
-            land: '2 BHK Apartment',
-            cost: '₹ 15000',
-            area: '160 sq.ft',
-            interested_tenants: 'Two interested tenants',
-            added_date: '27-june-2024',
-            expiry_date: '09-feb-2025',
-        },
-        {
-            id: 2,
-            id_number: "1234567890",
-            image: listings_2,
-            land: '1 BHK',
-            cost: '₹2000k',
-            area: '160 sq.ft',
-            interested_tenants: 'Two interested tenants',
-            added_date: '27-june-2024',
-            expiry_date: '09-feb-2025',
-        },
-        {
-            id: 3,
-            id_number: "1234567890",
-            image: listings_3,
-            land: '1 BHK',
-            cost: '₹2000k',
-            area: '160 sq.ft',
-            interested_tenants: 'Two interested tenants',
-            added_date: '27-june-2024',
-            expiry_date: '09-feb-2025',
-        },
-        {
-            id: 4,
-            id_number: "1234567890",
-            image: listings_4,
-            land: '1 BHK',
-            cost: '₹2000k',
-            area: '160 sq.ft',
-            interested_tenants: 'Two interested tenants',
-            added_date: '27-june-2024',
-            expiry_date: '09-feb-2025',
-        },
-        {
-            id: 5,
-            id_number: "1234567890",
-            image: listings_5,
-            land: '1 BHK',
-            cost: '₹2000k',
-            area: '160 sq.ft',
-            interested_tenants: 'Two interested tenants',
-            added_date: '27-june-2024',
-            expiry_date: '09-feb-2025',
-        },
-        {
-            id: 6,
-            id_number: "1234567890",
-            image: listings_6,
-            land: '1 BHK',
-            cost: '₹2000k',
-            area: '160 sq.ft',
-            interested_tenants: 'Two interested tenants',
-            added_date: '27-june-2024',
-            expiry_date: '09-feb-2025',
-        },
-        {
-            id: 7,
-            id_number: "1234567890",
-            image: listings_1,
-            land: '1 BHK',
-            cost: '₹2000k',
-            area: '160 sq.ft',
-            interested_tenants: 'Two interested tenants',
-            added_date: '27-june-2024',
-            expiry_date: '09-feb-2025',
-        },
-
-    ]
 
     const [isLoadingEffect, setIsLoadingEffect] = useState(false);
     const [errorMessages, setErrorMessages] = useState('');
@@ -136,16 +99,25 @@ function Listingswrapper() {
     }
 
     const [page, setPage] = useState(1);
-    const [limit, setLimit] = useState(5);
+    const [limit, setLimit] = useState(2);
     const [totalPages, setTotalPages] = useState(0);
     const [totalProperties, setTotalProperties] = useState(0);
     const [allListings, setAllListings] = useState([]);
-    async function getAllListingsData(newPage, newLimit, newSearchQuery) {
+    async function getAllListingsData(newPage, newLimit, newSearchQuery, newPropertyIn, newPropertySubtype, newPropertyFor, newBhk, newOccupancy, newPropertyId, minPriceRange, maxPriceRange) {
         listingApi.get('/getalllistings', {
             params: {
+                user_id: user_id,
                 page: newPage,
                 limit: newLimit,
                 searchQuery: newSearchQuery,
+                property_in: newPropertyIn,
+                property_subtype: newPropertySubtype,
+                property_for: newPropertyFor,
+                bedrooms: newBhk,
+                occupancy: newOccupancy,
+                unique_property_id: newPropertyId,
+                min_price_range: minPriceRange,
+                max_price_range: maxPriceRange
             },
             headers: {
                 'Content-Type': 'application/json',
@@ -158,8 +130,8 @@ function Listingswrapper() {
                 if (data.status === 'error') {
                     let finalresponse = {
                         'message': data.message,
-                        'server_res': data
                     }
+                    console.log('finalresponse', finalresponse)
                     setErrorMessages(finalresponse);
                     setErrorModalOpen(true);
                     return false;
@@ -174,6 +146,7 @@ function Listingswrapper() {
                 let finalresponse = {
                     'message': error.message,
                 }
+                console.log('error', error)
                 setErrorMessages(finalresponse);
                 setErrorModalOpen(true);
             });
@@ -181,35 +154,141 @@ function Listingswrapper() {
 
     useEffect(() => {
         setIsLoadingEffect(true);
-        getAllListingsData(page, limit, '');
+        getAllListingsData(page, limit, locality, propertyIn, propertySubtype, propertyFor, bhk, occupancy, propertyId, minPriceRange, maxPriceRange);
+        if (user_id) {
+            getPropertiesCount();
+        }
+    }, [user_id, propertyIn, locality, propertySubtype, propertyFor, bhk, occupancy, propertyId, minPriceRange, maxPriceRange])
+
+    const handlePageChange = (page) => {
+        setPage(page);
+        setIsLoadingEffect(true);
+        getAllListingsData(page, limit, locality, propertyIn, propertySubtype, propertyFor, bhk, occupancy, propertyId, minPriceRange, maxPriceRange);
+    };
+
+    const [propertiesCount, setPropertiesCount] = useState({});
+    const getPropertiesCount = () => {
+        listingApi.get('/propertiesCount', {
+            params: {
+                user_id: user_id
+            },
+        })
+            .then((response) => {
+                let data = response.data
+                if (data.status === 'error') {
+                    let finalresponse = {
+                        'message': data.message,
+                    }
+                    setErrorMessages(finalresponse);
+                    setErrorModalOpen(true);
+                    return false;
+                }
+                setPropertiesCount(data?.propertiesCount || {});
+            }
+            )
+            .catch((error) => {
+                let finalresponse = {
+                    'message': error.message,
+                }
+                setErrorMessages(finalresponse);
+                setErrorModalOpen(true);
+            });
+    }
+
+    const refreshListings = () => {
+        setIsLoadingEffect(true);
+        getAllListingsData(page, limit, locality, propertyIn, propertySubtype, propertyFor, bhk, occupancy, propertyId, minPriceRange, maxPriceRange);
+    }
+
+    const handleResetFilters = () => {
+        setPropertyIn("Residential")
+        setPropertySubtype('')
+        setLocality('')
+        setBhkhide(true)
+        setBhk('')
+        setPropertyFor('')
+        setOccupancy('')
+        setPropertyId('')
+        setMinPriceRange(0)
+        setMaxPriceRange(100000000)
+    }
+
+    const [deleteModal, setDeleteModal] = useState(false);
+    const [singlePropertyId, setSinglePropertyId] = useState(null)
+    const openDeleteModal = useCallback((propertyid) => {
+        setSinglePropertyId(propertyid);
+        setDeleteModal(true);
     }, [])
+
+    const closeDeleteModal = () => {
+        setDeleteModal(false);
+        setSinglePropertyId(null);
+    }
+
+    const handleDeleteProperty = (unique_property_id) => {
+        setIsLoadingEffect(true);
+        Propertyapi.post(`/deleteProperty`, {
+            user_id,
+            unique_property_id
+        },
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${access_token}`
+                },
+            })
+            .then((response) => {
+                setIsLoadingEffect(false);
+                let data = response.data
+                if (data.status === 'error') {
+                    let finalresponse = {
+                        'message': data.message,
+                        'server_res': data
+                    }
+                    setErrorMessages(finalresponse);
+                    setErrorModalOpen(true);
+                    return false;
+                }
+                setDeleteModal(false)
+                toast.success('Property deleted successfully')
+                refreshListings()
+            }
+            )
+            .catch((error) => {
+                setIsLoadingEffect(false);
+                let finalresponse = {
+                    'message': error.message,
+                }
+                setErrorMessages(finalresponse);
+                setErrorModalOpen(true);
+            });
+    }
 
     return (
         <>
-            <div className="px-[80px] w-full mb-16 mt-16">
+            <div className="px-[80px] w-full my-16">
                 <div className="flex w-full gap-8">
                     {/* 20% Width Div */}
-                    <div className="w-[18%] h-fit bg-[#FFFFFF] px-3 py-3 flex flex-col space-y-2 rounded-md">
+                    <div className="w-[18%] h-fit bg-[#FFFFFF] p-3 flex flex-col space-y-2 rounded-md">
                         <p className="text-[#240000] text-[13px] font-[600]">Show</p>
                         <div className="flex flex-col mx-auto w-full max-w-md border-b border-[#D7D8D9] pb-4">
-                            {/* residential_properties Radio Button */}
                             <label className="w-full group relative flex cursor-pointer rounded-sm py-2 text-[#1b1b1b] transition focus:outline-none">
                                 <input
                                     type="radio"
                                     name="role"
-                                    value="residential_properties"
-                                    checked={selectedRole === "residential_properties"}
-                                    onChange={() => setSelectedRole("residential_properties")}
+                                    value="Residential"
+                                    checked={propertyIn === "Residential"}
+                                    onChange={() => updatePropertyIn("Residential")}
                                     className="hidden"
                                 />
                                 <div className="flex w-full items-center gap-2">
-                                    {selectedRole === "residential_properties" ? (
+                                    {propertyIn === "Residential" ? (
                                         <IconCircle size={16} className="bg-[#1D3A76] text-white rounded-full" />
                                     ) : (
                                         <IconCircle size={16} color="#b9b9b9" />
                                     )}
                                     <p
-                                        className={`text-[12px] font-[400] ${selectedRole === "residential_properties"
+                                        className={`text-[12px] font-[500] ${propertyIn === "Residential"
                                             ? "text-[#1D3A76]"
                                             : "text-[#969595]"
                                             }`}
@@ -218,25 +297,23 @@ function Listingswrapper() {
                                     </p>
                                 </div>
                             </label>
-
-                            {/* commercial_properties Radio Button */}
                             <label className="w-full group relative flex cursor-pointer rounded-sm text-[#1b1b1b] transition focus:outline-none">
                                 <input
                                     type="radio"
                                     name="role"
-                                    value="commercial_properties"
-                                    checked={selectedRole === "commercial_properties"}
-                                    onChange={() => setSelectedRole("commercial_properties")}
+                                    value="Commercial"
+                                    checked={propertyIn === "Commercial"}
+                                    onChange={() => updatePropertyIn("Commercial")}
                                     className="hidden"
                                 />
                                 <div className="flex w-full items-center gap-2">
-                                    {selectedRole === "commercial_properties" ? (
+                                    {propertyIn === "Commercial" ? (
                                         <IconCircle size={16} className="bg-[#1D3A76] text-white rounded-full " />
                                     ) : (
                                         <IconCircle size={16} color="#b9b9b9" />
                                     )}
                                     <p
-                                        className={`text-[12px] font-[400] ${selectedRole === "commercial_properties"
+                                        className={`text-[12px] font-[500] ${propertyIn === "Commercial"
                                             ? "text-[#1D3A76]"
                                             : "text-[#969595]"
                                             }`}
@@ -248,7 +325,6 @@ function Listingswrapper() {
                         </div>
                         <p className="text-[#240000] text-[13px] font-[500] pt-2">Sub - Category</p>
                         <div>
-                            {/* Buy Accordion */}
                             <div
                                 className={`flex items-center justify-between cursor-pointer h-7 px-1 ${isOpen.buy
                                     ? "bg-[#E2EAED] text-[#1D3A76] border-b-0"
@@ -258,7 +334,7 @@ function Listingswrapper() {
                             >
                                 <p className="text-[12px] font-bold">Buy</p>
                                 <div className="flex flex-row gap-14">
-                                    <p className="font-bold text-[12px]">(0)</p>
+                                    <p className="font-bold text-[12px]">({propertiesCount?.properties_for_sell})</p>
                                     <IconChevronDown
                                         stroke={1.5}
                                         size={16}
@@ -268,19 +344,18 @@ function Listingswrapper() {
                             </div>
                             {isOpen.buy && (
                                 <div className="mt-2 flex flex-col gap-2 pl-3 pb-2">
-                                    <Link href="/profile" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
-                                        Apartment(0)
+                                    <Link href="#" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                        Apartment({propertiesCount?.apartments})
                                     </Link>
-                                    <Link href="/profile" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
-                                        Independent Floor(0)
+                                    <Link href="#" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                        Independent House({propertiesCount?.independent_house})
                                     </Link>
-                                    <Link href="/profile" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
-                                        Villa(0)
+                                    <Link href="#" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                        Villa({propertiesCount?.independent_villa})
                                     </Link>
                                 </div>
                             )}
 
-                            {/* Rent Accordion */}
                             <div
                                 className={`flex items-center justify-between cursor-pointer h-7 px-1 mt-1 ${isOpen.rent
                                     ? "bg-[#E2EAED] text-[#1D3A76] border-b-0"
@@ -290,7 +365,7 @@ function Listingswrapper() {
                             >
                                 <p className="text-[12px] font-bold">Rent</p>
                                 <div className="flex flex-row gap-14">
-                                    <p className="font-bold text-[12px]">(0)</p>
+                                    <p className="font-bold text-[12px]">({propertiesCount?.properties_for_rent})</p>
                                     <IconChevronDown
                                         stroke={1.5}
                                         size={16}
@@ -300,31 +375,27 @@ function Listingswrapper() {
                             </div>
                             {isOpen.rent && (
                                 <div className="mt-2 flex flex-col gap-2 pl-3 pb-2">
-                                    <Link href="/profile" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
-                                        All(2)
-                                    </Link>
-                                    <Link href="/profile" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                    <Link href="#" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
                                         Reported (0)
                                     </Link>
-                                    <Link href="/profile" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                    <Link href="#" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
                                         Active (0)
                                     </Link>
-                                    <Link href="/profile" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                    <Link href="#" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
                                         Expired (0)
                                     </Link>
-                                    <Link href="/profile" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                    <Link href="#" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
                                         Rejected (0)
                                     </Link>
-                                    <Link href="/profile" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                    <Link href="#" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
                                         Deleted (0)
                                     </Link>
-                                    <Link href="/profile" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                    <Link href="#" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
                                         Expiring Soon (0)
                                     </Link>
                                 </div>
                             )}
 
-                            {/* PG Accordion */}
                             <div
                                 className={`flex items-center justify-between cursor-pointer h-7 px-1 mt-1 ${isOpen.pg
                                     ? "bg-[#E2EAED] text-[#1D3A76] border-b-0"
@@ -334,7 +405,7 @@ function Listingswrapper() {
                             >
                                 <p className="text-[12px] font-bold">PG</p>
                                 <div className="flex flex-row gap-14">
-                                    <p className="font-bold text-[12px]">(0)</p>
+                                    <p className="font-bold text-[12px]">({propertiesCount?.properties_for_pg})</p>
                                     <IconChevronDown
                                         stroke={1.5}
                                         size={16}
@@ -344,25 +415,25 @@ function Listingswrapper() {
                             </div>
                             {isOpen.pg && (
                                 <div className="mt-2 flex flex-col gap-2 pl-3 pb-3">
-                                    <Link href="/profile" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
-                                        All(2)
+                                    <Link href="#" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                        All(0)
                                     </Link>
-                                    <Link href="/profile" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                    <Link href="#" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
                                         Reported (0)
                                     </Link>
-                                    <Link href="/profile" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                    <Link href="#" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
                                         Active (0)
                                     </Link>
-                                    <Link href="/profile" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                    <Link href="#" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
                                         Expired (0)
                                     </Link>
-                                    <Link href="/profile" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                    <Link href="#" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
                                         Rejected (0)
                                     </Link>
-                                    <Link href="/profile" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                    <Link href="#" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
                                         Deleted (0)
                                     </Link>
-                                    <Link href="/profile" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                    <Link href="#" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
                                         Under Review (0)
                                     </Link>
                                 </div>
@@ -371,226 +442,37 @@ function Listingswrapper() {
 
                     </div>
                     {/* 80% Width Div */}
-                    <div className="listingfilter w-[80%] flex flex-col space-y-4">
-                        <div className=' grid grid-cols-6 ms:grid-cols-6 rounded-sm gap-8'>
-                            <div className='flex flex-wrap col-span-4 bg-[#31539A] rounded-md h-fit w-full p-4 space-y-3'>
-                                <div className='flex flex-wrap gap-3'>
-                                    <input
-                                        type='text'
-                                        placeholder='Locality'
-                                        className='w-[25%] px-4 text-[#FEFDF8] text-[10px] font-[700] bg-transparent  h-7 border border-[#FEFDF8] rounded-sm focus:outline-none'
-                                        value={locality}
-                                        onChange={updateLocality}
-                                    />
-                                    <div className="w-[25%] flex items-center gap-2 pl-1 border border-[#FEFDF8] rounded-sm cursor-pointer">
-                                        <form className="w-fit mx-auto">
-                                            <label className="flex items-center cursor-pointer">
-                                                <select
-                                                    id="propertytrype"
-                                                    value={propertytype}
-                                                    onChange={updatePropertytype}
-                                                    className="text-[#FEFDF8] text-[10px] font-[700] bg-transparent outline-none h-7"
-                                                >
-                                                    <option className="text-black" value="propertytype"> Property Type</option>
-                                                    <option className="text-black" value="apartment">Apartment</option>
-                                                    <option className="text-black" value="villa">villa</option>
-                                                    <option className="text-black" value="Independet house">Independet house</option>
-                                                    <option className="text-black" value="Independent floor">Independent floor</option>
-                                                </select>
-                                            </label>
-                                        </form>
-                                    </div>
-
-                                    {/* Verification Status Dropdown */}
-                                    <div className="w-[25%] flex items-center gap-2 pl-1 border border-[#FEFDF8] rounded-sm cursor-pointer">
-                                        <form className="w-fit mx-auto">
-                                            <label className="flex items-center cursor-pointer">
-                                                <select
-                                                    id="verificationStatus"
-                                                    className="text-[#FEFDF8] text-[10px] font-[700] outline-none h-7 bg-transparent"
-                                                >
-                                                    <option value="verificationstatus" className="text-black">
-                                                        Verification Status
-                                                    </option>
-                                                    <option className="text-black" value="verified">Verified</option >
-                                                    <option className="text-black" value="unverified">Unverified</option  >
-                                                    <option className="text-black" value="pending">Pending</option>
-                                                </select>
-                                            </label>
-                                        </form>
-                                    </div>
-                                    {/* BHK Dropdown */}
-                                    <div className="w-fit flex items-center gap-2 px-1 border border-[#FEFDF8] rounded-sm cursor-pointer">
-                                        <form className="w-fit">
-                                            <label className="cursor-pointer">
-                                                <select
-                                                    id="verificationStatus"
-                                                    className="text-[#FEFDF8] text-[10px] font-[700] outline-none h-7 bg-transparent"
-                                                >
-                                                    <option value="bhk" className="text-black">
-                                                        BHK
-                                                    </option>
-                                                    <option className="text-black" value="verified">Verified</option >
-                                                    <option className="text-black" value="unverified">Unverified</option  >
-                                                    <option className="text-black" value="pending">Pending</option>
-                                                </select>
-                                            </label>
-                                        </form>
-                                    </div>
-                                    <button onClick={updateFilters} className=' flex items-center justify-center  rounded-sm  h-7 bg-[#E2EAED] text-[10px] font-[700] text-[#37474F]  px-4  '>
-                                        {filters ? 'Close Filters' : 'More Filters'}
-                                    </button>
-                                </div>
-                                {filters && (
-                                    <div className='flex flex-wrap gap-3'>
-                                        <div className="flex items-center gap-4 px-2 w-fit border border-[#FEFDF8] rounded-sm cursor-pointer">
-                                            <form className="w-fit mx-auto">
-                                                <label className="flex items-center cursor-pointer">
-                                                    <select
-                                                        id="bhk"
-                                                        className="text-[#FEFDF8] text-[10px] font-[700]  outline-none h-7 bg-transparent"
-                                                    >
-                                                        <option className=" text-black" value="possessionstatus">
-                                                            Possession Status
-                                                        </option>
-                                                        <option className="text-black" value="yes">Yes</option>
-                                                        <option className="text-black" value="no">No</option>
-                                                    </select>
-                                                </label>
-                                            </form>
-                                        </div>
-                                        <input type='text' placeholder='Property ID' className='px-4 text-[#FEFDF8] text-[10px] font-[700] bg-transparent  h-7 border border-[#FEFDF8] rounded-sm cursor-pointer focus:outline-none' />
-                                        <div className="w-fit flex items-center justify-center gap-2 px-1 border border-[#FEFDF8] rounded-sm cursor-pointer">
-
-                                            <form action="/action_page.php" className=" flex items-center justify-center space-x-2">
-                                                <label className="text-[#FEFDF8] text-[10px] font-[700] text-center outline-none bg-transparent">
-                                                    Price
-                                                </label>
-
-                                                <input type="range" id="vol" name="vol" min="0" max="50" />
-                                                <p className="text-[#FEFDF8] text-[10px] font-[700] text-center outline-none">
-                                                    0
-                                                </p>
-
-                                            </form>
-
-                                        </div>
-                                        <div className="w-fit flex items-center gap-2 px-1 border border-[#FEFDF8] rounded-sm cursor-pointer">
-                                            <form className="w-fit">
-                                                <label className="cursor-pointer">
-                                                    <select
-                                                        id="verificationStatus"
-                                                        className="text-[#FEFDF8] text-[10px] font-[700] outline-none h-7 bg-transparent"
-                                                    >
-                                                        <option value="images" className="text-black">
-                                                            Images
-                                                        </option>
-                                                        <option className="text-black" value="verified">Verified</option >
-                                                        <option className="text-black" value="unverified">Unverified</option  >
-                                                        <option className="text-black" value="pending">Pending</option>
-                                                    </select>
-                                                </label>
-                                            </form>
-                                        </div>
-
-                                        <div className="w-fit flex items-center gap-2 px-1 border border-[#FEFDF8] rounded-sm cursor-pointer">
-                                            <form className="w-fit">
-                                                <label className="cursor-pointer">
-                                                    <select
-                                                        id="verificationStatus"
-                                                        className="text-[#FEFDF8] text-[10px] font-[700] outline-none h-7 bg-transparent"
-                                                    >
-                                                        <option value="Digilite" className="text-black">
-                                                            Digilite
-                                                        </option>
-                                                        <option className="text-black" value="verified">Verified</option >
-                                                        <option className="text-black" value="unverified">Unverified</option  >
-                                                        <option className="text-black" value="pending">Pending</option>
-                                                    </select>
-                                                </label>
-                                            </form>
-                                        </div>
-                                        <button className=' flex items-center justify-center  rounded-sm  h-7 bg-[#E2EAED] text-[10px] font-[700] text-[#37474F] px-4  '>
-                                            Reset
-                                        </button>
-                                    </div>
-                                )}
-                            </div>
-                            <div className='col-span-2'>
-                                <Getapp />
-                            </div>
-                            <div className=' col-span-4'>
-                                <p className=' flex items-center justify-start pl-3 h-9 bg-[#FEFDF8] text-[14px] text-[#1D3A76] font-[700] rounded-md'>
-                                    Showing {limit} out of {totalProperties} Properties
-                                </p>
-                            </div>
-                        </div>
-
-                        {allListings.length > 0 ? (
-                            allListings.map((item, index) => (
-                                <Listingcard
-                                    key={index}
-                                    id_number={item.unique_property_id}
-                                    image={item.image}
-                                    land="2 BHK Apartment"
-                                    cost="₹ 15000"
-                                    area="160 sq.ft"
-                                    interested_tenants="Two interested tenants"
-                                    added_date={item.last_added_date}
-                                    expiry_date="09-feb-2025"
-
-                                />
-                            ))
-                        ) : (
-                            <p>No data</p>
-                        )}
-                        <nav className='flex flex-row-reverse'>
-                            <ul className="flex items-center -space-x-px h-8 text-sm">
-                                {/* Previous Button */}
-                                <li>
-                                    <Link
-                                        href="#"
-                                        className="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                                        aria-label="Previous"
-                                    >
-                                        <IconChevronLeft size={16} />
-                                    </Link>
-                                </li>
-                                {/* Page Numbers */}
-                                {[1, 2, 3, 4, 5].map((page, index) => (
-                                    <li key={index}>
-                                        <Link
-                                            href="#"
-                                            className={`flex items-center justify-center px-3 h-8 leading-tight border ${page === 3
-                                                ? "z-10 text-[#ffffff] border-blue-300 bg-[#1D3A76] hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white"
-                                                : "text-gray-500 bg-white border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                                                }`}
-                                            aria-current={page === 3 ? "page" : undefined}
-                                        >
-                                            {page}
-                                        </Link>
-                                    </li>
-                                ))}
-                                {/* Next Button */}
-                                <li>
-                                    <Link
-                                        href="#"
-                                        className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                                        aria-label="Next"
-                                    >
-                                        <IconChevronRight size={16} />
-                                    </Link>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
+                    <Propertylists
+                        totalPages={totalPages}
+                        totalProperties={totalProperties}
+                        allListings={allListings}
+                        handlePageChange={handlePageChange}
+                        limit={limit}
+                        isLoadingEffect={isLoadingEffect}
+                        openDeleteModal={openDeleteModal}
+                        propertyIn={propertyIn}
+                        propertySubtype={propertySubtype}
+                        updatePropertySubtype={updatePropertySubtype}
+                        locality={locality}
+                        updateLocality={updateLocality}
+                        bhkhide={bhkhide}
+                        bhk={bhk}
+                        updateBhk={updateBhk}
+                        propertyFor={propertyFor}
+                        updatePropertyFor={updatePropertyFor}
+                        occupancyList={occupancyList}
+                        occupancy={occupancy}
+                        updateOccupancy={updateOccupancy}
+                        propertyId={propertyId}
+                        updatePropertyId={updatePropertyId}
+                        handleResetFilters={handleResetFilters}
+                        minPriceRange={minPriceRange}
+                        updateMinPriceRange={updateMinPriceRange}
+                        maxPriceRange={maxPriceRange}
+                        updateMaxPriceRange={updateMaxPriceRange}
+                    />
                 </div>
             </div >
-            <Loadingoverlay
-                visible={isLoadingEffect}
-                zIndex={9999}
-                overlayBg="rgba(255, 255, 255, 0.6)"
-            />
             {errorModalOpen &&
                 <Modal
                     open={errorModalOpen}
@@ -604,6 +486,26 @@ function Listingswrapper() {
                     />
                 </Modal>
             }
+            {
+                deleteModal &&
+                <Modal
+                    open={deleteModal}
+                    onClose={closeDeleteModal}
+                    size="md"
+                    zIndex={9999}
+                    withCloseButton={false}
+                >
+                    <div className="flex flex-col items-center justify-center gap-2 p-4">
+                        <IconTrash size={40} stroke={1.5} color="#1D3A76" />
+                        <p className="text-[#706e6e] text-[14px] font-[600]">Are you sure you want to delete this property {singlePropertyId}?</p>
+                        <div className="flex gap-4 pt-4">
+                            <button onClick={() => handleDeleteProperty(singlePropertyId)} className="py-2 px-4 bg-[#038AC9] text-white font-[700] text-[14px] rounded-lg">Yes, I'm sure</button>
+                            <button onClick={closeDeleteModal} className="py-2 px-4 bg-[#A5413F] text-white font-[700] text-[14px] rounded-lg">No, Cancel</button>
+                        </div>
+                    </div>
+                </Modal>
+            }
+
         </>
     );
 }

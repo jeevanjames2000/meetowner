@@ -15,6 +15,7 @@ module.exports = {
       fontFamily: {
         sans: ['Open Sans', 'sans-serif'], // Default 'font-sans' class
         custom: ['Open Sans', 'sans-serif'], // Custom class if needed
+        Montserrat: ['Montserrat', 'sans-serif'],
       },
       screens: {
         'xs': '425px', // Small phones
@@ -25,11 +26,11 @@ module.exports = {
         '2xl': '1536px', // Ultra-wide desktops
         '3xl': '1920px', // Very large screens (gaming monitors, TVs)
       }
-      
+
     },
     letterSpacing: {
       'extra-wide': '0.3em', // Example: Wider than `tracking-widest`
-   
+      'small-wide': '0.1em',
     },
   },
   plugins: [],
