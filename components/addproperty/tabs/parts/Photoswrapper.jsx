@@ -3,7 +3,7 @@ import Propertyapi from "@/components/api/Propertyapi";
 import Errorpanel from "@/components/shared/Errorpanel";
 import LoadingOverlay from "@/components/shared/LoadingOverlay";
 import { useUserDetails } from "@/components/zustand/useUserDetails";
-import { Modal } from "@nayeshdaggula/tailify";
+import { Modal, Select } from "@nayeshdaggula/tailify";
 import { IconBookmark, IconX } from "@tabler/icons-react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
@@ -20,34 +20,6 @@ function Photoswrapper({ updateActiveTab }) {
   const [files, setFiles] = useState([]);
   const [previews, setPreviews] = useState([]);
   const [featuredIndex, setFeaturedIndex] = useState(null);
-
-  // const handleFileUpload = (event) => {
-  //   // Allow only jpg, jpeg, png, gif extensions
-  //   const allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
-  //   const uploadedFiles = Array.from(event.target.files);
-
-  //   // Filter invalid files
-  //   const invalidFiles = uploadedFiles.filter((file) => !allowedExtensions.test(file.name));
-  //   if (invalidFiles.length > 0) {
-  //     toast.error('Please upload only jpg, jpeg, png, gif files', {
-  //       position: "top-right",
-  //       autoClose: 3000,
-  //       hideProgressBar: true,
-  //       closeOnClick: true,
-  //       pauseOnHover: true,
-  //       draggable: true,
-  //       progress: undefined,
-  //     })
-  //     return;
-  //   }
-
-  //   // Update file state
-  //   setFiles((prevFiles) => [...prevFiles, ...uploadedFiles]);
-
-  //   // Create previews
-  //   const newPreviews = uploadedFiles.map((file) => URL.createObjectURL(file));
-  //   setPreviews((prevPreviews) => [...prevPreviews, ...newPreviews]);
-  // };
 
   const handleFileUpload = (event) => {
     // Allow only jpg, jpeg, png, gif extensions
@@ -114,6 +86,67 @@ function Photoswrapper({ updateActiveTab }) {
     setFeaturedIndex(index);
   };
 
+  const [videoFiles, setVideoFiles] = useState([]);
+  const [videoPreviews, setVideoPreviews] = useState([]);
+  const [videoTypes, setVideoTypes] = useState({});
+
+  const handleVideoUpload = (event) => {
+    // Allow only mp4 extensions
+    const allowedExtensions = /(\.mp4)$/i;
+    const uploadedFiles = Array.from(event.target.files);
+
+    // const invalidFiles = uploadedFiles.filter((file) => !allowedExtensions.test(file.name));
+    // if (invalidFiles.length > 0) {
+    //   toast.error('Please upload only mp4 files', {
+    //     position: "top-right",
+    //     autoClose: 3000,
+    //     hideProgressBar: true,
+    //     closeOnClick: true,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //     progress: undefined,
+    //   });
+    //   return;
+    // }
+    // const validFiles = uploadedFiles.filter((file) => file.size <= 10 * 1024 * 1024);
+    // const oversizedFiles = uploadedFiles.filter((file) => file.size > 10 * 1024 * 1024);
+    // if (oversizedFiles.length > 0) {
+    //   toast.error('Some files were not uploaded because they exceed 10MB', {
+    //     position: "top-right",
+    //     autoClose: 3000,
+    //     hideProgressBar: true,
+    //     closeOnClick: true,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //     progress: undefined,
+    //   });
+    // }
+
+    // Update file state with valid files only
+    setVideoFiles((prevFiles) => [...prevFiles, ...uploadedFiles]);
+
+    // Create previews for valid files
+    const newPreviews = uploadedFiles.map((file) => URL.createObjectURL(file));
+    setVideoPreviews((prevPreviews) => [...prevPreviews, ...newPreviews]);
+  };
+
+  const handleVideoTypeChange = (index, value) => {
+    setVideoTypes((prev) => ({
+      ...prev,
+      [index]: value, // Update the type for the specific video
+    }));
+  };
+
+  const removeVideoPreview = (index) => {
+    setVideoPreviews((prev) => prev.filter((_, i) => i !== index)); // Remove the video preview
+    setVideoTypes((prev) => {
+      const updated = { ...prev };
+      delete updated[index]; // Remove the video type for the deleted preview
+      return updated;
+    });
+    setVideoFiles((prev) => prev.filter((_, i) => i !== index)); // Remove the video file
+  };
+
   const [errorModalOpen, setErrorModalOpen] = useState(false);
   const closeErrorModal = () => setErrorModalOpen(false);
   const [errorMessages, setErrorMessages] = useState('');
@@ -147,12 +180,21 @@ function Photoswrapper({ updateActiveTab }) {
       })
       return;
     }
+
     const formData = new FormData();
     formData.append('user_id', user_id);
     formData.append('unique_property_id', unique_property_id);
     formData.append("featured_image", files[featuredIndex]);
     files.forEach((file) => {
       formData.append("photo", file);
+    });
+
+    videoFiles.forEach((file) => {
+      formData.append("video", file);
+    });
+
+    Object.entries(videoTypes).forEach(([index, type]) => {
+      formData.append(`video_type[${index}]`, type);
     });
 
     Propertyapi.post('addphotos', formData, {
@@ -221,8 +263,51 @@ function Photoswrapper({ updateActiveTab }) {
     }
   }
 
+  async function getPropertyVideos() {
+    try {
+      const response = await Propertyapi.get('/getpropertyvideos', {
+        params: {
+          unique_property_id: unique_property_id,
+          user_id: user_id
+        },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${access_token}`
+        }
+      });
+
+      const data = response.data;
+      if (data.status === 'error') {
+        const finalResponse = {
+          message: data.message,
+          server_res: data.server_res
+        };
+        setErrorMessages(finalResponse);
+        setErrorModalOpen(true);
+        setIsLoadingEffect(false);
+        return;
+      }
+
+      // Convert URLs to File objects and update the state
+      const videoFiles = await Promise.all(data.videos.map(fetchImageAsFile));
+      setVideoFiles(videoFiles);  // Store the File objects in the state
+      setVideoPreviews(data.videos);  // Store the URLs for previews
+      // setVideoTypes(data.videoTypes);  // Store the video types
+
+    } catch (error) {
+      const errorDetails = {
+        message: error.message,
+        server_res: error.response ? error.response.data : null
+      };
+      setErrorMessages(errorDetails);
+      setErrorModalOpen(true);
+      setIsLoadingEffect(false);
+    }
+  }
+
   useEffect(() => {
     getPropertyPhotos();
+    getPropertyVideos()
   }, []);
 
   return (
@@ -235,19 +320,16 @@ function Photoswrapper({ updateActiveTab }) {
         </div>
         <div className="px-5 py-3">
           <div className="mt-3 overflow-y-auto h-[calc(100vh-243px)]">
-            <div className="flex items-center justify-center w-full">
+            <div className="flex items-center gap-3 justify-center w-full">
               <label
                 htmlFor="dropzone-file"
-                className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50"
+                className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer"
               >
                 <div className="flex flex-col items-center justify-center pt-5 pb-6">
                   {/*  */}
-                  <p className="mb-2 text-sm text-gray-500">
+                  <p className="text-sm text-gray-500 text-center px-3">
                     Upload photos of max size 10 MB in format JPG, JPEG & PNG
                   </p>
-                  {/* <p className="text-xs text-gray-500">
-                    Allowed Extensions (jpg, jpeg, png, gif)
-                  </p> */}
                 </div>
                 <input
                   id="dropzone-file"
@@ -255,6 +337,25 @@ function Photoswrapper({ updateActiveTab }) {
                   accept="image/*"
                   multiple
                   onChange={handleFileUpload}
+                  className="hidden"
+                />
+              </label>
+              <label
+                htmlFor="dropzone-video-file"
+                className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer"
+              >
+                <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                  {/*  */}
+                  <p className="text-sm text-gray-500 text-center px-3">
+                    Upload Videos in format MP4,
+                  </p>
+                </div>
+                <input
+                  id="dropzone-video-file"
+                  type="file"
+                  accept=".mp4"
+                  multiple
+                  onChange={handleVideoUpload}
                   className="hidden"
                 />
               </label>
@@ -284,6 +385,38 @@ function Photoswrapper({ updateActiveTab }) {
                     <div
                       className="absolute top-2 right-2 bg-[#1D3A76] text-white rounded-full p-1 text-xs cursor-pointer"
                       onClick={() => removePreview(index)}
+                    >
+                      <IconX size={12} />
+                    </div>
+                  </div>
+                ))
+              }
+            </div>
+            <div className="grid grid-cols-3 gap-4 mt-4">
+              {
+                videoPreviews.length > 0 &&
+                videoPreviews.map((preview, index) => (
+                  <div
+                    key={index}
+                    className="relative group border border-gray-300 p-2 rounded"
+                  >
+                    <video
+                      src={preview}
+                      className="w-full h-40 object-cover rounded"
+                      controls
+                    />
+                    <Select
+                      value={videoTypes[index] || 'video'}
+                      data={[
+                        { value: 'video', label: 'Video' },
+                        { value: 'short', label: 'Short' }
+                      ]}
+                      onChange={(value) => handleVideoTypeChange(index, value)}
+                      className="m-0 p-0"
+                    />
+                    <div
+                      className="absolute top-2 right-2 bg-[#1D3A76] text-white rounded-full p-1 text-xs cursor-pointer"
+                      onClick={() => removeVideoPreview(index)}
                     >
                       <IconX size={12} />
                     </div>
