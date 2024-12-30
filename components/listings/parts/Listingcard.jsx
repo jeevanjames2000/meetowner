@@ -107,7 +107,7 @@ function Listingcard({
                 </div>
                 <div className=' flex flex-col col-span-6 py-3 -ml-6 justify-between w-[110%]'>
                     <div className='flex gap-2 pr-4'>
-                        <p className=" flex flex-col text-[11px] font-[400] text-[#6d6c6c] ">Last Added<span className='font-[600] block pt-2 text-[11px]'> {updated_date}</span></p>
+                        <p className=" flex flex-col text-[11px] font-[400] text-[#6d6c6c] ">Last Updated<span className='font-[600] block pt-2 text-[11px]'> {updated_date}</span></p>
                         <p className=" flex flex-col text-[11px] font-[400] text-[#6d6c6c] border-l-[0.09rem] border-r-[0.09rem] border-[#909090] px-3 mx-4 ">Expiry on<span className='font-[600] block pt-2 text-[11px]'> {expiry_date}</span></p>
                         <p className="text-[11px] font-[400] text-[#6d6c6c]">
                             Visibility

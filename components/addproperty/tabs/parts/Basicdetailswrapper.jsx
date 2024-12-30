@@ -342,8 +342,8 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
                     )}
             </div>
             <div className='flex flex-row justify-end items-center mb-3'>
-                <div onClick={updateBasicdetails} className='border border-[#1D3A76] bg-[#1D3A76] px-8 py-3 rounded-md cursor-pointer'>
-                    <p className='text-white text-[12px]'>Next, add property details</p>
+                <div onClick={updateBasicdetails} className='border border-[#1D3A76] bg-[#1D3A76] px-8 py-2 mr-2 rounded-md cursor-pointer'>
+                    <p className='text-white text-[11px] font-bold'>Next: Add Property Details</p>
                 </div>
             </div>
             <Loadingoverlay

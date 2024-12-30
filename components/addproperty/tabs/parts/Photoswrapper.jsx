@@ -4,6 +4,7 @@ import Errorpanel from "@/components/shared/Errorpanel";
 import LoadingOverlay from "@/components/shared/LoadingOverlay";
 import { useUserDetails } from "@/components/zustand/useUserDetails";
 import { Modal } from "@nayeshdaggula/tailify";
+import { IconBookmark, IconX } from "@tabler/icons-react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -20,12 +21,40 @@ function Photoswrapper({ updateActiveTab }) {
   const [previews, setPreviews] = useState([]);
   const [featuredIndex, setFeaturedIndex] = useState(null);
 
+  // const handleFileUpload = (event) => {
+  //   // Allow only jpg, jpeg, png, gif extensions
+  //   const allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+  //   const uploadedFiles = Array.from(event.target.files);
+
+  //   // Filter invalid files
+  //   const invalidFiles = uploadedFiles.filter((file) => !allowedExtensions.test(file.name));
+  //   if (invalidFiles.length > 0) {
+  //     toast.error('Please upload only jpg, jpeg, png, gif files', {
+  //       position: "top-right",
+  //       autoClose: 3000,
+  //       hideProgressBar: true,
+  //       closeOnClick: true,
+  //       pauseOnHover: true,
+  //       draggable: true,
+  //       progress: undefined,
+  //     })
+  //     return;
+  //   }
+
+  //   // Update file state
+  //   setFiles((prevFiles) => [...prevFiles, ...uploadedFiles]);
+
+  //   // Create previews
+  //   const newPreviews = uploadedFiles.map((file) => URL.createObjectURL(file));
+  //   setPreviews((prevPreviews) => [...prevPreviews, ...newPreviews]);
+  // };
+
   const handleFileUpload = (event) => {
     // Allow only jpg, jpeg, png, gif extensions
     const allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
     const uploadedFiles = Array.from(event.target.files);
 
-    // Filter invalid files
+    // Filter invalid files by extension
     const invalidFiles = uploadedFiles.filter((file) => !allowedExtensions.test(file.name));
     if (invalidFiles.length > 0) {
       toast.error('Please upload only jpg, jpeg, png, gif files', {
@@ -36,15 +65,32 @@ function Photoswrapper({ updateActiveTab }) {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-      })
+      });
       return;
     }
 
-    // Update file state
-    setFiles((prevFiles) => [...prevFiles, ...uploadedFiles]);
+    // Filter valid files (size <= 10MB)
+    const validFiles = uploadedFiles.filter((file) => file.size <= 10 * 1024 * 1024);
 
-    // Create previews
-    const newPreviews = uploadedFiles.map((file) => URL.createObjectURL(file));
+    // Notify about oversized files
+    const oversizedFiles = uploadedFiles.filter((file) => file.size > 10 * 1024 * 1024);
+    if (oversizedFiles.length > 0) {
+      toast.error('Some files were not uploaded because they exceed 10MB', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+
+    // Update file state with valid files only
+    setFiles((prevFiles) => [...prevFiles, ...validFiles]);
+
+    // Create previews for valid files
+    const newPreviews = validFiles.map((file) => URL.createObjectURL(file));
     setPreviews((prevPreviews) => [...prevPreviews, ...newPreviews]);
   };
 
@@ -139,38 +185,6 @@ function Photoswrapper({ updateActiveTab }) {
       });
   }
 
-  // async function getPropertyPhotos() {
-  //   Propertyapi.get('/getphotos', {
-  //     params: {
-  //       unique_property_id: unique_property_id,
-  //       user_id: user_id
-  //     }
-  //   }, {
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       'Authorization': `Bearer ${access_token}`
-  //     }
-  //   })
-  //     .then((response) => {
-  //       if (response.data.status === 'error') {
-  //         let finalResponse = {
-  //           'message': response.data.message,
-  //         }
-  //         console.log('finalResponse', finalResponse)
-  //       }
-  //       setFiles(response?.data?.images || []);
-  //       setPreviews(response?.data?.images || []);
-  //       setFeaturedIndex(response?.data?.featuredImageIndex ?? null);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error)
-  //     })
-  // }
-
-  // useEffect(() => {
-  //   getPropertyPhotos()
-  // }, [])
-
   const fetchImageAsFile = async (imageUrl) => {
     const response = await fetch(imageUrl);
     const blob = await response.blob();
@@ -179,7 +193,6 @@ function Photoswrapper({ updateActiveTab }) {
     return new File([blob], filename, { type: blob.type });
   };
 
-  // Function to handle getting property photos and converting URLs to File objects
   async function getPropertyPhotos() {
     try {
       const response = await Propertyapi.get('/getphotos', {
@@ -230,11 +243,11 @@ function Photoswrapper({ updateActiveTab }) {
                 <div className="flex flex-col items-center justify-center pt-5 pb-6">
                   {/*  */}
                   <p className="mb-2 text-sm text-gray-500">
-                    Drag & Drop or click to upload {JSON.stringify(featuredIndex)}
+                    Upload photos of max size 10 MB in format JPG, JPEG & PNG
                   </p>
-                  <p className="text-xs text-gray-500">
+                  {/* <p className="text-xs text-gray-500">
                     Allowed Extensions (jpg, jpeg, png, gif)
-                  </p>
+                  </p> */}
                 </div>
                 <input
                   id="dropzone-file"
@@ -259,24 +272,21 @@ function Photoswrapper({ updateActiveTab }) {
                       src={preview}
                       alt={`Preview ${index}`}
                       className="w-full h-40 object-cover rounded"
-                      height={160}
-                      width={160}
+                      height={140}
+                      width={140}
                     />
-                    <div className="flex flex-row items-center justify-center">
-                      <button
-                        onClick={() => handleSetFeatured(index)}
-                        className={`px-3 rounded-md py-2 my-2 text-xs text-center ${featuredIndex === index ? "bg-green-500 text-white" : "bg-gray-500 text-white"
-                          }`}
-                      >
-                        {featuredIndex === index ? "✔ Featured Image" : "Set as Featured Image"}
-                      </button>
+                    <div className="absolute top-2 left-2" onClick={() => handleSetFeatured(index)}>
+                      <div className={`flex flex-row justify-between items-center gap-2 text-white rounded-md p-1 text-xs cursor-pointer ${featuredIndex === index ? "bg-[#1D3A76]" : "bg-[#699ba0]"}`}>
+                        <p className="text-[10px]">Set as Featured Image</p>
+                        <IconBookmark size={12} />
+                      </div>
                     </div>
-                    <button
-                      className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 text-xs opacity-0 group-hover:opacity-100 transition-opacity"
+                    <div
+                      className="absolute top-2 right-2 bg-[#1D3A76] text-white rounded-full p-1 text-xs cursor-pointer"
                       onClick={() => removePreview(index)}
                     >
-                      ✕
-                    </button>
+                      <IconX size={12} />
+                    </div>
                   </div>
                 ))
               }
@@ -290,7 +300,7 @@ function Photoswrapper({ updateActiveTab }) {
           {
             previews.length > 0 ?
               <div onClick={handleSubmitPhotos} className='border border-[#1D3A76] bg-[#1D3A76] px-8 py-2 rounded-md cursor-pointer'>
-                <p className='text-white text-[10px]'>Next, Review</p>
+                <p className='text-white text-[10px] font-bold'>Next: Review</p>
               </div>
               :
               <div onClick={() => updateActiveTab('review', 'inprogress', unique_property_id)} className='text-center cursor-pointer'>

@@ -451,7 +451,7 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
             <p className='text-white text-[10px]'>Back</p>
           </div>
           <div onClick={updateAddress} className='border border-[#1D3A76] bg-[#1D3A76] px-8 py-2 rounded-md cursor-pointer'>
-            <p className='text-white text-[10px]'>Post property</p>
+            <p className='text-white text-[10px] font-bold'>Next: Add Photos</p>
           </div>
         </div>
         <LoadingOverlay isLoading={isLoadingEffect} />
