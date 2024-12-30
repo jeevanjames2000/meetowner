@@ -1,10 +1,10 @@
 import { IconEdit, IconTrash } from '@tabler/icons-react'
-import Image from 'next/image'
 import React from 'react'
 import list_icon from '@/public/assets/list.svg'
 import tenantsimage from '@/public/assets/tenants_image.svg';
 import imageplacholder from '@/public/assets/imgeplaceholder.jpg';
 import Link from 'next/link';
+import Image from 'next/image';
 function Listingcard({
     unique_property_id,
     image,
