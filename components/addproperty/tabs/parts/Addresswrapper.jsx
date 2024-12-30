@@ -45,9 +45,9 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
   const [flatNoError, setFlatNoError] = useState('')
   const updateFlatNo = (e) => {
     let value = e.target.value
-    if (isNaN(value)) {
-      return false;
-    }
+    // if (isNaN(value)) {
+    //   return false;
+    // }
     setFlatNo(value)
     setFlatNoError('')
   }

@@ -1788,6 +1788,7 @@ function Addpropertydetails({
       setInvestorProperty(propertyDetails?.investor_property || '')
       setBuilderPlot(propertyDetails?.builder_plot || '')
       setLoanFacility(propertyDetails?.loan_facility || '')
+      setPantryRoom(propertyDetails?.pantry_room || '')
     }
   }, [propertyDetails])
 
@@ -2989,14 +2990,6 @@ function Addpropertydetails({
                     <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Custom Open Parking</p>
                     <IconAsterisk size={8} color='#FF0000' />
                   </div>
-                  {/* <input
-                    type='text'
-                    placeholder='Enter Custom Open Parking'
-                    className='border-b border-[#c3c3c3] w-full py-1 focus:outline-none text-[13px] font-sans '
-                    autoComplete='off'
-                    value={customOpenParking}
-                    onChange={updateCustomOpenParking}
-                  /> */}
                   <Textinput
                     placeholder=" Enter Custom Open Parking"
                     inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
