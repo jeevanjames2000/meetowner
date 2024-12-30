@@ -1,6 +1,6 @@
 {
   "name": "meetownersellerpanel",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "scripts": {
     "dev": "cross-env PORT=3012 next dev",
