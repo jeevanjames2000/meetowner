@@ -61,7 +61,7 @@ function Listingcard({
             <div className='grid grid-cols-12 w-full'>
                 <div className=' flex flex-row col-span-6 h-full gap-3'>
                     <Link href={`/propertydetails/${unique_property_id}`}>
-                        <img
+                        <Image
                             src={image || imageplacholder}
                             alt={"property"}
                             className="object-cover h-36 w-52 rounded-bl-[8px]"
