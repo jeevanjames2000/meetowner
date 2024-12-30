@@ -55,7 +55,7 @@ function Listingcard({
                     <button className='text-[#1D3A76] text-[12px] font-[600]'>
                         + Advanced Details
                     </button>
-                    <img src={list_icon} alt='list_icon' className='h-5 w-5 mr-6' />
+                    <Image src={list_icon} alt='list_icon' className='h-5 w-5 mr-6' />
                 </div>
             </div>
             <div className='grid grid-cols-12 w-full'>
