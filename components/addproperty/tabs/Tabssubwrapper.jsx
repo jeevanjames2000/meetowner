@@ -2,7 +2,7 @@
 import { IconCheck, IconChevronLeft, IconPhone, IconPointFilled } from '@tabler/icons-react'
 import React, { Suspense, useCallback, useEffect, useState } from 'react'
 import Basicdetailswrapper from './parts/Basicdetailswrapper'
-import Propertydetailswrapper from './parts/Propertydetailswrapper'
+import Addpropertydetails from './parts/Addpropertydetails'
 import Addresswrapper from './parts/Addresswrapper'
 import Photoswrapper from './parts/Photoswrapper'
 import Reviewawrapper from './parts/Reviewawrapper'
@@ -81,7 +81,6 @@ function Tabssubwrapper({
             setPropertyDetailsStatus('completed')
             setPhotosStatus(status)
         } else if (active_step === 'review') {
-            console.log('review id', user_id)
             getAllPropertyDetails()
             setBasicDetailsStatus('completed')
             setAddressStatus('completed')
@@ -175,10 +174,11 @@ function Tabssubwrapper({
                 console.log(error)
             })
     }
+
     const [propertyGallery, setPropertyGallery] = useState([])
     const [allpropertyDetails, setAllPropertyDetails] = useState({})
     async function getAllPropertyDetails() {
-        Propertyapi.get('/getAllpropertydetails', {
+        Propertyapi.get('/getsinglepropertydetails', {
             params: {
                 unique_property_id: unique_property_id,
                 user_id: user_id
@@ -473,7 +473,7 @@ function Tabssubwrapper({
                 }
                 {
                     activeTab === 'propertydetails' &&
-                    <Propertydetailswrapper
+                    <Addpropertydetails
                         propertyDetails={propertyDetails}
                         updateActiveTab={updateActiveTab}
                         preferedTenantList={preferedTenantList}

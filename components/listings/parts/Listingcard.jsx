@@ -5,7 +5,43 @@ import list_icon from '@/public/assets/list.svg'
 import tenantsimage from '@/public/assets/tenants_image.svg';
 import imageplacholder from '@/public/assets/imgeplaceholder.jpg';
 import Link from 'next/link';
-function Listingcard({ unique_property_id, image, handleDeleteProperty, description, bedrooms, property_cost, property_subtype, property_name, area, interested_tenants, last_added_date, expiry_date, facing }) {
+function Listingcard({
+    unique_property_id,
+    image,
+    openDeleteModal,
+    bedrooms,
+    property_cost,
+    property_subtype,
+    property_name,
+    furnished_status,
+    interested_tenants,
+    last_added_date,
+    expiry_date,
+    facing,
+    property_for,
+    monthly_rent
+}) {
+    const formatPrice = (price) => {
+        if (price >= 10000000) {
+            return (price / 10000000).toFixed(2) + ' Cr'; // Crores
+        } else if (price >= 100000) {
+            return (price / 100000).toFixed(2) + ' Lac'; // Lakhs
+        } else if (price >= 1000) {
+            return (price / 1000).toFixed(2) + ' K'; // Thousands
+        }
+        return price;
+    };
+
+    let updated_date;
+    if (last_added_date) {
+        let lastupdateddate = new Date(last_added_date);
+        if (!isNaN(lastupdateddate.getTime())) {
+            updated_date = lastupdateddate.toISOString().split('T')[0];
+        } else {
+            updated_date = 'N/A';
+        }
+    }
+
     return (
         <div className='bg-[#FFFFFF] rounded-[8px]'>
             <div className='px-4 py-2 flex items-center justify-between border-b border-[#D7D8D9]'>
@@ -28,7 +64,7 @@ function Listingcard({ unique_property_id, image, handleDeleteProperty, descript
                         <Image
                             src={image || imageplacholder}
                             alt={"property"}
-                            className="object-cover h-32 w-52 rounded-bl-[8px]"
+                            className="object-cover h-36 w-52 rounded-bl-[8px]"
                             height={100}
                             width={150}
                         />
@@ -36,8 +72,27 @@ function Listingcard({ unique_property_id, image, handleDeleteProperty, descript
                     {/* Text Content Section */}
                     <div className=" space-y-2 py-2">
                         <p className="text-[11px] font-[700] text-[#6d6c6c]">{property_name || ''}</p>
-                        <p className=" flex-wrap text-[11px] font-[700] text-[#6d6c6c]">{property_subtype || ''}</p>
-                        <p className="text-[11px] font-[600] text-[#757575]"><span className=''>{facing ? `${facing} facing` : '-----'}</span></p>
+                        <p className="text-[11px] font-[700] text-[#6d6c6c]">
+                            {property_for === "Sell" ? `₹ ${formatPrice(property_cost)}` : ` ₹ ${formatPrice(monthly_rent)} Rent`}
+                        </p>
+                        <div className='flex flex-row items-center gap-2'>
+                            {
+                                (property_subtype === "Apartment" || property_subtype === "Flat" || property_subtype === "Independent House" || property_subtype === "Independent Villa") &&
+                                <p className="text-[11px] font-[700] text-[#6d6c6c]">{`${bedrooms} BHK`} </p>
+
+                            }
+                            <p className=" flex-wrap text-[11px] font-[700] text-[#6d6c6c]">
+                                {property_subtype || ''}</p>
+                        </div>
+                        <div className='flex flex-row items-center gap-2'>
+                            {
+                                (property_subtype === "Apartment" || property_subtype === "Independent House" || property_subtype === "Independent Villa") &&
+                                <p className="text-[11px] font-[600] text-[#757575]">
+                                    {furnished_status ? furnished_status === "Unfurinished" ? `${furnished_status}` : `${furnished_status} Furnished` : ''}
+                                </p>
+                            }
+                            <p className="text-[11px] font-[600] text-[#757575]"><span className=''>{facing ? `${facing} facing` : '-----'}</span></p>
+                        </div>
                         <div className=" flex flex-row items-center justify-start gap-2 pt-2">
                             <Image
                                 src={tenantsimage}
@@ -52,7 +107,7 @@ function Listingcard({ unique_property_id, image, handleDeleteProperty, descript
                 </div>
                 <div className=' flex flex-col col-span-6 py-3 -ml-6 justify-between w-[110%]'>
                     <div className='flex gap-2 pr-4'>
-                        <p className=" flex flex-col text-[11px] font-[400] text-[#6d6c6c] ">Last Added<span className='font-[600] block pt-2 text-[11px]'> {last_added_date || `12/07/2024`}</span></p>
+                        <p className=" flex flex-col text-[11px] font-[400] text-[#6d6c6c] ">Last Added<span className='font-[600] block pt-2 text-[11px]'> {updated_date}</span></p>
                         <p className=" flex flex-col text-[11px] font-[400] text-[#6d6c6c] border-l-[0.09rem] border-r-[0.09rem] border-[#909090] px-3 mx-4 ">Expiry on<span className='font-[600] block pt-2 text-[11px]'> {expiry_date}</span></p>
                         <p className="text-[11px] font-[400] text-[#6d6c6c]">
                             Visibility
@@ -70,7 +125,7 @@ function Listingcard({ unique_property_id, image, handleDeleteProperty, descript
                         <Link href={`/addproperty?active_step=basicdetails&status=completed&unique_property_id=${unique_property_id}`} className='flex items-center justify-center text-[10px] font-[700] text-[#ffffff] bg-[#038AC9] h-5 px-3 rounded-l-full rounded-r-full gap-2'>
                             Edit<IconEdit size={14} stroke={1.5} />
                         </Link>
-                        <button onClick={() => handleDeleteProperty(unique_property_id)} className='flex items-center justify-center text-[10px] font-[700] text-[#ffffff]  bg-[#A5413F] h-5 px-3 rounded-l-full rounded-r-full gap-2'>
+                        <button onClick={() => openDeleteModal(unique_property_id)} className='flex items-center justify-center text-[10px] font-[700] text-[#ffffff]  bg-[#A5413F] h-5 px-3 rounded-l-full rounded-r-full gap-2'>
                             Delete<IconTrash size={14} stroke={1.5} />
                         </button>
                         <button className='py-1 h-7 rounded-[2px] flex flex-row items-center justify-center text-[#ffffff] px-4  bg-[#59788E]  text-[11px] font-[700] ml-3'>

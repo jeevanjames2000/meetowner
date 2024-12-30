@@ -15,6 +15,7 @@ module.exports = {
       fontFamily: {
         sans: ['Open Sans', 'sans-serif'], // Default 'font-sans' class
         custom: ['Open Sans', 'sans-serif'], // Custom class if needed
+        Montserrat: ['Montserrat', 'sans-serif'],
       },
       screens: {
         'xs': '425px', // Small phones

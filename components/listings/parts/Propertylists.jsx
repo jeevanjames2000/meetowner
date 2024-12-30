@@ -14,14 +14,27 @@ function Propertylists({
     limit,
     handlePageChange,
     isLoadingEffect,
-    handleDeleteProperty,
+    openDeleteModal,
     propertyIn,
     propertySubtype,
     updatePropertySubtype,
     locality,
     updateLocality,
+    bhkhide,
     bhk,
-    updateBhk
+    updateBhk,
+    propertyFor,
+    updatePropertyFor,
+    occupancyList,
+    occupancy,
+    updateOccupancy,
+    propertyId,
+    updatePropertyId,
+    handleResetFilters,
+    minPriceRange,
+    updateMinPriceRange,
+    maxPriceRange,
+    updateMaxPriceRange
 }) {
     const user_info = useUserDetails((state) => state.userInfo)
     const user_id = user_info?.user_id || null
@@ -67,6 +80,48 @@ function Propertylists({
                         'server_res': error.response.data
                     };
                 } else {
+                    finalresponse = {
+                        'message': error.message,
+                        'server_res': null
+                    };
+                }
+                console.log(finalresponse)
+                return false;
+            })
+    }
+
+    const [allPropertyFor, setAllPropertyFor] = useState([])
+    const getPropertyFor = () => {
+        Propertyapi.get('getPropertyFor', {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${access_token}`
+            }
+        })
+            .then((response) => {
+                let data = response.data
+                if (data.status === 'error') {
+                    let finalResponse = {
+                        'message': data.message,
+                        'server_res': data
+                    }
+                    console.log(finalResponse)
+                }
+                if (data.status === 'success') {
+                    setAllPropertyFor(data?.property_for || [])
+                    return false;
+                }
+            })
+            .catch((error) => {
+                console.log(error)
+                let finalresponse;
+                if (error.response !== undefined) {
+                    finalresponse = {
+                        'message': error.message,
+                        'server_res': error.response.data
+                    };
+                }
+                else {
                     finalresponse = {
                         'message': error.message,
                         'server_res': null
@@ -123,7 +178,20 @@ function Propertylists({
     useEffect(() => {
         getPropertySubTypes()
         getBhk()
+        getPropertyFor()
     }, [propertyIn])
+
+
+    const formatPrice = (price) => {
+        if (price >= 10000000) {
+            return (price / 10000000).toFixed(2) + ' Cr'; // Crores
+        } else if (price >= 100000) {
+            return (price / 100000).toFixed(2) + ' Lac'; // Lakhs
+        } else if (price >= 1000) {
+            return (price / 1000).toFixed(2) + ' K'; // Thousands
+        }
+        return price;
+    };
 
     return (
         <>
@@ -133,11 +201,32 @@ function Propertylists({
                         <div className='flex flex-wrap gap-3'>
                             <input
                                 type='text'
-                                placeholder='Locality'
+                                placeholder='search location'
                                 className='w-[25%] px-4 text-[#FEFDF8] text-[10px] font-[700] bg-transparent  h-7 border border-[#FEFDF8] rounded-sm focus:outline-none'
                                 value={locality}
                                 onChange={updateLocality}
                             />
+                            <div className="w-[25%] flex items-center gap-2 pl-1 border border-[#FEFDF8] rounded-sm cursor-pointer">
+                                <label className="flex items-center cursor-pointer">
+                                    <select
+                                        id="propertyfor"
+                                        value={propertyFor}
+                                        onChange={updatePropertyFor}
+                                        className="text-[#FEFDF8] text-[10px] font-[700] bg-transparent outline-none h-7"
+                                    >
+                                        <option className="text-black" value="" disabled>
+                                            Property for
+                                        </option>
+                                        {
+                                            allPropertyFor.length > 0 &&
+                                            allPropertyFor.map((item, index) => (
+                                                <option className="text-black" key={index} value={item.value}>{item.name}</option>
+                                            ))
+
+                                        }
+                                    </select>
+                                </label>
+                            </div>
                             <div className="w-[25%] flex items-center gap-2 pl-1 border border-[#FEFDF8] rounded-sm cursor-pointer">
                                 <label className="flex items-center cursor-pointer">
                                     <select
@@ -147,7 +236,7 @@ function Propertylists({
                                         className="text-[#FEFDF8] text-[10px] font-[700] bg-transparent outline-none h-7"
                                     >
                                         <option className="text-black" value="" disabled>
-                                            Select Property Type
+                                            Property Type
                                         </option>
                                         {
                                             allPropertySubTypes.length > 0 &&
@@ -159,8 +248,28 @@ function Propertylists({
                                     </select>
                                 </label>
                             </div>
-
-                            {/* Verification Status Dropdown */}
+                            {bhkhide &&
+                                <div className="w-fit flex items-center gap-2 px-1 border border-[#FEFDF8] rounded-sm cursor-pointer">
+                                    <label className="cursor-pointer">
+                                        <select
+                                            id="bhk"
+                                            value={bhk}
+                                            onChange={updateBhk}
+                                            className="text-[#FEFDF8] text-[10px] font-[700] outline-none h-7 bg-transparent"
+                                        >
+                                            <option className="text-black" value="" disabled>
+                                                BHK
+                                            </option>
+                                            {
+                                                allBhk.length > 0 &&
+                                                allBhk.map((item, index) => (
+                                                    <option className="text-black" key={index} value={item.value}>{item.name}</option>
+                                                ))
+                                            }
+                                        </select>
+                                    </label>
+                                </div>
+                            }
                             <div className="w-[25%] flex items-center gap-2 pl-1 border border-[#FEFDF8] rounded-sm cursor-pointer">
                                 <label className="flex items-center cursor-pointer">
                                     <select
@@ -176,66 +285,80 @@ function Propertylists({
                                     </select>
                                 </label>
                             </div>
-                            {/* BHK Dropdown */}
-                            <div className="w-fit flex items-center gap-2 px-1 border border-[#FEFDF8] rounded-sm cursor-pointer">
-                                <label className="cursor-pointer">
-                                    <select
-                                        id="bhk"
-                                        value={bhk}
-                                        onChange={updateBhk}
-                                        className="text-[#FEFDF8] text-[10px] font-[700] outline-none h-7 bg-transparent"
-                                    >
-                                       <option className="text-black" value="" disabled>
-                                            BHK
-                                        </option>
-                                        {
-                                            allBhk.length > 0 &&
-                                            allBhk.map((item, index) => (
-                                                <option className="text-black" key={index} value={item.value}>{item.name}</option>
-                                            ))
-                                        }
-                                    </select>
-                                </label>
-                            </div>
+                            <input
+                                type='text'
+                                placeholder='Property ID'
+                                className=' w-[25%] px-2 text-[#FEFDF8] text-[10px] font-[700] bg-transparent  h-7 border border-[#FEFDF8] rounded-sm focus:outline-none'
+                                value={propertyId}
+                                onChange={updatePropertyId}
+                            />
                             <button onClick={updateFilters} className=' flex items-center justify-center  rounded-sm  h-7 bg-[#E2EAED] text-[10px] font-[700] text-[#37474F]  px-4  '>
                                 {filters ? 'Close Filters' : 'More Filters'}
                             </button>
                         </div>
                         {filters && (
                             <div className='flex flex-wrap gap-3'>
-                                <div className="flex items-center gap-4 px-2 w-fit border border-[#FEFDF8] rounded-sm cursor-pointer">
-                                    <form className="w-fit mx-auto">
+                                {
+                                    parseInt(propertyFor) === 1 &&
+                                    <div className="flex items-center gap-4 px-2 w-fit border border-[#FEFDF8] rounded-sm cursor-pointer">
                                         <label className="flex items-center cursor-pointer">
                                             <select
-                                                id="bhk"
+                                                id="occupancy"
                                                 className="text-[#FEFDF8] text-[10px] font-[700]  outline-none h-7 bg-transparent"
+                                                value={occupancy}
+                                                onChange={updateOccupancy}
                                             >
-                                                <option className=" text-black" value="possessionstatus">
-                                                    Possession Status
+                                                <option className=" text-black" value="" disabled>
+                                                    Occupancy status
                                                 </option>
-                                                <option className="text-black" value="yes">Yes</option>
-                                                <option className="text-black" value="no">No</option>
+                                                {
+                                                    occupancyList.length > 0 &&
+                                                    occupancyList.map((item, index) => (
+                                                        <option className=" text-black" key={index} value={item.value}>{item.name}</option>
+                                                    ))
+                                                }
                                             </select>
                                         </label>
-                                    </form>
-                                </div>
-                                <input type='text' placeholder='Property ID' className='px-4 text-[#FEFDF8] text-[10px] font-[700] bg-transparent  h-7 border border-[#FEFDF8] rounded-sm cursor-pointer focus:outline-none' />
-                                <div className="w-fit flex items-center justify-center gap-2 px-1 border border-[#FEFDF8] rounded-sm cursor-pointer">
-
-                                    <form action="/action_page.php" className=" flex items-center justify-center space-x-2">
+                                    </div>
+                                }
+                                <div className='flex flex-row gap-1'>
+                                    <div className=" flex items-center justify-center space-x-2 p-2 border border-[#FEFDF8] rounded-sm">
                                         <label className="text-[#FEFDF8] text-[10px] font-[700] text-center outline-none bg-transparent">
-                                            Price
+                                            Min Price
                                         </label>
-
-                                        <input type="range" id="vol" name="vol" min="0" max="50" />
+                                        <input
+                                            type='range'
+                                            min="0"
+                                            max="100000000"
+                                            step="10000"
+                                            value={minPriceRange}
+                                            onChange={updateMinPriceRange}
+                                        />
                                         <p className="text-[#FEFDF8] text-[10px] font-[700] text-center outline-none">
-                                            0
+                                            {`₹ ${formatPrice(minPriceRange)}`}
                                         </p>
 
-                                    </form>
+                                    </div>
+                                    <div className=" flex items-center justify-center space-x-2 p-2 border border-[#FEFDF8] rounded-sm">
+                                        <label className="text-[#FEFDF8] text-[10px] font-[700] text-center outline-none bg-transparent">
+                                            Max Price
+                                        </label>
+                                        <input
+                                            type='range'
+                                            min="0"
+                                            max="100000000"
+                                            step="10000"
+                                            value={maxPriceRange}
+                                            onChange={updateMaxPriceRange}
+                                        />
+                                        <p className="text-[#FEFDF8] text-[10px] font-[700] text-center outline-none">
+                                            {`₹ ${formatPrice(maxPriceRange)}`}
+                                        </p>
 
+                                    </div>
                                 </div>
-                                <div className="w-fit flex items-center gap-2 px-1 border border-[#FEFDF8] rounded-sm cursor-pointer">
+
+                                {/* <div className="w-fit flex items-center gap-2 px-1 border border-[#FEFDF8] rounded-sm cursor-pointer">
                                     <form className="w-fit">
                                         <label className="cursor-pointer">
                                             <select
@@ -269,8 +392,9 @@ function Propertylists({
                                             </select>
                                         </label>
                                     </form>
-                                </div>
-                                <button className=' flex items-center justify-center  rounded-sm  h-7 bg-[#E2EAED] text-[10px] font-[700] text-[#37474F] px-4  '>
+                                </div> */}
+
+                                <button onClick={handleResetFilters} className=' flex items-center justify-center  rounded-sm  h-7 bg-[#E2EAED] text-[10px] font-[700] text-[#37474F] px-4  '>
                                     Reset
                                 </button>
                             </div>
@@ -282,7 +406,7 @@ function Propertylists({
                 </div>
                 <div className='w-full'>
                     <p className='flex items-center justify-start pl-3 h-9 bg-[#FEFDF8] text-[12px] text-[#1D3A76] font-[700] rounded-md'>
-                        Showing {limit} out of {totalProperties} Properties
+                        Showing {allListings?.length} out of {totalProperties} Properties
                     </p>
                 </div>
 
@@ -292,17 +416,21 @@ function Propertylists({
                             key={index}
                             unique_property_id={item.unique_property_id}
                             image={item.image}
-                            bedrooms="2 BHK"
-                            property_cost="₹ 15000"
+                            bedrooms={item?.bhk || '-----'}
+                            property_for={item.property_for}
+                            property_in={item.property_in}
+                            property_cost={item?.property_cost || '-----'}
+                            monthly_rent={item?.monthly_rent || '----'}
+                            furnished_status={item?.furnished_status || '----'}
                             area="160 sq.ft"
                             interested_tenants="Two interested tenants"
-                            last_added_date={item.last_added_date}
-                            expiry_date="09-feb-2025"
+                            last_added_date={item?.last_added_date || '-----'}
+                            expiry_date={item?.expiry_date || '-----'}
                             facing={item.facing}
                             property_name={item.property_name}
                             property_subtype={item.property_subtype}
                             description={item.description}
-                            handleDeleteProperty={handleDeleteProperty}
+                            openDeleteModal={openDeleteModal}
                         />
                     ))
                     :

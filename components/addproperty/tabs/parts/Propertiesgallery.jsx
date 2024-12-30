@@ -5,7 +5,7 @@ import { Autoplay, Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import Image from 'next/image';
-import property from '@/public/assets/property_image.png';
+import property from '@/public/assets/imgeplaceholder.jpg';
 function Propertiesgallery({ propertyGallery }) {
     const swiperRef = useRef(null);
     return (
@@ -54,7 +54,5 @@ function Propertiesgallery({ propertyGallery }) {
         </div>
     );
 }
-
-
 
 export default Propertiesgallery
