@@ -4,6 +4,7 @@ import list_icon from '@/public/assets/list.svg'
 import tenantsimage from '@/public/assets/tenants_image.svg';
 import imageplacholder from '@/public/assets/imgeplaceholder.jpg';
 import Link from 'next/link';
+import Image from 'next/image';
 function Listingcard({
     unique_property_id,
     image,
@@ -93,7 +94,7 @@ function Listingcard({
                             <p className="text-[11px] font-[600] text-[#757575]"><span className=''>{facing ? `${facing} facing` : '-----'}</span></p>
                         </div>
                         <div className=" flex flex-row items-center justify-start gap-2 pt-2">
-                            <img
+                            <Image
                                 src={tenantsimage}
                                 alt={"tenantsimage"}
                                 className="object-cover h-4 w-4"
