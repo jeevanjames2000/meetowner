@@ -39,6 +39,16 @@ function Reviewawrapper({ allpropertyDetails, propertyGallery }) {
         }
     }
 
+    const formatPrice = (price) => {
+        if (price >= 10000000) {
+            return (price / 10000000).toFixed(2) + ' Cr'; // Crores
+        } else if (price >= 100000) {
+            return (price / 100000).toFixed(2) + ' Lac'; // Lakhs
+        } else if (price >= 1000) {
+            return (price / 1000).toFixed(2) + ' K'; // Thousands
+        }
+        return price;
+    };
 
     return (
         <div className='relative'>
@@ -60,14 +70,14 @@ function Reviewawrapper({ allpropertyDetails, propertyGallery }) {
                         />
                         <div className='flex justify-between items-center'>
                             <div className='flex flex-col gap-2'>
-                                <p className='font-sans text-[#6D6C6C] text-xs font-semibold'>{allpropertyDetails?.monthly_rent ? `₹ ${allpropertyDetails?.monthly_rent}` : ''}</p>
+                                <p className='font-sans text-[#1D3A76] text-xs font-bold'>{allpropertyDetails?.property_for === "Sell" ? `₹ ${formatPrice(allpropertyDetails?.property_cost)}` : ` ₹ ${formatPrice(allpropertyDetails?.monthly_rent)} Rent`}</p>
                                 <p className='text-[#6D6C6C] font-sans text-xs'>{allpropertyDetails?.bedrooms ? `${allpropertyDetails?.bedrooms} BHK,` : ''} {allpropertyDetails?.sub_type} for {allpropertyDetails?.property_for} </p>
-                                <p className='text-[#6D6C6C] font-sans text-xs'>{allpropertyDetails?.builtup_area ? `${allpropertyDetails?.builtup_area} sq.ft.` : ''} | {allpropertyDetails?.furnished_status ? allpropertyDetails?.furnished_status === "Unfurinished" ? `${allpropertyDetails?.furnished_status}`:`${allpropertyDetails?.furnished_status} Furnished` : ''} | {allpropertyDetails?.property_name}</p>
+                                <p className='text-[#6D6C6C] font-sans text-xs'>{allpropertyDetails?.builtup_area ? `${allpropertyDetails?.builtup_area} sq.ft.` : ''} | {allpropertyDetails?.furnished_status ? allpropertyDetails?.furnished_status === "Unfurinished" ? `${allpropertyDetails?.furnished_status}` : `${allpropertyDetails?.furnished_status} Furnished` : ''} | {allpropertyDetails?.property_name}</p>
                                 <p className='text-[#6D6C6C] font-semibold font-sans text-xs'>{available_from_date ? `Availabale From ${available_from_date}` : ''}</p>
                             </div>
-                            <div className='cursor-pointer border border-[#287DB0] bg-[#FEFDF8] py-2 px-4 rounded-md'>
+                            <Link href={`/addproperty?active_step=basicdetails&status=completed&unique_property_id=${unique_property_id}`} className='cursor-pointer border border-[#287DB0] bg-[#FEFDF8] py-2 px-4 rounded-md'>
                                 <p className='font-bold text-xs text-[#287DB0]'>Edit Details</p>
-                            </div>
+                            </Link>
                         </div>
                     </div>
                 </div>
