@@ -1,5 +1,4 @@
 import { IconEdit, IconTrash } from '@tabler/icons-react'
-import Image from 'next/image'
 import React from 'react'
 import list_icon from '@/public/assets/list.svg'
 import tenantsimage from '@/public/assets/tenants_image.svg';
@@ -55,13 +54,13 @@ function Listingcard({
                     <button className='text-[#1D3A76] text-[12px] font-[600]'>
                         + Advanced Details
                     </button>
-                    <Image src={list_icon} alt='list_icon' className='h-5 w-5 mr-6' />
+                    <img src={list_icon} alt='list_icon' className='h-5 w-5 mr-6' />
                 </div>
             </div>
             <div className='grid grid-cols-12 w-full'>
                 <div className=' flex flex-row col-span-6 h-full gap-3'>
                     <Link href={`/propertydetails/${unique_property_id}`}>
-                        <Image
+                        <img
                             src={image || imageplacholder}
                             alt={"property"}
                             className="object-cover h-36 w-52 rounded-bl-[8px]"
@@ -94,7 +93,7 @@ function Listingcard({
                             <p className="text-[11px] font-[600] text-[#757575]"><span className=''>{facing ? `${facing} facing` : '-----'}</span></p>
                         </div>
                         <div className=" flex flex-row items-center justify-start gap-2 pt-2">
-                            <Image
+                            <img
                                 src={tenantsimage}
                                 alt={"tenantsimage"}
                                 className="object-cover h-4 w-4"

@@ -2,6 +2,7 @@ import React from 'react'
 const Listingswrapper = dynamic(() => import('@/components/listings/Listingswrapper'))
 import dynamic from 'next/dynamic'
 import Propertyapi from '@/components/api/Propertyapi'
+
 async function page() {
     const getOccupancyData = await getOccupancy();
     if (getOccupancyData.status === 'error') {
