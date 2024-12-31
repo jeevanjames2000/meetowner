@@ -1,3 +1,4 @@
+'use client'
 import Generalapi from '@/components/api/Generalapi'
 import Propertyapi from '@/components/api/Propertyapi'
 import Errorpanel from '@/components/shared/Errorpanel'
@@ -45,9 +46,6 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
   const [flatNoError, setFlatNoError] = useState('')
   const updateFlatNo = (e) => {
     let value = e.target.value
-    // if (isNaN(value)) {
-    //   return false;
-    // }
     setFlatNo(value)
     setFlatNoError('')
   }
@@ -59,15 +57,25 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
     if (isNaN(value)) {
       return false;
     }
+    if (value > 100) {
+      setFloorNoError('Please enter floor no less than 100')
+      return false;
+    }
     setFloorNo(value)
     setFloorNoError('')
   }
+
+  console.log('floorNoError', floorNoError)
 
   const [totalFloors, setTotalFloors] = useState('')
   const [totalFloorsError, setTotalFloorsError] = useState('')
   const updateTotalFloors = (e) => {
     let value = e.target.value
     if (isNaN(value)) {
+      return false;
+    }
+    if (value > 100) {
+      setTotalFloorsError('Please enter total floors less than 100')
       return false;
     }
     setTotalFloors(value)
@@ -109,7 +117,7 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
     }
     if (propertyName === '') {
       setIsLoadingEffect(false)
-      toast.error('Please enter property name', {
+      toast.error('Please enter Property name', {
         position: "top-right",
         autoClose: 3000,
         hideProgressBar: true,
@@ -118,7 +126,7 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
         draggable: true,
         progress: undefined,
       })
-      setPropertyNameError('please enter property name')
+      setPropertyNameError('Please enter Property name')
       return false;
     }
     if (locality === '') {
@@ -162,7 +170,21 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
             draggable: true,
             progress: undefined,
           })
-          setFloorNoError('please enter floor no')
+          setFloorNoError('Please enter floor no')
+          return false;
+        }
+        if (floorNo > 100) {
+          setIsLoadingEffect(false)
+          toast.error('Please Enter Floor No. less than 100', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          })
+          setFloorNoError('Please enter floor no less than 100')
           return false;
         }
       }
@@ -178,6 +200,20 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
           progress: undefined,
         })
         setTotalFloorsError('please enter total floors')
+        return false;
+      }
+      if (totalFloors > 100) {
+        setIsLoadingEffect(false)
+        toast.error('Please Enter Total Floors less than 100.', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setTotalFloorsError('please enter total floors less than 100')
         return false;
       }
     } else {
@@ -357,7 +393,7 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
               value={propertyName}
               onChange={updatePropertyName}
             />
-            {propertyNameError && <p className='text-[#FF0000] text-xs font-sans'>Please enter property name</p>}
+            {propertyNameError && <p className='text-[#FF0000] text-xs font-sans'>Please enter Property name</p>}
           </div>
           <div className='my-4'>
             <div className='flex gap-1'>
@@ -411,7 +447,7 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
                       value={floorNo}
                       onChange={updateFloorNo}
                     />
-                    {floorNoError && <p className='text-[#FF0000] text-xs font-sans'>Please enter floor No.</p>}
+                    {floorNoError && <p className='text-[#FF0000] text-xs font-sans'>{floorNoError}</p>}
                   </div>
                 }
                 <div className='my-4'>
@@ -426,7 +462,7 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
                     value={totalFloors}
                     onChange={updateTotalFloors}
                   />
-                  {totalFloorsError && <p className='text-[#FF0000] text-xs font-sans'>Please enter total floors</p>}
+                  {totalFloorsError && <p className='text-[#FF0000] text-xs font-sans'>{totalFloorsError}</p>}
                 </div>
               </>
               :

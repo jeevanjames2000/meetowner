@@ -64,3 +64,12 @@ input[type="number"] {
   font-size: 12px;
   font-family: 700;
 } */
+
+.overflow-y-auto {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+.overflow-y-auto::-webkit-scrollbar {
+  display: none; /* Webkit Browsers */
+}

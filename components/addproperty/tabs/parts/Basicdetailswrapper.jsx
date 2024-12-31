@@ -70,8 +70,8 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
     const updateBasicdetails = () => {
         setIsLoadingEffect(true)
         if (propertyType === '') {
-            setPropertyTypeError('Please select property type')
-            toast.error('Please select property type', {
+            setPropertyTypeError('Please select Property type')
+            toast.error('Please select Property type', {
                 position: "top-right",
                 autoClose: 3000,
                 hideProgressBar: true,

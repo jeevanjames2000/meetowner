@@ -155,7 +155,7 @@ function SignupForm({ usertypedata, cities }) {
         }
         closeOtpModal()
         updateAuthDetails(userDetails, accessToken);
-        toast.success('otp Verified Successfully', {
+        toast.success('OTP Verified Successfully', {
             position: 'top-right',
             autoClose: 5000,
             hideProgressBar: false,
