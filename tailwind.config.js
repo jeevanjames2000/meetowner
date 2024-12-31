@@ -18,13 +18,17 @@ module.exports = {
         Montserrat: ['Montserrat', 'sans-serif'],
       },
       screens: {
-        'xs': '425px', // Small phones
-        'sm': '640px', // Phones
-        'md': '768px', // Tablets
-        'lg': '1024px', // Small desktops or landscape tablets
-        'xl': '1280px', // Large desktops
-        '2xl': '1536px', // Ultra-wide desktops
-        '3xl': '1920px', // Very large screens (gaming monitors, TVs)
+        'xxs': '320px',
+        'xxm': '375px',
+        'xs': '425px',
+        'sm': '640px',
+        'md': '768px',
+        'lg': '1024px',
+        'xl': '1280px',
+        '2xl': '1440px',
+        '3xl': '1600px',
+        '4xl': '1920px',
+        '5xl': '2560px'
       }
 
     },
