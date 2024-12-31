@@ -39,9 +39,7 @@ function Agreement() {
     ];
 
     return (
-        < div className=' flex flex-col space-y-6'>
-
-
+        <div className=' flex flex-col space-y-6'>
             <div className=" relative "> {/* Added relative positioning */}
                 <Swiper
                     modules={[Navigation, Autoplay]} // Add Autoplay to modules
@@ -70,7 +68,7 @@ function Agreement() {
                             </SwiperSlide>
                         ))
                     ) : (
-                        <p>No data</p>
+                        <p className='text-[16px] 2xl:text-[20px] 3xl:text-[22px] 4xl:text[24px]'>No data</p>
                     )}
                 </Swiper>
 
@@ -82,7 +80,7 @@ function Agreement() {
                     className=" bg-[#1D3A76] rounded-full p-1 focus:outline-none border border-gray-300"
                     aria-label="Previous slide"
                 >
-                    <IconArrowLeft className=" h-4 w-8 text-[#ffffff]" />
+                    <IconArrowLeft className=" h-4 w-8 2xl:h-5 2xl:w-10 3xl:h-6 4xl:h-7 3xl:w-12 4xl:w-14 text-[#ffffff]" />
                 </button>
 
                 <button
@@ -90,7 +88,7 @@ function Agreement() {
                     className=" bg-[#1D3A76] rounded-full p-1 focus:outline-none border border-gray-300"
                     aria-label="Next slide"
                 >
-                    <IconArrowRight className=" h-4 w-8 text-[#ffffff]" />
+                    <IconArrowRight className=" h-4 w-8 2xl:h-5 2xl:w-10 3xl:h-6 4xl:h-7 3xl:w-12 4xl:w-14 text-[#ffffff]" />
                 </button>
             </div>
         </div>

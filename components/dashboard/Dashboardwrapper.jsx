@@ -10,17 +10,16 @@ const Ownersreview = dynamic(() => import('./Ownersreview'))
 const Queries = dynamic(() => import('./Queries'))
 const Dashboardsidebarsection = dynamic(() => import('./Dasboradsidebar/Dashboardsidebarsection'))
 
-
 function Dashboardwrapper() {
     return (
-        <div className="grid grid-cols-12 gap-10 px-[80px] mt-16 w-full">
+        <div className="grid grid-cols-12 md:gap-10 mt-5 md:mt-16 w-full px-5 sm:px-10 md:px-[80px]">
             {/* First Child: Spanning 8 Columns */}
-            <div className="col-span-12 md:col-span-8 space-y-10 mb-12">
+            <div className="col-span-12 lg:col-span-8 space-y-10 mb-12">
                 <div className="bg-[#31539A] px-8 py-3 rounded-md flex flex-row items-center gap-10">
                     <div>
                         <Image src={user_profile} alt="logo" width={48} height={48} />
                     </div>
-                    <p className="text-white text-[16px] font-[600] font-sans tracking-extra-wide">Hello, MEETOWNER!</p>
+                    <p className="text-white text-[16px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text[22px] font-[600] font-sans tracking-extra-wide">Hello, MEETOWNER!</p>
                 </div>
                 <Checkoutpropertywrapper />
                 <Findplanner />
@@ -30,9 +29,8 @@ function Dashboardwrapper() {
             </div>
 
             {/* Second Child: Spanning 4 Columns */}
-            <div className="col-span-12 md:col-span-4 space-y-8">
+            <div className="col-span-12 lg:col-span-4 space-y-8 pb-5">
                 <Dashboardsidebarsection />
-
             </div>
         </div>
 

@@ -6,28 +6,25 @@ import { IconChevronRight } from '@tabler/icons-react';
 
 function Uploadproperty() {
     return (
-        <div>
-            <div className="bg-[#FFFFFF] p-4 rounded-[10px]">
+        <div className="bg-[#FFFFFF] p-4 pt-9 rounded-md">
             <div className="flex gap-4">
-                    <div className="w-[40%] h-full border-[2px] border-[#909090] rounded-[10px]">
-                         <Image src={agreement1} alt="Upload Property" className="w-[28] h-24 object-cover py-3 px-2" />
-                    </div>
-                    <div className="w-[60%] space-y-1">
-                        <p className="text-[12px] font-[700] text-[#6d6c6c]">Upload Property</p>
-                        <p className="text-[10px] font-[400] text-[#6d6c6c]">
-                            100% complete listing with specific details about the rooms gets you more leads
-                        </p>
-                        <button
-                            className="flex items-center text-[#699BA0] ml-auto h-7 py-1 text-[11px] font-[700] rounded-md focus:outline-none bg-transparent hover:bg-[#e6f5f2] transition-all"
-                        >
-                            Add property
-                            <div className="bg-[#699BA0] h-3 w-3 flex items-center justify-center rounded-full ml-2">
-                                <IconChevronRight color="#ffffff" stroke={2} className="w-3 h-3" />
-                            </div>
-                        </button>
-                    </div>
+                <div className="w-[38%] h-full border-[2px] border-[#909090] rounded-md flex justify-center items-center">
+                    <Image src={agreement1} alt="Upload Property" className="w-[110px] h-[110px] object-contain py-3 px-2" />
                 </div>
-
+                <div className="w-[62%] space-y-2">
+                    <p className="text-[16px] 2xl:text-[20px] 3xl:text-[22px] 4xl:text[24px] font-[700] text-[#6d6c6c]">Upload Property</p>
+                    <p className="text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text[20px] font-[400] text-[#6d6c6c]">
+                        100% complete listing with specific details about the rooms gets you more leads
+                    </p>
+                    <button
+                        className="flex items-center text-[#699BA0] ml-auto h-7 2xl:h-8 3xl:h-9 4xl:h-10 py-1 text-[11px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text[20px] font-[700] rounded-md focus:outline-none bg-transparent hover:bg-[#e6f5f2] transition-all"
+                    >
+                        Add property
+                        <div className="bg-[#699BA0] h-3 w-3 2xl:h-4 3xl:h-5 4xl:h-6 2xl:w-4 3xl:w-5 4xl:w-6 flex items-center justify-center rounded-full ml-2">
+                            <IconChevronRight color="#ffffff" stroke={2} className="w-3 h-3 2xl:h-4 3xl:h-5 4xl:h-6 2xl:w-4 3xl:w-5 4xl:w-6" />
+                        </div>
+                    </button>
+                </div>
             </div>
         </div>
     )

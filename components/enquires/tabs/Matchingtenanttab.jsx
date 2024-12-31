@@ -51,7 +51,7 @@ function Matchingtenanttab() {
           />
         ))
       ) : (
-        <p></p> // Fallback message
+        <p className="text-[16px] 2xl:text-[20px] 3xl:text[22px] 4xl:text-[24px]">No properties available</p> // Fallback message
       )}
 
       <nav className='flex flex-row-reverse'>
