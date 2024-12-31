@@ -3,7 +3,7 @@ import LoadingOverlay from '@/components/shared/LoadingOverlay'
 import { Modal, Select, Textarea, Textinput } from '@nayeshdaggula/tailify'
 import React, { useEffect, useState } from 'react'
 import Addfurnishingswrapper from './Addfurnishingswrapper';
-import { IconAsterisk } from '@tabler/icons-react';
+import { IconArrowNarrowLeft, IconAsterisk } from '@tabler/icons-react';
 import { useUserDetails } from '@/components/zustand/useUserDetails';
 import Propertyapi from '@/components/api/Propertyapi';
 import { useSearchParams } from 'next/navigation';
@@ -715,19 +715,21 @@ function Addpropertydetails({
       setPropertySubTypeError('Please select Property sub type')
       return false;
     }
-    if (!reraApproved) {
-      setIsLoadingEffect(false)
-      toast.error('Please select rera approved', {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      })
-      setReraApprovedError('Please select rera approved')
-      return false;
+    if (getpropertyDetails?.property_in !== 'Residential' && getpropertyDetails?.property_for !== 'Rent') {
+      if (!reraApproved) {
+        setIsLoadingEffect(false)
+        toast.error('Please select rera approved', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setReraApprovedError('Please select rera approved')
+        return false;
+      }
     }
 
     if (getpropertyDetails?.property_for === "Sell") {
@@ -2013,8 +2015,13 @@ function Addpropertydetails({
   return (
     <div className='relative'>
       <div className='py-2 bg-[#E2EAED]'>
-        <p className='text-lg font-bold text-[#1D3A76] text-center font-sans'>Add Property Details</p>
-        <div className='flex'>
+        <div className='flex justify-start items-center px-5'>
+          <div className='w-9 cursor-pointer' onClick={() => updateActiveTab('basicdetails', 'completed', unique_property_id)}>
+            <IconArrowNarrowLeft size={18} color='#1D3A76' />
+          </div>
+          <p className=' w-full text-lg font-bold text-[#1D3A76] text-center font-sans'>ADD PROPERTY DETAILS</p>
+        </div>
+        {/* <div className='flex'>
           <div className='flex items-center gap-1 mt-1 px-5'>
             <p className=' text-xs font-sans font-bold'>Property Type:</p>
             <p className=' text-xs font-sans '>{getpropertyDetails?.property_in}</p>
@@ -2023,7 +2030,7 @@ function Addpropertydetails({
             <p className=' text-xs font-sans font-bold'>Looking To:</p>
             <p className=' text-xs font-sans '>{getpropertyDetails?.property_for}</p>
           </div>
-        </div>
+        </div> */}
       </div>
       <div className='w-full overflow-y-auto px-5 py-3 h-[calc(100vh-240px)]'>
         <div className='mb-5'>
@@ -2047,21 +2054,24 @@ function Addpropertydetails({
           </div>
           {propertySubTypeError && <p className='text-[#FF0000] text-xs font-sans'>Please select Property type</p>}
         </div>
-        <div className='mb-5'>
-          <div className='flex gap-1 mb-4'>
-            <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>RERA Approved</p>
-            <IconAsterisk size={8} color='#FF0000' />
-          </div>
-          <div className='flex flex-row items-center gap-6'>
-            <div onClick={() => updateReraApproved('Yes')} className={`group cursor-pointer px-8 py-2 rounded-md  ${reraApproved === 'Yes' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-              <p className={`text-[10px] font-sans ${reraApproved === 'Yes' ? 'text-white ' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Yes</p>
+        {
+          (getpropertyDetails?.property_in !== 'Residential' && getpropertyDetails?.property_for !== 'Rent') &&
+          <div className='mb-5'>
+            <div className='flex gap-1 mb-4'>
+              <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>RERA Approved</p>
+              <IconAsterisk size={8} color='#FF0000' />
             </div>
-            <div onClick={() => updateReraApproved('No')} className={`group cursor-pointer px-8 py-2 rounded-md  ${reraApproved === 'No' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-              <p className={`text-[10px] font-sans ${reraApproved === 'No' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>No</p>
+            <div className='flex flex-row items-center gap-6'>
+              <div onClick={() => updateReraApproved('Yes')} className={`group cursor-pointer px-8 py-2 rounded-md  ${reraApproved === 'Yes' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                <p className={`text-[10px] font-sans ${reraApproved === 'Yes' ? 'text-white ' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Yes</p>
+              </div>
+              <div onClick={() => updateReraApproved('No')} className={`group cursor-pointer px-8 py-2 rounded-md  ${reraApproved === 'No' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                <p className={`text-[10px] font-sans ${reraApproved === 'No' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>No</p>
+              </div>
             </div>
+            {reraApprovedError && <p className='text-[#FF0000] text-xs font-sans'>Please select one option</p>}
           </div>
-          {reraApprovedError && <p className='text-[#FF0000] text-xs font-sans'>Please select one option</p>}
-        </div>
+        }
         {
           (getpropertyDetails?.property_for === "Sell") &&
           (!(propertySubType === "Plot" || propertySubType === "Land")) &&
@@ -2221,7 +2231,7 @@ function Addpropertydetails({
                   furnishedtypesList.length > 0 &&
                   furnishedtypesList.map((item, index) => {
                     return (
-                      <div key={index} onClick={() => updateFurnishType(item.value)} className={`group flex flex-col justify-center items-center gap-2 border-2 rounded-md px-4 py-2 w-[100%] cursor-pointer ${furnishType === item.value ? 'bg-[#1D3A76] border-[#1D3A76] ' : 'border-[#d7d5d5ba] hover:bg-[#1D3A76]'}`}>
+                      <div key={index} onClick={() => updateFurnishType(item.value)} className={`group flex flex-col justify-center items-center gap-2 border-2 border-[#909090] rounded-md px-4 py-2 w-[100%] cursor-pointer ${furnishType === item.value ? 'bg-[#1D3A76] border-[#1D3A76] ' : 'border-[#d7d5d5ba] hover:bg-[#1D3A76]'}`}>
                         <p className={`text-xs text-center font-medium ${furnishType === item.value ? 'text-white' : 'text-[#1D3A76] group-hover:text-white'} `}>{item.name}</p>
                       </div>
                     )
@@ -3068,12 +3078,12 @@ function Addpropertydetails({
           {propertyDescriptionError && <p className='text-[#FF0000] text-xs font-sans'>Please enter Property description</p>}
         </div>
       </div>
-      <div className='flex flex-row justify-between items-center px-6 py-3'>
-        <div onClick={() => updateActiveTab('basicdetails', 'completed', unique_property_id)} className='bg-[#000] px-8 py-2 rounded-md cursor-pointer'>
+      <div className='flex flex-row justify-end items-center px-6 py-3'>
+        {/* <div onClick={() => updateActiveTab('basicdetails', 'completed', unique_property_id)} className='bg-[#000] px-8 py-2 rounded-md cursor-pointer'>
           <p className='text-white text-[10px]'>Back</p>
-        </div>
+        </div> */}
         <div onClick={handleSubmitPropertyDetails} className='border border-[#1D3A76] bg-[#1D3A76] px-8 py-2 rounded-md cursor-pointer'>
-          <p className='text-white text-[10px] font-bold'>Next, add address details</p>
+          <p className='text-white text-[10px] font-bold'>Next: Add Address Details</p>
         </div>
       </div>
       <LoadingOverlay isLoading={isLoadingEffect} />

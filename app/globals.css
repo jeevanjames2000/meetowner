@@ -65,11 +65,11 @@ input[type="number"] {
   font-family: 700;
 } */
 
-.overflow-y-auto {
+.photoswrapper .overflow-y-auto {
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* Internet Explorer 10+ */
 }
 
-.overflow-y-auto::-webkit-scrollbar {
-  display: none; /* Webkit Browsers */
+.photoswrapper .overflow-y-auto::-webkit-scrollbar {
+  display: none; 
 }

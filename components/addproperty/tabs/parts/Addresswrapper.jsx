@@ -6,7 +6,7 @@ import LoadingOverlay from '@/components/shared/LoadingOverlay'
 import { usePropertyDetails } from '@/components/zustand/usePropertyDetails'
 import { useUserDetails } from '@/components/zustand/useUserDetails'
 import { Modal, Select, Textinput } from '@nayeshdaggula/tailify'
-import { IconAsterisk } from '@tabler/icons-react'
+import { IconArrowNarrowLeft, IconAsterisk } from '@tabler/icons-react'
 import { useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
@@ -362,7 +362,12 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
     <>
       <div className='relative'>
         <div className='py-2 bg-[#E2EAED]'>
-          <p className='text-lg font-bold text-[#1D3A76] text-center font-sans'>Add Address</p>
+          <div className='flex justify-start items-center px-5'>
+            <div className='w-9 cursor-pointer' onClick={() => updateActiveTab('propertydetails', 'completed', unique_property_id)}>
+              <IconArrowNarrowLeft size={18} color='#1D3A76' />
+            </div>
+            <p className=' w-full text-lg font-bold text-[#1D3A76] text-center font-sans'>Add Address</p>
+          </div>
         </div>
         <div className='w-full overflow-y-auto px-5 py-3 h-[calc(100vh-220px)]'>
           <div className='mb-5'>
@@ -400,14 +405,6 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
               <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Locality</p>
               <IconAsterisk size={8} color='#FF0000' />
             </div>
-            {/* <input
-              type='text'
-              placeholder='Locality'
-              className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans '
-              autoComplete='off'
-              value={locality}
-              onChange={updateLocality}
-            /> */}
             <Textinput
               placeholder="Locality"
               inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
@@ -482,10 +479,10 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
               </div>
           }
         </div>
-        <div className='flex flex-row justify-between items-center  px-6 pt-3'>
-          <div onClick={() => updateActiveTab('propertydetails', 'completed', unique_property_id)} className='bg-[#000] px-8 py-2 rounded-md cursor-pointer'>
+        <div className='flex flex-row justify-end items-center  px-6 pt-3'>
+          {/* <div onClick={() => updateActiveTab('propertydetails', 'completed', unique_property_id)} className='bg-[#000] px-8 py-2 rounded-md cursor-pointer'>
             <p className='text-white text-[10px]'>Back</p>
-          </div>
+          </div> */}
           <div onClick={updateAddress} className='border border-[#1D3A76] bg-[#1D3A76] px-8 py-2 rounded-md cursor-pointer'>
             <p className='text-white text-[10px] font-bold'>Next: Add Photos</p>
           </div>

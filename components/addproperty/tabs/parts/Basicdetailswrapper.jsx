@@ -252,7 +252,7 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
     return (
         <>
             <div className='py-2 bg-[#E2EAED]'>
-                <p className='text-lg font-bold text-[#1D3A76] text-center'>Add Basic Details</p>
+                <p className='text-lg font-bold text-[#1D3A76] text-center'>ADD BASIC DETAILS</p>
             </div>
             <div className='p-10 h-[calc(100vh-220px)] overflow-y-auto'>
                 <>

@@ -4,7 +4,7 @@ import Errorpanel from "@/components/shared/Errorpanel";
 import LoadingOverlay from "@/components/shared/LoadingOverlay";
 import { useUserDetails } from "@/components/zustand/useUserDetails";
 import { Modal, Select } from "@nayeshdaggula/tailify";
-import { IconBookmark, IconX } from "@tabler/icons-react";
+import { IconArrowNarrowLeft, IconBookmark, IconX } from "@tabler/icons-react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -317,20 +317,25 @@ function Photoswrapper({ updateActiveTab }) {
 
   return (
     <>
-      <div className="relative">
+      <div className="relative photoswrapper">
         <div className="py-2 bg-[#E2EAED]">
-          <p className="text-lg font-bold text-[#1D3A76] text-center font-sans">
-            Add Photos
-          </p>
+          <div className='flex justify-start items-center px-5'>
+            <div className='w-9 cursor-pointer' onClick={() => updateActiveTab('address', 'completed', unique_property_id)}>
+              <IconArrowNarrowLeft size={18} color='#1D3A76' />
+            </div>
+            <p className=" w-full text-lg font-bold text-[#1D3A76] text-center font-sans">
+              ADD PHOTOS
+            </p>
+          </div>
         </div>
         <div className="px-10 py-3">
-          <div className="mt-3 overflow-y-auto h-[calc(100vh-243px)]">
-            <div className="flex items-center gap-3 justify-center w-full">
+          <div className="overflow-y-auto h-[calc(100vh-243px)]">
+            <div className="flex items-center gap-3 justify-center w-full mt-6">
               <label
                 htmlFor="dropzone-file"
-                className="flex flex-col items-center justify-center w-[45%] h-50 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer"
+                className="flex flex-col items-center justify-center w-full h-50 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer"
               >
-                <div className="flex flex-col items-center justify-center py-5 h-[200px]">
+                <div className="flex flex-col items-center justify-center py-5 h-[180px]">
                   {/*  */}
                   <svg width="220" height="130" viewBox="0 0 270 154" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M269.705 143.446C269.705 143.446 238.946 153.79 129.122 153.79C19.2976 153.79 0 143.788 0 143.788L269.705 143.446Z" fill="#E8E8E8" />
@@ -369,9 +374,9 @@ function Photoswrapper({ updateActiveTab }) {
               </label>
               <label
                 htmlFor="dropzone-video-file"
-                className="flex flex-col items-center justify-center w-[45%] h-50 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer"
+                className="flex flex-col items-center justify-center w-full h-50 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer"
               >
-                <div className="flex flex-col items-center justify-center py-5 h-[200px]">
+                <div className="flex flex-col items-center justify-center py-5 h-[180px]">
                   {/*  */}
                   <svg width="220" height="130" viewBox="0 0 270 154" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M269.705 143.446C269.705 143.446 238.946 153.79 129.122 153.79C19.2976 153.79 0 143.788 0 143.788L269.705 143.446Z" fill="#E8E8E8" />
@@ -476,10 +481,10 @@ function Photoswrapper({ updateActiveTab }) {
             </div>
           </div>
         </div>
-        <div className='flex flex-row justify-between items-center  px-6 py-3'>
-          <div onClick={() => updateActiveTab('address', 'completed', unique_property_id)} className='bg-[#000] px-8 py-2 rounded-md cursor-pointer'>
+        <div className='flex flex-row justify-end items-center  px-6 py-3'>
+          {/* <div onClick={() => updateActiveTab('address', 'completed', unique_property_id)} className='bg-[#000] px-8 py-2 rounded-md cursor-pointer'>
             <p className='text-white text-[10px]'>Back</p>
-          </div>
+          </div> */}
           {
             previews.length > 0 ?
               <div onClick={handleSubmitPhotosVideos} className='border border-[#1D3A76] bg-[#1D3A76] px-8 py-2 rounded-md cursor-pointer'>
