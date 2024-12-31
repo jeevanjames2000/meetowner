@@ -197,7 +197,7 @@ function Photoswrapper({ updateActiveTab }) {
       formData.append(`video_type[${index}]`, type);
     });
 
-    Propertyapi.post('addphotos', formData, {
+    Propertyapi.post('addphotosvideos', formData, {
       headers: { 'Content-Type': 'multipart/form-data' }
     })
       .then((response) => {
