@@ -3,7 +3,8 @@ import Propertyapi from "@/components/api/Propertyapi";
 import Errorpanel from "@/components/shared/Errorpanel";
 import LoadingOverlay from "@/components/shared/LoadingOverlay";
 import { useUserDetails } from "@/components/zustand/useUserDetails";
-import { Modal } from "@nayeshdaggula/tailify";
+import { Modal, Select } from "@nayeshdaggula/tailify";
+import { IconBookmark, IconX } from "@tabler/icons-react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -25,7 +26,7 @@ function Photoswrapper({ updateActiveTab }) {
     const allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
     const uploadedFiles = Array.from(event.target.files);
 
-    // Filter invalid files
+    // Filter invalid files by extension
     const invalidFiles = uploadedFiles.filter((file) => !allowedExtensions.test(file.name));
     if (invalidFiles.length > 0) {
       toast.error('Please upload only jpg, jpeg, png, gif files', {
@@ -36,15 +37,32 @@ function Photoswrapper({ updateActiveTab }) {
         pauseOnHover: true,
         draggable: true,
         progress: undefined,
-      })
+      });
       return;
     }
 
-    // Update file state
-    setFiles((prevFiles) => [...prevFiles, ...uploadedFiles]);
+    // Filter valid files (size <= 10MB)
+    const validFiles = uploadedFiles.filter((file) => file.size <= 10 * 1024 * 1024);
 
-    // Create previews
-    const newPreviews = uploadedFiles.map((file) => URL.createObjectURL(file));
+    // Notify about oversized files
+    const oversizedFiles = uploadedFiles.filter((file) => file.size > 10 * 1024 * 1024);
+    if (oversizedFiles.length > 0) {
+      toast.error('Some files were not uploaded because they exceed 10MB', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+
+    // Update file state with valid files only
+    setFiles((prevFiles) => [...prevFiles, ...validFiles]);
+
+    // Create previews for valid files
+    const newPreviews = validFiles.map((file) => URL.createObjectURL(file));
     setPreviews((prevPreviews) => [...prevPreviews, ...newPreviews]);
   };
 
@@ -66,6 +84,67 @@ function Photoswrapper({ updateActiveTab }) {
 
   const handleSetFeatured = (index) => {
     setFeaturedIndex(index);
+  };
+
+  const [videoFiles, setVideoFiles] = useState([]);
+  const [videoPreviews, setVideoPreviews] = useState([]);
+  const [videoTypes, setVideoTypes] = useState({});
+
+  const handleVideoUpload = (event) => {
+    // Allow only mp4 extensions
+    const allowedExtensions = /(\.mp4)$/i;
+    const uploadedFiles = Array.from(event.target.files);
+
+    // const invalidFiles = uploadedFiles.filter((file) => !allowedExtensions.test(file.name));
+    // if (invalidFiles.length > 0) {
+    //   toast.error('Please upload only mp4 files', {
+    //     position: "top-right",
+    //     autoClose: 3000,
+    //     hideProgressBar: true,
+    //     closeOnClick: true,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //     progress: undefined,
+    //   });
+    //   return;
+    // }
+    // const validFiles = uploadedFiles.filter((file) => file.size <= 10 * 1024 * 1024);
+    // const oversizedFiles = uploadedFiles.filter((file) => file.size > 10 * 1024 * 1024);
+    // if (oversizedFiles.length > 0) {
+    //   toast.error('Some files were not uploaded because they exceed 10MB', {
+    //     position: "top-right",
+    //     autoClose: 3000,
+    //     hideProgressBar: true,
+    //     closeOnClick: true,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //     progress: undefined,
+    //   });
+    // }
+
+    // Update file state with valid files only
+    setVideoFiles((prevFiles) => [...prevFiles, ...uploadedFiles]);
+
+    // Create previews for valid files
+    const newPreviews = uploadedFiles.map((file) => URL.createObjectURL(file));
+    setVideoPreviews((prevPreviews) => [...prevPreviews, ...newPreviews]);
+  };
+
+  const handleVideoTypeChange = (index, value) => {
+    setVideoTypes((prev) => ({
+      ...prev,
+      [index]: value, // Update the type for the specific video
+    }));
+  };
+
+  const removeVideoPreview = (index) => {
+    setVideoPreviews((prev) => prev.filter((_, i) => i !== index)); // Remove the video preview
+    setVideoTypes((prev) => {
+      const updated = { ...prev };
+      delete updated[index]; // Remove the video type for the deleted preview
+      return updated;
+    });
+    setVideoFiles((prev) => prev.filter((_, i) => i !== index)); // Remove the video file
   };
 
   const [errorModalOpen, setErrorModalOpen] = useState(false);
@@ -101,6 +180,7 @@ function Photoswrapper({ updateActiveTab }) {
       })
       return;
     }
+
     const formData = new FormData();
     formData.append('user_id', user_id);
     formData.append('unique_property_id', unique_property_id);
@@ -109,7 +189,15 @@ function Photoswrapper({ updateActiveTab }) {
       formData.append("photo", file);
     });
 
-    Propertyapi.post('addphotos', formData, {
+    videoFiles.forEach((file) => {
+      formData.append("video", file);
+    });
+
+    Object.entries(videoTypes).forEach(([index, type]) => {
+      formData.append(`video_type[${index}]`, type);
+    });
+
+    Propertyapi.post('addphotosvideos', formData, {
       headers: { 'Content-Type': 'multipart/form-data' }
     })
       .then((response) => {
@@ -139,38 +227,6 @@ function Photoswrapper({ updateActiveTab }) {
       });
   }
 
-  // async function getPropertyPhotos() {
-  //   Propertyapi.get('/getphotos', {
-  //     params: {
-  //       unique_property_id: unique_property_id,
-  //       user_id: user_id
-  //     }
-  //   }, {
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       'Authorization': `Bearer ${access_token}`
-  //     }
-  //   })
-  //     .then((response) => {
-  //       if (response.data.status === 'error') {
-  //         let finalResponse = {
-  //           'message': response.data.message,
-  //         }
-  //         console.log('finalResponse', finalResponse)
-  //       }
-  //       setFiles(response?.data?.images || []);
-  //       setPreviews(response?.data?.images || []);
-  //       setFeaturedIndex(response?.data?.featuredImageIndex ?? null);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error)
-  //     })
-  // }
-
-  // useEffect(() => {
-  //   getPropertyPhotos()
-  // }, [])
-
   const fetchImageAsFile = async (imageUrl) => {
     const response = await fetch(imageUrl);
     const blob = await response.blob();
@@ -179,7 +235,6 @@ function Photoswrapper({ updateActiveTab }) {
     return new File([blob], filename, { type: blob.type });
   };
 
-  // Function to handle getting property photos and converting URLs to File objects
   async function getPropertyPhotos() {
     try {
       const response = await Propertyapi.get('/getphotos', {
@@ -208,8 +263,51 @@ function Photoswrapper({ updateActiveTab }) {
     }
   }
 
+  async function getPropertyVideos() {
+    try {
+      const response = await Propertyapi.get('/getpropertyvideos', {
+        params: {
+          unique_property_id: unique_property_id,
+          user_id: user_id
+        },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${access_token}`
+        }
+      });
+
+      const data = response.data;
+      if (data.status === 'error') {
+        const finalResponse = {
+          message: data.message,
+          server_res: data.server_res
+        };
+        setErrorMessages(finalResponse);
+        setErrorModalOpen(true);
+        setIsLoadingEffect(false);
+        return;
+      }
+
+      // Convert URLs to File objects and update the state
+      const videoFiles = await Promise.all(data.videos.map(fetchImageAsFile));
+      setVideoFiles(videoFiles);  // Store the File objects in the state
+      setVideoPreviews(data.videos);  // Store the URLs for previews
+      // setVideoTypes(data.videoTypes);  // Store the video types
+
+    } catch (error) {
+      const errorDetails = {
+        message: error.message,
+        server_res: error.response ? error.response.data : null
+      };
+      setErrorMessages(errorDetails);
+      setErrorModalOpen(true);
+      setIsLoadingEffect(false);
+    }
+  }
+
   useEffect(() => {
     getPropertyPhotos();
+    getPropertyVideos()
   }, []);
 
   return (
@@ -222,18 +320,15 @@ function Photoswrapper({ updateActiveTab }) {
         </div>
         <div className="px-5 py-3">
           <div className="mt-3 overflow-y-auto h-[calc(100vh-243px)]">
-            <div className="flex items-center justify-center w-full">
+            <div className="flex items-center gap-3 justify-center w-full">
               <label
                 htmlFor="dropzone-file"
-                className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50"
+                className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer"
               >
                 <div className="flex flex-col items-center justify-center pt-5 pb-6">
                   {/*  */}
-                  <p className="mb-2 text-sm text-gray-500">
-                    Drag & Drop or click to upload {JSON.stringify(featuredIndex)}
-                  </p>
-                  <p className="text-xs text-gray-500">
-                    Allowed Extensions (jpg, jpeg, png, gif)
+                  <p className="text-sm text-gray-500 text-center px-3">
+                    Upload photos of max size 10 MB in format JPG, JPEG & PNG
                   </p>
                 </div>
                 <input
@@ -242,6 +337,25 @@ function Photoswrapper({ updateActiveTab }) {
                   accept="image/*"
                   multiple
                   onChange={handleFileUpload}
+                  className="hidden"
+                />
+              </label>
+              <label
+                htmlFor="dropzone-video-file"
+                className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer"
+              >
+                <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                  {/*  */}
+                  <p className="text-sm text-gray-500 text-center px-3">
+                    Upload Videos in format MP4,
+                  </p>
+                </div>
+                <input
+                  id="dropzone-video-file"
+                  type="file"
+                  accept=".mp4"
+                  multiple
+                  onChange={handleVideoUpload}
                   className="hidden"
                 />
               </label>
@@ -259,24 +373,53 @@ function Photoswrapper({ updateActiveTab }) {
                       src={preview}
                       alt={`Preview ${index}`}
                       className="w-full h-40 object-cover rounded"
-                      height={160}
-                      width={160}
+                      height={140}
+                      width={140}
                     />
-                    <div className="flex flex-row items-center justify-center">
-                      <button
-                        onClick={() => handleSetFeatured(index)}
-                        className={`px-3 rounded-md py-2 my-2 text-xs text-center ${featuredIndex === index ? "bg-green-500 text-white" : "bg-gray-500 text-white"
-                          }`}
-                      >
-                        {featuredIndex === index ? "✔ Featured Image" : "Set as Featured Image"}
-                      </button>
+                    <div className="absolute top-2 left-2" onClick={() => handleSetFeatured(index)}>
+                      <div className={`flex flex-row justify-between items-center gap-2 text-white rounded-md p-1 text-xs cursor-pointer ${featuredIndex === index ? "bg-[#1D3A76]" : "bg-[#699ba0]"}`}>
+                        <p className="text-[10px]">Set as Featured Image</p>
+                        <IconBookmark size={12} />
+                      </div>
                     </div>
-                    <button
-                      className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 text-xs opacity-0 group-hover:opacity-100 transition-opacity"
+                    <div
+                      className="absolute top-2 right-2 bg-[#1D3A76] text-white rounded-full p-1 text-xs cursor-pointer"
                       onClick={() => removePreview(index)}
                     >
-                      ✕
-                    </button>
+                      <IconX size={12} />
+                    </div>
+                  </div>
+                ))
+              }
+            </div>
+            <div className="grid grid-cols-3 gap-4 mt-4">
+              {
+                videoPreviews.length > 0 &&
+                videoPreviews.map((preview, index) => (
+                  <div
+                    key={index}
+                    className="relative group border border-gray-300 p-2 rounded"
+                  >
+                    <video
+                      src={preview}
+                      className="w-full h-40 object-cover rounded"
+                      controls
+                    />
+                    <Select
+                      value={videoTypes[index] || 'video'}
+                      data={[
+                        { value: 'video', label: 'Video' },
+                        { value: 'short', label: 'Short' }
+                      ]}
+                      onChange={(value) => handleVideoTypeChange(index, value)}
+                      className="m-0 p-0"
+                    />
+                    <div
+                      className="absolute top-2 right-2 bg-[#1D3A76] text-white rounded-full p-1 text-xs cursor-pointer"
+                      onClick={() => removeVideoPreview(index)}
+                    >
+                      <IconX size={12} />
+                    </div>
                   </div>
                 ))
               }
@@ -290,7 +433,7 @@ function Photoswrapper({ updateActiveTab }) {
           {
             previews.length > 0 ?
               <div onClick={handleSubmitPhotos} className='border border-[#1D3A76] bg-[#1D3A76] px-8 py-2 rounded-md cursor-pointer'>
-                <p className='text-white text-[10px]'>Next, Review</p>
+                <p className='text-white text-[10px] font-bold'>Next: Review</p>
               </div>
               :
               <div onClick={() => updateActiveTab('review', 'inprogress', unique_property_id)} className='text-center cursor-pointer'>

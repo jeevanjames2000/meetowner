@@ -2017,7 +2017,7 @@ function Addpropertydetails({
           </div>
         </div>
       </div>
-      <div className='w-full overflow-y-auto px-5 py-3 h-[calc(100vh-220px)]'>
+      <div className='w-full overflow-y-auto px-5 py-3 h-[calc(100vh-240px)]'>
         <div className='mb-5'>
           <div className='flex gap-1 mb-4'>
             <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Property Sub Type</p>
@@ -2345,15 +2345,15 @@ function Addpropertydetails({
         {
           getpropertyDetails?.property_for === "Rent" &&
           <div className='mb-5'>
-            <div className='flex gap-1 mb-4'>
+            <div className='flex gap-1 mb-1'>
               <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Available From </p>
               <IconAsterisk size={8} color='#FF0000' />
             </div>
-            <div className='border border-[#909090] rounded-md w-[20%] px-3'>
+            <div className='border-b border-[#d1d5db] w-[30%] px-3'>
               <input
                 type="date"
                 id="date"
-                className='text-[14px] w-full py-1 outline-none'
+                className='text-[14px] w-full py-1 outline-none '
                 autoComplete='off'
                 value={availableFromDate}
                 onChange={updateAvailableFromDate}
@@ -2387,11 +2387,11 @@ function Addpropertydetails({
         {
           (constructionStatus === 2) &&
           <div className='mb-5'>
-            <div className='flex gap-1 mb-4'>
+            <div className='flex gap-1 mb-1'>
               <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Possesion End</p>
               <IconAsterisk size={8} color='#FF0000' />
             </div>
-            <div className='border border-[#909090] rounded-md w-[20%] px-3'>
+            <div className='border-b border-[#d1d5db] w-[30%] px-3'>
               <input
                 type="date"
                 id="date"
@@ -2768,7 +2768,7 @@ function Addpropertydetails({
                 </div>
                 :
                 <div className='mb-5'>
-                  <div className='flex gap-1 mb-4'>
+                  <div className='flex gap-1 my-4'>
                     <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Flat No.</p>
                     <IconAsterisk size={8} color='#FF0000' />
                   </div>
@@ -3054,12 +3054,12 @@ function Addpropertydetails({
           {propertyDescriptionError && <p className='text-[#FF0000] text-xs font-sans'>Please enter property description</p>}
         </div>
       </div>
-      <div className='flex flex-row justify-between items-center px-6 pt-3'>
+      <div className='flex flex-row justify-between items-center px-6 py-3'>
         <div onClick={() => updateActiveTab('basicdetails', 'completed', unique_property_id)} className='bg-[#000] px-8 py-2 rounded-md cursor-pointer'>
           <p className='text-white text-[10px]'>Back</p>
         </div>
         <div onClick={handleSubmitPropertyDetails} className='border border-[#1D3A76] bg-[#1D3A76] px-8 py-2 rounded-md cursor-pointer'>
-          <p className='text-white text-[10px]'>Next, add address details</p>
+          <p className='text-white text-[10px] font-bold'>Next, add address details</p>
         </div>
       </div>
       <LoadingOverlay isLoading={isLoadingEffect} />
