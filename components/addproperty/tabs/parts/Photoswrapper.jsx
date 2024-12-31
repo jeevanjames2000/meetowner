@@ -307,7 +307,7 @@ function Photoswrapper({ updateActiveTab }) {
 
   useEffect(() => {
     getPropertyPhotos();
-    getPropertyVideos()
+    // getPropertyVideos()
   }, []);
 
   return (
