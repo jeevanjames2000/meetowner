@@ -35,7 +35,7 @@ function Propertiesgallery({ propertyGallery }) {
                                         src={item}
                                         alt={"property"}
                                         fill
-                                        className="object-cover rounded-lg w-full"
+                                        className="object-fit rounded-lg w-full"
                                     />
                                 </div>
                             </SwiperSlide>

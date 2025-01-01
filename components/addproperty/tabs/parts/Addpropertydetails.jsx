@@ -314,27 +314,44 @@ function Addpropertydetails({
     setPreferredTenantTypeError('')
   }
 
+  let builtupAreadebounceTimeout;
   const [builtupArea, setBuiltupArea] = useState('')
   const [builtupAreaError, setBuiltupAreaError] = useState('')
   const updateBuiltupArea = (e) => {
-    let value = e.target.value;
+    const value = e.target.value;
+
     if (isNaN(value)) {
       return false;
     }
-    if (getpropertyDetails?.property_in === "Commercial") {
-      if (value < 100 || value > 2000000) {
-        setBuiltupAreaError('Builtup area should be between 100 to 200,00,00')
-        return false;
+
+    // Clear any previous debounce timeout
+    clearTimeout(builtupAreadebounceTimeout);
+
+    // Set the built-up area immediately
+    setBuiltupArea(value);
+
+    // Delay the validation
+    builtupAreadebounceTimeout = setTimeout(() => {
+      const numValue = Number(value);
+
+      if (getpropertyDetails?.property_in === "Commercial") {
+        if (numValue < 100 || numValue > 2000000) {
+          setBuiltupAreaError('Builtup area should be between 100 to 2,000,000');
+          return;
+        }
+      } else if (getpropertyDetails?.property_in === "Residential") {
+        if (numValue < 150 || numValue > 20000) {
+          setBuiltupAreaError('Builtup area should be between 150 to 20,000');
+          return;
+        }
       }
-    } else if (getpropertyDetails?.property_in === "Residential") {
-      if (value < 150 || value > 20000) {
-        setBuiltupAreaError('Builtup area should be between 150 to 20,000')
-        return false;
-      }
-    }
-    setBuiltupArea(value)
-    setBuiltupAreaError('')
+
+      // Clear the error if validation passes
+      setBuiltupAreaError('');
+    }, 1000); // 1-second debounce delay
   }
+
+  let carpetAreadebounceTimeout;
   const [carpetArea, setCarpetArea] = useState('')
   const [carpetAreaError, setCarpetAreaError] = useState('')
   const updateCarpetArea = (e) => {
@@ -342,20 +359,30 @@ function Addpropertydetails({
     if (isNaN(value)) {
       return false;
     }
-    if (getpropertyDetails?.property_in === "Commercial") {
-      if (value < 100 || value > 2000000) {
-        setCarpetAreaError('Carpet area should be between 100 to 200,00,00')
-        return false;
+
+    // Clear any previous debounce timeout
+    clearTimeout(carpetAreadebounceTimeout);
+    // Set the carpet area immediately
+    setCarpetArea(value);
+    // Delay the validation
+    carpetAreadebounceTimeout = setTimeout(() => {
+      const numValue = Number(value);
+
+      if (getpropertyDetails?.property_in === "Commercial") {
+        if (numValue < 100 || numValue > 2000000) {
+          setCarpetAreaError('Carpet area should be between 100 to 200,00,00')
+          return false;
+        }
+      } else if (getpropertyDetails?.property_in === "Residential") {
+        if (numValue < 150 || numValue > 20000) {
+          setCarpetAreaError('Carpet area should be between 150 to 20,000')
+          return false;
+        }
       }
-    } else if (getpropertyDetails?.property_in === "Residential") {
-      if (value < 150 || value > 20000) {
-        setCarpetAreaError('Carpet area should be between 150 to 20,000')
-        return false;
-      }
-    }
-    setCarpetArea(value)
-    setCarpetAreaError('')
+      setCarpetAreaError('')
+    }, 1000); // 1-second debounce delay
   }
+
   const [lengthArea, setLengthArea] = useState('')
   const [lengthAreaError, setLengthAreaError] = useState('')
   const updateLengthArea = (e) => {
@@ -1105,6 +1132,37 @@ function Addpropertydetails({
         setBuiltupAreaError('Please enter builtup area')
         return false;
       }
+      if (getpropertyDetails?.property_in === "Commercial") {
+        if (builtupArea < 100 || builtupArea > 2000000) {
+          setIsLoadingEffect(false)
+          toast.error('Builtup area should be between 100 to 200,00,00', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          })
+          setBuiltupAreaError('Builtup area should be between 100 to 200,00,00')
+          return false;
+        }
+      } else if (getpropertyDetails?.property_in === "Residential") {
+        if (builtupArea < 150 || builtupArea > 20000) {
+          setIsLoadingEffect(false)
+          toast.error('Builtup area should be between 150 to 20,000', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          })
+          setBuiltupAreaError('Builtup area should be between 150 to 20,000')
+          return false;
+        }
+      }
       if (!carpetArea) {
         setIsLoadingEffect(false)
         toast.error('Please enter carpet area', {
@@ -1118,6 +1176,37 @@ function Addpropertydetails({
         })
         setCarpetAreaError('Please enter carpet area')
         return false;
+      }
+      if (getpropertyDetails?.property_in === "Commercial") {
+        if (carpetArea < 100 || carpetArea > 2000000) {
+          setIsLoadingEffect(false)
+          toast.error('Carpet area should be between 100 to 200,00,00', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          })
+          setCarpetAreaError('Carpet area should be between 100 to 200,00,00')
+          return false;
+        }
+      } else if (getpropertyDetails?.property_in === "Residential") {
+        if (carpetArea < 150 || carpetArea > 20000) {
+          setIsLoadingEffect(false)
+          toast.error('Carpet area should be between 150 to 20,000', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          })
+          setCarpetAreaError('Carpet area should be between 150 to 20,000')
+          return false;
+        }
       }
     }
     if (propertySubType === "Plot" || propertySubType === "Land") {
@@ -2654,20 +2743,32 @@ function Addpropertydetails({
             <>
               {
                 !(propertySubType === "Independent House" || propertySubType === "Independent Villa") &&
-                <div className='mt-2'>
-                  <div className='flex gap-1'>
+                <>
+                  <div className='flex gap-1 mt-2'>
                     <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Unit Cost ({areaUnits})</p>
                     <IconAsterisk size={8} color='#FF0000' />
                   </div>
-                  <Textinput
-                    type='number'
-                    placeholder="Unit Cost"
-                    inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
-                    value={unitCost}
-                    onChange={updateUnitCost}
-                  />
-                  {unitCostError && <p className='text-[#FF0000] text-xs font-sans'>Please enter unit cost</p>}
-                </div>
+                  <div className='flex flex-row items-center '>
+                    <div className='w-8'>
+                      <Textinput
+                        value='Rs.'
+                        placeholder="Rs."
+                        inputClassName='text-[12px] md:text-[14px] border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
+                        inputProps={{ readOnly: true }}
+                      />
+                    </div>
+                    <div className='w-full'>
+                      <Textinput
+                        type='number'
+                        placeholder="Unit Cost"
+                        inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
+                        value={unitCost}
+                        onChange={updateUnitCost}
+                      />
+                      {unitCostError && <p className='text-[#FF0000] text-xs font-sans'>Please enter unit cost</p>}
+                    </div>
+                  </div>
+                </>
               }
               <div className='my-3'>
                 <div className='flex gap-1'>
@@ -2792,7 +2893,7 @@ function Addpropertydetails({
                 </div>
                 :
                 <div className='mb-5'>
-                  <div className='flex gap-1 my-4'>
+                  <div className='flex gap-1 mt-4 mb-2'>
                     <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Flat No.</p>
                     <IconAsterisk size={8} color='#FF0000' />
                   </div>

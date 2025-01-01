@@ -256,6 +256,7 @@ function Listingswrapper({ occupancyList }) {
                 setDeleteModal(false)
                 toast.success('Property deleted successfully')
                 refreshListings()
+                getPropertiesCount()
             }
             )
             .catch((error) => {
