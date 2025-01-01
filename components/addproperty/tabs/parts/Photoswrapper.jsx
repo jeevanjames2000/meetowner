@@ -109,10 +109,10 @@ function Photoswrapper({ updateActiveTab }) {
     }
 
     // allow 10Mb file size
-    const validFiles = uploadedFiles.filter((file) => file.size <= 20 * 1024 * 1024);
+    const validFiles = uploadedFiles.filter((file) => file.size <= 10 * 1024 * 1024);
 
     // Notify about oversized files
-    const oversizedFiles = uploadedFiles.filter((file) => file.size > 20 * 1024 * 1024);
+    const oversizedFiles = uploadedFiles.filter((file) => file.size > 10 * 1024 * 1024);
     if (oversizedFiles.length > 0) {
       toast.error('Some video files were not uploaded because they exceed 10MB', {
         position: "top-right",
