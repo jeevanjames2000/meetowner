@@ -16,7 +16,7 @@ function Verifykyc() {
                         Complete verification with Aadhar eKYC!
                     </p>
                     <button
-                        className="flex items-center text-[#699BA0] ml-auto h-7 2xl:h-8 3xl:h-9 4xl:h-10 py-1 text-[11px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text[20px] font-[700] rounded-md focus:outline-none bg-transparent hover:bg-[#e6f5f2] transition-all"
+                        className="flex items-center text-[#699BA0] ml-auto h-7 2xl:h-8 3xl:h-9 4xl:h-10 py-1 text-[11px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text[20px] font-[700] rounded-md focus:outline-none bg-transparent"
                     >
                         Add property
                         <div className="bg-[#699BA0] h-3 w-3 2xl:h-4 3xl:h-5 4xl:h-6 2xl:w-4 3xl:w-5 4xl:w-6 flex items-center justify-center rounded-full ml-2">

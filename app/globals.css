@@ -198,3 +198,11 @@ input[type="number"] {
 }
 
 
+.photoswrapper .overflow-y-auto {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+}
+
+.photoswrapper .overflow-y-auto::-webkit-scrollbar {
+  display: none; 
+}
