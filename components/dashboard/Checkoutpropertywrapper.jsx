@@ -113,12 +113,12 @@ function Checkoutpropertywrapper() {
             <div className="bg-[#FFFFFF] rounded-md mt-12 pt-4 pb-6 px-6">
                 {/* Header Section */}
                 <div className="flex flex-row justify-between items-center">
-                    <p className="text-[#1D3A76] text-[16px] font-[700]">Checkout your property</p>
+                    <p className="text-[#1D3A76] text-[14px] xs:text-[16px] 2xl:text-[20px] 3xl:text-[22px] 4xl:text[24px] font-[700]">Checkout your property</p>
                     <button
-                        className=" flex items-center justify-center gap-2 text-[#287DB0] border-[1.5px] border-[#287DB0] px-3 py-[1.5px] rounded-l-full rounded-r-full text-[11px] font-bold"
+                        className=" flex items-center justify-center gap-2 text-[#287DB0] border-[1.5px] border-[#287DB0] px-3 py-[1.5px] rounded-l-full rounded-r-full text-[10px] xs:text-[11px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] font-bold"
                         aria-label="View all properties"
                     >
-                        View All <IconArrowRight color='#287DB0' className='h-6 w-4' />
+                        View All <IconArrowRight color='#287DB0' className='h-5 w-3 xs:h-6 xs:w-4 2xl:w-5 2xl:h-7 3xl:w-6 3xl:h-8 4xl:w-7 4xl:h-9' />
                     </button>
                 </div>
 
@@ -144,25 +144,25 @@ function Checkoutpropertywrapper() {
                                 </SwiperSlide>
                             ))
                         ) : (
-                            <p>No properties available</p> // Fallback message
+                            <p className="text-[16px] 2xl:text[20px] 3xl:text-[22px] 4xl:text-[24px]">No properties available</p> // Fallback message
                         )}
                     </Swiper>
 
                     {/* Custom Navigation Buttons */}
                     <button
                         onClick={() => swiperRef.current?.slidePrev()}
-                        className="absolute top-[100px] -left-2 z-10 transform -translate-y-1/2 bg-[#1D3A76] rounded-full p-1 focus:outline-none"
+                        className="absolute top-[50%] -left-2 2xl:-left-[1%] z-10 transform -translate-y-1/2 bg-[#1D3A76] rounded-full p-1 focus:outline-none"
                         aria-label="Previous slide"
                     >
-                        <IconChevronLeft className="h-3 w-3 text-[#ffffff]" />
+                        <IconChevronLeft className="h-3 w-3 2xl:h-4 3xl:h-5 4xl:h-6 2xl:w-4 3xl:w-5 4xl:w-6 text-[#ffffff]" />
                     </button>
 
                     <button
                         onClick={() => swiperRef.current?.slideNext()}
-                        className="absolute top-[100px] -right-2 z-10 transform -translate-y-1/2 bg-[#1D3A76] rounded-full p-1 focus:outline-none"
+                        className="absolute top-[50%] -right-2 2xl:-right-[1%] z-10 transform -translate-y-1/2 bg-[#1D3A76] rounded-full p-1 focus:outline-none"
                         aria-label="Next slide"
                     >
-                        <IconChevronRight className="h-3 w-3 text-[#ffffff]" />
+                        <IconChevronRight className="h-3 w-3 2xl:h-4 3xl:h-5 4xl:h-6 2xl:w-4 3xl:w-5 4xl:w-6 text-[#ffffff]" />
                     </button>
                 </div>
             </div>
