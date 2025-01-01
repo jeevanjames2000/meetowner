@@ -49,12 +49,19 @@ function Ownersreview() {
 
     return (
         <div className="bg-[#F4EBD7] w-full h-fit pt-5 px-6 pb-8 rounded-lg space-y-8">
-        <p className="text-[#1D3A76] text-[16px] font-[700] pl-6">Owners Speak</p>
+        <p className="text-[#1D3A76] text-[16px] font-[700] pl-6 2xl:text[20px] 3xl:text-[22px] 4xl:text-[24px]">Owners Speak</p>
         <div className="relative px-2">
             <Swiper
                 modules={[Navigation]}
                 spaceBetween={1} // Adjusts the space between slides
-                slidesPerView={2} // Shows two slides per view
+                breakpoints={{
+                    0: {
+                        slidesPerView: 1,
+                    },
+                    768: {
+                        slidesPerView: 2,
+                    }
+                }}
                 loop={true}
                 className="w-full h-full" // Makes Swiper responsive
                 onSwiper={(swiper) => (swiperRef.current = swiper)}
@@ -71,25 +78,25 @@ function Ownersreview() {
                         </SwiperSlide>
                     ))
                 ) : (
-                    <p>No data</p> // Fallback message if no reviews
+                    <p className='text-[16px] 2xl:text[20px] 3xl:text-[22px] 4xl:text-[24px]'>No data</p> // Fallback message if no reviews
                 )}
             </Swiper>
     
             {/* Custom Navigation Buttons */}
             <button
                 onClick={() => swiperRef.current?.slidePrev()}
-                className="absolute top-1/2 -left-2.5 z-10 transform -translate-y-1/2 bg-[#1D3A76] rounded-full p-1 focus:outline-none"
+                className="absolute top-1/2 -left-2.5 2xl:-left-[1%] z-10 transform -translate-y-1/2 bg-[#1D3A76] rounded-full p-1 focus:outline-none"
                 aria-label="Previous slide"
             >
-                <IconChevronLeft className="h-3 w-3 text-[#ffffff]" />
+                <IconChevronLeft className="h-3 w-3 2xl:h-4 3xl:h-5 4xl:h-6 2xl:w-4 3xl:w-5 4xl:w-6 text-[#ffffff]" />
             </button>
     
             <button
                 onClick={() => swiperRef.current?.slideNext()}
-                className="absolute top-1/2 -right-2.5 z-10 transform -translate-y-1/2 bg-[#1D3A76] rounded-full p-1 focus:outline-none"
+                className="absolute top-1/2 -right-2.5 2xl:-right-[1%] z-10 transform -translate-y-1/2 bg-[#1D3A76] rounded-full p-1 focus:outline-none"
                 aria-label="Next slide"
             >
-                <IconChevronRight className="h-3 w-3 text-[#ffffff]" />
+                <IconChevronRight className="h-3 w-3 2xl:h-4 3xl:h-5 4xl:h-6 2xl:w-4 3xl:w-5 4xl:w-6 text-[#ffffff]" />
             </button>
         </div>
     </div>
