@@ -18,19 +18,18 @@ module.exports = {
         Montserrat: ['Montserrat', 'sans-serif'],
       },
       screens: {
-        'xxs': '320px',
-        'xxm': '375px',
-        'xs': '425px',
-        'sm': '640px',
-        'md': '768px',
-        'lg': '1024px',
-        'xl': '1280px',
-        '2xl': '1440px',
-        '3xl': '1600px',
-        '4xl': '1920px',
-        '5xl': '2560px'
+        'xxs': '320px', // Extra small phones
+        'xxm': '375px', // Small phones
+        'xs': '426px', // Small phones
+        'sm': '641px', // Phones
+        'md': '769px', // Tablets
+        'lg': '1025px', // Small desktops or landscape tablets
+        'xl': '1281px', // Large desktops
+        '2xl': '1537px', // Ultra-wide desktops
+        '3xl': '1921px', // Very large screens (gaming monitors, TVs)
+        '4xl': '2561px', // 4k and above
       }
-
+ 
     },
     letterSpacing: {
       'extra-wide': '0.3em', // Example: Wider than `tracking-widest`
@@ -39,3 +38,4 @@ module.exports = {
   },
   plugins: [],
 };
+ 
