@@ -10,14 +10,14 @@ import addproperty from '@/public/assets/addproperty.svg'
 import downloadapp_svg from '@/public/assets/downloadapp_svg.svg'
 import login from '@/public/assets/login.svg'
 import { IconHomePlus, IconMenu2, IconX } from '@tabler/icons-react';
-
+ 
 function Header() {
     const userInfo = useUserDetails((state) => state.userInfo);
     const isLogged = useUserDetails((state) => state.isLogged);
     const pathname = usePathname();
     const isActive = (path) => pathname === path;
     const [scrollY, setScrollY] = useState(0);
-
+ 
     // Open sidebar
     const Opensidebar = () => {
         const sidebar = document.getElementById('sidebar');
@@ -28,16 +28,16 @@ function Header() {
         const handleScroll = () => {
             setScrollY(window.scrollY);
         };
-
+ 
         // Attach scroll event listener
         window.addEventListener('scroll', handleScroll);
-
+ 
         // Cleanup event listener on unmount
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };
     }, []);
-
+ 
     return (
         <div
             className={`h-full md:h-[65px] bg-[#F2F2F2] overflow-visible w-full py-2 transition-all duration-1000 shadow-xl ${scrollY > 120 ? 'sticky top-0 z-50' : ''}`}
@@ -99,5 +99,5 @@ function Header() {
         </div>
     )
 }
-
+ 
 export default Header;
