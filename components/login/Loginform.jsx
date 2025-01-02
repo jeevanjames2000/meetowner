@@ -182,17 +182,17 @@ function Loginform() {
                 <div className="flex flex-col">
                     <form onSubmit={handleLoginform}>
                         <div className='rounded-md flex flex-col bg-white h-fit py-4 md:py-4 lg:py-4 xl:py-4  4xl:py-8 px-[3%] gap-2  md:gap-2 lg:gap-4'>
-                            <p className='text-[12px] md:text-[12px] xl:text-[16px] lg:text-[16px] 2xl:text-[18px] 3xl:text-[24px] 4xl:text-[24px] 5xl:text-[24px]  font-semibold'>Mobile Number</p>
+                            <p className='text-[12px] md:text-[12px] xl:text-[16px] lg:text-[16px] 2xl:text-[18px] 3xl:text-[24px] 4xl:text-[24px] font-semibold'>Mobile Number</p>
                             <div className='flex flex-row items-center'>
-                                <div className='w-[20%]'>
+                                <div className='w-[10%]'>
                                     <Textinput
                                         value='+91'
                                         placeholder="+91"
-                                        inputClassName='text-[12px] md:text-[12px] xl:text-[16px] lg:text-[16px] 2xl:text-[16px] 3xl:text-[24px] 4xl:text-[24px] 5xl:text-[24px]  5xl:text-[28px] border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
+                                        inputClassName='text-[12px] md:text-[12px] xl:text-[16px] lg:text-[16px] 2xl:text-[16px] 3xl:text-[24px] 4xl:text-[24px] 5xl:text-[28px] border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
                                         inputProps={{ readOnly: true }}
                                     />
                                 </div>
-                                <div className='w-[80%]'>
+                                <div className='w-[90%]'>
                                     <Textinput
                                         type='number'
                                         placeholder="Enter Mobile Number"
@@ -205,16 +205,16 @@ function Loginform() {
                             </div>
                             <button
                                 onClick={handleLoginform}
-                                className="text-[12px] md:text-[12px] xl:text-[16px] lg:text-[16px] 2xl:text-[16px] 3xl:text-[24px] 4xl:text-[24px] 5xl:text-[24px]  rounded-md px-4 py-2  bg-[#ffd119] w-full">
+                                className="text-[12px] md:text-[12px] xl:text-[16px] lg:text-[16px] 2xl:text-[16px] 3xl:text-[24px] 4xl:text-[24px] rounded-md px-4 py-2  bg-[#ffd119] w-full">
                                 Login
                             </button>
                         </div>
                     </form>
                 </div>
                 <div className='flex flex-row items-center justify-center bg-[#1D3A76] rounded-full'>
-                    <p className='text-[12px] md:text-[12px] xl:text-[16px] lg:text-[16px] 2xl:text-[16px] 3xl:text-[24px] 4xl:text-[24px] 5xl:text-[24px]  text-[#ffffff]'>Don't have an Account ? </p>
+                    <p className='text-[12px] md:text-[12px] xl:text-[16px] lg:text-[16px] 2xl:text-[16px] 3xl:text-[24px] 4xl:text-[24px] text-[#ffffff]'>Don't have an Account ? </p>
                     <Link href='/signup'
-                        className="text-[12px] md:text-[12px] xl:text-[16px] lg:text-[16px] 2xl:text-[16px] 3xl:text-[24px] 4xl:text-[24px] 5xl:text-[24px]  px-1 py-1 text-[#FBAF01] ">
+                        className="text-[12px] md:text-[12px] xl:text-[16px] lg:text-[16px] 2xl:text-[16px] 3xl:text-[24px] 4xl:text-[24px] px-1 py-1 text-[#FBAF01] ">
                         Signup
                     </Link>
                 </div>
