@@ -22,7 +22,7 @@ const Accordion = ({ items }) => {
                     >
                         <div className="flex items-center gap-2">
                             <Image src={item.icon} alt="icon" width={20} height={20} />
-                            <span className="font-semibold text-[#00609E] font-Montserrat text-xs">{item.name}</span>
+                            <span className="font-semibold text-[#00609E] font-Montserrat text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px]">{item.name}</span>
                         </div>
                         <div className="flex flex-row items-center justify-center bg-black rounded-full p-1">
                             <svg

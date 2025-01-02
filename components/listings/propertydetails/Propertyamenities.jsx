@@ -122,18 +122,18 @@ function Propertyamenities({ propertyDetails }) {
 
     return (
         <div className="propertyprice space-y-6">
-            <p className="text-[#1d3a76] text-[25px] font-[600]">{propertyDetails?.property_name?.toUpperCase()} Amenities</p>
+            <p className="text-[#1d3a76] text-[22px] xs:text-[25px] 2xl:text-[28px] 3xl:text-[30px] 4xl:text-[32px] font-[600]">{propertyDetails?.property_name?.toUpperCase()} Amenities</p>
             <div className="custom-shadow bg-[#F3F3F3] p-6 space-y-2">
                 <div className="flex items-center justify-end gap-[14px]">
-                    <IconHeart stroke={2} color="#E28B6D" className="h-5 w-5" />
-                    <IconShare stroke={2} color="#1d3a76" className="h-5 w-5" />
+                    <IconHeart stroke={2} color="#E28B6D" className="h-5 w-5 2xl:h-6 2xl:w-6 3xl:h-7 3xl:w-7 4xl:w-8 4xl:h-8" />
+                    <IconShare stroke={2} color="#1d3a76" className="h-5 w-5 2xl:h-6 2xl:w-6 3xl:h-7 3xl:w-7 4xl:w-8 4xl:h-8" />
                     <button
-                        className="bg-[#079E9E] text-[#ffffff] text-[12px] font-[600] py-1 px-3 rounded-[5px]"
+                        className="bg-[#079E9E] text-[#ffffff] text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] font-[600] py-1 px-3 rounded-[5px]"
                     >
                         Ask for Details
                     </button>
                 </div>
-                <div className="grid grid-cols-4 gap-2">
+                <div className="grid grid-cols-2 xs:grid-cols-3 md:grid-cols-4 gap-2">
                     {
                         Object.keys(facilities).map((facility, index) => {
                             if (facilities[facility]) {
@@ -142,10 +142,10 @@ function Propertyamenities({ propertyDetails }) {
                                         <Image
                                             src={facilityImages[facility] || lift}
                                             alt={facility}
-                                            className="h-[25px] w-fit object-cover border-[1.9px] border-[#492828] rounded-lg p-[6px]"
+                                            className="h-6 2xl:h-7 3xl:h-8 4xl:h-9 w-fit object-cover border-[1.9px] border-[#492828] rounded-lg p-[6px]"
                                         />
                                         {/* <IconCheckbox stroke={2} color="#1d3a76" className="h-5 w-5" /> */}
-                                        <p className="text-[14px] text-[#6E6E6E] font-[500] font-Montserrat">{facility}</p>
+                                        <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[22px] text-[#6E6E6E] font-[500] font-Montserrat">{facility}</p>
                                     </div>
                                 );
                             }

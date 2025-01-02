@@ -58,7 +58,7 @@ const GoogleMapView = ({ propertiesData }) => {
             )}
             <button
                 onClick={handleViewInMaps}
-                className="mt-4 w-full bg-[#1d3a76] text-white py-3 rounded-md"
+                className="mt-4 w-full bg-[#1d3a76] text-white py-3 rounded-md text-[14px] xs:text-[16px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[22px]"
             >
                 View in Maps
             </button>

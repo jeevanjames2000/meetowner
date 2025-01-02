@@ -56,38 +56,38 @@ function Propertyoverview({ propertyDetails }) {
 
     return (
         <div className="propertyprice space-y-6">
-            <p className="text-[#1d3a76] text-[25px] font-[600]">{propertyDetails?.property_name?.toUpperCase()} Overview</p>
+            <p className="text-[#1d3a76] text-[22px] xs:text-[25px] 2xl:text-[28px] 3xl:text-[30px] 4xl:text-[32px] font-[600]">{propertyDetails?.property_name?.toUpperCase()} Overview</p>
             <div className="custom-shadow p-6 space-y-8 bg-[#F3F3F3] rounded-md">
                 <div className="flex items-center justify-end gap-[14px]">
-                    <IconHeart stroke={2} color="#E28B6D" className="h-6 w-6" />
+                    <IconHeart stroke={2} color="#E28B6D" className="h-5 w-5 2xl:h-6 2xl:w-6 3xl:h-7 3xl:w-7 4xl:w-8 4xl:h-8" />
                     <Image
                         src={amenitiesaskdetailslike}
                         alt="amenities-askdetails-like"
-                        className="h-5 w-5 object-contain"
+                        className="h-5 w-5 2xl:h-6 2xl:w-6 3xl:h-7 3xl:w-7 4xl:w-8 4xl:h-8 object-contain"
                     />
                     <button
-                        className="bg-[#079E9E] text-[#ffffff] text-[12px] font-[600] py-1 px-3 rounded-[5px]"
+                        className="bg-[#079E9E] text-[#ffffff] text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] font-[600] py-1 px-3 rounded-[5px]"
                     >
                         Ask for Details
                     </button>
                 </div>
-                <div className="grid grid-cols-3">
+                <div className="grid grid-cols-2 sm:grid-cols-3">
                     {
                         (propertyDetails?.sub_type === "Apartment" || propertyDetails?.sub_type === "Flat") &&
                         <>
                             <div className="flex items-center p-[10px] gap-4" >
                                 <Image src={bathtub} alt={`bathtub`} className="w-5 h-5" />
                                 <div>
-                                    <p className="text-[14px] text-[#212529] font-[600] font-Montserrat">Bathroom</p>
-                                    <p className="text-[12px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.bathroom || '----'}</p>
+                                    <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Bathroom</p>
+                                    <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.bathroom || '----'}</p>
                                 </div>
                             </div>
 
                             <div className="flex items-center p-[10px] gap-4" >
                                 <Image src={balcony} alt={`balcony`} className="w-5 h-5" />
                                 <div>
-                                    <p className="text-[14px] text-[#212529] font-[600] font-Montserrat">Balcony</p>
-                                    <p className="text-[12px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.balconies || '----'}</p>
+                                    <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Balcony</p>
+                                    <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.balconies || '----'}</p>
                                 </div>
                             </div>
                         </>
@@ -98,50 +98,50 @@ function Propertyoverview({ propertyDetails }) {
                             <div className="flex items-center p-[10px] gap-4" >
                                 <Image src={passenger_lifts} alt={`passenger_lifts`} className="w-5 h-5" />
                                 <div>
-                                    <p className="text-[14px] text-[#212529] font-[600] font-Montserrat">Passenger Lifts</p>
-                                    <p className="text-[12px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.passenger_lifts || '----'}</p>
+                                    <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Passenger Lifts</p>
+                                    <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.passenger_lifts || '----'}</p>
                                 </div>
                             </div>
                             <div className="flex items-center p-[10px] gap-4" >
                                 <Image src={passenger_lifts} alt={`passenger_lifts`} className="w-5 h-5" />
                                 <div>
-                                    <p className="text-[14px] text-[#212529] font-[600] font-Montserrat">Service Lifts</p>
-                                    <p className="text-[12px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.service_lifts || '----'}</p>
+                                    <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Service Lifts</p>
+                                    <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.service_lifts || '----'}</p>
                                 </div>
                             </div>
                             <div className="flex items-center p-[10px] gap-4" >
                                 <Image src={stair_cases} alt={`stair_cases`} className="w-5 h-5" />
                                 <div>
-                                    <p className="text-[14px] text-[#212529] font-[600] font-Montserrat">Stair Cases</p>
-                                    <p className="text-[12px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.stair_cases || '----'}</p>
+                                    <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Stair Cases</p>
+                                    <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.stair_cases || '----'}</p>
                                 </div>
                             </div>
                             <div className="flex items-center p-[10px] gap-4" >
                                 <Image src={private_parking} alt={`private_parking`} className="w-5 h-5" />
                                 <div>
-                                    <p className="text-[14px] text-[#212529] font-[600] font-Montserrat">Private Parking</p>
-                                    <p className="text-[12px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.private_parking || '----'}</p>
+                                    <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Private Parking</p>
+                                    <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.private_parking || '----'}</p>
                                 </div>
                             </div>
                             <div className="flex items-center p-[10px] gap-4" >
                                 <Image src={public_parking} alt={`public_parking`} className="w-5 h-5" />
                                 <div>
-                                    <p className="text-[14px] text-[#212529] font-[600] font-Montserrat">Public Parking</p>
-                                    <p className="text-[12px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.public_parking || '----'}</p>
+                                    <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Public Parking</p>
+                                    <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.public_parking || '----'}</p>
                                 </div>
                             </div>
                             <div className="flex items-center p-[10px] gap-4" >
                                 <Image src={bathtub} alt={`bathtub`} className="w-5 h-5" />
                                 <div>
-                                    <p className="text-[14px] text-[#212529] font-[600] font-Montserrat">Private Washrooms</p>
-                                    <p className="text-[12px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.private_washrooms || '----'}</p>
+                                    <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Private Washrooms</p>
+                                    <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.private_washrooms || '----'}</p>
                                 </div>
                             </div>
                             <div className="flex items-center p-[10px] gap-4" >
                                 <Image src={bathtub} alt={`bathtub`} className="w-5 h-5" />
                                 <div>
-                                    <p className="text-[14px] text-[#212529] font-[600] font-Montserrat">Public Washrooms</p>
-                                    <p className="text-[12px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.public_washrooms || '-----'}</p>
+                                    <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Public Washrooms</p>
+                                    <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.public_washrooms || '-----'}</p>
                                 </div>
                             </div>
                         </>
@@ -151,8 +151,8 @@ function Propertyoverview({ propertyDetails }) {
                         <div className="flex items-center p-[10px] gap-4" >
                             <Image src={available_from} alt={`available_from`} className="w-5 h-5" />
                             <div>
-                                <p className="text-[14px] text-[#212529] font-[600] font-Montserrat">Available From</p>
-                                <p className="text-[12px] text-[#434343] font-[600] font-Montserrat">{available_from_date || '----'}</p>
+                                <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Available From</p>
+                                <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">{available_from_date || '----'}</p>
                             </div>
                         </div>
                     }
@@ -161,8 +161,8 @@ function Propertyoverview({ propertyDetails }) {
                         <div className="flex items-center p-[10px] gap-4" >
                             <Image src={house} alt={`house`} className="w-5 h-5" />
                             <div>
-                                <p className="text-[14px] text-[#212529] font-[600] font-Montserrat">Age of Property</p>
-                                <p className="text-[12px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.age_of_property || '----'}</p>
+                                <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Age of Property</p>
+                                <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.age_of_property || '----'}</p>
                             </div>
                         </div>
                     }
@@ -171,8 +171,8 @@ function Propertyoverview({ propertyDetails }) {
                         <div className="flex items-center p-[10px] gap-4" >
                             <Image src={available_from} alt={`available_from`} className="w-5 h-5" />
                             <div>
-                                <p className="text-[14px] text-[#212529] font-[600] font-Montserrat">Possession End</p>
-                                <p className="text-[12px] text-[#434343] font-[600] font-Montserrat">{possession_end_date || '----'}</p>
+                                <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Possession End</p>
+                                <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">{possession_end_date || '----'}</p>
                             </div>
                         </div>
                     }
@@ -182,29 +182,29 @@ function Propertyoverview({ propertyDetails }) {
                             <div className="flex items-center p-[10px] gap-4" >
                                 <Image src={maintenance_charge} alt={`maintenance_charge`} className="w-5 h-5" />
                                 <div>
-                                    <p className="text-[14px] text-[#212529] font-[600] font-Montserrat">Maintenance Charge</p>
-                                    <p className="text-[12px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.maintenance ? `₹ ${propertyDetails?.maintenance}` : '----'}</p>
+                                    <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Maintenance Charge</p>
+                                    <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.maintenance ? `₹ ${propertyDetails?.maintenance}` : '----'}</p>
                                 </div>
                             </div>
                             <div className="flex items-center p-[10px] gap-4" >
                                 <Image src={security_deposit} alt={`security_deposit`} className="w-5 h-5" />
                                 <div>
-                                    <p className="text-[14px] text-[#212529] font-[600] font-Montserrat">Security Deposit</p>
-                                    <p className="text-[12px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.security_deposit ? `${propertyDetails?.security_deposit} Months` : '----'}</p>
+                                    <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Security Deposit</p>
+                                    <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.security_deposit ? `${propertyDetails?.security_deposit} Months` : '----'}</p>
                                 </div>
                             </div>
                             <div className="flex items-center p-[10px] gap-4" >
                                 <Image src={lock_in_period} alt={`lock_in_period`} className="w-5 h-5" />
                                 <div>
-                                    <p className="text-[14px] text-[#212529] font-[600] font-Montserrat">Lock-in Period</p>
-                                    <p className="text-[12px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.lock_in ? `${propertyDetails?.lock_in} Months` : '----'}</p>
+                                    <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Lock-in Period</p>
+                                    <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.lock_in ? `${propertyDetails?.lock_in} Months` : '----'}</p>
                                 </div>
                             </div>
                             <div className="flex items-center p-[10px] gap-4" >
                                 <Image src={brokerage_charge} alt={`brokerage_charge`} className="w-5 h-5" />
                                 <div>
-                                    <p className="text-[14px] text-[#212529] font-[600] font-Montserrat">Brokarage Charge</p>
-                                    <p className="text-[12px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.brokerage_charge ? `${propertyDetails?.brokerage_charge} Days` : '----'}</p>
+                                    <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Brokarage Charge</p>
+                                    <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.brokerage_charge ? `${propertyDetails?.brokerage_charge} Days` : '----'}</p>
                                 </div>
                             </div>
                             {
@@ -212,8 +212,8 @@ function Propertyoverview({ propertyDetails }) {
                                 <div className="flex items-center p-[10px] gap-4" >
                                     <Image src={prefered_tenant_type} alt={`prefered_tenant_type`} className="w-5 h-5" />
                                     <div>
-                                        <p className="text-[14px] text-[#212529] font-[600] font-Montserrat">Prefered Tenant Type</p>
-                                        <p className="text-[12px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.prefered_tenant_types || '----'}</p>
+                                        <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Prefered Tenant Type</p>
+                                        <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.prefered_tenant_types || '----'}</p>
                                     </div>
                                 </div>
                             }
@@ -224,8 +224,8 @@ function Propertyoverview({ propertyDetails }) {
                         <div className="flex items-center p-[10px] gap-4" >
                             <Image src={house} alt={`house`} className="w-5 h-5" />
                             <div>
-                                <p className="text-[14px] text-[#212529] font-[600] font-Montserrat">Pent House</p>
-                                <p className="text-[12px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.pent_house || '----'}</p>
+                                <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Pent House</p>
+                                <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.pent_house || '----'}</p>
                             </div>
                         </div>
                     }
@@ -234,8 +234,8 @@ function Propertyoverview({ propertyDetails }) {
                         <div className="flex items-center p-[10px] gap-4" >
                             <Image src={possession_status} alt={`possession_status`} className="w-5 h-5" />
                             <div>
-                                <p className="text-[14px] text-[#212529] font-[600] font-Montserrat">Possession Status</p>
-                                <p className="text-[12px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.possession_status || '----'}</p>
+                                <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Possession Status</p>
+                                <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.possession_status || '----'}</p>
                             </div>
                         </div>
                     }
@@ -244,8 +244,8 @@ function Propertyoverview({ propertyDetails }) {
                         <div className="flex items-center p-[10px] gap-4" >
                             <Image src={ownership} alt={`ownership`} className="w-5 h-5" />
                             <div>
-                                <p className="text-[14px] text-[#212529] font-[600] font-Montserrat">Ownership</p>
-                                <p className="text-[12px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.ownership_type || '----'}</p>
+                                <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Ownership</p>
+                                <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.ownership_type || '----'}</p>
                             </div>
                         </div>
                     }
@@ -255,16 +255,16 @@ function Propertyoverview({ propertyDetails }) {
                             <div className="flex items-center p-[10px] gap-4" >
                                 <Image src={house} alt={`house`} className="w-5 h-5" />
                                 <div>
-                                    <p className="text-[14px] text-[#212529] font-[600] font-Montserrat">Plot No</p>
-                                    <p className="text-[12px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.plot_number || '----'}</p>
+                                    <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Plot No</p>
+                                    <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.plot_number || '----'}</p>
                                 </div>
                             </div>
                             :
                             <div className="flex items-center p-[10px] gap-4" >
                                 <Image src={house} alt={`house`} className="w-5 h-5" />
                                 <div>
-                                    <p className="text-[14px] text-[#212529] font-[600] font-Montserrat">Flat No</p>
-                                    <p className="text-[12px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.unit_flat_house_no || '----'}</p>
+                                    <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Flat No</p>
+                                    <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.unit_flat_house_no || '----'}</p>
                                 </div>
                             </div>
                     }
@@ -273,16 +273,16 @@ function Propertyoverview({ propertyDetails }) {
                             <div className="flex items-center p-[10px] gap-4" >
                                 <Image src={suitablefor} alt={`suitablefor`} className="w-5 h-5" />
                                 <div>
-                                    <p className="text-[14px] text-[#212529] font-[600] font-Montserrat">Suitable For</p>
-                                    <p className="text-[12px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.business_types || '----'}</p>
+                                    <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Suitable For</p>
+                                    <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.business_types || '----'}</p>
                                 </div>
                             </div>
                             :
                             <div className="flex items-center p-[10px] gap-4" >
                                 <Image src={zone_type} alt={`zone_type`} className="w-5 h-5" />
                                 <div>
-                                    <p className="text-[14px] text-[#212529] font-[600] font-Montserrat">Zone Type</p>
-                                    <p className="text-[12px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.zone_types || '----'}</p>
+                                    <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Zone Type</p>
+                                    <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.zone_types || '----'}</p>
                                 </div>
                             </div>
                     }
@@ -292,8 +292,8 @@ function Propertyoverview({ propertyDetails }) {
                         <div className="flex items-center p-[10px] gap-4" >
                             <Image src={investor_property} alt={`investor_property`} className="w-5 h-5" />
                             <div>
-                                <p className="text-[14px] text-[#212529] font-[600] font-Montserrat">Investor Property</p>
-                                <p className="text-[12px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.investor_property || '----'}</p>
+                                <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Investor Property</p>
+                                <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.investor_property || '----'}</p>
                             </div>
                         </div>
                     }
@@ -302,8 +302,8 @@ function Propertyoverview({ propertyDetails }) {
                         <div className="flex items-center p-[10px] gap-4" >
                             <Image src={loan_facility} alt={`loan_facility`} className="w-5 h-5" />
                             <div>
-                                <p className="text-[14px] text-[#212529] font-[600] font-Montserrat">Loan Facility</p>
-                                <p className="text-[12px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.loan_facility || '----'}</p>
+                                <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Loan Facility</p>
+                                <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.loan_facility || '----'}</p>
                             </div>
                         </div>
                     }
@@ -314,22 +314,22 @@ function Propertyoverview({ propertyDetails }) {
                                 <Image src={car_parking} alt={`car_parking`} className="w-5 h-5" />
                                 {/* <IconCheckbox stroke={2} color="#434343" className="h-6 w-6" /> */}
                                 <div>
-                                    <p className="text-[14px] text-[#212529] font-[600] font-Montserrat">Car Parking</p>
-                                    <p className="text-[12px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.car_parking || '----'}</p>
+                                    <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Car Parking</p>
+                                    <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.car_parking || '----'}</p>
                                 </div>
                             </div>
                             <div className="flex items-center p-[10px] gap-4" >
                                 <Image src={bike_parking} alt={`bike_parking`} className="w-5 h-5" />
                                 <div>
-                                    <p className="text-[14px] text-[#212529] font-[600] font-Montserrat">Bike Parking</p>
-                                    <p className="text-[12px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.bike_parking || '----'}</p>
+                                    <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Bike Parking</p>
+                                    <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.bike_parking || '----'}</p>
                                 </div>
                             </div>
                             <div className="flex items-center p-[10px] gap-4" >
                                 <Image src={open_parking} alt={`open_parking`} className="w-5 h-5" />
                                 <div>
-                                    <p className="text-[14px] text-[#212529] font-[600] font-Montserrat">Open Parking</p>
-                                    <p className="text-[12px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.open_parking || '----'}</p>
+                                    <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Open Parking</p>
+                                    <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.open_parking || '----'}</p>
                                 </div>
                             </div>
                         </>
@@ -340,8 +340,8 @@ function Propertyoverview({ propertyDetails }) {
                             <div className="flex items-center p-[10px] gap-4" >
                                 <Image src={pantry_room} alt={`pantry_room`} className="w-5 h-5" />
                                 <div>
-                                    <p className="text-[14px] text-[#212529] font-[600] font-Montserrat">Pantry Room</p>
-                                    <p className="text-[12px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.pantry_room || '----'}</p>
+                                    <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Pantry Room</p>
+                                    <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.pantry_room || '----'}</p>
                                 </div>
                             </div>
                             :
@@ -349,8 +349,8 @@ function Propertyoverview({ propertyDetails }) {
                             <div className="flex items-center p-[10px] gap-4" >
                                 <Image src={servant_room} alt={`servant_room`} className="w-5 h-5" />
                                 <div>
-                                    <p className="text-[14px] text-[#212529] font-[600] font-Montserrat">Servant Room</p>
-                                    <p className="text-[12px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.servant_room || '----'}</p>
+                                    <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Servant Room</p>
+                                    <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.servant_room || '----'}</p>
                                 </div>
                             </div>
                     }
@@ -358,8 +358,8 @@ function Propertyoverview({ propertyDetails }) {
                     >
                         <Image src={project_area} alt={`project_area`} className="w-5 h-5 object-cover" />
                         <div>
-                            <p className="text-[14px] text-[#212529] font-[600] font-Montserrat">Project Area</p>
-                            <p className="text-[12px] text-[#434343] font-[600] font-Montserrat">10.5 Acres</p>
+                            <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Project Area</p>
+                            <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">10.5 Acres</p>
                         </div>
                     </div>
                     <div className=" flex items-center p-[10px] gap-4"
@@ -370,8 +370,8 @@ function Propertyoverview({ propertyDetails }) {
                             className="w-5 h-5 object-cover"
                         />
                         <div>
-                            <p className="text-[14px] text-[#212529] font-[600] font-Montserrat">Project Size</p>
-                            <p className="text-[12px] text-[#434343] font-[600] font-Montserrat">1 Building to 500 untis.</p>
+                            <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Project Size</p>
+                            <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">1 Building to 500 untis.</p>
                         </div>
                     </div>
                     <div className=" flex items-center justify-start  p-[10px] gap-4"
@@ -382,8 +382,8 @@ function Propertyoverview({ propertyDetails }) {
                             className="w-5 h-5 object-cover"
                         />
                         <div>
-                            <p className="text-[14px] text-[#212529] font-[600] font-Montserrat">Sizes</p>
-                            <p className="text-[12px] text-[#434343] font-[600] font-Montserrat">1890 sq.ft - 2890 sqft.</p>
+                            <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Sizes</p>
+                            <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">1890 sq.ft - 2890 sqft.</p>
                         </div>
                     </div>
                     <div className=" flex items-center justify-start  p-[10px] gap-4"
@@ -394,8 +394,8 @@ function Propertyoverview({ propertyDetails }) {
                             className="w-5 h-5 object-cover"
                         />
                         <div>
-                            <p className="text-[14px] text-[#212529] font-[600] font-Montserrat">Launch Date</p>
-                            <p className="text-[12px] text-[#434343] font-[600] font-Montserrat">JAN 2000.</p>
+                            <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Launch Date</p>
+                            <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">JAN 2000.</p>
                         </div>
                     </div>
                     <div className=" flex items-center justify-start  p-[10px] gap-4"
@@ -406,8 +406,8 @@ function Propertyoverview({ propertyDetails }) {
                             className="w-5 h-5 object-cover"
                         />
                         <div>
-                            <p className="text-[14px] text-[#212529] font-[600] font-Montserrat">Possession Starts</p>
-                            <p className="text-[12px] text-[#434343] font-[600] font-Montserrat">JAN 2025.</p>
+                            <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Possession Starts</p>
+                            <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">JAN 2025.</p>
                         </div>
                     </div>
                     <div className=" flex items-center justify-start  p-[10px] gap-4"
@@ -418,8 +418,8 @@ function Propertyoverview({ propertyDetails }) {
                             className="w-5 h-5 object-cover"
                         />
                         <div>
-                            <p className="text-[14px] text-[#212529] font-[600] font-Montserrat">Avg. Price</p>
-                            <p className="text-[12px] text-[#434343] font-[600] font-Montserrat">10.45k/sq.ft</p>
+                            <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Avg. Price</p>
+                            <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">10.45k/sq.ft</p>
                         </div>
                     </div>
                     {/* <div className=" flex items-center justify-start  p-[10px] gap-4"
@@ -430,8 +430,8 @@ function Propertyoverview({ propertyDetails }) {
                             className="w-5 h-5 object-cover"
                         />
                         <div>
-                            <p className="text-[14px] text-[#212529] font-[600] font-Montserrat">Configuration</p>
-                            <p className="text-[12px] text-[#434343] font-[600] font-Montserrat">3 BHK Apartment</p>
+                            <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Configuration</p>
+                            <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">3 BHK Apartment</p>
                         </div>
                     </div> */}
                 </div>
