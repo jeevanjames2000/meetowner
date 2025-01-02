@@ -1304,19 +1304,21 @@ function Addpropertydetails({
       }
     }
     if (getpropertyDetails?.property_for === 'Sell') {
-      if (!possessionStatus) {
-        setIsLoadingEffect(false)
-        toast.error('Please select possession status', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        })
-        setPossessionStatusError('Please select possession status')
-        return false;
+      if (propertySubType === "Plot" || propertySubType === "Land") {
+        if (!possessionStatus) {
+          setIsLoadingEffect(false)
+          toast.error('Please select possession status', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          })
+          setPossessionStatusError('Please select possession status')
+          return false;
+        }
       }
     }
     if (getpropertyDetails?.property_in === 'Commercial' && getpropertyDetails?.property_for === 'Sell') {
@@ -2795,6 +2797,7 @@ function Addpropertydetails({
         </div>
         {
           getpropertyDetails?.property_for === 'Sell' &&
+          (propertySubType === "Plot" || propertySubType === "Land") &&
           <div className='mb-5 mt-3'>
             <div className='flex gap-1 mb-4'>
               <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Possession Status</p>
