@@ -70,8 +70,8 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
     const updateBasicdetails = () => {
         setIsLoadingEffect(true)
         if (propertyType === '') {
-            setPropertyTypeError('Please select property type')
-            toast.error('Please select property type', {
+            setPropertyTypeError('Please select Property type')
+            toast.error('Please select Property type', {
                 position: "top-right",
                 autoClose: 3000,
                 hideProgressBar: true,
@@ -252,7 +252,7 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
     return (
         <>
             <div className='py-2 bg-[#E2EAED]'>
-                <p className='text-lg font-bold text-[#1D3A76] text-center'>Add Basic Details</p>
+                <p className='text-lg font-bold text-[#1D3A76] text-center'>ADD BASIC DETAILS</p>
             </div>
             <div className='p-10 h-[calc(100vh-220px)] overflow-y-auto'>
                 <>
@@ -342,8 +342,8 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
                     )}
             </div>
             <div className='flex flex-row justify-end items-center mb-3'>
-                <div onClick={updateBasicdetails} className='border border-[#1D3A76] bg-[#1D3A76] px-8 py-3 rounded-md cursor-pointer'>
-                    <p className='text-white text-[12px]'>Next, add property details</p>
+                <div onClick={updateBasicdetails} className='border border-[#1D3A76] bg-[#1D3A76] px-8 py-2 mr-2 rounded-md cursor-pointer'>
+                    <p className='text-white text-[11px] font-bold'>Next: Add Property Details</p>
                 </div>
             </div>
             <Loadingoverlay

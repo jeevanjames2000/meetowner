@@ -91,21 +91,6 @@ function Loginform() {
                 setIsLoadingEffect(false);
                 return false;
             } else {
-                // toast.success(data.message, {
-                //     position: 'top-right',
-                //     autoClose: 5000,
-                //     hideProgressBar: false,
-                //     closeOnClick: true,
-                //     pauseOnHover: true,
-                //     draggable: true,
-                //     progress: undefined,
-                // });
-                // updateAuthDetails(data.user_details, data.accessToken);
-                // router.push('/dashboard');
-                // setTimeout(() => {
-                //     setIsLoadingEffect(false);
-                // }, 3000);
-                // return false;
                 openOtpModal()
                 setTimeout(() => {
                     setIsLoadingEffect(false);
@@ -143,7 +128,7 @@ function Loginform() {
         }
         closeOtpModal()
         updateAuthDetails(userDetails, accessToken);
-        toast.success('otp Verified Successfully', {
+        toast.success('OTP Verified Successfully', {
             position: 'top-right',
             autoClose: 5000,
             hideProgressBar: false,

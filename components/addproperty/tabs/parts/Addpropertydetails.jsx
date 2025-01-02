@@ -3,13 +3,14 @@ import LoadingOverlay from '@/components/shared/LoadingOverlay'
 import { Modal, Select, Textarea, Textinput } from '@nayeshdaggula/tailify'
 import React, { useEffect, useState } from 'react'
 import Addfurnishingswrapper from './Addfurnishingswrapper';
-import { IconAsterisk } from '@tabler/icons-react';
+import { IconArrowNarrowLeft, IconAsterisk } from '@tabler/icons-react';
 import { useUserDetails } from '@/components/zustand/useUserDetails';
 import Propertyapi from '@/components/api/Propertyapi';
 import { useSearchParams } from 'next/navigation';
 import Errorpanel from '@/components/shared/Errorpanel';
 import { toast } from 'react-toastify';
 import { usePropertyDetails } from '@/components/zustand/usePropertyDetails';
+import NumberToWords from '@/components/shared/NumberToWords';
 function Addpropertydetails({
   updateActiveTab, propertyDetails, preferedTenantList,
   bacloniesList, bedroomtypesList, businesstypesList,
@@ -313,16 +314,44 @@ function Addpropertydetails({
     setPreferredTenantTypeError('')
   }
 
+  let builtupAreadebounceTimeout;
   const [builtupArea, setBuiltupArea] = useState('')
   const [builtupAreaError, setBuiltupAreaError] = useState('')
   const updateBuiltupArea = (e) => {
-    let value = e.target.value;
+    const value = e.target.value;
+
     if (isNaN(value)) {
       return false;
     }
-    setBuiltupArea(value)
-    setBuiltupAreaError('')
+
+    // Clear any previous debounce timeout
+    clearTimeout(builtupAreadebounceTimeout);
+
+    // Set the built-up area immediately
+    setBuiltupArea(value);
+
+    // Delay the validation
+    builtupAreadebounceTimeout = setTimeout(() => {
+      const numValue = Number(value);
+
+      if (getpropertyDetails?.property_in === "Commercial") {
+        if (numValue < 100 || numValue > 2000000) {
+          setBuiltupAreaError('Builtup area should be between 100 to 2,000,000');
+          return;
+        }
+      } else if (getpropertyDetails?.property_in === "Residential") {
+        if (numValue < 150 || numValue > 20000) {
+          setBuiltupAreaError('Builtup area should be between 150 to 20,000');
+          return;
+        }
+      }
+
+      // Clear the error if validation passes
+      setBuiltupAreaError('');
+    }, 1000); // 1-second debounce delay
   }
+
+  let carpetAreadebounceTimeout;
   const [carpetArea, setCarpetArea] = useState('')
   const [carpetAreaError, setCarpetAreaError] = useState('')
   const updateCarpetArea = (e) => {
@@ -330,9 +359,30 @@ function Addpropertydetails({
     if (isNaN(value)) {
       return false;
     }
-    setCarpetArea(value)
-    setCarpetAreaError('')
+
+    // Clear any previous debounce timeout
+    clearTimeout(carpetAreadebounceTimeout);
+    // Set the carpet area immediately
+    setCarpetArea(value);
+    // Delay the validation
+    carpetAreadebounceTimeout = setTimeout(() => {
+      const numValue = Number(value);
+
+      if (getpropertyDetails?.property_in === "Commercial") {
+        if (numValue < 100 || numValue > 2000000) {
+          setCarpetAreaError('Carpet area should be between 100 to 200,00,00')
+          return false;
+        }
+      } else if (getpropertyDetails?.property_in === "Residential") {
+        if (numValue < 150 || numValue > 20000) {
+          setCarpetAreaError('Carpet area should be between 150 to 20,000')
+          return false;
+        }
+      }
+      setCarpetAreaError('')
+    }, 1000); // 1-second debounce delay
   }
+
   const [lengthArea, setLengthArea] = useState('')
   const [lengthAreaError, setLengthAreaError] = useState('')
   const updateLengthArea = (e) => {
@@ -680,7 +730,7 @@ function Addpropertydetails({
     setIsLoadingEffect(true)
     if (!propertySubType) {
       setIsLoadingEffect(false)
-      toast.error('Please select property sub type', {
+      toast.error('Please select Property sub type', {
         position: "top-right",
         autoClose: 3000,
         hideProgressBar: true,
@@ -689,22 +739,24 @@ function Addpropertydetails({
         draggable: true,
         progress: undefined,
       })
-      setPropertySubTypeError('Please select property sub type')
+      setPropertySubTypeError('Please select Property sub type')
       return false;
     }
-    if (!reraApproved) {
-      setIsLoadingEffect(false)
-      toast.error('Please select rera approved', {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      })
-      setReraApprovedError('Please select rera approved')
-      return false;
+    if (getpropertyDetails?.property_in !== 'Residential' && getpropertyDetails?.property_for !== 'Rent') {
+      if (!reraApproved) {
+        setIsLoadingEffect(false)
+        toast.error('Please select rera approved', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setReraApprovedError('Please select rera approved')
+        return false;
+      }
     }
 
     if (getpropertyDetails?.property_for === "Sell") {
@@ -948,7 +1000,7 @@ function Addpropertydetails({
     if (constructionStatus === 1) {
       if (!ageofProperty) {
         setIsLoadingEffect(false)
-        toast.error('Please enter age of property', {
+        toast.error('Please enter age of Property', {
           position: "top-right",
           autoClose: 3000,
           hideProgressBar: true,
@@ -957,7 +1009,7 @@ function Addpropertydetails({
           draggable: true,
           progress: undefined,
         })
-        setAgeofPropertyError('Please enter age of property')
+        setAgeofPropertyError('Please enter age of Property')
         return false;
       }
     }
@@ -1080,6 +1132,37 @@ function Addpropertydetails({
         setBuiltupAreaError('Please enter builtup area')
         return false;
       }
+      if (getpropertyDetails?.property_in === "Commercial") {
+        if (builtupArea < 100 || builtupArea > 2000000) {
+          setIsLoadingEffect(false)
+          toast.error('Builtup area should be between 100 to 200,00,00', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          })
+          setBuiltupAreaError('Builtup area should be between 100 to 200,00,00')
+          return false;
+        }
+      } else if (getpropertyDetails?.property_in === "Residential") {
+        if (builtupArea < 150 || builtupArea > 20000) {
+          setIsLoadingEffect(false)
+          toast.error('Builtup area should be between 150 to 20,000', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          })
+          setBuiltupAreaError('Builtup area should be between 150 to 20,000')
+          return false;
+        }
+      }
       if (!carpetArea) {
         setIsLoadingEffect(false)
         toast.error('Please enter carpet area', {
@@ -1093,6 +1176,37 @@ function Addpropertydetails({
         })
         setCarpetAreaError('Please enter carpet area')
         return false;
+      }
+      if (getpropertyDetails?.property_in === "Commercial") {
+        if (carpetArea < 100 || carpetArea > 2000000) {
+          setIsLoadingEffect(false)
+          toast.error('Carpet area should be between 100 to 200,00,00', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          })
+          setCarpetAreaError('Carpet area should be between 100 to 200,00,00')
+          return false;
+        }
+      } else if (getpropertyDetails?.property_in === "Residential") {
+        if (carpetArea < 150 || carpetArea > 20000) {
+          setIsLoadingEffect(false)
+          toast.error('Carpet area should be between 150 to 20,000', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          })
+          setCarpetAreaError('Carpet area should be between 150 to 20,000')
+          return false;
+        }
       }
     }
     if (propertySubType === "Plot" || propertySubType === "Land") {
@@ -1176,7 +1290,7 @@ function Addpropertydetails({
       }
       if (!propertyCost) {
         setIsLoadingEffect(false)
-        toast.error('Please enter property cost', {
+        toast.error('Please enter Property cost', {
           position: "top-right",
           autoClose: 3000,
           hideProgressBar: true,
@@ -1185,7 +1299,7 @@ function Addpropertydetails({
           draggable: true,
           progress: undefined,
         })
-        setPropertyCostError('Please enter property cost')
+        setPropertyCostError('Please enter Property cost')
         return false;
       }
     }
@@ -1240,20 +1354,6 @@ function Addpropertydetails({
         return false;
       }
 
-    }
-    if (!otherInfo) {
-      setIsLoadingEffect(false)
-      toast.error('Please other info', {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      })
-      setOtherInfoError('Please enter other info')
-      return false;
     }
     if (getpropertyDetails?.property_in === "Commercial") {
       if (propertySubType === "Warehouse" || propertySubType === "Plot" || propertySubType === "Others") {
@@ -1323,7 +1423,7 @@ function Addpropertydetails({
       if (propertySubType === "Apartment" || propertySubType === "Independent Villa" || propertySubType === "Plot") {
         if (!investorProperty) {
           setIsLoadingEffect(false)
-          toast.error('Please select investor property', {
+          toast.error('Please select investor Property', {
             position: "top-right",
             autoClose: 3000,
             hideProgressBar: true,
@@ -1332,7 +1432,7 @@ function Addpropertydetails({
             draggable: true,
             progress: undefined,
           })
-          setInvestorPropertyError('Please select investor property')
+          setInvestorPropertyError('Please select investor Property')
           return false;
         }
       }
@@ -1490,7 +1590,7 @@ function Addpropertydetails({
     }
     if (!propertyDescription) {
       setIsLoadingEffect(false)
-      toast.error('Please enter property description', {
+      toast.error('Please enter Property description', {
         position: "top-right",
         autoClose: 3000,
         hideProgressBar: true,
@@ -1499,7 +1599,7 @@ function Addpropertydetails({
         draggable: true,
         progress: undefined,
       })
-      setPropertyDescriptionError('Please enter property description')
+      setPropertyDescriptionError('Please enter Property description')
       return false;
     }
 
@@ -1642,7 +1742,7 @@ function Addpropertydetails({
           setIsLoadingEffect(false);
           return false;
         }
-        toast.success('property details added successfully', {
+        toast.success('Property details added successfully', {
           position: "top-right",
           autoClose: 3000,
           hideProgressBar: true,
@@ -1724,7 +1824,6 @@ function Addpropertydetails({
         });
         return updatedFacilities;
       });
-      setOtherInfo(propertyDetails?.other_info || '')
       setFacing(propertyDetails?.facing || '')
       if (parseInt(propertyDetails?.car_parking) > 4) {
         setCarParking("4plus")
@@ -2005,8 +2104,13 @@ function Addpropertydetails({
   return (
     <div className='relative'>
       <div className='py-2 bg-[#E2EAED]'>
-        <p className='text-lg font-bold text-[#1D3A76] text-center font-sans'>Add Property Details</p>
-        <div className='flex'>
+        <div className='flex justify-start items-center px-5'>
+          <div className='w-9 cursor-pointer' onClick={() => updateActiveTab('basicdetails', 'completed', unique_property_id)}>
+            <IconArrowNarrowLeft size={18} color='#1D3A76' />
+          </div>
+          <p className=' w-full text-lg font-bold text-[#1D3A76] text-center font-sans'>ADD PROPERTY DETAILS</p>
+        </div>
+        {/* <div className='flex'>
           <div className='flex items-center gap-1 mt-1 px-5'>
             <p className=' text-xs font-sans font-bold'>Property Type:</p>
             <p className=' text-xs font-sans '>{getpropertyDetails?.property_in}</p>
@@ -2015,9 +2119,9 @@ function Addpropertydetails({
             <p className=' text-xs font-sans font-bold'>Looking To:</p>
             <p className=' text-xs font-sans '>{getpropertyDetails?.property_for}</p>
           </div>
-        </div>
+        </div> */}
       </div>
-      <div className='w-full overflow-y-auto px-5 py-3 h-[calc(100vh-220px)]'>
+      <div className='w-full overflow-y-auto px-5 py-3 h-[calc(100vh-240px)]'>
         <div className='mb-5'>
           <div className='flex gap-1 mb-4'>
             <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Property Sub Type</p>
@@ -2037,23 +2141,26 @@ function Addpropertydetails({
               }
               )}
           </div>
-          {propertySubTypeError && <p className='text-[#FF0000] text-xs font-sans'>Please select property type</p>}
+          {propertySubTypeError && <p className='text-[#FF0000] text-xs font-sans'>Please select Property type</p>}
         </div>
-        <div className='mb-5'>
-          <div className='flex gap-1 mb-4'>
-            <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>RERA Approved</p>
-            <IconAsterisk size={8} color='#FF0000' />
-          </div>
-          <div className='flex flex-row items-center gap-6'>
-            <div onClick={() => updateReraApproved('Yes')} className={`group cursor-pointer px-8 py-2 rounded-md  ${reraApproved === 'Yes' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-              <p className={`text-[10px] font-sans ${reraApproved === 'Yes' ? 'text-white ' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Yes</p>
+        {
+          (getpropertyDetails?.property_in !== 'Residential' && getpropertyDetails?.property_for !== 'Rent') &&
+          <div className='mb-5'>
+            <div className='flex gap-1 mb-4'>
+              <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>RERA Approved</p>
+              <IconAsterisk size={8} color='#FF0000' />
             </div>
-            <div onClick={() => updateReraApproved('No')} className={`group cursor-pointer px-8 py-2 rounded-md  ${reraApproved === 'No' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
-              <p className={`text-[10px] font-sans ${reraApproved === 'No' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>No</p>
+            <div className='flex flex-row items-center gap-6'>
+              <div onClick={() => updateReraApproved('Yes')} className={`group cursor-pointer px-8 py-2 rounded-md  ${reraApproved === 'Yes' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                <p className={`text-[10px] font-sans ${reraApproved === 'Yes' ? 'text-white ' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Yes</p>
+              </div>
+              <div onClick={() => updateReraApproved('No')} className={`group cursor-pointer px-8 py-2 rounded-md  ${reraApproved === 'No' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
+                <p className={`text-[10px] font-sans ${reraApproved === 'No' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>No</p>
+              </div>
             </div>
+            {reraApprovedError && <p className='text-[#FF0000] text-xs font-sans'>Please select one option</p>}
           </div>
-          {reraApprovedError && <p className='text-[#FF0000] text-xs font-sans'>Please select one option</p>}
-        </div>
+        }
         {
           (getpropertyDetails?.property_for === "Sell") &&
           (!(propertySubType === "Plot" || propertySubType === "Land")) &&
@@ -2213,7 +2320,7 @@ function Addpropertydetails({
                   furnishedtypesList.length > 0 &&
                   furnishedtypesList.map((item, index) => {
                     return (
-                      <div key={index} onClick={() => updateFurnishType(item.value)} className={`group flex flex-col justify-center items-center gap-2 border-2 rounded-md px-4 py-2 w-[100%] cursor-pointer ${furnishType === item.value ? 'bg-[#1D3A76] border-[#1D3A76] ' : 'border-[#d7d5d5ba] hover:bg-[#1D3A76]'}`}>
+                      <div key={index} onClick={() => updateFurnishType(item.value)} className={`group flex flex-col justify-center items-center gap-2 border-2 border-[#909090] rounded-md px-4 py-2 w-[100%] cursor-pointer ${furnishType === item.value ? 'bg-[#1D3A76] border-[#1D3A76] ' : 'border-[#d7d5d5ba] hover:bg-[#1D3A76]'}`}>
                         <p className={`text-xs text-center font-medium ${furnishType === item.value ? 'text-white' : 'text-[#1D3A76] group-hover:text-white'} `}>{item.name}</p>
                       </div>
                     )
@@ -2345,15 +2452,15 @@ function Addpropertydetails({
         {
           getpropertyDetails?.property_for === "Rent" &&
           <div className='mb-5'>
-            <div className='flex gap-1 mb-4'>
+            <div className='flex gap-1 mb-1'>
               <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Available From </p>
               <IconAsterisk size={8} color='#FF0000' />
             </div>
-            <div className='border border-[#909090] rounded-md w-[20%] px-3'>
+            <div className='border-b border-[#d1d5db] w-[30%] px-3'>
               <input
                 type="date"
                 id="date"
-                className='text-[14px] w-full py-1 outline-none'
+                className='text-[14px] w-full py-1 outline-none '
                 autoComplete='off'
                 value={availableFromDate}
                 onChange={updateAvailableFromDate}
@@ -2387,11 +2494,11 @@ function Addpropertydetails({
         {
           (constructionStatus === 2) &&
           <div className='mb-5'>
-            <div className='flex gap-1 mb-4'>
+            <div className='flex gap-1 mb-1'>
               <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Possesion End</p>
               <IconAsterisk size={8} color='#FF0000' />
             </div>
-            <div className='border border-[#909090] rounded-md w-[20%] px-3'>
+            <div className='border-b border-[#d1d5db] w-[30%] px-3'>
               <input
                 type="date"
                 id="date"
@@ -2547,12 +2654,12 @@ function Addpropertydetails({
                   value={builtupArea}
                   onChange={updateBuiltupArea}
                 />
-                {builtupAreaError && <p className='text-[#FF0000] text-xs font-sans'>Please enter built-up area</p>}
+                {builtupAreaError && <p className='text-[#FF0000] text-xs font-sans'>{builtupAreaError}</p>}
               </div>
               <div className='mt-3'>
                 <div className='flex gap-1'>
                   <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Carpet Area({areaUnits})</p>
-                  <IconAsterisk size={8} color='#FF0000' />
+                  {/* <IconAsterisk size={8} color='#FF0000' /> */}
                 </div>
                 <Textinput
                   type='number'
@@ -2561,7 +2668,7 @@ function Addpropertydetails({
                   value={carpetArea}
                   onChange={updateCarpetArea}
                 />
-                {carpetAreaError && <p className='text-[#FF0000] text-xs font-sans'>Please enter carpet area</p>}
+                {carpetAreaError && <p className='text-[#FF0000] text-xs font-sans'>{carpetAreaError}</p>}
               </div>
             </>
           }
@@ -2636,20 +2743,32 @@ function Addpropertydetails({
             <>
               {
                 !(propertySubType === "Independent House" || propertySubType === "Independent Villa") &&
-                <div className='mt-2'>
-                  <div className='flex gap-1'>
-                    <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Unit Cost</p>
+                <>
+                  <div className='flex gap-1 mt-2'>
+                    <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Unit Cost ({areaUnits})</p>
                     <IconAsterisk size={8} color='#FF0000' />
                   </div>
-                  <Textinput
-                    type='number'
-                    placeholder="Unit Cost"
-                    inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
-                    value={unitCost}
-                    onChange={updateUnitCost}
-                  />
-                  {unitCostError && <p className='text-[#FF0000] text-xs font-sans'>Please enter unit cost</p>}
-                </div>
+                  <div className='flex flex-row items-center '>
+                    <div className='w-8'>
+                      <Textinput
+                        value='Rs.'
+                        placeholder="Rs."
+                        inputClassName='text-[12px] md:text-[14px] border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
+                        inputProps={{ readOnly: true }}
+                      />
+                    </div>
+                    <div className='w-full'>
+                      <Textinput
+                        type='number'
+                        placeholder="Unit Cost"
+                        inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
+                        value={unitCost}
+                        onChange={updateUnitCost}
+                      />
+                      {unitCostError && <p className='text-[#FF0000] text-xs font-sans'>Please enter unit cost</p>}
+                    </div>
+                  </div>
+                </>
               }
               <div className='my-3'>
                 <div className='flex gap-1'>
@@ -2663,7 +2782,13 @@ function Addpropertydetails({
                   value={propertyCost}
                   onChange={updatePropertyCost}
                 />
-                {propertyCostError && <p className='text-[#FF0000] text-xs font-sans'>Please enter property cost</p>}
+                {
+                  propertyCost &&
+                  <NumberToWords
+                    value={propertyCost}
+                  />
+                }
+                {propertyCostError && <p className='text-[#FF0000] text-xs font-sans'>Please enter Property cost</p>}
               </div>
             </>
           }
@@ -2735,16 +2860,16 @@ function Addpropertydetails({
             </ul>
           </div>
         }
-        <Textarea
+        {/* <Textarea
           label="Enter other attractive offers (Max 100 characters)"
-          placeholder="your details of property"
+          placeholder="your details of Property"
           withAsterisk
           textareaClassName='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans'
           labelClassName='text-[#1D3A76] text-[12px] font-medium font-sans mt-3'
           value={otherInfo}
           onChange={updateOtherInfo}
           error={otherInfoError}
-        />
+        /> */}
         {
           getpropertyDetails?.property_in === "Commercial" &&
           <>
@@ -2768,7 +2893,7 @@ function Addpropertydetails({
                 </div>
                 :
                 <div className='mb-5'>
-                  <div className='flex gap-1 mb-4'>
+                  <div className='flex gap-1 mt-4 mb-2'>
                     <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Flat No.</p>
                     <IconAsterisk size={8} color='#FF0000' />
                   </div>
@@ -3051,15 +3176,15 @@ function Addpropertydetails({
             value={propertyDescription}
             onChange={updatePropertyDescription}
           />
-          {propertyDescriptionError && <p className='text-[#FF0000] text-xs font-sans'>Please enter property description</p>}
+          {propertyDescriptionError && <p className='text-[#FF0000] text-xs font-sans'>Please enter Property description</p>}
         </div>
       </div>
-      <div className='flex flex-row justify-between items-center px-6 pt-3'>
-        <div onClick={() => updateActiveTab('basicdetails', 'completed', unique_property_id)} className='bg-[#000] px-8 py-2 rounded-md cursor-pointer'>
+      <div className='flex flex-row justify-end items-center px-6 py-3'>
+        {/* <div onClick={() => updateActiveTab('basicdetails', 'completed', unique_property_id)} className='bg-[#000] px-8 py-2 rounded-md cursor-pointer'>
           <p className='text-white text-[10px]'>Back</p>
-        </div>
+        </div> */}
         <div onClick={handleSubmitPropertyDetails} className='border border-[#1D3A76] bg-[#1D3A76] px-8 py-2 rounded-md cursor-pointer'>
-          <p className='text-white text-[10px]'>Next, add address details</p>
+          <p className='text-white text-[10px] font-bold'>Next: Add Address Details</p>
         </div>
       </div>
       <LoadingOverlay isLoading={isLoadingEffect} />

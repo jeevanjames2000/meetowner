@@ -1,3 +1,4 @@
+'use client'
 import Generalapi from '@/components/api/Generalapi'
 import Propertyapi from '@/components/api/Propertyapi'
 import Errorpanel from '@/components/shared/Errorpanel'
@@ -5,7 +6,7 @@ import LoadingOverlay from '@/components/shared/LoadingOverlay'
 import { usePropertyDetails } from '@/components/zustand/usePropertyDetails'
 import { useUserDetails } from '@/components/zustand/useUserDetails'
 import { Modal, Select, Textinput } from '@nayeshdaggula/tailify'
-import { IconAsterisk } from '@tabler/icons-react'
+import { IconArrowNarrowLeft, IconAsterisk } from '@tabler/icons-react'
 import { useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-toastify'
@@ -45,9 +46,6 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
   const [flatNoError, setFlatNoError] = useState('')
   const updateFlatNo = (e) => {
     let value = e.target.value
-    // if (isNaN(value)) {
-    //   return false;
-    // }
     setFlatNo(value)
     setFlatNoError('')
   }
@@ -59,15 +57,25 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
     if (isNaN(value)) {
       return false;
     }
+    if (value > 100) {
+      setFloorNoError('Please enter floor no less than 100')
+      return false;
+    }
     setFloorNo(value)
     setFloorNoError('')
   }
+
+  console.log('floorNoError', floorNoError)
 
   const [totalFloors, setTotalFloors] = useState('')
   const [totalFloorsError, setTotalFloorsError] = useState('')
   const updateTotalFloors = (e) => {
     let value = e.target.value
     if (isNaN(value)) {
+      return false;
+    }
+    if (value > 100) {
+      setTotalFloorsError('Please enter total floors less than 100')
       return false;
     }
     setTotalFloors(value)
@@ -109,7 +117,7 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
     }
     if (propertyName === '') {
       setIsLoadingEffect(false)
-      toast.error('Please enter property name', {
+      toast.error('Please enter Property name', {
         position: "top-right",
         autoClose: 3000,
         hideProgressBar: true,
@@ -118,7 +126,7 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
         draggable: true,
         progress: undefined,
       })
-      setPropertyNameError('please enter property name')
+      setPropertyNameError('Please enter Property name')
       return false;
     }
     if (locality === '') {
@@ -162,7 +170,21 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
             draggable: true,
             progress: undefined,
           })
-          setFloorNoError('please enter floor no')
+          setFloorNoError('Please enter floor no')
+          return false;
+        }
+        if (floorNo > 100) {
+          setIsLoadingEffect(false)
+          toast.error('Please Enter Floor No. less than 100', {
+            position: "top-right",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          })
+          setFloorNoError('Please enter floor no less than 100')
           return false;
         }
       }
@@ -178,6 +200,20 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
           progress: undefined,
         })
         setTotalFloorsError('please enter total floors')
+        return false;
+      }
+      if (totalFloors > 100) {
+        setIsLoadingEffect(false)
+        toast.error('Please Enter Total Floors less than 100.', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setTotalFloorsError('please enter total floors less than 100')
         return false;
       }
     } else {
@@ -326,7 +362,12 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
     <>
       <div className='relative'>
         <div className='py-2 bg-[#E2EAED]'>
-          <p className='text-lg font-bold text-[#1D3A76] text-center font-sans'>Add Address</p>
+          <div className='flex justify-start items-center px-5'>
+            <div className='w-9 cursor-pointer' onClick={() => updateActiveTab('propertydetails', 'completed', unique_property_id)}>
+              <IconArrowNarrowLeft size={18} color='#1D3A76' />
+            </div>
+            <p className=' w-full text-lg font-bold text-[#1D3A76] text-center font-sans'>Add Address</p>
+          </div>
         </div>
         <div className='w-full overflow-y-auto px-5 py-3 h-[calc(100vh-220px)]'>
           <div className='mb-5'>
@@ -357,21 +398,13 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
               value={propertyName}
               onChange={updatePropertyName}
             />
-            {propertyNameError && <p className='text-[#FF0000] text-xs font-sans'>Please enter property name</p>}
+            {propertyNameError && <p className='text-[#FF0000] text-xs font-sans'>Please enter Property name</p>}
           </div>
           <div className='my-4'>
             <div className='flex gap-1'>
               <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Locality</p>
               <IconAsterisk size={8} color='#FF0000' />
             </div>
-            {/* <input
-              type='text'
-              placeholder='Locality'
-              className='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans '
-              autoComplete='off'
-              value={locality}
-              onChange={updateLocality}
-            /> */}
             <Textinput
               placeholder="Locality"
               inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
@@ -411,7 +444,7 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
                       value={floorNo}
                       onChange={updateFloorNo}
                     />
-                    {floorNoError && <p className='text-[#FF0000] text-xs font-sans'>Please enter floor No.</p>}
+                    {floorNoError && <p className='text-[#FF0000] text-xs font-sans'>{floorNoError}</p>}
                   </div>
                 }
                 <div className='my-4'>
@@ -426,7 +459,7 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
                     value={totalFloors}
                     onChange={updateTotalFloors}
                   />
-                  {totalFloorsError && <p className='text-[#FF0000] text-xs font-sans'>Please enter total floors</p>}
+                  {totalFloorsError && <p className='text-[#FF0000] text-xs font-sans'>{totalFloorsError}</p>}
                 </div>
               </>
               :
@@ -446,12 +479,12 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
               </div>
           }
         </div>
-        <div className='flex flex-row justify-between items-center  px-6 pt-3'>
-          <div onClick={() => updateActiveTab('propertydetails', 'completed', unique_property_id)} className='bg-[#000] px-8 py-2 rounded-md cursor-pointer'>
+        <div className='flex flex-row justify-end items-center  px-6 pt-3'>
+          {/* <div onClick={() => updateActiveTab('propertydetails', 'completed', unique_property_id)} className='bg-[#000] px-8 py-2 rounded-md cursor-pointer'>
             <p className='text-white text-[10px]'>Back</p>
-          </div>
+          </div> */}
           <div onClick={updateAddress} className='border border-[#1D3A76] bg-[#1D3A76] px-8 py-2 rounded-md cursor-pointer'>
-            <p className='text-white text-[10px]'>Post property</p>
+            <p className='text-white text-[10px] font-bold'>Next: Add Photos</p>
           </div>
         </div>
         <LoadingOverlay isLoading={isLoadingEffect} />

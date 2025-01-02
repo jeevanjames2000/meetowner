@@ -29,11 +29,6 @@ function Propertyprice({ propertyDetails }) {
         return price;
     };
 
-    //     <p className="text-[18px] font-semibold text-[#492828] font-sans">
-    //     {/* ₹ 2 Cr - ₹ 4 Cr - <span className="text-[#000000] font-[400] text-[18px]"> ₹ 10.k/sq.ft</span> */}
-    //     {propertyDetails?.property_for === "Sell" ? `₹ ${formatPrice(propertyDetails?.property_cost)}` : ` ₹ ${formatPrice(propertyDetails?.monthly_rent)} Rent`}
-    // </p>
-
     let new_price;
 
     if (propertyDetails?.property_for === "Sell") {

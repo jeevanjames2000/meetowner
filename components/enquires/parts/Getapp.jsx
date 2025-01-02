@@ -8,7 +8,7 @@ function Getapp() {
             {/* Top Section */}
             <div className="flex gap-3 pt-3">
                 <div className="w-[83%] flex flex-col">
-                    <p className="text-[12px] font-[600] text-[#ffffff]">
+                    <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text[20px] font-[600] text-[#ffffff]">
                         Get enquiry details & latest updates on the app
                     </p>
                 </div>
@@ -18,7 +18,7 @@ function Getapp() {
                     className="w-[17%] h-[34px] object-contain"
                 />
             </div>
-            <p className="text-[10px] font-[400] text-[#ffffff] py-1">
+            <p className="text-[8px] xs:text-[10px] 2xl:text-[14px] 3xl:text-[16px] 4xl:text[18px] font-[400] text-[#ffffff] py-1">
                 Scan the QR code or get the app link on your WhatsApp
             </p>
             {/* Bottom Section */}
@@ -26,13 +26,13 @@ function Getapp() {
                 <input
                     type="number"
                     placeholder=" Enter your mobile number"
-                    className="w-[70%] text-[10px] border border-[#878787] rounded-[2px] h-6 pl-2 bg-[#1D3A76] text-[#FFFFFF] font-[600] 
+                    className="w-[70%] text-[8px] xs:text-[10px] 2xl:text-[14px] 3xl:text-[16px] 4xl:text[18px] border border-[#878787] rounded-[2px] h-6 2xl:h-7 3xl:h-8 4xl:h-9 pl-2 bg-[#1D3A76] text-[#FFFFFF] font-[600] 
                 focus:outline focus:outline-[#ffffff] appearance-none 
                 [&::-webkit-inner-spin-button]:appearance-none 
                 [&::-webkit-outer-spin-button]:appearance-none"
                 />
                 <button
-                    className="w-[30%] bg-[#53c0ac] text-[#FFFFFF] font-[600] p-1 h-6 text-[10px] rounded-[2px] 
+                    className="w-[30%] bg-[#53c0ac] text-[#FFFFFF] font-[600] p-1 h-6 2xl:h-7 3xl:h-8 4xl:h-9 text-[8px] xs:text-[10px] 2xl:text-[14px] 3xl:text-[16px] 4xl:text[18px] rounded-[2px] 
                 hover:bg-[#53c0ac]/70 focus:outline-none"
                 >
                     Get App
