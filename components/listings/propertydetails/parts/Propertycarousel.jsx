@@ -32,7 +32,7 @@ function Property({ propertyDetails }) {
                     {
                         (propertyDetails?.sub_type === "Apartment" || propertyDetails?.sub_type === "Independent House" || propertyDetails?.sub_type === "Independent Villa") &&
                         <p className="text-[14px] font-semibold text-[#00609E] border-l-[1.8px] border-r-[1.8px] border-[#8787874F] px-2 py-[2px]">
-                            {propertyDetails?.furnished_status ? propertyDetails?.furnished_status === "Unfurinished" ? `${propertyDetails?.furnished_status}` : `${propertyDetails?.furnished_status} Furnished` : ''}
+                            {propertyDetails?.furnished_status ? propertyDetails?.furnished_status === "Unfurnished" ? `${propertyDetails?.furnished_status}` : `${propertyDetails?.furnished_status} Furnished` : ''}
                         </p>
                     }
                     <p className="text-[14px] font-semibold text-[#00609E] py-[2px]">

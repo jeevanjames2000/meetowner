@@ -29,7 +29,7 @@ module.exports = {
         '3xl': '1921px', // Very large screens (gaming monitors, TVs)
         '4xl': '2561px', // 4k and above
       }
-
+ 
     },
     letterSpacing: {
       'extra-wide': '0.3em', // Example: Wider than `tracking-widest`
@@ -38,3 +38,4 @@ module.exports = {
   },
   plugins: [],
 };
+ 

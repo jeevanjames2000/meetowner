@@ -88,7 +88,7 @@ function Listingcard({
                             {
                                 (property_subtype === "Apartment" || property_subtype === "Independent House" || property_subtype === "Independent Villa") &&
                                 <p className="text-[11px] font-[600] text-[#757575]">
-                                    {furnished_status ? furnished_status === "Unfurinished" ? `${furnished_status}` : `${furnished_status} Furnished` : ''}
+                                    {furnished_status ? furnished_status === "Unfurnished" ? `${furnished_status}` : `${furnished_status} Furnished` : ''}
                                 </p>
                             }
                             <p className="text-[11px] font-[600] text-[#757575]"><span className=''>{facing ? `${facing} facing` : '-----'}</span></p>

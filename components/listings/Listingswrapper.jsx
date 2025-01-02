@@ -256,6 +256,7 @@ function Listingswrapper({ occupancyList }) {
                 setDeleteModal(false)
                 toast.success('Property deleted successfully')
                 refreshListings()
+                getPropertiesCount()
             }
             )
             .catch((error) => {
@@ -497,7 +498,7 @@ function Listingswrapper({ occupancyList }) {
                 >
                     <div className="flex flex-col items-center justify-center gap-2 p-4">
                         <IconTrash size={40} stroke={1.5} color="#1D3A76" />
-                        <p className="text-[#706e6e] text-[14px] font-[600]">Are you sure you want to delete this property {singlePropertyId}?</p>
+                        <p className="text-[#706e6e] text-[14px] font-[600]">Are you sure you want to delete this Property {singlePropertyId}?</p>
                         <div className="flex gap-4 pt-4">
                             <button onClick={() => handleDeleteProperty(singlePropertyId)} className="py-2 px-4 bg-[#038AC9] text-white font-[700] text-[14px] rounded-lg">Yes, I'm sure</button>
                             <button onClick={closeDeleteModal} className="py-2 px-4 bg-[#A5413F] text-white font-[700] text-[14px] rounded-lg">No, Cancel</button>

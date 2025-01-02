@@ -16,7 +16,7 @@ function Propertyvaluecalculator() {
                     <p className="text-[16px] 2xl:text-[20px] 3xl:text-[22px] 4xl:text[24px] font-[700] text-[#6d6c6c]">Property Value Calculator</p>
                     <p className="text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text[20px] font-[400] text-[#6d6c6c]">Calculate the right value of your property</p>
                     <button
-                        className="flex items-center text-[#699BA0] ml-auto h-7 2xl:h-8 3xl:h-9 4xl:h-10 py-1 text-[11px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text[20px] font-[700] rounded-md focus:outline-none bg-transparent hover:bg-[#e6f5f2] transition-all"
+                        className="flex items-center text-[#699BA0] ml-auto h-7 2xl:h-8 3xl:h-9 4xl:h-10 py-1 text-[11px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text[20px] font-[700] rounded-md focus:outline-none bg-transparent"
                     >
                         Add property
                         <div className="bg-[#699BA0] h-3 w-3 2xl:h-4 3xl:h-5 4xl:h-6 2xl:w-4 3xl:w-5 4xl:w-6 flex items-center justify-center rounded-full ml-2">
