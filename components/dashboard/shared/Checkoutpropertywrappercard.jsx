@@ -16,7 +16,7 @@ function Checkoutpropertywrappercard({
         if (price >= 10000000) {
             return (price / 10000000).toFixed(2) + ' Cr'; // Crores
         } else if (price >= 100000) {
-            return (price / 100000).toFixed(2) + ' Lac'; // Lakhs
+            return (price / 100000).toFixed(2) + ' Lakhs'; // Lakhs
         } else if (price >= 1000) {
             return (price / 1000).toFixed(2) + ' K'; // Thousands
         }
