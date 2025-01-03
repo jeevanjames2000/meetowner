@@ -1,5 +1,5 @@
 'use client'
-import { IconChevronDown, IconCircle, IconTrash } from '@tabler/icons-react';
+import { IconChevronDown, IconCircle, IconMenu2, IconTrash, IconX } from '@tabler/icons-react';
 import Link from 'next/link';
 import React, { useCallback, useEffect, useState } from 'react';
 import listingApi from '../api/listingApi';
@@ -269,181 +269,188 @@ function Listingswrapper({ occupancyList }) {
             });
     }
 
+    const [isShowCategoryFilter, setIsShowCategoryFilter] = useState(false);
+    const openCategoryFilter = () => {
+        setIsShowCategoryFilter(!isShowCategoryFilter);
+    }
+    const closeCategoryFilter = () => {
+        setIsShowCategoryFilter(false);
+    }
+
     return (
         <>
-            <div className="px-5 sm:px-10 md:px-[80px] w-full my-5 md:my-16 flex md:gap-8">
+            <div className={`px-5 sm:px-10 lg:px-[80px] w-full my-5 md:my-16 flex flex-col md:flex-row gap-4 lg:gap-8 ${isShowCategoryFilter ? 'overflow-hidden h-[calc(100vh-120px)] md:overflow-auto' : 'overflow-auto'}`}>
                 {/* 20% Width Div */}
-                <div className="w-[18%] h-fit bg-[#FFFFFF] p-3 flex flex-col space-y-2 rounded-md">
-                    <p className="text-[#240000] text-[11px] xs:text-[13px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] font-[600]">Show</p>
-                    <div className="flex flex-col mx-auto w-full max-w-md border-b border-[#D7D8D9] pb-4">
-                        <label className="w-full group relative flex cursor-pointer rounded-sm py-2 text-[#1b1b1b] transition focus:outline-none">
-                            <input
-                                type="radio"
-                                name="role"
-                                value="Residential"
-                                checked={propertyIn === "Residential"}
-                                onChange={() => updatePropertyIn("Residential")}
-                                className="hidden"
-                            />
-                            <div className="flex w-full items-center gap-2">
-                                {propertyIn === "Residential" ? (
-                                    <IconCircle size={16} className="bg-[#1D3A76] text-white rounded-full" />
-                                ) : (
-                                    <IconCircle size={16} color="#b9b9b9" />
-                                )}
-                                <p
-                                    className={`text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] font-[500] ${propertyIn === "Residential"
-                                        ? "text-[#1D3A76]"
-                                        : "text-[#969595]"
-                                        }`}
-                                >
-                                    Residential  Properties
-                                </p>
+                <div className={`${isShowCategoryFilter ? 'absolute w-full h-full bg-black/20 z-50 bottom-0 right-0' : 'hidden'} md:flex md:relative md:w-[25%] lg:w-[18%] h-fit md:bg-transparent`}>
+                    <div className={`${isShowCategoryFilter ? 'flex absolute right-0 bottom-0 w-full z-50 max-h-[80%] md:max-h-full overflow-y-auto' : 'hidden'} md:flex md:relative w-full md:h-fit bg-[#FFFFFF] p-3 flex-col space-y-2 md:rounded-md`}>
+                        <div className="flex justify-between items-center">
+                            <p className="text-[#240000] text-[11px] xs:text-[13px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] font-[600]">Show</p>
+                            <IconX size={20} onClick={closeCategoryFilter} className='md:hidden' />
+                        </div>
+                        <div className="flex flex-col mx-auto w-full border-b border-[#D7D8D9] pb-4">
+                            <label className="w-full group relative flex cursor-pointer rounded-sm py-2 text-[#1b1b1b] transition focus:outline-none">
+                                <input
+                                    type="radio"
+                                    name="role"
+                                    value="Residential"
+                                    checked={propertyIn === "Residential"}
+                                    onChange={() => updatePropertyIn("Residential")}
+                                    className="hidden"
+                                />
+                                <div className="flex w-full items-center gap-2">
+                                    {propertyIn === "Residential" ? (
+                                        <IconCircle size={16} className="bg-[#1D3A76] text-white rounded-full" />
+                                    ) : (
+                                        <IconCircle size={16} color="#b9b9b9" />
+                                    )}
+                                    <p className={`text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] font-[500] ${propertyIn === "Residential" ? "text-[#1D3A76]" : "text-[#969595]"}`}>
+                                        Residential  Properties
+                                    </p>
+                                </div>
+                            </label>
+                            <label className="w-full group relative flex cursor-pointer rounded-sm text-[#1b1b1b] transition focus:outline-none">
+                                <input
+                                    type="radio"
+                                    name="role"
+                                    value="Commercial"
+                                    checked={propertyIn === "Commercial"}
+                                    onChange={() => updatePropertyIn("Commercial")}
+                                    className="hidden"
+                                />
+                                <div className="flex w-full items-center gap-2">
+                                    {propertyIn === "Commercial" ? (
+                                        <IconCircle size={16} className="bg-[#1D3A76] text-white rounded-full " />
+                                    ) : (
+                                        <IconCircle size={16} color="#b9b9b9" />
+                                    )}
+                                    <p
+                                        className={`text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] font-[500] ${propertyIn === "Commercial"
+                                            ? "text-[#1D3A76]"
+                                            : "text-[#969595]"
+                                            }`}
+                                    >
+                                        Commercial properties
+                                    </p>
+                                </div>
+                            </label>
+                        </div>
+                        <p className="text-[#240000] text-[11px] xs:text-[13px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] font-[500] pt-2">Sub - Category</p>
+                        <div>
+                            <div
+                                className={`flex items-center justify-between cursor-pointer h-7 px-1 ${isOpen.buy
+                                    ? "bg-[#E2EAED] text-[#1D3A76] border-b-0"
+                                    : "text-[#969595] border-b border-[#D7D8D9]"
+                                    }`}
+                                onClick={() => toggleAccordion("buy")}
+                            >
+                                <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] font-bold">Buy</p>
+                                <div className="flex flex-row gap-14">
+                                    <p className="font-bold text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px]">({propertiesCount?.properties_for_sell})</p>
+                                    <IconChevronDown
+                                        stroke={1.5}
+                                        size={16}
+                                        color='#1D3A76'
+                                    />
+                                </div>
                             </div>
-                        </label>
-                        <label className="w-full group relative flex cursor-pointer rounded-sm text-[#1b1b1b] transition focus:outline-none">
-                            <input
-                                type="radio"
-                                name="role"
-                                value="Commercial"
-                                checked={propertyIn === "Commercial"}
-                                onChange={() => updatePropertyIn("Commercial")}
-                                className="hidden"
-                            />
-                            <div className="flex w-full items-center gap-2">
-                                {propertyIn === "Commercial" ? (
-                                    <IconCircle size={16} className="bg-[#1D3A76] text-white rounded-full " />
-                                ) : (
-                                    <IconCircle size={16} color="#b9b9b9" />
-                                )}
-                                <p
-                                    className={`text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] font-[500] ${propertyIn === "Commercial"
-                                        ? "text-[#1D3A76]"
-                                        : "text-[#969595]"
-                                        }`}
-                                >
-                                    Commercial properties
-                                </p>
+                            {isOpen.buy && (
+                                <div className="mt-2 flex flex-col gap-2 pl-3 pb-2">
+                                    <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
+                                        Apartment({propertiesCount?.apartments})
+                                    </Link>
+                                    <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
+                                        Independent House({propertiesCount?.independent_house})
+                                    </Link>
+                                    <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
+                                        Villa({propertiesCount?.independent_villa})
+                                    </Link>
+                                </div>
+                            )}
+
+                            <div
+                                className={`flex items-center justify-between cursor-pointer h-7 px-1 mt-1 ${isOpen.rent
+                                    ? "bg-[#E2EAED] text-[#1D3A76] border-b-0"
+                                    : "text-[#969595] border-b border-[#D7D8D9]"
+                                    }`}
+                                onClick={() => toggleAccordion("rent")}
+                            >
+                                <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] font-bold">Rent</p>
+                                <div className="flex flex-row gap-14">
+                                    <p className="font-bold text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px]">({propertiesCount?.properties_for_rent})</p>
+                                    <IconChevronDown
+                                        stroke={1.5}
+                                        size={16}
+                                        color='#1D3A76'
+                                    />
+                                </div>
                             </div>
-                        </label>
+                            {isOpen.rent && (
+                                <div className="mt-2 flex flex-col gap-2 pl-3 pb-2">
+                                    <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
+                                        Reported (0)
+                                    </Link>
+                                    <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
+                                        Active (0)
+                                    </Link>
+                                    <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
+                                        Expired (0)
+                                    </Link>
+                                    <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
+                                        Rejected (0)
+                                    </Link>
+                                    <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
+                                        Deleted (0)
+                                    </Link>
+                                    <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
+                                        Expiring Soon (0)
+                                    </Link>
+                                </div>
+                            )}
+
+                            <div
+                                className={`flex items-center justify-between cursor-pointer h-7 px-1 mt-1 ${isOpen.pg
+                                    ? "bg-[#E2EAED] text-[#1D3A76] border-b-0"
+                                    : "text-[#969595] border-b border-[#D7D8D9]"
+                                    }`}
+                                onClick={() => toggleAccordion("pg")}
+                            >
+                                <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] font-bold">PG</p>
+                                <div className="flex flex-row gap-14">
+                                    <p className="font-bold text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px]">({propertiesCount?.properties_for_pg})</p>
+                                    <IconChevronDown
+                                        stroke={1.5}
+                                        size={16}
+                                        color='#1D3A76'
+                                    />
+                                </div>
+                            </div>
+                            {isOpen.pg && (
+                                <div className="mt-2 flex flex-col gap-2 pl-3 pb-3">
+                                    <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
+                                        All(0)
+                                    </Link>
+                                    <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
+                                        Reported (0)
+                                    </Link>
+                                    <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
+                                        Active (0)
+                                    </Link>
+                                    <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
+                                        Expired (0)
+                                    </Link>
+                                    <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
+                                        Rejected (0)
+                                    </Link>
+                                    <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
+                                        Deleted (0)
+                                    </Link>
+                                    <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
+                                        Under Review (0)
+                                    </Link>
+                                </div>
+                            )}
+                        </div>
                     </div>
-                    <p className="text-[#240000] text-[11px] xs:text-[13px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] font-[500] pt-2">Sub - Category</p>
-                    <div>
-                        <div
-                            className={`flex items-center justify-between cursor-pointer h-7 px-1 ${isOpen.buy
-                                ? "bg-[#E2EAED] text-[#1D3A76] border-b-0"
-                                : "text-[#969595] border-b border-[#D7D8D9]"
-                                }`}
-                            onClick={() => toggleAccordion("buy")}
-                        >
-                            <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] font-bold">Buy</p>
-                            <div className="flex flex-row gap-14">
-                                <p className="font-bold text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px]">({propertiesCount?.properties_for_sell})</p>
-                                <IconChevronDown
-                                    stroke={1.5}
-                                    size={16}
-                                    color='#1D3A76'
-                                />
-                            </div>
-                        </div>
-                        {isOpen.buy && (
-                            <div className="mt-2 flex flex-col gap-2 pl-3 pb-2">
-                                <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
-                                    Apartment({propertiesCount?.apartments})
-                                </Link>
-                                <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
-                                    Independent House({propertiesCount?.independent_house})
-                                </Link>
-                                <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
-                                    Villa({propertiesCount?.independent_villa})
-                                </Link>
-                            </div>
-                        )}
-
-                        <div
-                            className={`flex items-center justify-between cursor-pointer h-7 px-1 mt-1 ${isOpen.rent
-                                ? "bg-[#E2EAED] text-[#1D3A76] border-b-0"
-                                : "text-[#969595] border-b border-[#D7D8D9]"
-                                }`}
-                            onClick={() => toggleAccordion("rent")}
-                        >
-                            <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] font-bold">Rent</p>
-                            <div className="flex flex-row gap-14">
-                                <p className="font-bold text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px]">({propertiesCount?.properties_for_rent})</p>
-                                <IconChevronDown
-                                    stroke={1.5}
-                                    size={16}
-                                    color='#1D3A76'
-                                />
-                            </div>
-                        </div>
-                        {isOpen.rent && (
-                            <div className="mt-2 flex flex-col gap-2 pl-3 pb-2">
-                                <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
-                                    Reported (0)
-                                </Link>
-                                <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
-                                    Active (0)
-                                </Link>
-                                <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
-                                    Expired (0)
-                                </Link>
-                                <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
-                                    Rejected (0)
-                                </Link>
-                                <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
-                                    Deleted (0)
-                                </Link>
-                                <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
-                                    Expiring Soon (0)
-                                </Link>
-                            </div>
-                        )}
-
-                        <div
-                            className={`flex items-center justify-between cursor-pointer h-7 px-1 mt-1 ${isOpen.pg
-                                ? "bg-[#E2EAED] text-[#1D3A76] border-b-0"
-                                : "text-[#969595] border-b border-[#D7D8D9]"
-                                }`}
-                            onClick={() => toggleAccordion("pg")}
-                        >
-                            <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] font-bold">PG</p>
-                            <div className="flex flex-row gap-14">
-                                <p className="font-bold text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px]">({propertiesCount?.properties_for_pg})</p>
-                                <IconChevronDown
-                                    stroke={1.5}
-                                    size={16}
-                                    color='#1D3A76'
-                                />
-                            </div>
-                        </div>
-                        {isOpen.pg && (
-                            <div className="mt-2 flex flex-col gap-2 pl-3 pb-3">
-                                <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
-                                    All(0)
-                                </Link>
-                                <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
-                                    Reported (0)
-                                </Link>
-                                <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
-                                    Active (0)
-                                </Link>
-                                <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
-                                    Expired (0)
-                                </Link>
-                                <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
-                                    Rejected (0)
-                                </Link>
-                                <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
-                                    Deleted (0)
-                                </Link>
-                                <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
-                                    Under Review (0)
-                                </Link>
-                            </div>
-                        )}
-                    </div>
-
                 </div>
                 {/* 80% Width Div */}
                 <Propertylists
@@ -506,6 +513,9 @@ function Listingswrapper({ occupancyList }) {
                     </div>
                 </Modal>
             }
+            <div className='fixed bottom-5 right-5 bg-[#31539A] p-1 rounded-full md:hidden justify-end z-50'>
+                <IconMenu2 size={20} color='#FEFDF8' onClick={openCategoryFilter} />
+            </div>
 
         </>
     );

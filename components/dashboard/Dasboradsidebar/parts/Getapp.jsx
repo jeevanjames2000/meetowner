@@ -43,7 +43,6 @@ function Getapp() {
                 </button>
             </div>
         </div>
-
     );
 }
 

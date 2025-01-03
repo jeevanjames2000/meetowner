@@ -10,6 +10,7 @@ import { useUserDetails } from '@/components/zustand/useUserDetails'
 // import "rc-slider/assets/index.css";
 import RangeSlider from "react-range-slider-input";
 import "react-range-slider-input/dist/style.css";
+import { IconMenu2 } from '@tabler/icons-react'
 
 function Propertylists({
     totalPages,
@@ -197,24 +198,24 @@ function Propertylists({
 
     return (
         <>
-            <div className="listingfilter w-[80%] flex flex-col space-y-4">
+            <div className="listingfilter w-full md:w-[75%] lg:w-[80%] flex flex-col space-y-4">
                 <div className=' grid grid-cols-6 ms:grid-cols-6 rounded-sm gap-8'>
-                    <div className='flex flex-wrap col-span-4 bg-[#31539A] rounded-md h-fit w-full p-4 space-y-3'>
-                        <div className='flex flex-wrap gap-3'>
+                    <div className='flex flex-wrap col-span-6 lg:col-span-4 bg-[#31539A] rounded-md h-fit w-full p-4 space-y-3'>
+                        <div className={`gap-3 grid ${bhkhide ? 'grid-cols-2 xxs:grid-cols-4 sm:grid-cols-7' : 'grid-cols-2 xxs:grid-cols-4 sm:grid-cols-6'}`}>
                             <input
                                 type='text'
-                                placeholder='search location'
-                                className='w-[25%] px-4 text-[#FEFDF8] text-[10px] font-[700] bg-transparent  h-7 border border-[#FEFDF8] rounded-sm focus:outline-none'
+                                placeholder='Search Location'
+                                className='px-4 text-[#FEFDF8] text-[8px] xs:text-[10px] 2xl:text-[14px] 3xl:text-[16px] 4xl:text-[18px] font-[700] bg-transparent h-7 border border-[#FEFDF8] rounded-sm focus:outline-none col-span-2'
                                 value={locality}
                                 onChange={updateLocality}
                             />
-                            <div className="w-[25%] flex items-center gap-2 pl-1 border border-[#FEFDF8] rounded-sm cursor-pointer">
+                            <div className="col-span-2 flex items-center gap-2 pl-1 border border-[#FEFDF8] rounded-sm cursor-pointer">
                                 <label className="flex items-center cursor-pointer">
                                     <select
                                         id="propertyfor"
                                         value={propertyFor}
                                         onChange={updatePropertyFor}
-                                        className="text-[#FEFDF8] text-[10px] font-[700] bg-transparent outline-none h-7"
+                                        className="text-[#FEFDF8] text-[8px] xs:text-[10px] 2xl:text-[14px] 3xl:text-[16px] 4xl:text-[18px] font-[700] bg-transparent outline-none h-7"
                                     >
                                         <option className="text-black" value="" disabled>
                                             Property for
@@ -229,13 +230,13 @@ function Propertylists({
                                     </select>
                                 </label>
                             </div>
-                            <div className="w-[25%] flex items-center gap-2 pl-1 border border-[#FEFDF8] rounded-sm cursor-pointer">
+                            <div className="col-span-2 flex items-center gap-2 pl-1 border border-[#FEFDF8] rounded-sm cursor-pointer">
                                 <label className="flex items-center cursor-pointer">
                                     <select
                                         id="propertytrype"
                                         value={propertySubtype}
                                         onChange={updatePropertySubtype}
-                                        className="text-[#FEFDF8] text-[10px] font-[700] bg-transparent outline-none h-7"
+                                        className="text-[#FEFDF8] text-[8px] xs:text-[10px] 2xl:text-[14px] 3xl:text-[16px] 4xl:text-[18px] font-[700] bg-transparent outline-none h-7"
                                     >
                                         <option className="text-black" value="" disabled>
                                             Property Type
@@ -257,7 +258,7 @@ function Propertylists({
                                             id="bhk"
                                             value={bhk}
                                             onChange={updateBhk}
-                                            className="text-[#FEFDF8] text-[10px] font-[700] outline-none h-7 bg-transparent"
+                                            className="text-[#FEFDF8] text-[8px] xs:text-[10px] 2xl:text-[14px] 3xl:text-[16px] 4xl:text-[18px] font-[700] outline-none h-7 bg-transparent"
                                         >
                                             <option className="text-black" value="" disabled>
                                                 BHK
@@ -272,11 +273,11 @@ function Propertylists({
                                     </label>
                                 </div>
                             }
-                            <div className="w-[25%] flex items-center gap-2 pl-1 border border-[#FEFDF8] rounded-sm cursor-pointer">
+                            <div className="col-span-2 flex items-center gap-2 pl-1 border border-[#FEFDF8] rounded-sm cursor-pointer">
                                 <label className="flex items-center cursor-pointer">
                                     <select
                                         id="verificationStatus"
-                                        className="text-[#FEFDF8] text-[10px] font-[700] outline-none h-7 bg-transparent"
+                                        className="text-[#FEFDF8] text-[8px] xs:text-[10px] 2xl:text-[14px] 3xl:text-[16px] 4xl:text-[18px] font-[700] outline-none h-7 bg-transparent"
                                     >
                                         <option value="verificationstatus" className="text-black">
                                             Verification Status
@@ -287,25 +288,19 @@ function Propertylists({
                                     </select>
                                 </label>
                             </div>
-                            <button onClick={updateFilters} className=' flex items-center justify-center  rounded-sm  h-7 bg-[#E2EAED] text-[10px] font-[700] text-[#37474F]  px-4  '>
+                            <button onClick={updateFilters} className='col-span-2 flex items-center justify-center  rounded-sm  h-7 bg-[#E2EAED] text-[8px] xs:text-[10px] 2xl:text-[14px] 3xl:text-[16px] 4xl:text-[18px] font-[700] text-[#37474F]  px-4  '>
                                 {filters ? 'Close Filters' : 'More Filters'}
                             </button>
                         </div>
                         {filters && (
                             <>
-                                <div className='grid grid-cols-1 gap-4 w-[70%]'>
+                                <div className='gap-y-4 flex flex-col w-full sm:w-[70%]'>
                                     <div className='flex flex-row justify-between gap-2 '>
-                                        <div className='border border-[#FEFDF8] rounded-sm h-6 w-[28%] flex items-center justify-between px-2'>
-                                            <div className='flex items-center gap-2'>
-                                                <p className='text-[#FEFDF8] text-[10px] font-[700]'>Min</p>
-                                                <p className='text-[#FEFDF8] text-[10px] font-[700]'>₹ {formatPrice(priceRange[0])}</p>
-                                            </div>
+                                        <div className='border border-[#FEFDF8] rounded-sm h-6 w-[40%] xs:w-[28%] flex items-center justify-between px-2 gap-2'>
+                                            <p className='text-[#FEFDF8] text-[8px] xs:text-[10px] 2xl:text-[14px] 3xl:text-[16px] 4xl:text-[18px] font-[700]'>Min <span className='pl-1'>₹ {formatPrice(priceRange[0])}</span></p>
                                         </div>
-                                        <div className='border border-[#FEFDF8] rounded-sm h-6 w-[28%] flex items-center justify-between px-2'>
-                                            <div className='flex items-center gap-2'>
-                                                <p className='text-[#FEFDF8] text-[10px] font-[700]'>Max</p>
-                                                <p className='text-[#FEFDF8] text-[10px] font-[700]'>₹ {formatPrice(priceRange[1])}</p>
-                                            </div>
+                                        <div className='border border-[#FEFDF8] rounded-sm h-6 w-[40%] xs:w-[28%] flex items-center justify-between px-2 gap-2'>
+                                            <p className='text-[#FEFDF8] text-[8px] xs:text-[10px] 2xl:text-[14px] 3xl:text-[16px] 4xl:text-[18px] font-[700]'>Max <span className='pl-1'>₹ {formatPrice(priceRange[1])}</span></p>
                                         </div>
                                     </div>
                                     <RangeSlider
@@ -316,14 +311,13 @@ function Propertylists({
                                         onInput={handlePriceRange}
                                     />
                                 </div>
-                                <div className='grid grid-cols-3 gap-3'>
+                                <div className='grid grid-cols-1 xxm:grid-cols-2 sm:grid-cols-3 gap-3'>
                                     {
                                         parseInt(propertyFor) === 1 &&
-                                        <div className="flex items-center gap-4 px-2 w-fit border border-[#FEFDF8] rounded-sm cursor-pointer">
-                                            <label className="flex items-center cursor-pointer">
+                                            <label className="flex w-fit items-center cursor-pointer px-2 border border-[#FEFDF8] rounded-sm">
                                                 <select
                                                     id="occupancy"
-                                                    className="text-[#FEFDF8] text-[10px] font-[700]  outline-none h-7 bg-transparent"
+                                                    className="text-[#FEFDF8] text-[8px] xs:text-[10px] 2xl:text-[14px] 3xl:text-[16px] 4xl:text-[18px] font-[700]  outline-none h-7 bg-transparent"
                                                     value={occupancy}
                                                     onChange={updateOccupancy}
                                                 >
@@ -338,28 +332,27 @@ function Propertylists({
                                                     }
                                                 </select>
                                             </label>
-                                        </div>
                                     }
                                     <input
                                         type='text'
                                         placeholder='Property ID'
-                                        className='px-2 text-[#FEFDF8] text-[10px] font-[700] bg-transparent  h-7 border border-[#FEFDF8] rounded-sm focus:outline-none'
+                                        className='px-2 text-[#FEFDF8] text-[8px] xs:text-[10px] 2xl:text-[14px] 3xl:text-[16px] 4xl:text-[18px] font-[700] bg-transparent  h-7 border border-[#FEFDF8] rounded-sm focus:outline-none'
                                         value={propertyId}
                                         onChange={updatePropertyId}
                                     />
-                                    <button onClick={handleResetFilters} className=' rounded-sm  h-7 bg-[#E2EAED] text-[10px] font-[700] text-[#37474F] px-4  '>
+                                    <button onClick={handleResetFilters} className=' rounded-sm  h-7 bg-[#E2EAED] text-[8px] xs:text-[10px] 2xl:text-[14px] 3xl:text-[16px] 4xl:text-[18px] font-[700] text-[#37474F] px-4  '>
                                         Reset
                                     </button>
                                 </div>
                             </>
                         )}
                     </div>
-                    <div className='col-span-2'>
+                    <div className='col-span-2 hidden lg:flex'>
                         <Getapp />
                     </div>
                 </div>
                 <div className='w-full'>
-                    <p className='flex items-center justify-start pl-3 h-9 bg-[#FEFDF8] text-[12px] text-[#1D3A76] font-[700] rounded-md'>
+                    <p className='flex items-center justify-start pl-3 h-9 bg-[#FEFDF8] text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#1D3A76] font-[700] rounded-md'>
                         Showing {allListings?.length} out of {totalProperties} Properties
                     </p>
                 </div>
@@ -389,7 +382,7 @@ function Propertylists({
                     ))
                     :
                     <div className='flex items-center justify-center h-[200px] bg-white border border-[#D7D8D9] rounded-md'>
-                        <p className='text-[#1D3A76] text-[14px] font-[700]'>No Properties Found</p>
+                        <p className='text-[#1D3A76] text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[22px] font-[700]'>No Properties Found</p>
                     </div>
                 }
                 {

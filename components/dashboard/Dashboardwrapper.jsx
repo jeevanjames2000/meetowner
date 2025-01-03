@@ -15,7 +15,7 @@ const Dashboardsidebarsection = dynamic(() => import('./Dasboradsidebar/Dashboar
 function Dashboardwrapper() {
     const userInfo = useUserDetails((state) => state.userInfo)
     return (
-        <div className="grid grid-cols-12 md:gap-10 mt-5 md:mt-16 w-full px-5 sm:px-10 md:px-[80px]">
+        <div className="grid grid-cols-12 md:gap-10 mt-5 md:mt-16 w-full px-4 md:px-[4vw] lg:px-[6vw]">
             {/* First Child: Spanning 8 Columns */}
             <div className="col-span-12 lg:col-span-8 space-y-10 mb-12">
                 <div className="bg-[#31539A] px-8 py-3 rounded-md flex flex-row items-center gap-10">
