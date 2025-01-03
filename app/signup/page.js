@@ -45,7 +45,7 @@ async function page() {
     }}>
       <Header />
       <div className="overflow-hidden flex  justify-center items-center h-[calc(100vh-65px)] 3xl:h-[calc(100vh-120px)]">
-        <div className=" grid grid-cols-12 w-full gap-[5%]   md:px-10 xl:px-32 lg:px-32 3xl:px-60 items-center justify-between">
+        <div className=" grid grid-cols-12 w-full gap-[5%] md:px-10 xl:px-32 lg:px-32 3xl:px-60 items-center justify-between">
           {/* Left Column */}
           <div className="col-span-6 space-y-4 hidden md:block">
             <p className="heading1  text-[#ffffff] font-[600] font-sans">
