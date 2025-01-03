@@ -96,13 +96,10 @@ async function page() {
               />
             </div>
           </div>
-          {/* Right Column */}
-          <div className="flex items-center justify-center col-span-12  md:col-span-6 px-3">
-            <Signupform
-              usertypedata={filteredusertypedata}
-              cities={cities}
-            />
-          </div>
+          <Signupform
+            usertypedata={filteredusertypedata}
+            cities={cities}
+          />
         </div>
       </div>
     </div>
