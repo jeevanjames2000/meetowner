@@ -279,7 +279,7 @@ function Listingswrapper({ occupancyList }) {
 
     return (
         <>
-            <div className={`px-5 sm:px-10 lg:px-[80px] w-full my-5 md:my-16 flex flex-col md:flex-row gap-4 lg:gap-8 ${isShowCategoryFilter ? 'overflow-hidden h-[calc(100vh-120px)] md:overflow-auto' : 'overflow-auto'}`}>
+            <div className={`px-4 md:px-[4vw] lg:px-[6vw] w-full my-5 md:my-16 flex flex-col md:flex-row gap-4 lg:gap-8 ${isShowCategoryFilter ? 'overflow-hidden h-[calc(100vh-120px)] md:overflow-auto' : 'overflow-auto'}`}>
                 {/* 20% Width Div */}
                 <div className={`${isShowCategoryFilter ? 'absolute w-full h-full bg-black/20 z-50 bottom-0 right-0' : 'hidden'} md:flex md:relative md:w-[25%] lg:w-[18%] h-fit md:bg-transparent`}>
                     <div className={`${isShowCategoryFilter ? 'flex absolute right-0 bottom-0 w-full z-50 max-h-[80%] md:max-h-full overflow-y-auto' : 'hidden'} md:flex md:relative w-full md:h-fit bg-[#FFFFFF] p-3 flex-col space-y-2 md:rounded-md`}>
