@@ -109,10 +109,10 @@ function Photoswrapper({ updateActiveTab }) {
     }
 
     // allow 10Mb file size
-    const validFiles = uploadedFiles.filter((file) => file.size <= 10 * 1024 * 1024);
+    const validFiles = uploadedFiles.filter((file) => file.size <= 30 * 1024 * 1024);
 
     // Notify about oversized files
-    const oversizedFiles = uploadedFiles.filter((file) => file.size > 10 * 1024 * 1024);
+    const oversizedFiles = uploadedFiles.filter((file) => file.size > 30 * 1024 * 1024);
     if (oversizedFiles.length > 0) {
       toast.error('Some video files were not uploaded because they exceed 10MB', {
         position: "top-right",
@@ -401,7 +401,7 @@ function Photoswrapper({ updateActiveTab }) {
                   </svg>
                   <p className="text-sm text-[#1D3A76] py-2 font-bold font-sans">+ Add Videos</p>
                   <p className="text-[11px] text-gray-500 text-center px-3">
-                    Upload Videos of max size of 10MB in format MP4
+                    Upload Videos of max size of 30MB in format MP4
                   </p>
                 </div>
                 <input

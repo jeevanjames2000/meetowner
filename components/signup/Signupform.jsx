@@ -168,8 +168,8 @@ function SignupForm({ usertypedata, cities }) {
     }
 
     return (
-        <div className=' flex flex-row items-center justify-center'>
-            <div className="signupform flex flex-col w-fit h-fit gap-4 2xl:gap-4">
+        <div className=' flex flex-row items-center justify-center col-span-12 md:col-span-6 px-3'>
+            <div className="signupform flex flex-col xxm:w-fit h-fit gap-4 2xl:gap-4">
                 <div className="flex flex-col">
                     <div className="flex">
                         {usertypedata.map((type, index) => (
