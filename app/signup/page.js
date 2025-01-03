@@ -44,7 +44,7 @@ async function page() {
       backgroundRepeat: 'no-repeat',
     }}>
       <Header />
-      <div className="overflow-hidden flex xxs:items-center xxs:justify-center justify-center items-center h-[calc(100vh-65px)] 3xl:h-[calc(100vh-120px)]">
+      <div className="overflow-hidden flex  justify-center items-center h-[calc(100vh-65px)] 3xl:h-[calc(100vh-120px)]">
         <div className=" grid grid-cols-12 w-full gap-[5%]   md:px-10 xl:px-32 lg:px-32 3xl:px-60 items-center justify-between">
           {/* Left Column */}
           <div className="col-span-6 space-y-4 hidden md:block">
@@ -97,7 +97,7 @@ async function page() {
             </div>
           </div>
           {/* Right Column */}
-          <div className="flex items-center justify-center xxs:col-span-12  md:col-span-6 px-3">
+          <div className="flex items-center justify-center col-span-12  md:col-span-6 px-3">
             <Signupform
               usertypedata={filteredusertypedata}
               cities={cities}
