@@ -271,6 +271,8 @@ function Addpropertydetails({
     setCustomOpenParkingError('')
   }
 
+  let monthlyRentdebounceTimeout;
+
   const [monthlyRent, setMonthlyRent] = useState('')
   const [monthlyRentError, setMonthlyRentError] = useState('')
   const updateMonthlyRent = (e) => {
@@ -278,9 +280,37 @@ function Addpropertydetails({
     if (isNaN(value)) {
       return false;
     }
-    setMonthlyRent(value)
-    setMonthlyRentError('')
+
+    // Clear any previous debounce timeout
+    clearTimeout(monthlyRentdebounceTimeout);
+
+    // Set the monthly rent immediately
+    setMonthlyRent(value);
+
+    // Delay the validation
+    monthlyRentdebounceTimeout = setTimeout(() => {
+      const numValue = Number(value);
+
+      if (numValue < 1000 || numValue > 50000000) {
+        setMonthlyRentError('Monthly rent should be between 1 k to 50 Lakhs')
+        return false;
+      }
+      setMonthlyRentError('')
+    }, 1000); // 1-second debounce delay
   }
+
+
+  // const [monthlyRent, setMonthlyRent] = useState('')
+  // const [monthlyRentError, setMonthlyRentError] = useState('')
+  // const updateMonthlyRent = (e) => {
+  //   let value = e.target.value;
+  //   if (isNaN(value)) {
+  //     return false;
+  //   }
+  //   setMonthlyRent(value)
+  //   setMonthlyRentError('')
+  // }
+
 
   const [maintenceCharges, setMaintenceCharges] = useState('')
   const [maintenceChargesError, setMaintenceChargesError] = useState('')
@@ -450,6 +480,7 @@ function Addpropertydetails({
     setUnitCostError('')
   }
 
+  let propertyCostdebounceTimeout;
   const [propertyCost, setPropertyCost] = useState('')
   const [propertyCostError, setPropertyCostError] = useState('')
   const updatePropertyCost = (e) => {
@@ -457,9 +488,25 @@ function Addpropertydetails({
     if (isNaN(value)) {
       return false;
     }
-    setPropertyCost(value)
-    setPropertyCostError('')
+
+    // Clear any previous debounce timeout
+    clearTimeout(propertyCostdebounceTimeout);
+
+    // Set the property cost immediately
+    setPropertyCost(value);
+
+    // Delay the validation
+    propertyCostdebounceTimeout = setTimeout(() => {
+      const numValue = Number(value);
+
+      if (numValue < 100000 || numValue > 3000000000) {
+        setPropertyCostError('Property cost should be between 1 lakh to 300 cr')
+        return false;
+      }
+      setPropertyCostError('')
+    }, 1000); // 1-second debounce delay
   }
+
 
   const [ownerShip, setOwnerShip] = useState('')
   const [ownerShipError, setOwnerShipError] = useState('')
@@ -1044,6 +1091,20 @@ function Addpropertydetails({
         setMonthlyRentError('Please enter monthly rent')
         return false;
       }
+      if (monthlyRent < 1000 || monthlyRent > 50000000) {
+        setIsLoadingEffect(false)
+        toast.error('Monthly rent should be between 1 k to 50 Lakhs', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setMonthlyRentError('Monthly rent should be between 1 k to 50 Lakhs')
+        return false;
+      }
       if (!maintenceCharges) {
         setIsLoadingEffect(false)
         toast.error('Please enter maintenance charges', {
@@ -1300,6 +1361,20 @@ function Addpropertydetails({
           progress: undefined,
         })
         setPropertyCostError('Please enter Property cost')
+        return false;
+      }
+      if (propertyCost < 100000 || propertyCost > 3000000000) {
+        setIsLoadingEffect(false)
+        toast.error('Property cost should be between 1 lakh to 300 cr', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        })
+        setPropertyCostError('Property cost should be between 1 lakh to 300 cr')
         return false;
       }
     }
@@ -2529,7 +2604,13 @@ function Addpropertydetails({
                 value={monthlyRent}
                 onChange={updateMonthlyRent}
               />
-              {monthlyRentError && <p className='text-[#FF0000] text-xs font-sans'>Please enter monthlyRent</p>}
+              {
+                monthlyRent &&
+                <NumberToWords
+                  value={monthlyRent}
+                />
+              }
+              {monthlyRentError && <p className='text-[#FF0000] text-xs font-sans'>{monthlyRentError}</p>}
             </div>
             <div className='my-6'>
               <div className='flex gap-1'>
@@ -2790,7 +2871,7 @@ function Addpropertydetails({
                     value={propertyCost}
                   />
                 }
-                {propertyCostError && <p className='text-[#FF0000] text-xs font-sans'>Please enter Property cost</p>}
+                {propertyCostError && <p className='text-[#FF0000] text-xs font-sans'>{propertyCostError}</p>}
               </div>
             </>
           }
