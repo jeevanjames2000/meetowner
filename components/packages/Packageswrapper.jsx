@@ -10,7 +10,7 @@ const Operates = dynamic(() => import('./parts/Operates'))
 
 function Packageswrapper() {
     return (
-        <div className="px-[80px] w-full space-y-12 mb-12 mt-16">
+        <div className="px-4 md:px-[4vw] lg:px-[6vw] w-full space-y-12 mb-12 mt-16">
             <div className='bg-[#E2EAED] mx-auto rounded-[10px]'>
                 <p className=' text-[26px] text-[#1D3A76] text-center font-[700] py-3 w-full'>
                     SELECT THE RIGHT PACKAGE

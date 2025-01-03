@@ -23,7 +23,7 @@ function Propertydetailswrapper({ propertyDetails }) {
 
     return (
         <>
-            <div className='flex bg-[#ffffffe6] px-[80px] py-6 gap-6'>
+            <div className='flex bg-[#ffffffe6] px-4 md:px-[4vw] lg:px-[6vw] py-6 gap-6'>
                 <div className="w-[68%] space-y-14">
                     <Propertybanner
                         propertyDetails={propertyDetails}

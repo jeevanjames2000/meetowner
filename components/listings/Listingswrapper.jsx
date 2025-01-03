@@ -271,7 +271,7 @@ function Listingswrapper({ occupancyList }) {
 
     return (
         <>
-            <div className="px-5 sm:px-10 md:px-[80px] w-full my-5 md:my-16 flex md:gap-8">
+            <div className="px-4 md:px-[4vw] lg:px-[6vw] w-full my-5 md:my-16 flex md:gap-8">
                 {/* 20% Width Div */}
                 <div className="w-[18%] h-fit bg-[#FFFFFF] p-3 flex flex-col space-y-2 rounded-md">
                     <p className="text-[#240000] text-[11px] xs:text-[13px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] font-[600]">Show</p>
