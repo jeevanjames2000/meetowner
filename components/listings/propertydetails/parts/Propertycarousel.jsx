@@ -13,15 +13,15 @@ function Property({ propertyDetails }) {
     const [thumbsSwiper, setThumbsSwiper] = useState(null);
     return (
         <div className="relative w-full">
-            <div className='flex flex-row justify-between items-center'>
-                <div className="flex space-x-2 my-3">
-                    <p className="text-[14px] font-semibold text-[#00609E] px-2 py-[2px]">
+            <div className='flex flex-wrap justify-between items-center'>
+                <div className="flex flex-wrap space-x-2 my-3">
+                    <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[22px] font-semibold text-[#00609E] px-2 py-[2px]">
                         {propertyDetails?.property_in}
                     </p>
-                    <p className="text-[14px] font-semibold text-[#00609E] border-l-[1.8px] border-r-[1.8px] border-[#8787874F] px-2 py-[2px]">
+                    <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[22px] font-semibold text-[#00609E] border-l-[1.8px] border-r-[1.8px] border-[#8787874F] px-2 py-[2px]">
                         {propertyDetails?.property_for}
                     </p>
-                    <p className="text-[14px] font-semibold text-[#00609E] py-[2px]">
+                    <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[22px] font-semibold text-[#00609E] py-[2px]">
                         {
                             (propertyDetails?.sub_type !== "Plot" || propertyDetails?.sub_type !== "Land" || propertyDetails?.property_in !== "Commercial") ?
                                 `${propertyDetails?.bedrooms || 'No'} BHK ${propertyDetails?.sub_type}`
@@ -31,11 +31,11 @@ function Property({ propertyDetails }) {
                     </p>
                     {
                         (propertyDetails?.sub_type === "Apartment" || propertyDetails?.sub_type === "Independent House" || propertyDetails?.sub_type === "Independent Villa") &&
-                        <p className="text-[14px] font-semibold text-[#00609E] border-l-[1.8px] border-r-[1.8px] border-[#8787874F] px-2 py-[2px]">
+                        <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[22px] font-semibold text-[#00609E] border-l-[1.8px] border-r-[1.8px] border-[#8787874F] px-2 py-[2px]">
                             {propertyDetails?.furnished_status ? propertyDetails?.furnished_status === "Unfurnished" ? `${propertyDetails?.furnished_status}` : `${propertyDetails?.furnished_status} Furnished` : ''}
                         </p>
                     }
-                    <p className="text-[14px] font-semibold text-[#00609E] py-[2px]">
+                    <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[22px] font-semibold text-[#00609E] py-[2px]">
                         {
                             (propertyDetails?.property_for === "Sell") &&
                                 (!(propertyDetails?.sub_type === "Plot" || propertyDetails?.sub_type === "Land")) ?
@@ -45,9 +45,9 @@ function Property({ propertyDetails }) {
                         }
                     </p>
                 </div>
-                <div className='bg-[#E28B6D] px-3 py-2 rounded-md cursor-pointer'>
-                    <p className='text-[10px] text-white font-semibold font-sans'>Contact Developer</p>
-                </div>
+                <button className='bg-[#E28B6D] px-3 py-2 rounded-md cursor-pointer text-[8px] xs:text-[10px] 2xl:text-[14px] 3xl:text-[16px] 4xl:text-[18px] text-white font-semibold font-sans'>
+                    Contact Developer
+                </button>
             </div>
             <Swiper
                 modules={[Navigation, Autoplay, FreeMode, Thumbs]}
