@@ -168,18 +168,20 @@ function SignupForm({ usertypedata, cities }) {
     }
 
     return (
-        <div className=' flex flex-row items-center justify-center'>
-            <div className="signupform flex flex-col w-fit h-fit gap-4 2xl:gap-4">
+        <div className=' flex flex-row items-center justify-center col-span-12 md:col-span-6 px-3'>
+            <div className="signupform flex flex-col xxm:w-fit h-fit gap-4 2xl:gap-4">
                 <div className="flex flex-col">
                     <div className="flex">
                         {usertypedata.map((type, index) => (
                             <div
                                 key={type.value}
                                 onClick={() => setUserType(type.label)}
-                                className={` rounded-tl-[8px] cursor-pointer custom-shadow w-fit ${index !== 0 ? "ml-[-18px]" : ""}
-          flex items-center justify-center xxs:text-[12px] xxm:text-[14px] xs:text-[15px] md:text-[12px] xl:text-[12px] lg:text-[12px] 2xl:text-[18px] 3xl:text-[28px] 4xl:text-[32px] text-[#ffffff] font-[600] py-1 md:py-2  xl:py-[3%] 2xl:py-[2%] 3xl:py-[2%] 4xl:py-[2%] px-6 2xl:px-8 rounded-tr-[20px]
-          ${userType === type.label ? 'bg-[#FBAF01] text-[#244385]' : 'bg-[#31539A]'}
-          ${index === usertypedata.length - 1 ? "w-[100%] justify-end p-4" : ""}`}
+                                className={`
+                                    rounded-tl-[8px] cursor-pointer custom-shadow w-fit ${index !== 0 ? "ml-[-18px]" : ""}
+                                    flex items-center justify-center text-[12px] xxm:text-[14px] xs:text-[15px] md:text-[12px] xl:text-[12px] lg:text-[12px] 2xl:text-[18px] 3xl:text-[28px] 4xl:text-[32px] text-[#ffffff] font-[600] py-1 md:py-2  xl:py-[3%] 2xl:py-[2%] 3xl:py-[2%] 4xl:py-[2%] px-6 2xl:px-8 rounded-tr-[20px]
+                                    ${userType === type.label ? 'bg-[#FBAF01] text-[#244385]' : 'bg-[#31539A]'}
+                                    ${index === usertypedata.length - 1 ? "w-[100%] justify-end p-4" : ""}
+                                `}
                                 style={{ zIndex: 50 - index * 10 }}
                             >
                                 {type.label}

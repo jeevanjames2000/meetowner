@@ -52,8 +52,7 @@ function Header() {
                         <div className='hidden md:flex'>
                             <Mainnavigation />
                         </div>
-                        <div id='sidebar' className={`fixed top-0 right-0 h-full w-[70%] z-50 bg-[#F2F2F2] md:hidden flex-col gap-4 transition-transform duration-20 ease-linear ${isSidebarOpen ? 'translate-x-0' : 'translate-x-full'
-                            }`}>
+                        <div id='sidebar' className={`fixed top-0 right-0 h-full w-[70%] z-[99999] bg-[#F2F2F2] md:hidden flex-col gap-4 transition-transform duration-20 ease-linear ${isSidebarOpen ? 'translate-x-0' : 'translate-x-full'}`}>
                             <div className='flex flex-row justify-end items-center p-4'>
                                 <IconX color='#1D3A76' size={24} onClick={Opensidebar} />
                             </div>
