@@ -147,7 +147,7 @@ function Photoswrapper({ updateActiveTab }) {
     });
   };
 
-  const removeVideoPreview = (index) => {
+  const removeVideoPreview = (index, video_id) => {
     const newPreviews = [...videoPreviews];
     const filteredPreviews = newPreviews.filter((_, i) => i !== index);
     setVideoPreviews(filteredPreviews);
@@ -290,12 +290,19 @@ function Photoswrapper({ updateActiveTab }) {
           return;
         }
 
-        const videoFiles = data.videos.map((video) => ({
+        const videoFilesData = data.videos.map((video) => ({
           file: new File([], video.url.split('/').pop()),
           videotype: video.type,
+          video_id: video.id
         }));
-        setVideoFiles(videoFiles);
-        const videoPreviews = data.videos.map((video) => video.url);
+        setVideoFiles(videoFilesData);
+        const videoPreviews = data.videos.map((video) => ({
+          url: video.url,
+          type: video.type,
+          video_id: video.id
+        }
+
+        ));
         setVideoPreviews(videoPreviews);
       }
       )
@@ -455,7 +462,7 @@ function Photoswrapper({ updateActiveTab }) {
                     className="relative group border border-gray-300 p-2 rounded"
                   >
                     <video
-                      src={preview}
+                      src={preview.url}
                       className="w-full h-32 object-cover rounded"
                       controls
                     />
@@ -471,7 +478,7 @@ function Photoswrapper({ updateActiveTab }) {
                     />
                     <div
                       className="absolute top-2 right-2 bg-[#1D3A76] text-white rounded-full p-1 text-xs cursor-pointer"
-                      onClick={() => removeVideoPreview(index)}
+                      onClick={() => removeVideoPreview(index, preview.video_id)}
                     >
                       <IconX size={12} />
                     </div>
@@ -486,7 +493,7 @@ function Photoswrapper({ updateActiveTab }) {
             <p className='text-white text-[10px]'>Back</p>
           </div> */}
           {
-            previews.length > 0 ?
+            (previews.length > 0 || videoPreviews.length > 0) ?
               <div onClick={handleSubmitPhotosVideos} className='border border-[#1D3A76] bg-[#1D3A76] px-8 py-2 rounded-md cursor-pointer'>
                 <p className='text-white text-[10px] font-bold'>Next: Review</p>
               </div>

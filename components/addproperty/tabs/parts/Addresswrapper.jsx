@@ -65,8 +65,6 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
     setFloorNoError('')
   }
 
-  console.log('floorNoError', floorNoError)
-
   const [totalFloors, setTotalFloors] = useState('')
   const [totalFloorsError, setTotalFloorsError] = useState('')
   const updateTotalFloors = (e) => {
