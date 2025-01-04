@@ -1,6 +1,6 @@
 'use client';
 import { Select, Textinput } from '@nayeshdaggula/tailify';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Authapi from '../api/Authapi';
 import { toast } from 'react-toastify'
 import LoadingOverlay from '../shared/LoadingOverlay';
@@ -17,6 +17,8 @@ function SignupForm({ usertypedata, cities }) {
     const [userType, setUserType] = useState("Builder");
     const [isLoadingEffect, setIsLoadingEffect] = useState(false);
     const [errorMessages, setErrorMessages] = useState('');
+
+    const isLogged = useUserDetails((state) => state.isLogged);
 
     const [name, setName] = useState('')
     const [nameError, setNameError] = useState('')
@@ -166,6 +168,17 @@ function SignupForm({ usertypedata, cities }) {
         });
         router.push('/dashboard');
     }
+
+    useEffect(() => {
+        setIsLoadingEffect(true);
+        if (isLogged) {
+            router.push('/dashboard');
+            setIsLoadingEffect(false);
+        } else {
+            router.push('/');
+            setIsLoadingEffect(false);
+        }
+    }, [isLogged]);
 
     return (
         <div className=' flex flex-row items-center justify-center col-span-12 md:col-span-6 px-3'>

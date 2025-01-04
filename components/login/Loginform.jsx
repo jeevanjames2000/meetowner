@@ -1,6 +1,5 @@
 'use client'
-import React, { useState } from 'react'
-import { IconEye, IconEyeOff } from '@tabler/icons-react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Errorpanel from '../shared/Errorpanel';
 import LoadingOverlay from '../shared/LoadingOverlay';
@@ -17,6 +16,9 @@ function Loginform() {
     const updateAuthDetails = useUserDetails((state) => state.updateAuthDetails);
     const [isLoadingEffect, setIsLoadingEffect] = useState(false);
     const [errorMessages, setErrorMessages] = useState('');
+
+    const userInfo = useUserDetails((state) => state.userInfo);
+    const isLogged = useUserDetails((state) => state.isLogged);
 
     const [mobile, setMobile] = useState('')
     const [mobileError, setMobileError] = useState('')
@@ -140,7 +142,6 @@ function Loginform() {
         router.push('/dashboard');
     }
 
-
     const sendSMS = async (req, res) => {
         const user_id = 'meetowner2023'; // Your Username
         const pwd = 'Meet@123'; // Your Password
@@ -160,6 +161,17 @@ function Loginform() {
             res.status(500).send({ success: false, error: error.message });
         }
     };
+
+    useEffect(() => {
+        setIsLoadingEffect(true);
+        if (isLogged) {
+            router.push('/dashboard');
+            setIsLoadingEffect(false);
+        } else {
+            router.push('/');
+            setIsLoadingEffect(false);
+        }
+    }, [isLogged]);
 
     return (
         <>
