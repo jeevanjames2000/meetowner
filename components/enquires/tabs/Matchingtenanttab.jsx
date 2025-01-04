@@ -5,9 +5,6 @@ import enquiry_1 from '@/public/assets/enquiry_1.png';
 import enquiry_2 from '@/public/assets/enquiry_2.png';
 import Link from 'next/link';
 import Matchingtenantcard from '../Matchingtenantcard';
-
-
-
 function Matchingtenanttab() {
   const property = [
     {
@@ -36,7 +33,7 @@ function Matchingtenanttab() {
   ];
   return (
     <>
-      {property.length == 0 ? (
+      {/* {property.length == 0 ? (
         property.map((item) => (
           <Matchingtenantcard
             key={item.id}
@@ -54,48 +51,13 @@ function Matchingtenanttab() {
         <p className="text-[16px] 2xl:text-[20px] 3xl:text[22px] 4xl:text-[24px]">No properties available</p> // Fallback message
       )}
 
-      <nav className='flex flex-row-reverse'>
-        <ul className="flex items-center -space-x-px h-8 text-sm">
-          {/* Previous Button */}
-          <li>
-            <Link
-              href="#"
-              className="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              aria-label="Previous"
-            >
-              <IconChevronLeft size={16} />
-            </Link>
-          </li>
-          {/* Page Numbers */}
-          {[1, 2, 3, 4, 5].map((page, index) => (
-            <li key={index}>
-              <Link
-                href="#"
-                className={`flex items-center justify-center px-3 h-8 leading-tight border ${page === 3
-                  ? "z-10 text-[#ffffff] border-blue-300 bg-[#1D3A76] hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white"
-                  : "text-gray-500 bg-white border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                  }`}
-                aria-current={page === 3 ? "page" : undefined}
-              >
-                {page}
-              </Link>
-            </li>
-          ))}
-          {/* Next Button */}
-          <li>
-            <Link
-              href="#"
-              className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-              aria-label="Next"
-            >
-              <IconChevronRight size={16} />
-            </Link>
-          </li>
-        </ul>
-      </nav>
       <p className="flex items-center justify-start px-5 py-[10px] text-[14px] text-[#ffffff] font-[700] bg-[#31539A] rounded-md">
         No matching Tenants
-      </p>
+      </p> */}
+
+      <div className='flex items-center justify-center h-[200px] bg-white border border-[#D7D8D9] rounded-md'>
+        <p className='text-[#1D3A76] text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[22px] font-[700]'>No Matching Tenants Found</p>
+      </div>
 
     </>
   )
