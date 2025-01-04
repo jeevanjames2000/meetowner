@@ -212,7 +212,6 @@ function Photoswrapper({ updateActiveTab }) {
         if (data.status === 'error') {
           const finalResponse = {
             message: data.message,
-            server_res: data.server_res
           };
           setErrorMessages(finalResponse)
           setErrorModalOpen(true);
