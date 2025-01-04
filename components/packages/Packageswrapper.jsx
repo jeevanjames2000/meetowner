@@ -6,8 +6,6 @@ const Recommendedplan = dynamic(() => import('./parts/Recommendedplan'))
 const Benefits = dynamic(() => import('./parts/Benefits'))
 const Operates = dynamic(() => import('./parts/Operates'))
 
-
-
 function Packageswrapper() {
     return (
         <div className="px-4 md:px-[4vw] lg:px-[6vw] w-full space-y-12 mb-12 mt-16">

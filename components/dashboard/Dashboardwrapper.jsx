@@ -1,9 +1,10 @@
 'use client'
 import Image from 'next/image'
-import React from 'react'
+import React, { useEffect } from 'react'
 import user_profile from '@/public/assets/user_profile.png'
 import dynamic from 'next/dynamic'
 import { useUserDetails } from '../zustand/useUserDetails'
+import { useRouter } from 'next/navigation'
 
 const Checkoutpropertywrapper = dynamic(() => import('./Checkoutpropertywrapper'))
 const Findplanner = dynamic(() => import('./Findplanner'))
@@ -13,7 +14,14 @@ const Queries = dynamic(() => import('./Queries'))
 const Dashboardsidebarsection = dynamic(() => import('./Dasboradsidebar/Dashboardsidebarsection'))
 
 function Dashboardwrapper() {
-    const userInfo = useUserDetails((state) => state.userInfo)
+    const userInfo = useUserDetails((state) => state.userInfo);
+    const isLogged = useUserDetails((state) => state.isLogged);
+    const router = useRouter();
+    useEffect(() => {
+        if (!isLogged) {
+            router.push('/');
+        }
+    }, [isLogged]);
     return (
         <div className="grid grid-cols-12 md:gap-10 mt-5 md:mt-16 w-full px-4 md:px-[4vw] lg:px-[6vw]">
             {/* First Child: Spanning 8 Columns */}

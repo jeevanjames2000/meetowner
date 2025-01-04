@@ -25,7 +25,14 @@ function Tabssubwrapper({
     const status = searchParams.get('status')
     const unique_property_id = searchParams.get('unique_property_id') || null
     const router = useRouter()
-    const pathname = usePathname()
+    const pathname = usePathname();
+
+    const isLogged = useUserDetails((state) => state.isLogged);
+    useEffect(() => {
+        if (!isLogged) {
+            router.push('/');
+        }
+    }, [isLogged]);
 
     const [activeTab, setActiveTab] = useState('basicdetails')
     const updateActiveTab = useCallback((tab, status, propert_id) => {
