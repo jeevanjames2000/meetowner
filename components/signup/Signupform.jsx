@@ -175,7 +175,7 @@ function SignupForm({ usertypedata, cities }) {
             router.push('/dashboard');
             setIsLoadingEffect(false);
         } else {
-            router.push('/');
+            router.push('/signup');
             setIsLoadingEffect(false);
         }
     }, [isLogged]);

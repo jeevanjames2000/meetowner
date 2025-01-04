@@ -11,6 +11,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Modal } from '@nayeshdaggula/tailify'
 import GoogleMapView from '@/components/shared/GoogleMapView'
+import { useUserDetails } from '@/components/zustand/useUserDetails';
+import { useRouter } from 'next/navigation'
+
 function Propertydetailswrapper({ propertyDetails }) {
     const [modal, setModal] = useState(false)
     const openModal = () => {
@@ -20,6 +23,15 @@ function Propertydetailswrapper({ propertyDetails }) {
         setModal(false)
     }
     const images = propertyDetails?.image || [];
+
+    const router = useRouter();
+
+    const isLogged = useUserDetails((state) => state.isLogged);
+    useEffect(() => {
+        if (!isLogged) {
+            router.push('/');
+        }
+    }, [isLogged]);
 
     return (
         <>

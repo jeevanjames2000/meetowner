@@ -9,11 +9,21 @@ import Propertylists from './parts/Propertylists';
 import Propertyapi from '../api/Propertyapi';
 import Errorpanel from '../shared/Errorpanel';
 import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
 
 function Listingswrapper({ occupancyList }) {
     const userInfo = useUserDetails((state) => state.userInfo)
     const user_id = userInfo?.user_id;
     const access_token = useUserDetails(state => state.access_token);
+    const router = useRouter();
+    const isLogged = useUserDetails((state) => state.isLogged);
+    useEffect(() => {
+        setIsLoadingEffect(true);
+        if (!isLogged) {
+            router.push('/');
+            setIsLoadingEffect(false);
+        }
+    }, [isLogged]);
 
     const [propertyIn, setPropertyIn] = useState("Residential");
     const updatePropertyIn = (value) => {

@@ -7,10 +7,20 @@ import Enquiresapi from '../api/Enquiresapi'
 import { useUserDetails } from '../zustand/useUserDetails'
 import { Modal } from '@nayeshdaggula/tailify'
 import Errorpanel from '../shared/Errorpanel'
+import { useRouter } from 'next/navigation'
 function Enquirestabswrapper() {
     const userInfo = useUserDetails((state) => state.userInfo)
     const user_id = userInfo?.user_id;
     const access_token = useUserDetails(state => state.access_token);
+    const isLogged = useUserDetails((state) => state.isLogged);
+    const router = useRouter();
+    useEffect(() => {
+        setIsLoadingEffect(true);
+        if (!isLogged) {
+            router.push('/');
+            setIsLoadingEffect(false);
+        }
+    }, [isLogged]);
 
     const [activeTab, setActivetab] = useState('myenquires')
     const updateActiveTab = (value) => {
