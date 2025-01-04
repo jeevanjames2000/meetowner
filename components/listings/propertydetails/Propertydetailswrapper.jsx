@@ -23,7 +23,7 @@ function Propertydetailswrapper({ propertyDetails }) {
 
     return (
         <>
-            <div className='flex flex-col lg:flex-row bg-[#ffffffe6] px-5 sm:px-10 lg:px-[80px] py-6 gap-3 lg:gap-6'>
+            <div className='flex flex-col lg:flex-row bg-[#ffffffe6] px-4 md:px-[4vw] lg:px-[6vw] py-6 gap-3 lg:gap-6'>
                 <div className="w-full lg:w-[68%] space-y-14">
                     <Propertybanner
                         propertyDetails={propertyDetails}
