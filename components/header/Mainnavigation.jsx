@@ -37,20 +37,20 @@ const Mainnavigation = () => {
                                 initial={{ opacity: 0, y: 15 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: 15 }}
-                                style={{ translateX: "-50%", zIndex:99999 }}
+                                style={{ translateX: "-50%", zIndex: 99999 }}
                                 transition={{ duration: 0.3, ease: "easeOut" }}
                                 className="absolute left-20 top-8 bg-white text-black shadow-md rounded-sm"
 
                             >
-                                <div className="w-[170px] p-4 flex flex-col gap-2" >
-                                    <Link href="#">
+                                <div className="w-[170px] p-4 flex flex-col gap-3" >
+                                    <Link href="/myprofile">
                                         <p className='text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#909090] font-semibold'>My Profile</p>
                                     </Link>
-                                    <Link href="#">
+                                    {/* <Link href="#">
                                         <p className='text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#909090] font-semibold'>Change Password</p>
-                                    </Link>
-                                    <Link href="#">
-                                        <p className='text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#909090] font-semibold'>Go to MeetOwner.com</p>
+                                    </Link> */}
+                                    <Link href="https://meetowner.in/" target="_blank">
+                                        <p className='text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#909090] font-semibold'>Go to MeetOwner.in</p>
                                     </Link>
                                     <div>
                                         <div className="border-[1px] mb-2"></div>

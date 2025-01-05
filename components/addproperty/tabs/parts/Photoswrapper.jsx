@@ -58,33 +58,78 @@ function Photoswrapper({ updateActiveTab }) {
       });
     }
 
+    // send the data like object with file and image_id and url
+    const filesWithImageId = validFiles.map((file) => ({
+      file,
+      image_id: null,
+      url: null
+    }));
+
     // Update file state with valid files only
-    setFiles((prevFiles) => [...prevFiles, ...validFiles]);
+    setFiles((prevFiles) => [...prevFiles, ...filesWithImageId]);
 
     // Create previews for valid files
     const newPreviews = validFiles.map((file) => URL.createObjectURL(file));
     setPreviews((prevPreviews) => [...prevPreviews, ...newPreviews]);
   };
 
-  const removePreview = (index) => {
-    const newPreviews = [...previews];
-    const filteredPreviews = newPreviews.filter((_, i) => i !== index);
-    setPreviews(filteredPreviews);
+  const removePreview = (index, image_id) => {
+    if (image_id) {
+      deletePropertyImage(image_id);
+    } else {
+      const newPreviews = [...previews];
+      const filteredPreviews = newPreviews.filter((_, i) => i !== index);
+      setPreviews(filteredPreviews);
 
-    const newFiles = [...files];
-    const filteredFiles = newFiles.filter((_, i) => i !== index);
-    setFiles(filteredFiles);
+      const newFiles = [...files];
+      const filteredFiles = newFiles.filter((_, i) => i !== index);
+      setFiles(filteredFiles);
 
-    if (featuredIndex === index) {
-      setFeaturedIndex(null);
-    } else if (featuredIndex > index) {
-      setFeaturedIndex(featuredIndex - 1);
+      if (featuredIndex === index) {
+        setFeaturedIndex(null);
+      } else if (featuredIndex > index) {
+        setFeaturedIndex(featuredIndex - 1);
+      }
     }
   }
 
   const handleSetFeatured = (index) => {
     setFeaturedIndex(index);
   };
+
+  async function deletePropertyImage(image_id) {
+    Propertyapi.post('deletePropertyPhoto', {
+      photo_id: image_id,
+      user_id: user_id,
+      unique_property_id: unique_property_id
+    })
+
+      .then((response) => {
+        const data = response.data;
+        if (data.status === 'error') {
+          const finalResponse = {
+            message: data.message,
+            server_res: data.server_res
+          };
+          setErrorMessages(finalResponse);
+          setErrorModalOpen(true);
+          setIsLoadingEffect(false);
+          return;
+        }
+
+        getPropertyPhotos();
+        toast.success('Image removed successfully');
+
+      })
+      .catch((error) => {
+        let finalResponse = {
+          'message': error.message,
+        }
+        setErrorMessages(finalResponse)
+        setErrorModalOpen(true)
+        setIsLoadingEffect(false)
+      });
+  }
 
   const [videoFiles, setVideoFiles] = useState([]);
   const [videoPreviews, setVideoPreviews] = useState([]);
@@ -148,14 +193,50 @@ function Photoswrapper({ updateActiveTab }) {
   };
 
   const removeVideoPreview = (index, video_id) => {
-    const newPreviews = [...videoPreviews];
-    const filteredPreviews = newPreviews.filter((_, i) => i !== index);
-    setVideoPreviews(filteredPreviews);
+    if (video_id) {
+      deletePropertyVideo(video_id);
+    } else {
+      const newPreviews = [...videoPreviews];
+      const filteredPreviews = newPreviews.filter((_, i) => i !== index);
+      setVideoPreviews(filteredPreviews);
 
-    const newFiles = [...videoFiles];
-    const filteredFiles = newFiles.filter((_, i) => i !== index);
-    setVideoFiles(filteredFiles);
+      const newFiles = [...videoFiles];
+      const filteredFiles = newFiles.filter((_, i) => i !== index);
+      setVideoFiles(filteredFiles);
+    }
   };
+
+  async function deletePropertyVideo(video_id) {
+    Propertyapi.post('deletepropertyvideo', {
+      video_id: video_id,
+      user_id: user_id,
+      unique_property_id: unique_property_id
+    })
+      .then((response) => {
+        const data = response.data;
+        if (data.status === 'error') {
+          const finalResponse = {
+            message: data.message,
+            server_res: data.server_res
+          };
+          setErrorMessages(finalResponse);
+          setErrorModalOpen(true);
+          setIsLoadingEffect(false);
+          return;
+        }
+
+        getPropertyVideos();
+        toast.success('Video removed successfully');
+      })
+      .catch((error) => {
+        let finalResponse = {
+          'message': error.message,
+        }
+        setErrorMessages(finalResponse)
+        setErrorModalOpen(true)
+        setIsLoadingEffect(false)
+      });
+  }
 
   const [errorModalOpen, setErrorModalOpen] = useState(false);
   const closeErrorModal = () => setErrorModalOpen(false);
@@ -194,14 +275,21 @@ function Photoswrapper({ updateActiveTab }) {
     const formData = new FormData();
     formData.append('user_id', user_id);
     formData.append('unique_property_id', unique_property_id);
-    formData.append("featured_image", files[featuredIndex]);
+    // formData.append("featured_image", files[featuredIndex]);
     files.forEach((file) => {
-      formData.append("photo", file);
+      formData.append("photo", file.file);
+      formData.append("image_id", file.image_id);
+      // featured image
+      if (file === files[featuredIndex]) {
+        formData.append("featured_image", file.file);
+      }
+
     });
 
     videoFiles.forEach((file) => {
       formData.append("video", file.file);
       formData.append("video_type", file.videotype);
+      formData.append("video_id", file.video_id);
     });
 
     Propertyapi.post('addphotosvideos', formData, {
@@ -212,7 +300,6 @@ function Photoswrapper({ updateActiveTab }) {
         if (data.status === 'error') {
           const finalResponse = {
             message: data.message,
-            server_res: data.server_res
           };
           setErrorMessages(finalResponse)
           setErrorModalOpen(true);
@@ -234,40 +321,49 @@ function Photoswrapper({ updateActiveTab }) {
       });
   }
 
-  const fetchImageAsFile = async (imageUrl) => {
-    const response = await fetch(imageUrl);
-    const blob = await response.blob();
-    const filename = imageUrl.split('/').pop();  // Extract the filename from the URL
-
-    return new File([blob], filename, { type: blob.type });
-  };
-
   async function getPropertyPhotos() {
-    try {
-      const response = await Propertyapi.get('/getphotos', {
-        params: {
-          unique_property_id: unique_property_id,
-          user_id: user_id
-        },
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${access_token}`
+    Propertyapi.get('getpropertyphotos', {
+      params: {
+        unique_property_id: unique_property_id,
+        user_id: user_id
+      },
+    })
+      .then((response) => {
+        const data = response.data;
+        if (data.status === 'error') {
+          const finalResponse = {
+            message: data.message,
+            server_res: data.server_res
+          };
+          setErrorMessages(finalResponse);
+          setErrorModalOpen(true);
+          setIsLoadingEffect(false);
+          return;
         }
-      });
-
-      if (response.data.status === 'error') {
-        console.log('Error:', response.data.message);
-        return;
+        const imageFilesData = data.images.map((image) => ({
+          file: new File([], image.url.split('/').pop()),
+          url: image.url,
+          image_id: image.id
+        }));
+        setFiles(imageFilesData);
+        const imagePreviews = data.images.map((image) => ({
+          url: image.url,
+          image_id: image.id
+        }
+        ));
+        setPreviews(imagePreviews);
+        setFeaturedIndex(data.featuredImageIndex ?? null);
       }
-
-      // Convert URLs to File objects and update the state
-      const imageFiles = await Promise.all(response.data.images.map(fetchImageAsFile));
-      setFiles(imageFiles);  // Store the File objects in the state
-      setPreviews(response.data.images);  // Store the URLs for previews
-      setFeaturedIndex(response.data.featuredImageIndex ?? null);
-    } catch (error) {
-      console.log('Error fetching property photos:', error);
-    }
+      )
+      .catch((error) => {
+        let finalResponse = {
+          'message': error.message,
+        }
+        setErrorMessages(finalResponse)
+        setErrorModalOpen(true)
+        setIsLoadingEffect(false)
+      }
+      )
   }
 
   async function getPropertyVideos() {
@@ -431,7 +527,7 @@ function Photoswrapper({ updateActiveTab }) {
                     className="relative group border border-gray-300 p-2 rounded"
                   >
                     <Image
-                      src={preview}
+                      src={preview?.url || preview}
                       alt={`Preview ${index}`}
                       className="w-full h-32 object-cover rounded"
                       height={140}
@@ -445,7 +541,7 @@ function Photoswrapper({ updateActiveTab }) {
                     </div>
                     <div
                       className="absolute top-2 right-2 bg-[#1D3A76] text-white rounded-full p-1 text-xs cursor-pointer"
-                      onClick={() => removePreview(index)}
+                      onClick={() => removePreview(index, preview?.image_id)}
                     >
                       <IconX size={12} />
                     </div>
@@ -462,7 +558,7 @@ function Photoswrapper({ updateActiveTab }) {
                     className="relative group border border-gray-300 p-2 rounded"
                   >
                     <video
-                      src={preview.url}
+                      src={preview.url || preview}
                       className="w-full h-32 object-cover rounded"
                       controls
                     />
@@ -478,7 +574,7 @@ function Photoswrapper({ updateActiveTab }) {
                     />
                     <div
                       className="absolute top-2 right-2 bg-[#1D3A76] text-white rounded-full p-1 text-xs cursor-pointer"
-                      onClick={() => removeVideoPreview(index, preview.video_id)}
+                      onClick={() => removeVideoPreview(index, preview?.video_id)}
                     >
                       <IconX size={12} />
                     </div>
