@@ -1,6 +1,6 @@
 'use client'
 import { IconCheck, IconChevronLeft, IconPhone, IconPointFilled } from '@tabler/icons-react'
-import React, { Suspense, useCallback, useEffect, useState } from 'react'
+import React, { Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import Basicdetailswrapper from './parts/Basicdetailswrapper'
 import Addpropertydetails from './parts/Addpropertydetails'
 import Addresswrapper from './parts/Addresswrapper'
@@ -10,6 +10,11 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import Propertyapi from '@/components/api/Propertyapi'
 import { useUserDetails } from '@/components/zustand/useUserDetails'
 import Link from 'next/link'
+
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, Navigation } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
 
 function Tabssubwrapper({
     propertyInList, propertyForList, transactionTypeList,
@@ -27,12 +32,14 @@ function Tabssubwrapper({
     const router = useRouter()
     const pathname = usePathname();
 
-    const isLogged = useUserDetails((state) => state.isLogged);
-    useEffect(() => {
-        if (!isLogged) {
-            router.push('/');
-        }
-    }, [isLogged]);
+    // const isLogged = useUserDetails((state) => state.isLogged);
+    // useEffect(() => {
+    //     if (!isLogged) {
+    //         router.push('/');
+    //     }
+    // }, [isLogged]);
+
+    const swiperRef = useRef(null);
 
     const [activeTab, setActiveTab] = useState('basicdetails')
     const updateActiveTab = useCallback((tab, status, propert_id) => {
@@ -224,9 +231,10 @@ function Tabssubwrapper({
         Status = 100
     }
 
+
     return (
-        <div className='flex flex-row gap-2 relative'>
-            <div className='basis-[25%] bg-white rounded-t-lg '>
+        <div className='flex flex-col sm:flex-row gap-2 relative'>
+            <div className='basis-[25%] bg-white rounded-t-lg hidden sm:block '>
                 <div className='flex flex-row justify-center items-center py-3 gap-1 bg-[#E2EAED] '>
                     <IconChevronLeft size={16} color='#1D3A76' />
                     <Link href="/dashboard" className='text-xs text-[#1D3A76] font-medium'>Back to dashboard</Link>
@@ -466,7 +474,46 @@ function Tabssubwrapper({
                 </div>
             </div>
 
-            <div className='basis-[75%] bg-white w-full rounded-t-lg'>
+            {/* <div className="basis-[100%] block md:hidden ">
+                <Swiper
+                    modules={[Navigation]}
+                    spaceBetween={10}
+                    slidesPerView={1}
+                    loop={true}
+                    navigation={{
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev',
+                    }}
+                    onSwiper={(swiper) => (swiperRef.current = swiper)}
+                >
+                    <SwiperSlide>
+                        <p>Basic Details</p>
+                    </SwiperSlide>
+
+                    <SwiperSlide>
+                        <p>Property Details</p>
+                    </SwiperSlide>
+                    <SwiperSlide>
+                        <p>Address</p>
+                    </SwiperSlide>
+                    <SwiperSlide>
+                        <p>Photos</p>
+                    </SwiperSlide>
+                </Swiper>
+            </div> */}
+            <div className='bg-white px-5 py-1 sm:hidden'>
+                <p className='text-[#1D3A76] font-semibold text-[12px]'>Post your Property</p>
+                <div className="flex items-center space-x-2 my-1">
+                    <div className="relative flex-1 bg-[#BACAD5] rounded-full h-1.5">
+                        <div className="bg-[#287DB0] h-1.5 rounded-full"
+                            style={{ width: `${Status}%`, transition: 'width 0.3s ease-in-out' }}
+                        ></div>
+                    </div>
+                    <p className="text-gray-700 text-sm font-medium">{Status}%</p>
+                </div>
+            </div>
+
+            <div className='basis-[100%] sm:basis-[75%] lg:basis-[75%] bg-white w-full rounded-t-lg'>
                 {
                     activeTab === 'basicdetails' &&
                     <Basicdetailswrapper

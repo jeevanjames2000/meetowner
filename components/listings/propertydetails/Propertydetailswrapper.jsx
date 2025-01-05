@@ -24,14 +24,14 @@ function Propertydetailswrapper({ propertyDetails }) {
     }
     const images = propertyDetails?.image || [];
 
-    const router = useRouter();
+    // const router = useRouter();
 
-    const isLogged = useUserDetails((state) => state.isLogged);
-    useEffect(() => {
-        if (!isLogged) {
-            router.push('/');
-        }
-    }, [isLogged]);
+    // const isLogged = useUserDetails((state) => state.isLogged);
+    // useEffect(() => {
+    //     if (!isLogged) {
+    //         router.push('/');
+    //     }
+    // }, [isLogged]);
 
     return (
         <>
@@ -43,12 +43,9 @@ function Propertydetailswrapper({ propertyDetails }) {
                     <Propertypricetabs
                         propertyDetails={propertyDetails}
                     />
-                    {/* {
-                    (propertyDetails?.subt_type === "Apartment" || propertyDetails?.subt_type === "Independent House" || propertyDetails?.subt_type === "Independent Villa" || propertyDetails?.subt_type === "Flat" || propertyDetails?.subt_type === "Office" || propertyDetails?.subt_type === "Retail Shop" || propertyDetails?.subt_type === "Show Room") && */}
                     <Propertyamenities
                         propertyDetails={propertyDetails}
                     />
-                    {/* } */}
                     <Propertylocation
                         propertyDetails={propertyDetails}
                     />

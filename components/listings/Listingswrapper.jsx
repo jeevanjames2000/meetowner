@@ -17,13 +17,13 @@ function Listingswrapper({ occupancyList }) {
     const access_token = useUserDetails(state => state.access_token);
     const router = useRouter();
     const isLogged = useUserDetails((state) => state.isLogged);
-    useEffect(() => {
-        setIsLoadingEffect(true);
-        if (!isLogged) {
-            router.push('/');
-            setIsLoadingEffect(false);
-        }
-    }, [isLogged]);
+    // useEffect(() => {
+    //     setIsLoadingEffect(true);
+    //     if (!isLogged) {
+    //         router.push('/');
+    //         setIsLoadingEffect(false);
+    //     }
+    // }, [isLogged]);
 
     const [propertyIn, setPropertyIn] = useState("Residential");
     const updatePropertyIn = (value) => {
@@ -365,7 +365,7 @@ function Listingswrapper({ occupancyList }) {
                             </div>
                             {isOpen.buy && (
                                 <div className="mt-2 flex flex-col gap-2 pl-3 pb-2">
-                                    <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
+                                    {/* <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
                                         Apartment({propertiesCount?.apartments})
                                     </Link>
                                     <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
@@ -373,6 +373,24 @@ function Listingswrapper({ occupancyList }) {
                                     </Link>
                                     <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
                                         Villa({propertiesCount?.independent_villa})
+                                    </Link> */}
+                                    <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
+                                        Reported (0)
+                                    </Link>
+                                    <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
+                                        Active (0)
+                                    </Link>
+                                    <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
+                                        Expired (0)
+                                    </Link>
+                                    <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
+                                        Rejected (0)
+                                    </Link>
+                                    <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
+                                        Deleted (0)
+                                    </Link>
+                                    <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
+                                        Expiring Soon (0)
                                     </Link>
                                 </div>
                             )}

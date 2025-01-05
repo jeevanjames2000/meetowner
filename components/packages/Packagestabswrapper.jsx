@@ -74,12 +74,12 @@ function Packagestabswrapper() {
             })
     }
 
-    useEffect(() => {
-        if (!isLogged) {
-            router.push('/');
-        }
-        getPackagesData();
-    }, [isLogged]);
+    // useEffect(() => {
+    //     if (!isLogged) {
+    //         router.push('/');
+    //     }
+    //     getPackagesData();
+    // }, [isLogged]);
     return (
         <>
             <div className='flex flex-col gap-6 px-6 bg-[#ffffff] rounded-bl-[10px] rounded-br-[10px]'>
