@@ -15,6 +15,8 @@ function EnquiryModal({ singleEnquiry, closeEnquiryModal }) {
         }
         return price;
     };
+
+    console.log('singleEnquiry?.property_details?.image ', singleEnquiry?.property_details?.image)
     return (
         <div>
             {singleEnquiry &&
@@ -29,13 +31,13 @@ function EnquiryModal({ singleEnquiry, closeEnquiryModal }) {
                             </div>
                             <div className='flex flex-col space-y-3'>
                                 <p className='font-bold text-[#1D3A76]'>Property Details</p>
-                                {/* <Image
+                                <Image
                                     src={singleEnquiry?.property_details?.image || imagplaceholder}
                                     alt={'Property Image'}
                                     width={200}
                                     height={150}
                                     className='rounded-md'
-                                /> */}
+                                />
                                 <p className='text-[#1D3A76] font-semibold text-xs'>Property Id :<span className='pl-1 text-[#252525]/70 font-semibold'>{singleEnquiry?.property_details?.unique_property_id || ''}</span></p>
                                 <p className='text-[#1D3A76] font-semibold text-xs'>Property Name :<span className='pl-1 text-[#252525]/70 font-semibold'>{singleEnquiry?.property_details?.property_name || ''}</span></p>
                                 <p className='text-[#1D3A76] font-semibold text-xs'>Property In :<span className='pl-1 text-[#252525]/70 font-semibold'>{singleEnquiry?.property_details?.property_in || ''}</span></p>
@@ -45,7 +47,7 @@ function EnquiryModal({ singleEnquiry, closeEnquiryModal }) {
                                     singleEnquiry?.property_details?.property_for === 'Sell' ?
                                         <p className='text-[#1D3A76] font-semibold text-xs'>Property Cost :<span className='pl-1 text-[#252525]/70 font-semibold'>{formatPrice(singleEnquiry?.property_details?.property_cost) || ''}</span></p>
                                         :
-                                        <p className='text-[#1D3A76] font-semibold text-xs'>Monthly Rent :<span className='pl-1 text-[#252525]/70 font-semibold'>{formatPrice(singleEnquiry?.property_details?.monthly_rent) || ''}</span></p>
+                                        <p className='text-[#1D3A76] font-semibold text-xs'>Monthly Rent :<span className='pl-1 text-[#252525]/70 font-semibold'>{formatPrice(singleEnquiry?.property_details?.monthly_rent) || ''} Rent</span></p>
                                 }
                                 <p className='text-[#1D3A76] font-semibold text-xs'>Builtup Area :<span className='pl-1 text-[#252525]/70 font-semibold'>{singleEnquiry?.property_details?.builtup_area || ''} {singleEnquiry?.property_details?.area_units}</span></p>
                             </div>

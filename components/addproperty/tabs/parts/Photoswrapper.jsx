@@ -433,7 +433,7 @@ function Photoswrapper({ updateActiveTab }) {
         </div>
         <div className="px-5 sm:px-10 py-3">
           <div className="overflow-y-auto h-[calc(100vh-293px)] sm:h-[calc(100vh-243px)]">
-            <div className="flex items-center flex-wrap gap-3 justify-center w-full mt-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4 mt-6">
               <label
                 htmlFor="dropzone-file"
                 className="flex flex-col items-center justify-center w-full h-50 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer"
@@ -524,7 +524,8 @@ function Photoswrapper({ updateActiveTab }) {
                 previews.map((preview, index) => (
                   <div
                     key={index}
-                    className="relative group border border-gray-300 p-2 rounded"
+                    className="relative group border border-gray-300 p-2 rounded cursor-pointer"
+                    onClick={() => handleSetFeatured(index)}
                   >
                     <Image
                       src={preview?.url || preview}
@@ -533,7 +534,7 @@ function Photoswrapper({ updateActiveTab }) {
                       height={140}
                       width={140}
                     />
-                    <div className="absolute top-2 left-2" onClick={() => handleSetFeatured(index)}>
+                    <div className="absolute top-2 left-2">
                       <div className={`flex flex-row justify-between items-center gap-2 text-white rounded-md p-1 text-xs cursor-pointer ${featuredIndex === index ? "bg-[#1D3A76]" : "bg-[#699ba0]"}`}>
                         <p className="text-[10px]">Set as Featured Image</p>
                         <IconBookmark size={12} />

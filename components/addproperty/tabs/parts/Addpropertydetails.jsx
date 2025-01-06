@@ -56,12 +56,12 @@ function Addpropertydetails({
       setLengthArea('')
       setWidthArea('')
     }
-    if (getpropertyDetails?.property_for === "Rent") {
+    if (getpropertyDetails?.property_for === "Rent" || getpropertyDetails?.property_for === "PG/Co-living") {
       if (type === "Plot" || type === "Land") {
         setConstructionStatus('')
       }
     }
-    if (getpropertyDetails.property_for === "Rent" || !(type === "Plot" || type === "Land")) {
+    if (getpropertyDetails.property_for === "Rent" || getpropertyDetails?.property_for === "PG/Co-living" || !(type === "Plot" || type === "Land")) {
       setPreferredTenantType('')
     }
     if (!(type === "Independent House" || type === "Independent Villa" || type === "Plot" || type === "Warehouse" || type === "Others")) {
@@ -1001,7 +1001,7 @@ function Addpropertydetails({
         return false;
       }
     }
-    if (getpropertyDetails?.property_for === "Rent") {
+    if (getpropertyDetails?.property_for === "Rent" || getpropertyDetails?.property_for === "PG/Co-living") {
       if (!availableFromDate) {
         setIsLoadingEffect(false)
         toast.error('Please select available from Date', {
@@ -1049,7 +1049,7 @@ function Addpropertydetails({
         return false;
       }
     }
-    if (getpropertyDetails.property_for === "Rent") {
+    if (getpropertyDetails.property_for === "Rent" || getpropertyDetails.property_for === "PG/Co-living") {
       if (!monthlyRent) {
         setIsLoadingEffect(false)
         toast.error('Please enter monthly rent', {
@@ -2380,9 +2380,9 @@ function Addpropertydetails({
               </div>
               {furnishTypeError && <p className='text-[#FF0000] text-xs font-sans'>Please select furnish type</p>}
             </div>
-            <div onClick={openFurnishingModal} className='cursor-pointer'>
+            {/* <div onClick={openFurnishingModal} className='cursor-pointer'>
               <p className='text-[#1D3A76] text-[13px] mb-4 font-medium font-sans'>+ Add Furnishings/ Amenties</p>
-            </div>
+            </div> */}
           </>
         }
         {
@@ -2500,7 +2500,7 @@ function Addpropertydetails({
           </>
         }
         {
-          getpropertyDetails?.property_for === "Rent" &&
+          (getpropertyDetails?.property_for === "Rent" || getpropertyDetails?.property_for === "PG/Co-living") &&
           <div className='mb-5'>
             <div className='flex gap-1 mb-1'>
               <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Available From </p>
@@ -2563,7 +2563,7 @@ function Addpropertydetails({
           </div>
         }
         {
-          getpropertyDetails.property_for === "Rent" &&
+          (getpropertyDetails?.property_for === "Rent" || getpropertyDetails?.property_for === "PG/Co-living") &&
           <>
             <div className='my-6'>
               <div className='flex gap-1'>
@@ -2597,6 +2597,12 @@ function Addpropertydetails({
                 value={maintenceCharges}
                 onChange={updateMaintenceCharges}
               />
+              {
+                maintenceCharges &&
+                <NumberToWords
+                  value={maintenceCharges}
+                />
+              }
               {maintenceChargesError && <p className='text-[#FF0000] text-xs font-sans'>Please enter maintence charges</p>}
             </div>
             <div className='mb-5'>
@@ -2888,7 +2894,7 @@ function Addpropertydetails({
             </div>
             {ownerShipError && <p className='text-[#FF0000] text-xs font-sans'>Please select Ownership</p>}
           </div>
-}
+        }
         {/* facilities */}
         {
           (propertySubType === "Apartment" || propertySubType === "Independent House" || propertySubType === "Independent Villa" || propertySubType === "Flat" || propertySubType === "Office" || propertySubType === "Retail Shop" || propertySubType === "Show Room") &&
