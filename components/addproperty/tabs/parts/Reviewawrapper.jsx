@@ -57,18 +57,18 @@ function Reviewawrapper({ allpropertyDetails, propertyGallery }) {
             </div>
             <div className='w-full overflow-y-auto px-5 py-3 h-[calc(100vh-220px)]' >
                 <div className='border rounded-md'>
-                    <div className='flex flex-row items-center justify-center gap-1 bg-[#E6E6E6] py-2'>
+                    <div className='flex flex-row items-center justify-center  flex-wrap gap-1 bg-[#E6E6E6] py-2'>
                         <div className='flex justify-center items-center p-1 bg-[#287DB0] rounded-full'>
                             <IconCheck size={16} color='#fff' />
                         </div>
                         <p className='font-semibold font-sans text-sm'>Congratulations!</p>
                         <p className='text-xs mt-1'>Your listing is being reviewed.</p>
                     </div>
-                    <div className='grid grid-cols-2 w-full gap-4 p-2'>
+                    <div className='grid grid-cols-1 sm:grid-cols-2 w-full gap-2 sm:gap-4 p-2'>
                         <Propertiesgallery
                             propertyGallery={propertyGallery}
                         />
-                        <div className='flex justify-between items-center'>
+                        <div className='flex justify-between items-center flex-wrap gap-2'>
                             <div className='flex flex-col gap-2'>
                                 <p className='font-sans text-[#1D3A76] text-xs font-bold'>{allpropertyDetails?.property_for === "Sell" ? `₹ ${formatPrice(allpropertyDetails?.property_cost)}` : ` ₹ ${formatPrice(allpropertyDetails?.monthly_rent)} Rent`}</p>
                                 <p className='text-[#6D6C6C] font-sans text-xs'>{allpropertyDetails?.bedrooms ? `${allpropertyDetails?.bedrooms} BHK,` : ''} {allpropertyDetails?.sub_type} for {allpropertyDetails?.property_for} </p>

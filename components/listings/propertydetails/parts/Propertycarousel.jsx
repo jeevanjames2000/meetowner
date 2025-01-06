@@ -96,14 +96,15 @@ function Property({ propertyDetails }) {
                     >
                         <IconChevronLeft className="h-4 w-4 text-white" />
                     </button>
-                    {/* <Swiper
+                    <Swiper
                         onSwiper={setThumbsSwiper}
                         loop={true}
                         spaceBetween={5}
-                        slidesPerView={1}
+                        slidesPerView={6}
                         freeMode={true}
                         watchSlidesProgress={true}
                         modules={[FreeMode, Navigation, Thumbs]}
+                        className='w-[80%]'
                     >
                         {
                             propertyDetails?.image?.length > 0 &&
@@ -122,7 +123,7 @@ function Property({ propertyDetails }) {
                                 </SwiperSlide>
                             ))
                         }
-                    </Swiper> */}
+                    </Swiper>
                     <button
                         onClick={() => swiperRef.current?.slideNext()}
                         className="absolute right-0 z-10 transform bg-[#1D3A76] rounded-full p-[4px] focus:outline-none"

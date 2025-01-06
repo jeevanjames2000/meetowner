@@ -14,13 +14,13 @@ function Enquirestabswrapper() {
     const access_token = useUserDetails(state => state.access_token);
     const isLogged = useUserDetails((state) => state.isLogged);
     const router = useRouter();
-    useEffect(() => {
-        setIsLoadingEffect(true);
-        if (!isLogged) {
-            router.push('/');
-            setIsLoadingEffect(false);
-        }
-    }, [isLogged]);
+    // useEffect(() => {
+    //     setIsLoadingEffect(true);
+    //     if (!isLogged) {
+    //         router.push('/');
+    //         setIsLoadingEffect(false);
+    //     }
+    // }, [isLogged]);
 
     const [activeTab, setActivetab] = useState('myenquires')
     const updateActiveTab = (value) => {
@@ -35,7 +35,7 @@ function Enquirestabswrapper() {
     }
 
     const [page, setPage] = useState(1);
-    const [limit, setLimit] = useState(6);
+    const [limit, setLimit] = useState(3);
     const [totalPages, setTotalPages] = useState(0);
     const [totalEnquires, setTotalEnquires] = useState(0);
     const [allEnquires, setAllEnquires] = useState([]);
@@ -86,14 +86,7 @@ function Enquirestabswrapper() {
 
     useEffect(() => {
         setIsLoadingEffect(true);
-        // if user_id is not available then wait for 2secs to get the user_id
-        if (!user_id) {
-            setTimeout(() => {
-                getAllEnquires(page, limit);
-            }, 2000);
-        } else {
-            getAllEnquires(page, limit);
-        }
+        getAllEnquires(page, limit);
     }, [user_id, page, limit])
 
     return (

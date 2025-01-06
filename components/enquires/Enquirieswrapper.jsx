@@ -8,9 +8,6 @@ import Uploadproperty from './parts/Uploadproperty';
 import Propertyvaluecalculator from './parts/Propertyvaluecalculator';
 import Verifykyc from './parts/Verifykyc';
 
-
-
-
 function Enquirieswrapper() {
 
   return (

@@ -431,9 +431,9 @@ function Photoswrapper({ updateActiveTab }) {
             </p>
           </div>
         </div>
-        <div className="px-10 py-3">
-          <div className="overflow-y-auto h-[calc(100vh-243px)]">
-            <div className="flex items-center gap-3 justify-center w-full mt-6">
+        <div className="px-5 sm:px-10 py-3">
+          <div className="overflow-y-auto h-[calc(100vh-293px)] sm:h-[calc(100vh-243px)]">
+            <div className="flex items-center flex-wrap gap-3 justify-center w-full mt-6">
               <label
                 htmlFor="dropzone-file"
                 className="flex flex-col items-center justify-center w-full h-50 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer"
@@ -518,7 +518,7 @@ function Photoswrapper({ updateActiveTab }) {
               </label>
             </div>
 
-            <div className="grid grid-cols-3 gap-4 mt-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-4 mt-4">
               {
                 previews.length > 0 &&
                 previews.map((preview, index) => (
@@ -549,7 +549,7 @@ function Photoswrapper({ updateActiveTab }) {
                 ))
               }
             </div>
-            <div className="grid grid-cols-3 gap-4 mt-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-4 mt-4">
               {
                 videoPreviews.length > 0 &&
                 videoPreviews.map((preview, index) => (
