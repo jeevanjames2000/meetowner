@@ -35,9 +35,9 @@ function Enquirycard({ image, property_name, unique_property_id, sub_type, prope
                         <button className=" text-[#ffffff] text-[8px] xs:text-[8px] 2xl:text-[12px] 3xl:text-[14px] 4xl:text[16px] bg-[#1D3A76] font-[600] rounded-[5px] px-2 py-1 focus:outline-none" >
                             Favourites
                         </button>
-                        {/* <button className=" text-[#ffffff] text-[8px] xs:text-[8px] 2xl:text-[12px] 3xl:text-[14px] 4xl:text[16px] bg-[#1D3A76] font-[600] rounded-[5px] px-2 py-1 focus:outline-none" >
+                        <button className=" text-[#ffffff] text-[8px] xs:text-[8px] 2xl:text-[12px] 3xl:text-[14px] 4xl:text[16px] bg-[#1D3A76] font-[600] rounded-[5px] px-2 py-1 focus:outline-none" >
                             View contact
-                        </button> */}
+                        </button>
                         <button className=" text-[#ffffff] text-[8px] xs:text-[8px] 2xl:text-[12px] 3xl:text-[14px] 4xl:text[16px] bg-[#0392D4] font-[600] rounded-[5px] px-2 py-1 focus:outline-none" >
                             Contact CRM
                         </button>
