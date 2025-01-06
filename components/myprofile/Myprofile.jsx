@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import Userapi from '../api/Userapi'
 import { useUserDetails } from '../zustand/useUserDetails'
 import Userdatawrapper from './Userdatawrapper'
+import { toast } from 'react-toastify'
 
 function Myprofile({ cityList, stateList }) {
     const userInfo = useUserDetails((state) => state.userInfo)
@@ -33,9 +34,10 @@ function Myprofile({ cityList, stateList }) {
                     const finalResponse = {
                         message: data.message,
                     };
-                    setErrorMessages(finalResponse)
-                    setErrorModalOpen(true);
                     setIsLoadingEffect(false);
+                    // setErrorMessages(finalResponse)
+                    // setErrorModalOpen(true);
+                    toast.error(data.message);
                     return;
                 }
                 setIsLoadingEffect(false);
@@ -46,8 +48,9 @@ function Myprofile({ cityList, stateList }) {
                     message: error.message,
                 };
                 setIsLoadingEffect(false);
-                setErrorMessages(errorDetails);
-                setErrorModalOpen(true);
+                // setErrorMessages(errorDetails);
+                // setErrorModalOpen(true);
+                toast.error(error.message);
             });
     }
 
@@ -71,7 +74,6 @@ function Myprofile({ cityList, stateList }) {
             closeErrorModal={closeErrorModal}
             errorMessages={errorMessages}
             refreshUserDetails={refreshUserDetails}
-
         />
     )
 }

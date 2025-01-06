@@ -16,6 +16,11 @@ function Checkoutpropertywrapper() {
     const access_token = useUserDetails(state => state.access_token);
     const swiperRef = useRef(null);
 
+    const [errorModalOpen, setErrorModalOpen] = useState(false);
+    const closeErrorModal = () => setErrorModalOpen(false);
+    const [errorMessages, setErrorMessages] = useState('');
+    const [isLoadingEffect, setIsLoadingEffect] = useState(false);
+
     const [propertyList, setPropertyList] = useState([]);
     async function getPropertyList() {
         listingApi.get('getpropertydetails', {
@@ -68,7 +73,7 @@ function Checkoutpropertywrapper() {
                 {/* Swiper Section */}
                 <div className="relative">
                     <Swiper
-                       modules={[Navigation, Autoplay]} 
+                        modules={[Navigation, Autoplay]}
                         spaceBetween={30}
                         slidesPerView={1}
                         loop={true}
