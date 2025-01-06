@@ -5,13 +5,26 @@ import { useUserDetails } from '../zustand/useUserDetails';
 function Authuserverify({ children }) {
     const isLogged = useUserDetails(state => state.isLogged);
     const [isLoading, setIsLoading] = useState(true);
+    const [isHydrated, setIsHydrated] = useState(false);
+
     useEffect(() => {
-        if (!isLogged) {
-            window.location.href = '/';
-        } else {
-            setIsLoading(false);
+        // Check if Zustand state is hydrated
+        const checkHydration = async () => {
+            await new Promise((resolve) => setTimeout(resolve, 0)); // Wait for the next render cycle
+            setIsHydrated(true);
+        };
+        checkHydration();
+    }, []);
+
+    useEffect(() => {
+        if (isHydrated) {
+            if (!isLogged) {
+                window.location.href = '/';
+            } else {
+                setIsLoading(false);
+            }
         }
-    }, [isLogged])
+    }, [isLogged, isHydrated]);
 
     if (isLoading === true) {
         return (

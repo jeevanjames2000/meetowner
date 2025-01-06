@@ -15,13 +15,6 @@ const Dashboardsidebarsection = dynamic(() => import('./Dasboradsidebar/Dashboar
 
 function Dashboardwrapper() {
     const userInfo = useUserDetails((state) => state.userInfo);
-    // const isLogged = useUserDetails((state) => state.isLogged);
-    // const router = useRouter();
-    // useEffect(() => {
-    //     if (!isLogged) {
-    //         router.push('/');
-    //     }
-    // }, [isLogged]);
     return (
         <div className="grid grid-cols-12 md:gap-10 mt-5 md:mt-16 w-full px-4 md:px-[4vw] lg:px-[6vw]">
             {/* First Child: Spanning 8 Columns */}
