@@ -24,15 +24,6 @@ function Propertydetailswrapper({ propertyDetails }) {
     }
     const images = propertyDetails?.image || [];
 
-    // const router = useRouter();
-
-    // const isLogged = useUserDetails((state) => state.isLogged);
-    // useEffect(() => {
-    //     if (!isLogged) {
-    //         router.push('/');
-    //     }
-    // }, [isLogged]);
-
     return (
         <>
             <div className='flex flex-col lg:flex-row bg-[#ffffffe6] px-4 md:px-[4vw] lg:px-[6vw] py-6 gap-3 lg:gap-6'>
