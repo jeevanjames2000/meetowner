@@ -15,15 +15,6 @@ function Listingswrapper({ occupancyList }) {
     const userInfo = useUserDetails((state) => state.userInfo)
     const user_id = userInfo?.user_id;
     const access_token = useUserDetails(state => state.access_token);
-    const router = useRouter();
-    const isLogged = useUserDetails((state) => state.isLogged);
-    // useEffect(() => {
-    //     setIsLoadingEffect(true);
-    //     if (!isLogged) {
-    //         router.push('/');
-    //         setIsLoadingEffect(false);
-    //     }
-    // }, [isLogged]);
 
     const [propertyIn, setPropertyIn] = useState("Residential");
     const updatePropertyIn = (value) => {

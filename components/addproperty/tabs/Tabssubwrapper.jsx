@@ -32,13 +32,6 @@ function Tabssubwrapper({
     const router = useRouter()
     const pathname = usePathname();
 
-    // const isLogged = useUserDetails((state) => state.isLogged);
-    // useEffect(() => {
-    //     if (!isLogged) {
-    //         router.push('/');
-    //     }
-    // }, [isLogged]);
-
     const swiperRef = useRef(null);
 
     const [activeTab, setActiveTab] = useState('basicdetails')
