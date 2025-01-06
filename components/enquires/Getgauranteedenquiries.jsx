@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import React from 'react'
 import guaranteed_enquiries from '@/public/assets/guaranteed_enquiries.png'
+import Link from 'next/link'
 
 
 function Getgauranteedenquiries() {
@@ -14,16 +15,16 @@ function Getgauranteedenquiries() {
                     With Owner Packages
                 </p>
                 <div className=' flex gap-2'>
-                    <button
+                    <Link href="/packages"
                         className="bg-[#53c0ac] text-white px-3 sm:px-6 py-1 text-[12px] xs:text-[16px] 2xl:text-[20px] 3xl:text-[22px] 4xl:text[24px] font-[700] rounded-lg focus:outline-none"
                     >
                         Upgrade Now
-                    </button>
-                    <button
+                    </Link>
+                    <Link href="/packages"
                         className="text-[#5E7796] px-3 sm:px-6 py-1 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text[20px] font-[600] focus:outline-none"
                     >
                         View more
-                    </button>
+                    </Link>
                 </div>
 
             </div>

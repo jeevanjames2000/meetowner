@@ -125,10 +125,10 @@ function Propertydetailswrapper({ propertyDetails }) {
             <Modal
                 open={modal}
                 onClose={closeModal}
-                size="lg"
+                size="md"
                 zIndex={9999}
             >
-                <div className='grid grid-cols-4 gap-4'>
+                <div className='grid grid-cols-2'>
                     {images?.slice(2).map((img, index) => (
                         <Image
                             key={index}

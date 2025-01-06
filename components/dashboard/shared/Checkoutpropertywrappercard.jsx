@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import React from 'react'
 import imageplaceholder from '@/public/assets/imgeplaceholder.jpg'
+import Link from 'next/link';
 function Checkoutpropertywrappercard({
     image, bhk,
     property_subtype,
@@ -57,12 +58,11 @@ function Checkoutpropertywrappercard({
                 {/* Action Section */}
                 <div className="flex flex-row items-center justify-between border-t-[1.5px] border-t-[#E2EAED] pt-3">
                     <p className="text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[22px] font-[400] text-[#6d6c6c]">Plan upgrade required</p>
-                    <button
+                    <Link href="/packages"
                         className="upgrade-btn bg-[#53c0ac] text-[#ffffff] text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] font-[700] py-1 px-3 rounded-[5px] hover:bg-[#53c0ac]/70 focus:outline-none"
-                        onClick={() => upgradeNow()} // Make sure this function is defined
-                    >
+                      >
                         Upgrade Now
-                    </button>
+                    </Link>
                 </div>
             </div>
         </div>
