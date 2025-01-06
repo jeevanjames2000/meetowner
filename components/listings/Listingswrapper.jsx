@@ -1,5 +1,5 @@
 'use client'
-import { IconChevronDown, IconCircle, IconMenu2, IconTrash, IconX } from '@tabler/icons-react';
+import { IconChevronDown, IconCircle, IconFilter, IconMenu2, IconTrash, IconX } from '@tabler/icons-react';
 import Link from 'next/link';
 import React, { useCallback, useEffect, useState } from 'react';
 import listingApi from '../api/listingApi';
@@ -542,7 +542,7 @@ function Listingswrapper({ occupancyList }) {
                 </Modal>
             }
             <div className='fixed bottom-5 right-5 bg-[#31539A] p-1 rounded-full md:hidden justify-end z-50'>
-                <IconMenu2 size={20} color='#FEFDF8' onClick={openCategoryFilter} />
+                <IconFilter size={20} color='#FEFDF8' onClick={openCategoryFilter} />
             </div>
 
         </>
