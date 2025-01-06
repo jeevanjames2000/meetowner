@@ -62,7 +62,7 @@ function Propertydetailswrapper({ propertyDetails }) {
                         />
                     </div>
                 </div>
-                <div className='w-full lg:w-[32%] lg:fixed lg:right-3 p-2 bg-white h-fit shadow-[0_0px_10px_0px_rgba(0,0,0,0.2)] rounded-lg space-y-4'>
+                <div className='w-full lg:w-[25%] lg:fixed lg:right-3 p-2 bg-white h-fit shadow-[0_0px_10px_0px_rgba(0,0,0,0.2)] rounded-lg space-y-4'>
                     {propertyDetails?.videos[0] ?
                         <video
                             src={propertyDetails?.videos[0]}

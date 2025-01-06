@@ -110,7 +110,7 @@ function Property({ propertyDetails }) {
                             propertyDetails?.image?.length > 0 &&
                             propertyDetails?.image.map((item, index) => (
                                 <SwiperSlide key={index}>
-                                    <div className='h-[60px] w-[100px]'>
+                                    <div className='h-[60px] w-[100px] pl-1'>
                                         <Image
                                             key={index}
                                             src={item}

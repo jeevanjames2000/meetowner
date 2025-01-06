@@ -8,6 +8,7 @@ import { useUserDetails } from '../zustand/useUserDetails'
 import { Modal } from '@nayeshdaggula/tailify'
 import Errorpanel from '../shared/Errorpanel'
 import { useRouter } from 'next/navigation'
+import { toast } from 'react-toastify'
 function Enquirestabswrapper() {
     const userInfo = useUserDetails((state) => state.userInfo)
     const user_id = userInfo?.user_id;
@@ -59,8 +60,9 @@ function Enquirestabswrapper() {
                         'message': data.message,
                     }
                     console.log('finalresponse', finalresponse)
-                    setErrorMessages(finalresponse);
-                    setErrorModalOpen(true);
+                    // setErrorMessages(finalresponse);
+                    // setErrorModalOpen(true);
+                    toast.error(data.message);
                     return false;
                 }
                 setAllEnquires(data?.allEnquires || []);
@@ -73,8 +75,9 @@ function Enquirestabswrapper() {
                     'message': error.message,
                 }
                 console.log('error', error)
-                setErrorMessages(finalresponse);
-                setErrorModalOpen(true);
+                toast.error(error.message);
+                // setErrorMessages(finalresponse);
+                // setErrorModalOpen(true);
             });
     }
 
