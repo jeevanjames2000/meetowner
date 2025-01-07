@@ -44,6 +44,7 @@ function Checkoutpropertywrapper() {
                     let finalresponse = {
                         'message': data.message,
                     }
+                    console.log('error', finalresponse.message);
                     setErrorMessages(finalresponse);
                     setErrorModalOpen(true);
                     // toast.error(finalresponse.message);
@@ -60,6 +61,7 @@ function Checkoutpropertywrapper() {
                 // toast.error(finalresponse.message);
                 setErrorMessages(finalresponse);
                 setErrorModalOpen(true);
+                console.log('error', finalresponse.message);
             });
     }
 

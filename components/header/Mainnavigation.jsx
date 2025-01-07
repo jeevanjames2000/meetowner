@@ -13,8 +13,16 @@ const Mainnavigation = () => {
     const isActive = (path) => pathname === path;
     const [open, setOpen] = useState(false);
     const handleLogout = () => {
+        setIsLoadingEffect(true);
         resetAuthdetails();
-        router.push('/');
+        setTimeout(() => {
+            setIsLoadingEffect(false);
+            // resetAuthdetails();
+            // router.push('/');
+            sessionStorage.clear();
+            localStorage.clear();
+            // window.location.href = '/';
+        }, 1000);
     }
     return (
         <>
@@ -64,6 +72,7 @@ const Mainnavigation = () => {
                     </AnimatePresence>
                 </div>
             </div>
+            <LoadingOverlay isLoading={isLoadingEffect} />
         </>
     );
 };

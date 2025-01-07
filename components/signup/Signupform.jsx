@@ -237,7 +237,7 @@ function SignupForm({ usertypedata, cities }) {
                                     withAsterisk
                                     value={city}
                                     onChange={updateCity}
-                                    inputClassName='text-[#AEAEAE] font-[600] text-[12px] md:text-[12px] xl:text-[12px] lg:text-[12px] 2xl:text-[16px] 3xl:text-[24px] 4xl:text-[24px] 5xl:text-[24px] border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none'
+                                    inputClassName='text-[#374151] font-[600] text-[12px] md:text-[12px] xl:text-[12px] lg:text-[12px] 2xl:text-[16px] 3xl:text-[24px] 4xl:text-[24px] 5xl:text-[24px] border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none'
                                     className='!m-0 !p-0'
                                     dropdownClassName='text-[#AEAEAE] font-[600] text-[12px] md:text-[12px] xl:text-[12px] lg:text-[12px] 2xl:text-[16px] 3xl:text-[24px] 4xl:text-[24px] 5xl:text-[24px] min-h-[100px] max-h-[160px] z-50 overflow-y-auto'
                                 />

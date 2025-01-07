@@ -2900,7 +2900,7 @@ function Addpropertydetails({
           (propertySubType === "Apartment" || propertySubType === "Independent House" || propertySubType === "Independent Villa" || propertySubType === "Flat" || propertySubType === "Office" || propertySubType === "Retail Shop" || propertySubType === "Show Room") &&
           <div>
             <p className='text-[#1D3A76] text-[13px] mb-3 mt-6 font-sans font-medium'>Facilities</p>
-            <ul className="grid grid-cols-2 sm:grid-cols-3 text-[13px] font-medium text-gray-900 bg-white border border-gray-200 rounded-lg">
+            <ul className="grid grid-cols-1 sm:grid-cols-3 text-[13px] font-medium text-gray-900 bg-white border border-gray-200 rounded-lg">
               {Object.keys(facilities).map((facility) => (
                 <li key={facility} className="w-full border-b border-gray-200 sm:border-b-0 border-r">
                   <div className="flex items-center ps-3">
@@ -2909,7 +2909,7 @@ function Addpropertydetails({
                       type="checkbox"
                       checked={facilities[facility]}
                       onChange={updateFacilties}
-                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                      className="cursor-pointer w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
                     />
                     <label
                       htmlFor={facility}
@@ -2960,7 +2960,7 @@ function Addpropertydetails({
                     <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Flat No.</p>
                     <IconAsterisk size={8} color='#FF0000' />
                   </div>
-                  <div className='border border-[#909090] rounded-md w-[20%] px-3'>
+                  <div className='border border-[#909090] rounded-md w-full sm:w-[40%] px-3'>
                     <Textinput
                       type='number'
                       placeholder="Flat Number"
@@ -2999,7 +2999,7 @@ function Addpropertydetails({
                     value={zoneType}
                     onChange={updateZoneType}
                     inputClassName='focus:ring-blue-500 focus:border-blue-500'
-                    className='!m-0 !p-0'
+                    className='!m-0 !p-0 '
                   />
                   {zoneTypeError && <p className='text-[#FF0000] text-xs font-sans'>Please select one</p>}
                 </div>
@@ -3184,6 +3184,7 @@ function Addpropertydetails({
                     value={customOpenParking}
                     onChange={updateCustomOpenParking}
                   />
+                  {customOpenParkingError && <p className='text-[#FF0000] text-xs font-sans'>Please enter custom open parking</p>}
                 </div>
               }
               {openParkingError && <p className='text-[#FF0000] text-xs font-sans'>Please select open parking</p>}

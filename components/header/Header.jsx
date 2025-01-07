@@ -13,6 +13,7 @@ import { IconHomePlus, IconMenu2, IconX } from '@tabler/icons-react';
 
 function Header() {
     const userInfo = useUserDetails((state) => state.userInfo);
+    console.log('userInfo', userInfo)
     const isLogged = useUserDetails((state) => state.isLogged);
     const pathname = usePathname();
     const isActive = (path) => pathname === path;

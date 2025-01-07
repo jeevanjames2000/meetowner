@@ -277,7 +277,7 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
                     {propertyTypeError && <p className='text-red-500 text-[10px] mt-2'>{propertyTypeError}</p>}
                 </>
                 <>
-                    <div className='flex gap-1 my-4'>
+                    <div className='flex gap-1 mb-4 mt-8'>
                         <p className='text-[#1D3A76] text-[13px] font-sans font-medium'>Looking to</p>
                         <IconAsterisk size={8} color='#FF0000' />
                     </div>
@@ -315,7 +315,7 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
                         )
                     }
                 </>
-                <div className='flex flex-row items-center mt-8 mb-4 h-2 sm:h-4 '>
+                <div className='flex flex-row items-center mt-10 sm:mt-16 mb-4 h-2 sm:h-4 '>
                     <div className='bg-[#1D3A76] flex items-center justify-center px-3 rounded-s-lg py-2 '>
                         <IconSearch size={20} color='#fff' />
                     </div>

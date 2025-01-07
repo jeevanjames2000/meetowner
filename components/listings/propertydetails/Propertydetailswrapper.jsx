@@ -74,7 +74,6 @@ function Propertydetailswrapper({ propertyDetails }) {
                 setErrorModalOpen(true);
             });
     }
-    console.log('propertyList', propertyList)
 
     useEffect(() => {
         setIsLoadingEffect(true);
@@ -139,7 +138,7 @@ function Propertydetailswrapper({ propertyDetails }) {
                         )}
                     </div>
                     <div className='bg-[#F0F0F0] p-3 relative'>
-                        <p className='font-sans font-semibold text-[#434343] text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px]'>More Properties by <span className='text-[#1d3a76] font-bold'>Meet Owner</span></p>
+                        <p className='font-sans font-semibold text-[#434343] text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px]'>More Properties by <span className='text-[#1d3a76] font-bold'>{userInfo?.name}</span></p>
                         <div className='flex flex-col md:flex-row items-center justify-center gap-3 mt-2'>
                             {
                                 propertyList.length !== 0 ?
