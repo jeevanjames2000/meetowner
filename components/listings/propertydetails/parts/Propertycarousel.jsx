@@ -45,9 +45,9 @@ function Property({ propertyDetails }) {
                         }
                     </p>
                 </div>
-                <button className='bg-[#E28B6D] px-3 py-2 rounded-md cursor-pointer text-[8px] xs:text-[10px] 2xl:text-[14px] 3xl:text-[16px] 4xl:text-[18px] text-white font-semibold font-sans'>
+                {/* <button className='bg-[#E28B6D] px-3 py-2 rounded-md cursor-pointer text-[8px] xs:text-[10px] 2xl:text-[14px] 3xl:text-[16px] 4xl:text-[18px] text-white font-semibold font-sans'>
                     Contact Developer
-                </button>
+                </button> */}
             </div>
             <Swiper
                 modules={[Navigation, Autoplay, FreeMode, Thumbs]}
