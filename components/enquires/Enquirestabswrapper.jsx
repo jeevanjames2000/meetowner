@@ -51,9 +51,9 @@ function Enquirestabswrapper() {
                         'message': data.message,
                     }
                     console.log('finalresponse', finalresponse)
-                    // setErrorMessages(finalresponse);
-                    // setErrorModalOpen(true);
-                    toast.error(data.message);
+                    setErrorMessages(finalresponse);
+                    setErrorModalOpen(true);
+                    // toast.error(data.message);
                     return false;
                 }
                 setAllEnquires(data?.allEnquires || []);
@@ -66,9 +66,9 @@ function Enquirestabswrapper() {
                     'message': error.message,
                 }
                 console.log('error', error)
-                toast.error(error.message);
-                // setErrorMessages(finalresponse);
-                // setErrorModalOpen(true);
+                // toast.error(error.message);
+                setErrorMessages(finalresponse);
+                setErrorModalOpen(true);
             });
     }
 

@@ -354,7 +354,7 @@ function Propertyoverview({ propertyDetails }) {
                                 </div>
                             </div>
                     }
-                    <div className=" flex items-center p-[10px] gap-4"
+                    {/* <div className=" flex items-center p-[10px] gap-4"
                     >
                         <Image src={project_area} alt={`project_area`} className="w-5 h-5 object-cover" />
                         <div>
@@ -421,7 +421,7 @@ function Propertyoverview({ propertyDetails }) {
                             <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Avg. Price</p>
                             <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">10.45k/sq.ft</p>
                         </div>
-                    </div>
+                    </div> */}
                     {/* <div className=" flex items-center justify-start  p-[10px] gap-4"
                     >
                         <Image

@@ -21,6 +21,11 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
     const router = useRouter()
     const [isLoadingEffect, setIsLoadingEffect] = useState(false)
     const [errorMessages, setErrorMessages] = useState('')
+    const [errorModalOpen, setErrorModalOpen] = useState(false);
+    const closeErrorModal = () => {
+        setErrorModalOpen(false);
+    }
+
     const [propertyType, setPropertyType] = useState('')
     const [propertyTypeError, setPropertyTypeError] = useState('')
     const updatePropertyType = (type) => {
@@ -60,11 +65,6 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
             setShowDropdown(false)
         }
         setLocation(value)
-    }
-
-    const [errorModalOpen, setErrorModalOpen] = useState(false);
-    const closeErrorModal = () => {
-        setErrorModalOpen(false);
     }
 
     const updateBasicdetails = () => {
@@ -220,6 +220,7 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
                         'server_res': data
                     }
                     setErrorMessages(finalresponse);
+                    setErrorModalOpen(true);
                     return false;
                 }
                 setAllLocations(data.places);
@@ -239,6 +240,7 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
                     };
                 }
                 setErrorMessages(finalresponse);
+                setErrorModalOpen(true);
                 return false;
             })
     }
@@ -254,7 +256,7 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
             <div className='py-2 bg-[#E2EAED]'>
                 <p className='text-md md:text-lg font-bold text-[#1D3A76] text-center'>ADD BASIC DETAILS</p>
             </div>
-            <div className='p-5 sm:p-10 h-[calc(100vh-260px)] sm:h-[calc(100vh-220px)] overflow-y-auto'>
+            <div className='relative p-5 sm:p-10 h-[calc(100vh-260px)] sm:h-[calc(100vh-220px)] overflow-y-auto'>
                 <>
                     <div className='flex gap-1 mb-4'>
                         <p className='text-[#1D3A76] text-[13px] font-sans font-medium'>Property Type</p>
@@ -275,7 +277,7 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
                     {propertyTypeError && <p className='text-red-500 text-[10px] mt-2'>{propertyTypeError}</p>}
                 </>
                 <>
-                    <div className='flex gap-1 my-4'>
+                    <div className='flex gap-1 mb-4 mt-8'>
                         <p className='text-[#1D3A76] text-[13px] font-sans font-medium'>Looking to</p>
                         <IconAsterisk size={8} color='#FF0000' />
                     </div>
@@ -306,14 +308,14 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
                                     inputClassName='focus:ring-blue-500 focus:border-blue-500 p-[3px] sm:p-2'
                                     className='!m-0 !p-0'
                                     dropdownClassName='min-h-[100px] max-h-[200px] z-[9999999999] overflow-y-auto'
-                                    
+
                                 />
                                 {transactionTypeError && <p className='text-red-500 text-[10px] mt-2'>{transactionTypeError}</p>}
                             </div>
                         )
                     }
                 </>
-                <div className='flex flex-row items-center mt-8 mb-4 h-2 sm:h-4 '>
+                <div className='flex flex-row items-center mt-10 sm:mt-16 mb-4 h-2 sm:h-4 '>
                     <div className='bg-[#1D3A76] flex items-center justify-center px-3 rounded-s-lg py-2 '>
                         <IconSearch size={20} color='#fff' />
                     </div>
@@ -341,17 +343,15 @@ function Basicdetailswrapper({ updateActiveTab, unique_property_id, basicDetails
                             ))}
                         </ul>
                     )}
+                <Loadingoverlay
+                    visible={isLoadingEffect}
+                />
             </div>
             <div className='flex flex-row justify-end items-center mb-3'>
                 <div onClick={updateBasicdetails} className='border border-[#1D3A76] bg-[#1D3A76] px-8 py-2 mr-2 rounded-md cursor-pointer'>
                     <p className='text-white text-[11px] font-bold'>Next: Add Property Details</p>
                 </div>
             </div>
-            <Loadingoverlay
-                visible={isLoadingEffect}
-                zIndex={9999}
-                overlayBg="rgba(255, 255, 255, 0.6)"
-            />
             {errorModalOpen &&
                 <Modal
                     open={errorModalOpen}

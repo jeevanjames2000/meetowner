@@ -11,6 +11,7 @@ import { useUserDetails } from '@/components/zustand/useUserDetails'
 import RangeSlider from "react-range-slider-input";
 import "react-range-slider-input/dist/style.css";
 import { IconMenu2 } from '@tabler/icons-react'
+import { toast } from 'react-toastify'
 
 function Propertylists({
     totalPages,
@@ -65,9 +66,9 @@ function Propertylists({
                 if (data.status === 'error') {
                     let finalResponse = {
                         'message': data.message,
-                        'server_res': data
                     }
                     console.log(finalResponse)
+                    toast.error(data.message)
                 }
                 if (data.status === 'success') {
                     setAllPropertySubTypes(data?.property_sub_type || [])
@@ -80,7 +81,7 @@ function Propertylists({
                 if (error.response !== undefined) {
                     finalresponse = {
                         'message': error.message,
-                        'server_res': error.response.data
+                        'server_res': error?.response?.data
                     };
                 } else {
                     finalresponse = {
@@ -88,7 +89,7 @@ function Propertylists({
                         'server_res': null
                     };
                 }
-                console.log(finalresponse)
+                toast.error(finalresponse.message)
                 return false;
             })
     }
@@ -109,6 +110,7 @@ function Propertylists({
                         'server_res': data
                     }
                     console.log(finalResponse)
+                    toast.error(data.message)
                 }
                 if (data.status === 'success') {
                     setAllPropertyFor(data?.property_for || [])
@@ -131,6 +133,7 @@ function Propertylists({
                     };
                 }
                 console.log(finalresponse)
+                toast.error(finalresponse.message)
                 return false;
             })
     }
@@ -152,6 +155,7 @@ function Propertylists({
                         'server_res': data
                     }
                     console.log(finalResponse)
+                    toast.error(data.message)
                 }
                 if (data.status === 'success') {
                     setAllBhk(data?.bedrooms || [])
@@ -164,7 +168,7 @@ function Propertylists({
                 if (error.response !== undefined) {
                     finalresponse = {
                         'message': error.message,
-                        'server_res': error.response.data
+                        'server_res': error?.response?.data
                     };
                 }
                 else {
@@ -174,6 +178,7 @@ function Propertylists({
                     };
                 }
                 console.log(finalresponse)
+                toast.error(finalresponse.message)
                 return false;
             })
     }
@@ -314,24 +319,24 @@ function Propertylists({
                                 <div className='grid grid-cols-1 xxm:grid-cols-2 sm:grid-cols-3 gap-3'>
                                     {
                                         parseInt(propertyFor) === 1 &&
-                                            <label className="flex w-fit items-center cursor-pointer px-2 border border-[#FEFDF8] rounded-sm">
-                                                <select
-                                                    id="occupancy"
-                                                    className="text-[#FEFDF8] text-[8px] xs:text-[10px] 2xl:text-[14px] 3xl:text-[16px] 4xl:text-[18px] font-[700]  outline-none h-7 bg-transparent"
-                                                    value={occupancy}
-                                                    onChange={updateOccupancy}
-                                                >
-                                                    <option className=" text-black" value="" disabled>
-                                                        Occupancy status
-                                                    </option>
-                                                    {
-                                                        occupancyList.length > 0 &&
-                                                        occupancyList.map((item, index) => (
-                                                            <option className=" text-black" key={index} value={item.value}>{item.name}</option>
-                                                        ))
-                                                    }
-                                                </select>
-                                            </label>
+                                        <label className="flex w-fit items-center cursor-pointer px-2 border border-[#FEFDF8] rounded-sm">
+                                            <select
+                                                id="occupancy"
+                                                className="text-[#FEFDF8] text-[8px] xs:text-[10px] 2xl:text-[14px] 3xl:text-[16px] 4xl:text-[18px] font-[700]  outline-none h-7 bg-transparent"
+                                                value={occupancy}
+                                                onChange={updateOccupancy}
+                                            >
+                                                <option className=" text-black" value="" disabled>
+                                                    Occupancy status
+                                                </option>
+                                                {
+                                                    occupancyList.length > 0 &&
+                                                    occupancyList.map((item, index) => (
+                                                        <option className=" text-black" key={index} value={item.value}>{item.name}</option>
+                                                    ))
+                                                }
+                                            </select>
+                                        </label>
                                     }
                                     <input
                                         type='text'
@@ -356,50 +361,50 @@ function Propertylists({
                         Showing {allListings?.length} out of {totalProperties} Properties
                     </p>
                 </div>
-
-                {allListings.length > 0 ?
-                    allListings.map((item, index) => (
-                        <Listingcard
-                            key={index}
-                            unique_property_id={item.unique_property_id}
-                            image={item.image}
-                            bedrooms={item?.bhk || '-----'}
-                            property_for={item.property_for}
-                            property_in={item.property_in}
-                            property_cost={item?.property_cost || '-----'}
-                            monthly_rent={item?.monthly_rent || '----'}
-                            furnished_status={item?.furnished_status || '----'}
-                            area="160 sq.ft"
-                            interested_tenants="Two interested tenants"
-                            last_added_date={item?.last_added_date || '-----'}
-                            expiry_date={item?.expiry_date || '-----'}
-                            facing={item.facing}
-                            property_name={item.property_name}
-                            property_subtype={item.property_subtype}
-                            description={item.description}
-                            openDeleteModal={openDeleteModal}
-                        />
-                    ))
-                    :
-                    <div className='flex items-center justify-center h-[200px] bg-white border border-[#D7D8D9] rounded-md'>
-                        <p className='text-[#1D3A76] text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[22px] font-[700]'>No Properties Found</p>
-                    </div>
-                }
-                {
-                    allListings.length > 0 &&
-                    <div className='flex items-center justify-end'>
-                        <Pagination
-                            total={totalPages}
-                            onPageChange={handlePageChange}
-                        />
-                    </div>
-                }
+                <div className='flex flex-col space-y-4 relative'>
+                    {allListings.length > 0 ?
+                        allListings.map((item, index) => (
+                            <Listingcard
+                                key={index}
+                                unique_property_id={item.unique_property_id}
+                                image={item.image}
+                                bedrooms={item?.bhk || '-----'}
+                                property_for={item.property_for}
+                                property_in={item.property_in}
+                                property_cost={item?.property_cost || '-----'}
+                                monthly_rent={item?.monthly_rent || '----'}
+                                furnished_status={item?.furnished_status || '----'}
+                                area="160 sq.ft"
+                                interested_tenants="Two interested tenants"
+                                last_added_date={item?.last_added_date || '-----'}
+                                expiry_date={item?.expiry_date || '-----'}
+                                facing={item.facing}
+                                property_name={item.property_name}
+                                property_subtype={item.property_subtype}
+                                description={item.description}
+                                openDeleteModal={openDeleteModal}
+                            />
+                        ))
+                        :
+                        <div className='flex items-center justify-center h-[200px] bg-white border border-[#D7D8D9] rounded-md'>
+                            <p className='text-[#1D3A76] text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[22px] font-[700]'>No Properties Found</p>
+                        </div>
+                    }
+                    {
+                        allListings.length > 0 &&
+                        <div className='flex items-center justify-end'>
+                            <Pagination
+                                total={totalPages}
+                                onPageChange={handlePageChange}
+                            />
+                        </div>
+                    }
+                    <Loadingoverlay
+                        visible={isLoadingEffect}
+                        zIndex={9999}
+                    />
+                </div>
             </div>
-            <Loadingoverlay
-                visible={isLoadingEffect}
-                zIndex={9999}
-                overlayBg="rgba(255, 255, 255, 0.6)"
-            />
         </>
     )
 }

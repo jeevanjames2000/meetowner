@@ -35,9 +35,9 @@ function Myprofile({ cityList, stateList }) {
                         message: data.message,
                     };
                     setIsLoadingEffect(false);
-                    // setErrorMessages(finalResponse)
-                    // setErrorModalOpen(true);
-                    toast.error(data.message);
+                    setErrorMessages(finalResponse)
+                    setErrorModalOpen(true);
+                    // toast.error(data.message);
                     return;
                 }
                 setIsLoadingEffect(false);
@@ -48,9 +48,9 @@ function Myprofile({ cityList, stateList }) {
                     message: error.message,
                 };
                 setIsLoadingEffect(false);
-                // setErrorMessages(errorDetails);
-                // setErrorModalOpen(true);
-                toast.error(error.message);
+                setErrorMessages(errorDetails);
+                setErrorModalOpen(true);
+                // toast.error(error.message);
             });
     }
 

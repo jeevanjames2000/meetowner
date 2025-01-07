@@ -1,6 +1,7 @@
+import LoadingOverlay from "@/components/shared/LoadingOverlay";
 import React, { useState } from "react";
 
-function Forrenttab({ rentPackages }) {
+function Forrenttab({ rentPackages, isLoadingEffect }) {
   const [plan, setPlan] = useState("Prime");
 
   const updatePlan = (selectedPlan) => {
@@ -28,7 +29,7 @@ function Forrenttab({ rentPackages }) {
         <p>Prime Promotion</p>
         <p>CRM</p>
       </div>
-      <div className="flex basis-[75%] w-full gap-6">
+      <div className="flex basis-[75%] w-full gap-6 relative">
         {rentPackages.length > 0 ?
           rentPackages.map((pkg) => (
             <div
@@ -75,6 +76,7 @@ function Forrenttab({ rentPackages }) {
           :
           <p className="h-full w-full text-center justify-center flex align-middle items-center text-[12px] xs:text-[14px] 2xl:[18px] 3xl:[20px] 4xl:[22px] ">No packages available</p>
         }
+        <LoadingOverlay isLoading={isLoadingEffect} />
       </div>
     </div>
   );

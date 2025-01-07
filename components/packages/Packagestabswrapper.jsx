@@ -16,7 +16,7 @@ function Packagestabswrapper() {
     const [activetab, setActivetab] = useState("forselltab");
     const updateActiveTab = (value) => {
         setActivetab(value);
-        if (value === "forselltab" && sellPackages.length === 0 ) getSellPackagesData();
+        if (value === "forselltab" && sellPackages.length === 0) getSellPackagesData();
         if (value === "forrenttab" && rentPackages.length === 0) getRentPackagesData();
         if (value === "forcommercial" && commercialPackages.length === 0) getCommercialPackagesData();
     }
@@ -201,15 +201,18 @@ function Packagestabswrapper() {
                 </div>
                 {activetab === "forselltab" &&
                     <Forselltab
+                        isLoadingEffect={isLoadingEffect}
                         sellPackages={sellPackages}
                     />}
                 {activetab === "forrenttab" &&
-                    <Forrenttab 
+                    <Forrenttab
+                        isLoadingEffect={isLoadingEffect}
                         rentPackages={rentPackages}
                     />
                 }
                 {activetab === "forcommercial" &&
-                    <Forcommercial 
+                    <Forcommercial
+                        isLoadingEffect={isLoadingEffect}
                         commercialPackages={commercialPackages}
                     />
                 }
