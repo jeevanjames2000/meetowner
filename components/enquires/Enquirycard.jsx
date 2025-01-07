@@ -14,6 +14,7 @@ function Enquirycard({ image, property_name, unique_property_id, sub_type, prope
         }
         return price;
     };
+    console.log('enquiry cardimage', image)
     return (
         <div className="grid grid-cols-12 items-start w-full rounded-[10px] border-[1px] border-[#1d3a7652] bg-[#E2EAED] px-2 py-[10px]">
             <div className='col-span-12 sm:col-span-4 flex w-full space-x-2 pt-4'>
