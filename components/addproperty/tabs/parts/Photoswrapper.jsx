@@ -247,7 +247,7 @@ function Photoswrapper({ updateActiveTab }) {
     setIsLoadingEffect(true);
     if (previews.length === 0) {
       setIsLoadingEffect(false);
-      toast.error('Please upload atleat one photo', {
+      toast.error('Please upload atleast one photo', {
         position: "top-right",
         autoClose: 3000,
         hideProgressBar: true,
@@ -600,10 +600,8 @@ function Photoswrapper({ updateActiveTab }) {
               </div>
           }
         </div>
+        <LoadingOverlay isLoading={isLoadingEffect} />
       </div>
-
-      <LoadingOverlay isLoading={isLoadingEffect} />
-
       {errorModalOpen &&
         <Modal
           open={errorModalOpen}

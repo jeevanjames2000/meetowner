@@ -176,7 +176,7 @@ function Loginform() {
     return (
         <>
             <div className="flex flex-col w-full xl:w-fit h-fit gap-4 xl:gap-6 2xl:gap-6 4xl:gap-8 px-4 md:px-0">
-                <div className="flex flex-col">
+                <div className="relative flex flex-col">
                     <form onSubmit={handleLoginform}>
                         <div className='rounded-md flex flex-col bg-white h-fit py-4 md:py-4 lg:py-4 xl:py-4  4xl:py-8 px-[3%] gap-2  md:gap-2 lg:gap-4'>
                             <p className='text-[12px] md:text-[12px] xl:text-[16px] lg:text-[16px] 2xl:text-[18px] 3xl:text-[26px] 4xl:text-[28px] font-semibold'>Mobile Number</p>
@@ -207,6 +207,7 @@ function Loginform() {
                             </button>
                         </div>
                     </form>
+                    <LoadingOverlay isLoading={isLoadingEffect} />
                 </div>
                 <div className='flex flex-row items-center justify-center bg-[#1D3A76] rounded-full'>
                     <p className='text-[12px] md:text-[12px] xl:text-[16px] lg:text-[16px] 2xl:text-[16px] 3xl:text-[26px] 4xl:text-[28px] text-[#ffffff]'>Don't have an Account ? </p>
@@ -219,7 +220,6 @@ function Loginform() {
                     <p className='text-sm text-white'>Send SMS</p>
                 </div> */}
             </div>
-            <LoadingOverlay isLoading={isLoadingEffect} />
             {
                 otpModal &&
                 <Modal

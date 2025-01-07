@@ -4,6 +4,7 @@ import Generalapi from '../api/Generalapi';
 import Userapi from '../api/Userapi';
 import { useUserDetails } from '../zustand/useUserDetails';
 import { toast } from 'react-toastify';
+import LoadingOverlay from '../shared/LoadingOverlay';
 
 function Edituserdetails({ cityList, stateList, userDetails, closeUserEditModal, refreshUserDetails }) {
     const userInfo = useUserDetails((state) => state.userInfo)
@@ -152,7 +153,7 @@ function Edituserdetails({ cityList, stateList, userDetails, closeUserEditModal,
 
 
     return (
-        <div className='flex flex-col space-y-2 bg-[#edf3f8] h-full w-full p-3 mt-4 rounded-sm'>
+        <div className='relative flex flex-col space-y-2 bg-[#edf3f8] h-full w-full p-3 mt-4 rounded-sm'>
             <div className='flex flex-row items-center w-full gap-[2%]'>
                 <p className=' w-[30%] text-[#1D37A6] px-2 font-[600] text-[12px] md:text-[12px]  2xl:text-[16px] 3xl:text-[24px] 4xl:text-[24px] 5xl:text-[24px]'>
                     Name
@@ -267,6 +268,7 @@ function Edituserdetails({ cityList, stateList, userDetails, closeUserEditModal,
                 className="bg-[#1D37A6] text-[#ffffff] px-4 py-1 text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text[20px] font-[400] rounded-[6px] ml-auto">
                 Submit
             </button>
+            <LoadingOverlay isLoading={isLoadingEffect} />
         </div>
     )
 }

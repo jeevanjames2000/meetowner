@@ -183,7 +183,7 @@ function SignupForm({ usertypedata, cities }) {
     return (
         <div className=' flex flex-row items-center justify-center col-span-12 md:col-span-6 px-3'>
             <div className="signupform flex flex-col xxm:w-fit h-fit gap-4 2xl:gap-4">
-                <div className="flex flex-col">
+                <div className="relative flex flex-col">
                     <div className="flex">
                         {usertypedata.map((type, index) => (
                             <div
@@ -249,6 +249,7 @@ function SignupForm({ usertypedata, cities }) {
                             </button>
                         </div>
                     </form>
+                    <LoadingOverlay isLoading={isLoadingEffect} />
                 </div>
                 <div className='flex flex-row items-center justify-center bg-[#1D3A76] rounded-full'>
                     <p className='text-[12px]  md:text-[12px] xl:text-[12px] lg:text-[12px] 2xl:text-[16px] 3xl:text-[24px] 4xl:text-[24px] 5xl:text-[24px] text-[#ffffff] font-[600] py-[8px]'>Existing user?</p>
@@ -258,7 +259,6 @@ function SignupForm({ usertypedata, cities }) {
                     </Link>
                 </div>
             </div>
-            <LoadingOverlay isLoading={isLoadingEffect} />
             {
                 otpModal &&
                 <Modal
