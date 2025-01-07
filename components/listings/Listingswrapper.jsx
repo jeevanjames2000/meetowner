@@ -137,7 +137,6 @@ function Listingswrapper({ occupancyList }) {
                     let finalresponse = {
                         'message': data.message,
                     }
-                    console.log('finalresponse', finalresponse)
                     setErrorMessages(finalresponse);
                     setErrorModalOpen(true);
                     return false;
