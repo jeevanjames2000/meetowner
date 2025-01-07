@@ -15,7 +15,10 @@ import Errorpanel from '../shared/Errorpanel'
 function Packagestabswrapper() {
     const [activetab, setActivetab] = useState("forselltab");
     const updateActiveTab = (value) => {
-        setActivetab(value)
+        setActivetab(value);
+        if (value === "forselltab" && sellPackages.length === 0 ) getSellPackagesData();
+        if (value === "forrenttab" && rentPackages.length === 0) getRentPackagesData();
+        if (value === "forcommercial" && commercialPackages.length === 0) getCommercialPackagesData();
     }
     const router = useRouter();
     const isLogged = useUserDetails((state) => state.isLogged);
@@ -29,9 +32,9 @@ function Packagestabswrapper() {
     }
 
     const [sellPackages, setSellPackages] = useState([]);
-    async function getPackagesData() {
+    async function getSellPackagesData() {
         setIsLoadingEffect(true);
-        Packagesapi.get('/getpackages', {
+        Packagesapi.get('/getsellpackages', {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${access_token}`
@@ -73,9 +76,99 @@ function Packagestabswrapper() {
                 return false;
             })
     }
+    const [rentPackages, setRentPackages] = useState([]);
+    async function getRentPackagesData() {
+        setIsLoadingEffect(true);
+        Packagesapi.get('/getrentpackages', {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${access_token}`
+            }
+        })
+            .then((response) => {
+                let data = response.data
+                if (data.status === 'error') {
+                    let finalresponse = {
+                        'message': data.message,
+                        'server_res': data
+                    }
+                    setErrorMessages(finalresponse);
+                    setErrorModalOpen(true);
+                    setIsLoadingEffect(false);
+                    return false;
+                }
+                setRentPackages(data?.packages);
+                setIsLoadingEffect(false);
+                return false;
+            })
+            .catch((error) => {
+                console.log(error)
+                let finalresponse;
+                if (error.response !== undefined) {
+                    finalresponse = {
+                        'message': error.message,
+                        'server_res': error.response.data
+                    };
+                } else {
+                    finalresponse = {
+                        'message': error.message,
+                        'server_res': null
+                    };
+                }
+                setErrorMessages(finalresponse);
+                setErrorModalOpen(true);
+                setIsLoadingEffect(false);
+                return false;
+            })
+    }
+    const [commercialPackages, setCommercialPackages] = useState([]);
+    async function getCommercialPackagesData() {
+        setIsLoadingEffect(true);
+        Packagesapi.get('/getcommercialpackages', {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${access_token}`
+            }
+        })
+            .then((response) => {
+                let data = response.data
+                if (data.status === 'error') {
+                    let finalresponse = {
+                        'message': data.message,
+                        'server_res': data
+                    }
+                    setErrorMessages(finalresponse);
+                    setErrorModalOpen(true);
+                    setIsLoadingEffect(false);
+                    return false;
+                }
+                setCommercialPackages(data?.packages);
+                setIsLoadingEffect(false);
+                return false;
+            })
+            .catch((error) => {
+                console.log(error)
+                let finalresponse;
+                if (error.response !== undefined) {
+                    finalresponse = {
+                        'message': error.message,
+                        'server_res': error.response.data
+                    };
+                } else {
+                    finalresponse = {
+                        'message': error.message,
+                        'server_res': null
+                    };
+                }
+                setErrorMessages(finalresponse);
+                setErrorModalOpen(true);
+                setIsLoadingEffect(false);
+                return false;
+            })
+    }
 
     useEffect(() => {
-        getPackagesData();
+        getSellPackagesData();
     }, []);
     return (
         <>
@@ -111,10 +204,14 @@ function Packagestabswrapper() {
                         sellPackages={sellPackages}
                     />}
                 {activetab === "forrenttab" &&
-                    <Forrenttab />
+                    <Forrenttab 
+                        rentPackages={rentPackages}
+                    />
                 }
                 {activetab === "forcommercial" &&
-                    <Forcommercial />
+                    <Forcommercial 
+                        commercialPackages={commercialPackages}
+                    />
                 }
                 <div className='flex flex-row w-fit gap-4 pb-8'>
                     <div className=' cursor-pointer  flex flex-col  items-center justify-center border-[1.5px] border-[#699BA0] rounded-[10px] px-3 pb-1 '>
