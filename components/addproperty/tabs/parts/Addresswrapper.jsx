@@ -367,7 +367,7 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
             <p className=' w-full text-lg font-bold text-[#1D3A76] text-center font-sans'>Add Address</p>
           </div>
         </div>
-        <div className='w-full overflow-y-auto px-5 py-3 h-[calc(100vh-220px)]'>
+        <div className='w-full overflow-y-auto px-5 py-3 h-[calc(100vh-280px)] sm:h-[calc(100vh-220px)]'>
           <div className='mb-5'>
             <div className='w-[100%]'>
               <Select

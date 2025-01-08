@@ -1,6 +1,6 @@
 'use client';
 import { Select, Textinput } from '@nayeshdaggula/tailify';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Authapi from '../api/Authapi';
 import { toast } from 'react-toastify'
 import LoadingOverlay from '../shared/LoadingOverlay';
@@ -17,6 +17,8 @@ function SignupForm({ usertypedata, cities }) {
     const [userType, setUserType] = useState("Builder");
     const [isLoadingEffect, setIsLoadingEffect] = useState(false);
     const [errorMessages, setErrorMessages] = useState('');
+
+    const isLogged = useUserDetails((state) => state.isLogged);
 
     const [name, setName] = useState('')
     const [nameError, setNameError] = useState('')
@@ -167,10 +169,21 @@ function SignupForm({ usertypedata, cities }) {
         router.push('/dashboard');
     }
 
+    useEffect(() => {
+        setIsLoadingEffect(true);
+        if (isLogged) {
+            router.push('/dashboard');
+            setIsLoadingEffect(false);
+        } else {
+            router.push('/signup');
+            setIsLoadingEffect(false);
+        }
+    }, [isLogged]);
+
     return (
         <div className=' flex flex-row items-center justify-center col-span-12 md:col-span-6 px-3'>
             <div className="signupform flex flex-col xxm:w-fit h-fit gap-4 2xl:gap-4">
-                <div className="flex flex-col">
+                <div className="relative flex flex-col">
                     <div className="flex">
                         {usertypedata.map((type, index) => (
                             <div
@@ -224,7 +237,7 @@ function SignupForm({ usertypedata, cities }) {
                                     withAsterisk
                                     value={city}
                                     onChange={updateCity}
-                                    inputClassName='text-[#AEAEAE] font-[600] text-[12px] md:text-[12px] xl:text-[12px] lg:text-[12px] 2xl:text-[16px] 3xl:text-[24px] 4xl:text-[24px] 5xl:text-[24px] border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none'
+                                    inputClassName='text-[#374151] font-[600] text-[12px] md:text-[12px] xl:text-[12px] lg:text-[12px] 2xl:text-[16px] 3xl:text-[24px] 4xl:text-[24px] 5xl:text-[24px] border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none'
                                     className='!m-0 !p-0'
                                     dropdownClassName='text-[#AEAEAE] font-[600] text-[12px] md:text-[12px] xl:text-[12px] lg:text-[12px] 2xl:text-[16px] 3xl:text-[24px] 4xl:text-[24px] 5xl:text-[24px] min-h-[100px] max-h-[160px] z-50 overflow-y-auto'
                                 />
@@ -236,6 +249,7 @@ function SignupForm({ usertypedata, cities }) {
                             </button>
                         </div>
                     </form>
+                    <LoadingOverlay isLoading={isLoadingEffect} />
                 </div>
                 <div className='flex flex-row items-center justify-center bg-[#1D3A76] rounded-full'>
                     <p className='text-[12px]  md:text-[12px] xl:text-[12px] lg:text-[12px] 2xl:text-[16px] 3xl:text-[24px] 4xl:text-[24px] 5xl:text-[24px] text-[#ffffff] font-[600] py-[8px]'>Existing user?</p>
@@ -245,7 +259,6 @@ function SignupForm({ usertypedata, cities }) {
                     </Link>
                 </div>
             </div>
-            <LoadingOverlay isLoading={isLoadingEffect} />
             {
                 otpModal &&
                 <Modal

@@ -4,9 +4,9 @@ import signup_bg from '@/public/assets/approperties-bg.png'
 import signup_list from '@/public/assets/signup_list.svg'
 import person_with_laptop from '@/public/assets/person_with_laptop.png'
 import Image from 'next/image'
-import Loginform from '@/components/login/Loginform'
-function page() {
+import Loginform from '@/components/login/Loginform';
 
+function page() {
   return (
     <div className='loginpage h-[100vh]' style={{
       backgroundImage: `url(${signup_bg.src})`,

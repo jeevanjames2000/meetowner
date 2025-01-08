@@ -4,7 +4,7 @@ const Loadingoverlay = ({
     visible,
     zIndex = 1000,
     overlayBg = 'rgb(227 227 227 / 60%)',
-    position = 'fixed',
+    position = 'absolute',
     loaderSize = '3rem',
     loaderColor = '#228be6',
 }) => {

@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import find_planner from '@/public/assets/find_planner.png'
 import React from 'react'
+import Link from 'next/link'
 
 function Planfinder() {
     return (
@@ -23,11 +24,11 @@ function Planfinder() {
                             Let us help you out with our interactive plan finder
                         </p>
                     </div>
-                        <button
+                        <Link href="/packages"
                             className="w-[100%] mt-2 xs:mt-0 xs:w-[25%] mr-3 bg-[#53c0ac] text-[#ffffff] text-[14px] 2xl:text[18px] 3xl:text-[20px] 4xl:text-[22px] font-[700] py-1 px-1 rounded-[5px]  hover:bg-[#53c0ac]/70 focus:outline-none"
                         >
                             Find plan
-                        </button>
+                        </Link>
                 </div>
             </div>
         </div>

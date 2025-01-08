@@ -1,9 +1,31 @@
-import React from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { IconDownload } from '@tabler/icons-react';
 import Enquirycard from '../Enquirycard';
-import { Loadingoverlay } from '@nayeshdaggula/tailify';
+import { Loadingoverlay, Modal } from '@nayeshdaggula/tailify';
 import Pagination from '@/components/tailifycomponents/Pagination';
+import EnquiryModal from '../EnquiryModal';
+import LoadingOverlay from '@/components/shared/LoadingOverlay';
 function Myenquirestab({ allEnquires, handlePageChange, isLoadingEffect, totalPages, totalEnquires }) {
+
+    const [enquiryModal, setEnquiryModal] = useState(false);
+    const [enquiryModalId, setEnquiryModalId] = useState(null);
+    const openEnquiryModal = useCallback((enquiry_id) => {
+        setEnquiryModal(true);
+        setEnquiryModalId(enquiry_id);
+        console.log('open enquiry modal', enquiry_id)
+    }, [])
+
+    const closeEnquiryModal = () => {
+        setEnquiryModalId(null);
+        setEnquiryModal(false);
+    }
+
+    const [singleEnquiry, setSingleEnquiry] = useState(null);
+    useEffect(() => {
+        if (enquiryModalId !== null) {
+            setSingleEnquiry(allEnquires[enquiryModalId]);
+        }
+    }, [enquiryModalId]);
 
     return (
         <>
@@ -18,48 +40,69 @@ function Myenquirestab({ allEnquires, handlePageChange, isLoadingEffect, totalPa
                     <IconDownload stroke={2} className="ml-2 w-3 h-3 2xl:h-4 2xl:w-4 3xl:h-5 3xl:w-5 4xl:w-6 4xl:h-6" />
                 </button>
             </div>
-            {allEnquires.length !== 0 ?
-                allEnquires.map((item, index) => (
-                    <Enquirycard
-                        key={`enquiry-${index}${item.id}`}
-                        image={item?.property_details?.image}
-                        property_name={item?.property_details?.property_name}
-                        unique_property_id={item?.property_details?.unique_property_id}
-                        property_in={item?.property_details?.property_in}
-                        property_for={item?.property_details?.property_for}
-                        sub_type={item?.property_details?.sub_type}
-                        google_address={item?.property_details?.google_address}
-                        builtup_area={item?.property_details?.builtup_area}
-                        length_area={item?.property_details?.length_area}
-                        widt_area={item?.property_details?.widt_area}
-                        property_cost={item?.property_details?.property_cost}
-                        monthly_rent={item?.property_details?.monthly_rent}
-                        area_units={item?.property_details?.area_units}
-                        user_name={item?.user_details?.name}
-                        user_email={item?.user_details?.email}
-                        user_mobile={item?.user_details?.mobile}
-                    />
-                ))
-                :
-                <div className='flex items-center justify-center h-[200px] bg-white border border-[#D7D8D9] rounded-md'>
-                    <p className='text-[#1D3A76] text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[22px] font-[700]'>No Properties Found</p>
-                </div>
-            }
+            <div className='relative flex flex-col gap-2'>
+                {allEnquires.length !== 0 ?
+                    allEnquires.map((item, index) => (
+                        <div onClick={() => openEnquiryModal(index)} className="cursor-pointer" key={`enquiry-${index}${item.id}`}>
+                            <Enquirycard
+                                key={`enquiry-${index}${item.id}`}
+                                property_id={index}
+                                image={item?.property_details?.image}
+                                property_name={item?.property_details?.property_name}
+                                unique_property_id={item?.property_details?.unique_property_id}
+                                property_in={item?.property_details?.property_in}
+                                property_for={item?.property_details?.property_for}
+                                sub_type={item?.property_details?.sub_type}
+                                google_address={item?.property_details?.google_address}
+                                builtup_area={item?.property_details?.builtup_area}
+                                length_area={item?.property_details?.length_area}
+                                widt_area={item?.property_details?.widt_area}
+                                property_cost={item?.property_details?.property_cost}
+                                monthly_rent={item?.property_details?.monthly_rent}
+                                area_units={item?.property_details?.area_units}
+                                user_name={item?.user_details?.name}
+                                user_email={item?.user_details?.email}
+                                user_mobile={item?.user_details?.mobile}
+                            />
+                        </div>
+                    ))
+                    :
+                    <div className='flex items-center justify-center h-[200px] bg-white border border-[#D7D8D9] rounded-md'>
+                        <p className='text-[#1D3A76] text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[22px] font-[700]'>No Enquires Found</p>
+                    </div>
+                }
 
+                {
+                    allEnquires.length > 0 &&
+                    <div className='flex items-center justify-end'>
+                        <Pagination
+                            total={totalPages}
+                            onPageChange={handlePageChange}
+                        />
+                    </div>
+                }
+                <LoadingOverlay
+                    isLoading={isLoadingEffect}
+                    zIndex={9999}
+                    overlayBg="rgba(255, 255, 255, 0.6)"
+                />
+            </div>
             {
-                allEnquires.length > 0 &&
-                <div className='flex items-center justify-end'>
-                    <Pagination
-                        total={totalPages}
-                        onPageChange={handlePageChange}
+                (enquiryModal) &&
+                <Modal
+                    open={enquiryModal}
+                    onClose={closeEnquiryModal}
+                    size="lg"
+                    zIndex={9999}
+                    withCloseButton={false}
+                >
+                    <EnquiryModal
+                        singleEnquiry={singleEnquiry}
+                        closeEnquiryModal={closeEnquiryModal}
                     />
-                </div>
+
+                </Modal>
             }
-            <Loadingoverlay
-                visible={isLoadingEffect}
-                zIndex={9999}
-                overlayBg="rgba(255, 255, 255, 0.6)"
-            />
 
         </>
     )

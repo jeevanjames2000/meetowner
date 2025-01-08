@@ -56,12 +56,12 @@ function Addpropertydetails({
       setLengthArea('')
       setWidthArea('')
     }
-    if (getpropertyDetails?.property_for === "Rent") {
+    if (getpropertyDetails?.property_for === "Rent" || getpropertyDetails?.property_for === "PG/Co-living") {
       if (type === "Plot" || type === "Land") {
         setConstructionStatus('')
       }
     }
-    if (getpropertyDetails.property_for === "Rent" || !(type === "Plot" || type === "Land")) {
+    if (getpropertyDetails.property_for === "Rent" || getpropertyDetails?.property_for === "PG/Co-living" || !(type === "Plot" || type === "Land")) {
       setPreferredTenantType('')
     }
     if (!(type === "Independent House" || type === "Independent Villa" || type === "Plot" || type === "Warehouse" || type === "Others")) {
@@ -1001,7 +1001,7 @@ function Addpropertydetails({
         return false;
       }
     }
-    if (getpropertyDetails?.property_for === "Rent") {
+    if (getpropertyDetails?.property_for === "Rent" || getpropertyDetails?.property_for === "PG/Co-living") {
       if (!availableFromDate) {
         setIsLoadingEffect(false)
         toast.error('Please select available from Date', {
@@ -1049,7 +1049,7 @@ function Addpropertydetails({
         return false;
       }
     }
-    if (getpropertyDetails.property_for === "Rent") {
+    if (getpropertyDetails.property_for === "Rent" || getpropertyDetails.property_for === "PG/Co-living") {
       if (!monthlyRent) {
         setIsLoadingEffect(false)
         toast.error('Please enter monthly rent', {
@@ -2158,7 +2158,7 @@ function Addpropertydetails({
           <div className='w-9 cursor-pointer' onClick={() => updateActiveTab('basicdetails', 'completed', unique_property_id)}>
             <IconArrowNarrowLeft size={18} color='#1D3A76' />
           </div>
-          <p className=' w-full text-lg font-bold text-[#1D3A76] text-center font-sans'>ADD PROPERTY DETAILS</p>
+          <p className=' w-full text-md sm:text-lg font-bold text-[#1D3A76] text-center font-sans'>ADD PROPERTY DETAILS</p>
         </div>
         {/* <div className='flex'>
           <div className='flex items-center gap-1 mt-1 px-5'>
@@ -2171,19 +2171,19 @@ function Addpropertydetails({
           </div>
         </div> */}
       </div>
-      <div className='w-full overflow-y-auto px-5 py-3 h-[calc(100vh-240px)]'>
+      <div className='w-full overflow-y-auto px-5 py-3 sm:h-[calc(100vh-240px)] h-[calc(100vh-280px)]'>
         <div className='mb-5'>
           <div className='flex gap-1 mb-4'>
             <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Property Sub Type</p>
             <IconAsterisk size={8} color='#FF0000' />
           </div>
-          <div className='grid grid-cols-6 gap-2'>
+          <div className='grid grid-cols-2 sm:grid-cols-5 gap-2 flex-wrap'>
             {
               allPropertySubTypes.length > 0 &&
               allPropertySubTypes.map((item, index) => {
                 const icon = propertySubTypeIcon[item.name] || propertySubTypeIcon['default'];
                 return (
-                  <div key={index} onClick={() => updatePropertySubType(item.name)} className={`flex flex-col justify-center items-center gap-2 border-2 rounded-md px-6 py-2 w-[100%] cursor-pointer ${propertySubType === item.name ? 'bg-[#1D3A76] border-[#1D3A76] ' : 'border-[#d7d5d5ba] '} `}>
+                  <div key={index} onClick={() => updatePropertySubType(item.name)} className={`flex flex-col justify-center items-center gap-2 border-2 rounded-md px-8 py-2 w-[100%] cursor-pointer ${propertySubType === item.name ? 'bg-[#1D3A76] border-[#1D3A76] ' : 'border-[#d7d5d5ba] '} `}>
                     {icon}
                     <p className={`text-[10px] text-center font-medium ${propertySubType === item.name ? 'text-white' : 'text-[#1D3A76]'} `}>{item.name}</p>
                   </div>
@@ -2219,7 +2219,7 @@ function Addpropertydetails({
               <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Construction Status</p>
               <IconAsterisk size={8} color='#FF0000' />
             </div>
-            <div className='flex flex-row items-center gap-6'>
+            <div className='flex flex-row items-center gap-4 sm:gap-6 flex-wrap'>
               {
                 occupancyList.length > 0 &&
                 occupancyList.map((item, index) => {
@@ -2242,7 +2242,7 @@ function Addpropertydetails({
               <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>BHK</p>
               <IconAsterisk size={8} color='#FF0000' />
             </div>
-            <div className='flex flex-row items-center gap-6'>
+            <div className='flex flex-row items-center gap-4 sm:gap-6 flex-wrap'>
               {
                 bedroomtypesList.length > 0 &&
                 bedroomtypesList.map((item, index) => {
@@ -2282,7 +2282,7 @@ function Addpropertydetails({
                 <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Bathroom</p>
                 <IconAsterisk size={8} color='#FF0000' />
               </div>
-              <div className='flex flex-row items-center gap-6'>
+              <div className='flex flex-row items-center gap-4 sm:gap-6 flex-wrap'>
                 <div onClick={() => updateBathroom('1')} className={`group cursor-pointer px-8 py-2 rounded-md  ${bathroom === '1' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
                   <p className={` text-[10px] font-sans ${bathroom === '1' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>1 </p>
                 </div>
@@ -2323,7 +2323,7 @@ function Addpropertydetails({
                 <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Balcony</p>
                 <IconAsterisk size={8} color='#FF0000' />
               </div>
-              <div className='flex flex-row items-center gap-6'>
+              <div className='flex flex-row items-center gap-4 sm:gap-6 flex-wrap'>
                 {
                   bacloniesList.length > 0 &&
                   bacloniesList.map((item, index) => {
@@ -2362,10 +2362,10 @@ function Addpropertydetails({
           <>
             <div className='mb-5'>
               <div className='flex gap-1 mb-4'>
-                <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Furnish Type</p>
+                <p className='text-[#1D3A76] text-[13px] font-medium font-sans '>Furnish Type</p>
                 <IconAsterisk size={8} color='#FF0000' />
               </div>
-              <div className='grid grid-cols-3 gap-2'>
+              <div className='grid grid-cols-2 sm:grid-cols-3 gap-2 flex-wrap'>
                 {
                   furnishedtypesList.length > 0 &&
                   furnishedtypesList.map((item, index) => {
@@ -2380,16 +2380,16 @@ function Addpropertydetails({
               </div>
               {furnishTypeError && <p className='text-[#FF0000] text-xs font-sans'>Please select furnish type</p>}
             </div>
-            <div onClick={openFurnishingModal} className='cursor-pointer'>
+            {/* <div onClick={openFurnishingModal} className='cursor-pointer'>
               <p className='text-[#1D3A76] text-[13px] mb-4 font-medium font-sans'>+ Add Furnishings/ Amenties</p>
-            </div>
+            </div> */}
           </>
         }
         {
           (propertySubType === 'Office' || propertySubType === "Retail Shop" || propertySubType === "Show Room") &&
           <>
             <p className='text-[#1D3A76] text-[14px] font-medium font-sans mt-6'>Lift & Stair Cases </p>
-            <div className='grid grid-cols-3 gap-2 mt-3'>
+            <div className='grid grid-cols-1 sm:grid-cols-3 gap-2 mt-3'>
               <div className='mb-6 '>
                 <div className='flex gap-1'>
                   <p className='text-[#1D3A76] text-[13px] font-medium font-sans'> Passenger Lifts</p>
@@ -2435,7 +2435,7 @@ function Addpropertydetails({
             </div>
 
             <p className='text-[#1D3A76] text-[14px] font-medium font-sans'>Parking</p>
-            <div className='grid grid-cols-3 gap-2 mt-3'>
+            <div className='grid grid-cols-1 sm:grid-cols-3 gap-2 mt-3'>
               <div className='mb-6 '>
                 <div className='flex gap-1'>
                   <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Private Parking</p>
@@ -2467,7 +2467,7 @@ function Addpropertydetails({
             </div>
 
             <p className='text-[#1D3A76] text-[14px] font-medium font-sans'>Washrooms</p>
-            <div className='grid grid-cols-3 gap-2 mt-3'>
+            <div className='grid grid-cols-1 md:grid-cols-3 gap-2 mt-3'>
               <div className='mb-6 '>
                 <div className='flex gap-1'>
                   <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Private Washrooms</p>
@@ -2500,13 +2500,13 @@ function Addpropertydetails({
           </>
         }
         {
-          getpropertyDetails?.property_for === "Rent" &&
+          (getpropertyDetails?.property_for === "Rent" || getpropertyDetails?.property_for === "PG/Co-living") &&
           <div className='mb-5'>
             <div className='flex gap-1 mb-1'>
               <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Available From </p>
               <IconAsterisk size={8} color='#FF0000' />
             </div>
-            <div className='border-b border-[#d1d5db] w-[30%] px-3'>
+            <div className='border-b border-[#d1d5db] w-full sm:w-[30%] px-3'>
               <input
                 type="date"
                 id="date"
@@ -2522,7 +2522,7 @@ function Addpropertydetails({
         }
         {
           (constructionStatus === 1) &&
-          <div className='mb-5 w-[40%]'>
+          <div className='mb-5 w-full sm:w-[40%]'>
             <Select
               label='Age of Property'
               labelClassName='!text-[#1D3A76] text-[13px] font-medium font-sans'
@@ -2548,7 +2548,7 @@ function Addpropertydetails({
               <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Possesion End</p>
               <IconAsterisk size={8} color='#FF0000' />
             </div>
-            <div className='border-b border-[#d1d5db] w-[30%] px-3'>
+            <div className='border-b border-[#d1d5db] w-full sm:w-[30%] px-3'>
               <input
                 type="date"
                 id="date"
@@ -2563,7 +2563,7 @@ function Addpropertydetails({
           </div>
         }
         {
-          getpropertyDetails.property_for === "Rent" &&
+          (getpropertyDetails?.property_for === "Rent" || getpropertyDetails?.property_for === "PG/Co-living") &&
           <>
             <div className='my-6'>
               <div className='flex gap-1'>
@@ -2597,6 +2597,12 @@ function Addpropertydetails({
                 value={maintenceCharges}
                 onChange={updateMaintenceCharges}
               />
+              {
+                maintenceCharges &&
+                <NumberToWords
+                  value={maintenceCharges}
+                />
+              }
               {maintenceChargesError && <p className='text-[#FF0000] text-xs font-sans'>Please enter maintence charges</p>}
             </div>
             <div className='mb-5'>
@@ -2604,7 +2610,7 @@ function Addpropertydetails({
                 <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Security Deposit</p>
                 <IconAsterisk size={8} color='#FF0000' />
               </div>
-              <div className='flex flex-row items-center gap-6'>
+              <div className='flex flex-row items-center gap-2 sm:gap-6 flex-wrap'>
                 <div onClick={() => updateSecurityDeposit('1')} className={`group cursor-pointer px-8 py-2 rounded-md  ${securityDeposit === '1' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
                   <p className={`text-[10px] font-sans ${securityDeposit === '1' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>1 Month</p>
                 </div>
@@ -2622,7 +2628,7 @@ function Addpropertydetails({
                 <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Lock In Period</p>
                 <IconAsterisk size={8} color='#FF0000' />
               </div>
-              <div className='flex flex-row items-center gap-6'>
+              <div className='flex flex-row items-center gap-2 sm:gap-6 flex-wrap'>
                 <div onClick={() => updateLockInPeriod('1')} className={`group cursor-pointer px-8 py-2 rounded-md  ${lockInPeriod === '1' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
                   <p className={`text-[10px] font-sans ${lockInPeriod === '1' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>1 Month</p>
                 </div>
@@ -2640,7 +2646,7 @@ function Addpropertydetails({
                 <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Do You Charge Brokerage?</p>
                 <IconAsterisk size={8} color='#FF0000' />
               </div>
-              <div className='flex flex-row items-center gap-6'>
+              <div className='flex flex-row items-center gap-2 sm:gap-6 flex-wrap'>
                 <div onClick={() => updateBrokerage('0')} className={`group cursor-pointer px-8 py-2 rounded-md  ${brokerage === '0' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
                   <p className={`text-[10px] font-sans ${brokerage === '0' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>None</p>
                 </div>
@@ -2662,7 +2668,7 @@ function Addpropertydetails({
                 </div>
                 {
                   preferedTenantList?.length > 0 &&
-                  <div className='flex flex-row items-center gap-6'>
+                  <div className='flex flex-row items-center gap-2 sm:gap-6 flex-wrap'>
                     {
                       preferedTenantList.map((item, index) => (
                         <div key={index} onClick={() => updatePreferredTenantType(item.value)} className={`group cursor-pointer px-8 py-2 rounded-md  ${preferredTenantType === item.value ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
@@ -2677,7 +2683,7 @@ function Addpropertydetails({
             }
           </>
         }
-        <div className='mb-5 w-[40%]'>
+        <div className='mb-5 w-full sm:w-[40%]'>
           <Select
             label='Area units'
             labelClassName='!text-[#1D3A76] text-[13px] font-medium font-sans'
@@ -2783,7 +2789,7 @@ function Addpropertydetails({
                 <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Pent House</p>
                 <IconAsterisk size={8} color='#FF0000' />
               </div>
-              <div className='flex flex-row items-center gap-6'>
+              <div className='flex flex-row items-center gap-2 sm:gap-6 flex-wrap'>
                 <div onClick={() => updatePentHouse('Yes')} className={`group cursor-pointer px-8 py-2 rounded-md  ${pentHouse === 'Yes' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
                   <p className={`text-[10px] font-sans ${pentHouse === 'Yes' ? 'text-white ' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Yes</p>
                 </div>
@@ -2857,7 +2863,7 @@ function Addpropertydetails({
               <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Possession Status</p>
               <IconAsterisk size={8} color='#FF0000' />
             </div>
-            <div className='flex flex-row items-center gap-6'>
+            <div className='flex flex-row items-center gap-2 sm:gap-6 flex-wrap'>
               <div onClick={() => updatePossessionStatus('Immediate')} className={`group cursor-pointer px-8 py-2 rounded-md  ${possessionStatus === 'Immediate' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
                 <p className={`text-[10px] font-sans ${possessionStatus === 'Immediate' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Immediate</p>
               </div>
@@ -2876,7 +2882,7 @@ function Addpropertydetails({
               <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Ownership</p>
               <IconAsterisk size={8} color='#FF0000' />
             </div>
-            <div className='grid grid-cols-4 gap-3 mt-2'>
+            <div className='grid grid-cols-2 sm:grid-cols-4 gap-3 mt-2'>
               {
                 ownershipList?.length > 0 &&
                 ownershipList.map((item, index) => (
@@ -2894,7 +2900,7 @@ function Addpropertydetails({
           (propertySubType === "Apartment" || propertySubType === "Independent House" || propertySubType === "Independent Villa" || propertySubType === "Flat" || propertySubType === "Office" || propertySubType === "Retail Shop" || propertySubType === "Show Room") &&
           <div>
             <p className='text-[#1D3A76] text-[13px] mb-3 mt-6 font-sans font-medium'>Facilities</p>
-            <ul className="grid grid-cols-3 text-[13px] font-medium text-gray-900 bg-white border border-gray-200 rounded-lg">
+            <ul className="grid grid-cols-1 sm:grid-cols-3 text-[13px] font-medium text-gray-900 bg-white border border-gray-200 rounded-lg">
               {Object.keys(facilities).map((facility) => (
                 <li key={facility} className="w-full border-b border-gray-200 sm:border-b-0 border-r">
                   <div className="flex items-center ps-3">
@@ -2903,7 +2909,7 @@ function Addpropertydetails({
                       type="checkbox"
                       checked={facilities[facility]}
                       onChange={updateFacilties}
-                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                      className="cursor-pointer w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
                     />
                     <label
                       htmlFor={facility}
@@ -2954,7 +2960,7 @@ function Addpropertydetails({
                     <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Flat No.</p>
                     <IconAsterisk size={8} color='#FF0000' />
                   </div>
-                  <div className='border border-[#909090] rounded-md w-[20%] px-3'>
+                  <div className='border border-[#909090] rounded-md w-full sm:w-[40%] px-3'>
                     <Textinput
                       type='number'
                       placeholder="Flat Number"
@@ -2968,7 +2974,7 @@ function Addpropertydetails({
             }
             {
               (propertySubType === "Retail Shop" || propertySubType === "Show Room" || propertySubType === "Plot" || propertySubType === "Others") ?
-                <div className='mb-5 w-[40%]'>
+                <div className='mb-5 w-full sm:w-[40%]'>
                   <Select
                     label='Suitable'
                     labelClassName='!text-[#1D3A76] text-[13px] font-medium font-sans'
@@ -2983,7 +2989,7 @@ function Addpropertydetails({
                   {suitableForError && <p className='text-[#FF0000] text-xs font-sans'>Please select one</p>}
                 </div>
                 :
-                <div className='mb-5 w-[40%]'>
+                <div className='mb-5 w-full sm:w-[40%]'>
                   <Select
                     label='Zone Type'
                     labelClassName='!text-[#1D3A76] text-[13px] font-medium font-sans'
@@ -2993,7 +2999,7 @@ function Addpropertydetails({
                     value={zoneType}
                     onChange={updateZoneType}
                     inputClassName='focus:ring-blue-500 focus:border-blue-500'
-                    className='!m-0 !p-0'
+                    className='!m-0 !p-0 '
                   />
                   {zoneTypeError && <p className='text-[#FF0000] text-xs font-sans'>Please select one</p>}
                 </div>
@@ -3010,7 +3016,7 @@ function Addpropertydetails({
                 <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Investor Property</p>
                 <IconAsterisk size={8} color='#FF0000' />
               </div>
-              <div className='flex flex-row items-center gap-6'>
+              <div className='flex flex-row items-center gap-2 sm:gap-6 flex-wrap'>
                 <div onClick={() => updateInvestorProperty('Yes')} className={`group cursor-pointer px-8 py-2 rounded-md  ${investorProperty === 'Yes' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
                   <p className={`text-[10px] font-sans ${investorProperty === 'Yes' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Yes</p>
                 </div>
@@ -3030,7 +3036,7 @@ function Addpropertydetails({
                 <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Loan Facility</p>
                 <IconAsterisk size={8} color='#FF0000' />
               </div>
-              <div className='flex flex-row items-center gap-6'>
+              <div className='flex flex-row items-center gap-2 sm:gap-6 flex-wrap'>
                 <div onClick={() => updateLoanFacility('Yes')} className={`group cursor-pointer px-8 py-2 rounded-md  ${loanFacility === 'Yes' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
                   <p className={`text-[10px] font-sans ${loanFacility === 'Yes' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Yes</p>
                 </div>
@@ -3046,7 +3052,7 @@ function Addpropertydetails({
         <div className='mt-3'>
           <p className='text-[#1D3A76] text-md mb-3 font-medium font-sans'>Add Additional Details</p>
           <p className='text-[#1D3A76] text-[13px] font-sans font-medium mb-2'>Facing</p>
-          <div className='grid grid-cols-4 gap-3'>
+          <div className='grid grid-cols-2 sm:grid-cols-4 gap-3'>
             {
               facingList.length > 0 &&
               facingList.map((item, index) => (
@@ -3066,7 +3072,7 @@ function Addpropertydetails({
                 <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Car Parking</p>
                 <IconAsterisk size={8} color='#FF0000' />
               </div>
-              <div className='flex flex-row items-center gap-6'>
+              <div className='flex flex-row items-center gap-2 sm:gap-6 flex-wrap'>
                 <div onClick={() => updateCarParking('0')} className={`group cursor-pointer px-8 py-2 rounded-md  ${carParking === '0' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
                   <p className={`text-[10px] font-sans ${carParking === '0' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>0</p>
                 </div>
@@ -3107,7 +3113,7 @@ function Addpropertydetails({
                 <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Bike Parking</p>
                 <IconAsterisk size={8} color='#FF0000' />
               </div>
-              <div className='flex flex-row items-center gap-6'>
+              <div className='flex flex-row items-center gap-2 sm:gap-6 flex-wrap'>
                 <div onClick={() => updateBikeParking('0')} className={`group cursor-pointer px-8 py-2 rounded-md  ${bikeParking === '0' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
                   <p className={`text-[10px] font-sans ${bikeParking === '0' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>0</p>
                 </div>
@@ -3148,7 +3154,7 @@ function Addpropertydetails({
                 <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Open Parking</p>
                 <IconAsterisk size={8} color='#FF0000' />
               </div>
-              <div className='flex flex-row items-center gap-6'>
+              <div className='flex flex-row items-center gap-2 sm:gap-6 flex-wrap'>
                 <div onClick={() => updateOpenParking('0')} className={`group cursor-pointer px-8 py-2 rounded-md  ${openParking === '0' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
                   <p className={`text-[10px] font-sans ${openParking === '0' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>0</p>
                 </div>
@@ -3178,6 +3184,7 @@ function Addpropertydetails({
                     value={customOpenParking}
                     onChange={updateCustomOpenParking}
                   />
+                  {customOpenParkingError && <p className='text-[#FF0000] text-xs font-sans'>Please enter custom open parking</p>}
                 </div>
               }
               {openParkingError && <p className='text-[#FF0000] text-xs font-sans'>Please select open parking</p>}
@@ -3192,7 +3199,7 @@ function Addpropertydetails({
                 <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Pantry Room?</p>
                 <IconAsterisk size={8} color='#FF0000' />
               </div>
-              <div className='flex flex-row items-center gap-6'>
+              <div className='flex flex-row items-center gap-2 sm:gap-6 flex-wrap'>
                 <div onClick={() => updatePantryRoom('Yes')} className={`group cursor-pointer px-8 py-2 rounded-md  ${pantryRoom === 'Yes' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
                   <p className={`text-[10px] font-sans ${pantryRoom === 'Yes' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Yes</p>
                 </div>
@@ -3209,7 +3216,7 @@ function Addpropertydetails({
                 <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Servant Room?</p>
                 <IconAsterisk size={8} color='#FF0000' />
               </div>
-              <div className='flex flex-row items-center gap-6'>
+              <div className='flex flex-row items-center gap-2 sm:gap-6 flex-wrap'>
                 <div onClick={() => updateServantRoom('Yes')} className={`group cursor-pointer px-8 py-2 rounded-md  ${servantRoom === 'Yes' ? 'border border-[#1D3A76] bg-[#1D3A76]' : 'border border-[#909090]  hover:bg-[#1D3A76]'}`}>
                   <p className={`text-[10px] font-sans ${servantRoom === 'Yes' ? 'text-white' : 'text-[#1D3A76] font-semibold group-hover:text-white'}`}>Yes</p>
                 </div>
@@ -3237,9 +3244,6 @@ function Addpropertydetails({
         </div>
       </div>
       <div className='flex flex-row justify-end items-center px-6 py-3'>
-        {/* <div onClick={() => updateActiveTab('basicdetails', 'completed', unique_property_id)} className='bg-[#000] px-8 py-2 rounded-md cursor-pointer'>
-          <p className='text-white text-[10px]'>Back</p>
-        </div> */}
         <div onClick={handleSubmitPropertyDetails} className='border border-[#1D3A76] bg-[#1D3A76] px-8 py-2 rounded-md cursor-pointer'>
           <p className='text-white text-[10px] font-bold'>Next: Add Address Details</p>
         </div>

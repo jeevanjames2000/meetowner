@@ -45,9 +45,9 @@ function Property({ propertyDetails }) {
                         }
                     </p>
                 </div>
-                <button className='bg-[#E28B6D] px-3 py-2 rounded-md cursor-pointer text-[8px] xs:text-[10px] 2xl:text-[14px] 3xl:text-[16px] 4xl:text-[18px] text-white font-semibold font-sans'>
+                {/* <button className='bg-[#E28B6D] px-3 py-2 rounded-md cursor-pointer text-[8px] xs:text-[10px] 2xl:text-[14px] 3xl:text-[16px] 4xl:text-[18px] text-white font-semibold font-sans'>
                     Contact Developer
-                </button>
+                </button> */}
             </div>
             <Swiper
                 modules={[Navigation, Autoplay, FreeMode, Thumbs]}
@@ -96,20 +96,21 @@ function Property({ propertyDetails }) {
                     >
                         <IconChevronLeft className="h-4 w-4 text-white" />
                     </button>
-                    {/* <Swiper
+                    <Swiper
                         onSwiper={setThumbsSwiper}
                         loop={true}
                         spaceBetween={5}
-                        slidesPerView={1}
+                        slidesPerView={6}
                         freeMode={true}
                         watchSlidesProgress={true}
                         modules={[FreeMode, Navigation, Thumbs]}
+                        className='w-[80%]'
                     >
                         {
                             propertyDetails?.image?.length > 0 &&
                             propertyDetails?.image.map((item, index) => (
                                 <SwiperSlide key={index}>
-                                    <div className='h-[60px] w-[100px]'>
+                                    <div className='h-[60px] w-[100px] pl-1'>
                                         <Image
                                             key={index}
                                             src={item}
@@ -122,7 +123,7 @@ function Property({ propertyDetails }) {
                                 </SwiperSlide>
                             ))
                         }
-                    </Swiper> */}
+                    </Swiper>
                     <button
                         onClick={() => swiperRef.current?.slideNext()}
                         className="absolute right-0 z-10 transform bg-[#1D3A76] rounded-full p-[4px] focus:outline-none"

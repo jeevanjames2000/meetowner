@@ -7,6 +7,8 @@ import Enquiresapi from '../api/Enquiresapi'
 import { useUserDetails } from '../zustand/useUserDetails'
 import { Modal } from '@nayeshdaggula/tailify'
 import Errorpanel from '../shared/Errorpanel'
+import { useRouter } from 'next/navigation'
+import { toast } from 'react-toastify'
 function Enquirestabswrapper() {
     const userInfo = useUserDetails((state) => state.userInfo)
     const user_id = userInfo?.user_id;
@@ -25,7 +27,7 @@ function Enquirestabswrapper() {
     }
 
     const [page, setPage] = useState(1);
-    const [limit, setLimit] = useState(6);
+    const [limit, setLimit] = useState(3);
     const [totalPages, setTotalPages] = useState(0);
     const [totalEnquires, setTotalEnquires] = useState(0);
     const [allEnquires, setAllEnquires] = useState([]);
@@ -51,6 +53,7 @@ function Enquirestabswrapper() {
                     console.log('finalresponse', finalresponse)
                     setErrorMessages(finalresponse);
                     setErrorModalOpen(true);
+                    // toast.error(data.message);
                     return false;
                 }
                 setAllEnquires(data?.allEnquires || []);
@@ -63,6 +66,7 @@ function Enquirestabswrapper() {
                     'message': error.message,
                 }
                 console.log('error', error)
+                // toast.error(error.message);
                 setErrorMessages(finalresponse);
                 setErrorModalOpen(true);
             });
@@ -76,14 +80,7 @@ function Enquirestabswrapper() {
 
     useEffect(() => {
         setIsLoadingEffect(true);
-        // if user_id is not available then wait for 2secs to get the user_id
-        if (!user_id) {
-            setTimeout(() => {
-                getAllEnquires(page, limit);
-            }, 2000);
-        } else {
-            getAllEnquires(page, limit);
-        }
+        getAllEnquires(page, limit);
     }, [user_id, page, limit])
 
     return (
