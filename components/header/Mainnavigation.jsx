@@ -21,8 +21,19 @@ const Mainnavigation = () => {
             sessionStorage.clear();
             localStorage.clear();
             router.push('/');
-        }, 1000);
+        }, 3000);
     }
+    // const handleLogout = () => {
+    //     resetAuthdetails(); // Reset Zustand state
+    //     storage.removeItem('userAuthDetails'); // Clear encrypted storage
+    //     sessionStorage.clear();
+    //     localStorage.clear(); // Clear all other storage entries
+    //     setIsLoadingEffect(true); // Start loading overlay
+    //     setTimeout(() => {
+    //         setIsLoadingEffect(false);
+    //         router.push('/'); // Navigate to home
+    //     }, 3000);
+    // };
     return (
         <>
             <div className="flex flex-col md:flex-row md:items-center justify-between px-5 md:px-0 gap-5 md:gap-10">
