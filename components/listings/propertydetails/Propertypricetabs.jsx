@@ -37,7 +37,6 @@ function Propertyprice({ propertyDetails }) {
     else {
         new_price = ` ₹ ${formatPrice(propertyDetails?.monthly_rent)} Rent`;
     }
-
     return (
         <div className='propertyprice space-y-6'>
             <p className="text-[#1d3a76] text-[22px] xs:text-[25px] 2xl:text-[28px] 3xl:text-[30px] 4xl:text-[32px] font-[600]">
@@ -48,10 +47,8 @@ function Propertyprice({ propertyDetails }) {
                     <div className='w-full md:w-[20%] custom-apartmentshadow py-2 flex flex-col items-center justify-center rounded-sm'>
                         <p className='text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[22px] text-[#434343] font-[700] font-Montserrat'>
                             {
-                                (propertyDetails?.sub_type !== "Plot" || propertyDetails?.sub_type !== "Land" || propertyDetails?.property_in !== "Commercial") ?
-                                    `${propertyDetails?.bedrooms} BHK`
-                                    :
-                                    ''
+                                (propertyDetails?.sub_type !== "Plot" || propertyDetails?.sub_type !== "Land" || propertyDetails?.property_in !== "Commercial") &&
+                                    propertyDetails?.bedrooms ? `${propertyDetails?.bedrooms} BHK` : 'No BHK'
                             }
                         </p>
                         <p className='text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[22px] text-[#1d3a76] font-[600] font-Montserrat'>
@@ -64,14 +61,17 @@ function Propertyprice({ propertyDetails }) {
                             Facing
                         </p>
                     </div>
-                    <div className='w-full md:w-[20%] custom-apartmentshadow py-2 flex flex-col items-center justify-center rounded-sm'>
-                        <p className='text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[22px] text-[#434343] font-[700] font-Montserrat'>
-                            Possession Starts
-                        </p>
-                        <p className='text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[22px] text-[#1d3a76] font-[600] font-Montserrat'>
-                            {available_from_date}
-                        </p>
-                    </div>
+                    {
+                        (propertyDetails?.sub_type === "Plot" || propertyDetails?.sub_type === "Land") &&
+                        <div className='w-full md:w-[20%] custom-apartmentshadow py-2 flex flex-col items-center justify-center rounded-sm'>
+                            <p className='text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[22px] text-[#434343] font-[700] font-Montserrat'>
+                                Possession Starts
+                            </p>
+                            <p className='text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[22px] text-[#1d3a76] font-[600] font-Montserrat'>
+                                {propertyDetails?.possession_status}
+                            </p>
+                        </div>
+                    }
                 </div>
                 <div className='flex items-center justify-start gap-10 border-b-[1.8px] border-[#E2E2E2] '>
                     {
