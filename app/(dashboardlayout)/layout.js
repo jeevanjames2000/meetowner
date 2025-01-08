@@ -5,10 +5,10 @@ import React from 'react'
 export default function DashboardLayout({ children }) {
     return (
         <>
-            {/* <Authuserverify> */}
-            <Header />
-            {children}
-            {/* </Authuserverify> */}
+            <Authuserverify>
+                <Header />
+                {children}
+            </Authuserverify>
         </>
     )
 }       

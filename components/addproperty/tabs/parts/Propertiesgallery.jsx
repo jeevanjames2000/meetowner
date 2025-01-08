@@ -35,19 +35,23 @@ function Propertiesgallery({ propertyGallery }) {
                                         src={item}
                                         alt={"property"}
                                         fill
-                                        className="object-cover rounded-lg w-full"
+                                        className="object-fit rounded-lg w-full"
                                     />
                                 </div>
                             </SwiperSlide>
                         ))
                     ) : (
-                        <Image
-                            src={property}
-                            alt={"property"}
-                            height={150}
-                            width={150}
-                            className="object-cover w-full rounded-lg"
-                        />
+                        <SwiperSlide>
+                            <div className='w-full h-[200px]'>
+                                <Image
+                                    src={property}
+                                    alt={"property"}
+                                    height={150}
+                                    width={150}
+                                    className="object-fit w-full rounded-lg"
+                                />
+                            </div>
+                        </SwiperSlide>
                     )}
                 </Swiper>
             </div>

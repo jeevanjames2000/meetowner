@@ -1,6 +1,6 @@
 'use client'
 import { IconCheck, IconChevronLeft, IconPhone, IconPointFilled } from '@tabler/icons-react'
-import React, { Suspense, useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import Basicdetailswrapper from './parts/Basicdetailswrapper'
 import Addpropertydetails from './parts/Addpropertydetails'
 import Addresswrapper from './parts/Addresswrapper'
@@ -10,6 +10,10 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import Propertyapi from '@/components/api/Propertyapi'
 import { useUserDetails } from '@/components/zustand/useUserDetails'
 import Link from 'next/link'
+import 'swiper/css';
+import 'swiper/css/navigation';
+import { Modal } from '@nayeshdaggula/tailify'
+import Errorpanel from '@/components/shared/Errorpanel'
 
 function Tabssubwrapper({
     propertyInList, propertyForList, transactionTypeList,
@@ -25,7 +29,7 @@ function Tabssubwrapper({
     const status = searchParams.get('status')
     const unique_property_id = searchParams.get('unique_property_id') || null
     const router = useRouter()
-    const pathname = usePathname()
+    const pathname = usePathname();
 
     const [activeTab, setActiveTab] = useState('basicdetails')
     const updateActiveTab = useCallback((tab, status, propert_id) => {
@@ -81,6 +85,7 @@ function Tabssubwrapper({
             setPropertyDetailsStatus('completed')
             setPhotosStatus(status)
         } else if (active_step === 'review') {
+            setIsLoadingEffect(true)
             getAllPropertyDetails()
             setBasicDetailsStatus('completed')
             setAddressStatus('completed')
@@ -90,6 +95,10 @@ function Tabssubwrapper({
         }
 
     }, [active_step, status, user_id])
+
+    const [errorModalOpen, setErrorModalOpen] = useState(false);
+    const closeErrorModal = () => setErrorModalOpen(false);
+    const [errorMessages, setErrorMessages] = useState('');
 
     const [basicDetails, setBasicDetails] = useState({})
     async function getBasicdetails() {
@@ -111,11 +120,20 @@ function Tabssubwrapper({
                         'server_res': response.data
                     }
                     console.log('finalResponse', finalResponse)
+                    setErrorMessages(finalResponse)
+                    setErrorModalOpen(true);
+                    return false;
                 }
                 setBasicDetails(response?.data?.property)
             })
             .catch((error) => {
                 console.log(error)
+                let finalResponse = {
+                    'message': error.message,
+                }
+                setErrorMessages(finalResponse)
+                setErrorModalOpen(true);
+                return false;
             })
     }
 
@@ -139,11 +157,20 @@ function Tabssubwrapper({
                         'server_res': response.data
                     }
                     console.log('finalResponse', finalResponse)
+                    setErrorMessages(finalResponse)
+                    setErrorModalOpen(true);
+                    return false;
                 }
                 setPropertyDetails(response?.data?.property)
             })
             .catch((error) => {
                 console.log(error)
+                let finalResponse = {
+                    'message': error.message,
+                }
+                setErrorMessages(finalResponse)
+                setErrorModalOpen(true);
+                return false;
             })
     }
 
@@ -167,14 +194,24 @@ function Tabssubwrapper({
                         'server_res': response.data
                     }
                     console.log('finalResponse', finalResponse)
+                    setErrorMessages(finalResponse)
+                    setErrorModalOpen(true);
+                    return false;
                 }
                 setAddressDetails(response?.data?.property)
             })
             .catch((error) => {
                 console.log(error)
+                let finalResponse = {
+                    'message': error.message,
+                }
+                setErrorMessages(finalResponse)
+                setErrorModalOpen(true);
+                return false;
             })
     }
 
+    const [isLoadingEffect, setIsLoadingEffect] = useState(false)
     const [propertyGallery, setPropertyGallery] = useState([])
     const [allpropertyDetails, setAllPropertyDetails] = useState({})
     async function getAllPropertyDetails() {
@@ -190,18 +227,29 @@ function Tabssubwrapper({
             }
         })
             .then((response) => {
+                setIsLoadingEffect(false)
                 if (response.data.status === 'error') {
                     let finalResponse = {
                         'message': response.data.message,
                         'server_res': response.data
                     }
                     console.log('finalResponse', finalResponse)
+                    setErrorMessages(finalResponse)
+                    setErrorModalOpen(true);
+                    return false;
                 }
                 setAllPropertyDetails(response?.data?.property)
                 setPropertyGallery(response?.data?.property?.image || [])
             })
             .catch((error) => {
+                setIsLoadingEffect(false)
                 console.log(error)
+                let finalResponse = {
+                    'message': error.message,
+                }
+                setErrorMessages(finalResponse)
+                setErrorModalOpen(true);
+                return false;
             })
     }
     let Status;
@@ -217,9 +265,10 @@ function Tabssubwrapper({
         Status = 100
     }
 
+
     return (
-        <div className='flex flex-row gap-2 relative'>
-            <div className='basis-[25%] bg-white rounded-t-lg '>
+        <div className='flex flex-col sm:flex-row gap-2 relative'>
+            <div className='basis-[25%] bg-white rounded-t-lg hidden sm:block '>
                 <div className='flex flex-row justify-center items-center py-3 gap-1 bg-[#E2EAED] '>
                     <IconChevronLeft size={16} color='#1D3A76' />
                     <Link href="/dashboard" className='text-xs text-[#1D3A76] font-medium'>Back to dashboard</Link>
@@ -458,8 +507,19 @@ function Tabssubwrapper({
                     </div>
                 </div>
             </div>
+            <div className='bg-white px-5 py-1 sm:hidden'>
+                <p className='text-[#1D3A76] font-semibold text-[12px]'>Post your Property</p>
+                <div className="flex items-center space-x-2 my-1">
+                    <div className="relative flex-1 bg-[#BACAD5] rounded-full h-1.5">
+                        <div className="bg-[#287DB0] h-1.5 rounded-full"
+                            style={{ width: `${Status}%`, transition: 'width 0.3s ease-in-out' }}
+                        ></div>
+                    </div>
+                    <p className="text-gray-700 text-sm font-medium">{Status}%</p>
+                </div>
+            </div>
 
-            <div className='basis-[75%] bg-white w-full rounded-t-lg'>
+            <div className='basis-[100%] sm:basis-[75%] lg:basis-[75%] bg-white w-full rounded-t-lg'>
                 {
                     activeTab === 'basicdetails' &&
                     <Basicdetailswrapper
@@ -506,9 +566,24 @@ function Tabssubwrapper({
                         allpropertyDetails={allpropertyDetails}
                         propertyGallery={propertyGallery}
                         updateActiveTab={updateActiveTab}
+                        isLoadingEffect={isLoadingEffect}
                     />
                 }
             </div>
+
+            {errorModalOpen &&
+                <Modal
+                    open={errorModalOpen}
+                    onClose={closeErrorModal}
+                    size="md"
+                    zIndex={9999}
+                >
+                    <Errorpanel
+                        errorMessages={errorMessages}
+                        close={closeErrorModal}
+                    />
+                </Modal>
+            }
         </div>
     )
 }

@@ -8,16 +8,13 @@ import Uploadproperty from './parts/Uploadproperty';
 import Propertyvaluecalculator from './parts/Propertyvaluecalculator';
 import Verifykyc from './parts/Verifykyc';
 
-
-
-
 function Enquirieswrapper() {
 
   return (
-    <div className="grid grid-cols-8 px-4 md:px-[80px] mt-16 mb-24 w-full gap-[10px]">
-      <div className="col-span-12 md:col-span-6 space-y-8 mb-8">
+    <div className="grid grid-cols-8 px-4 md:px-[4vw] lg:px-[6vw] mt-5 md:mt-16 mb-5 sm:mb-10 md:mb-24 w-full gap-[10px]">
+      <div className="col-span-12 md:col-span-6 space-y-8">
         <Enquirestabswrapper />
-            </div>
+      </div>
       <div className="col-span-12 md:col-span-2 space-y-8">
         <Unlockpackages/>
         <Getapp />
@@ -26,7 +23,6 @@ function Enquirieswrapper() {
         <Propertyvaluecalculator />
         <Verifykyc />
       </div>
-
     </div>
   );
 }

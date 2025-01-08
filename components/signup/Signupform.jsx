@@ -1,6 +1,6 @@
 'use client';
 import { Select, Textinput } from '@nayeshdaggula/tailify';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Authapi from '../api/Authapi';
 import { toast } from 'react-toastify'
 import LoadingOverlay from '../shared/LoadingOverlay';
@@ -17,6 +17,8 @@ function SignupForm({ usertypedata, cities }) {
     const [userType, setUserType] = useState("Builder");
     const [isLoadingEffect, setIsLoadingEffect] = useState(false);
     const [errorMessages, setErrorMessages] = useState('');
+
+    const isLogged = useUserDetails((state) => state.isLogged);
 
     const [name, setName] = useState('')
     const [nameError, setNameError] = useState('')
@@ -155,7 +157,7 @@ function SignupForm({ usertypedata, cities }) {
         }
         closeOtpModal()
         updateAuthDetails(userDetails, accessToken);
-        toast.success('otp Verified Successfully', {
+        toast.success('OTP Verified Successfully', {
             position: 'top-right',
             autoClose: 5000,
             hideProgressBar: false,
@@ -167,17 +169,28 @@ function SignupForm({ usertypedata, cities }) {
         router.push('/dashboard');
     }
 
+    useEffect(() => {
+        setIsLoadingEffect(true);
+        if (isLogged) {
+            router.push('/dashboard');
+            setIsLoadingEffect(false);
+        } else {
+            router.push('/signup');
+            setIsLoadingEffect(false);
+        }
+    }, [isLogged]);
+
     return (
-        <>
-            <div className="signupform flex flex-col w-[370px] h-fit gap-4">
-                <div className="flex flex-col rounded-[20px] ">
+        <div className=' flex flex-row items-center justify-center col-span-12 md:col-span-6 px-3'>
+            <div className="signupform flex flex-col xxm:w-fit h-fit gap-4 2xl:gap-4">
+                <div className="relative flex flex-col">
                     <div className="flex">
                         {usertypedata.map((type, index) => (
                             <div
                                 key={type.value}
                                 onClick={() => setUserType(type.label)}
-                                className={`cursor-pointer custom-shadow w-fit ${index !== 0 ? "ml-[-14px]" : ""}
-          flex items-center justify-center text-sm text-[#ffffff] py-1 px-6 rounded-tr-[20px]
+                                className={` rounded-tl-[8px] cursor-pointer custom-shadow w-fit ${index !== 0 ? "ml-[-18px]" : ""}
+          flex items-center justify-center text-[12px] xxm:text-[14px] xs:text-[15px] md:text-[12px] xl:text-[12px] lg:text-[12px] 2xl:text-[18px] 3xl:text-[28px] 4xl:text-[32px] text-[#ffffff] font-[600] py-1 md:py-2  xl:py-[3%] 2xl:py-[2%] 3xl:py-[2%] 4xl:py-[2%] px-6 2xl:px-8 rounded-tr-[20px]
           ${userType === type.label ? 'bg-[#FBAF01] text-[#244385]' : 'bg-[#31539A]'}
           ${index === usertypedata.length - 1 ? "w-[100%] justify-end p-4" : ""}`}
                                 style={{ zIndex: 50 - index * 10 }}
@@ -187,34 +200,35 @@ function SignupForm({ usertypedata, cities }) {
                         ))}
                     </div>
                     <form onSubmit={handleSignupform}>
-                        <div className='flex flex-col bg-white h-fit py-4 px-3 gap-2'>
-                            <Textinput
-                                value={name}
-                                onChange={updateName}
-                                error={nameError}
-                                placeholder="Name"
-                                inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
-                            />
-                            <div className='flex flex-row items-center w-full'>
+                        <div className='flex flex-col bg-white rounded-bl-xl rounded-br-xl h-fit py-6 px-3 xl:px-[7%] gap-2 xl:gap-6 lg:gap-6'>
+                            <div className='flex flex-row items-center w-fit gap-[2%]'>
                                 <div className='w-[20%]'>
                                     <Textinput
                                         value='+91'
                                         placeholder="+91"
-                                        inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
+                                        inputClassName='text-[#626262] font-[600] text-[12px] md:text-[12px] xl:text-[12px] lg:text-[12px] 2xl:text-[16px] 3xl:text-[24px] 4xl:text-[24px] 5xl:text-[24px] border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
                                         inputProps={{ readOnly: true }}
                                     />
+
                                 </div>
-                                <div className='w-[80%]'>
+                                <div className='w-[78%]'>
                                     <Textinput
                                         type='number'
-                                        placeholder="xxxxxxxxxx"
-                                        inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
+                                        placeholder="Enter your Mobile Number"
+                                        inputClassName='text-[#AEAEAE] font-[600] text-[12px]  md:text-[12px] xl:text-[12px] lg:text-[12px] 2xl:text-[16px] 3xl:text-[24px] 4xl:text-[24px] 5xl:text-[24px] border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
                                         value={mobile}
                                         onChange={updateMobile}
                                         error={mobileError}
                                     />
                                 </div>
                             </div>
+                            <Textinput
+                                value={name}
+                                onChange={updateName}
+                                error={nameError}
+                                placeholder="Name"
+                                inputClassName='text-[#AEAEAE] font-[600] text-[12px] md:text-[12px] xl:text-[12px] lg:text-[12px] 2xl:text-[16px] 3xl:text-[24px] 4xl:text-[24px] 5xl:text-[24px] border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
+                            />
                             <div className=''>
                                 <Select
                                     placeholder="Select City"
@@ -223,28 +237,28 @@ function SignupForm({ usertypedata, cities }) {
                                     withAsterisk
                                     value={city}
                                     onChange={updateCity}
-                                    inputClassName='border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none'
+                                    inputClassName='text-[#374151] font-[600] text-[12px] md:text-[12px] xl:text-[12px] lg:text-[12px] 2xl:text-[16px] 3xl:text-[24px] 4xl:text-[24px] 5xl:text-[24px] border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none'
                                     className='!m-0 !p-0'
-                                    dropdownClassName='min-h-[100px] max-h-[160px] z-50 overflow-y-auto'
+                                    dropdownClassName='text-[#AEAEAE] font-[600] text-[12px] md:text-[12px] xl:text-[12px] lg:text-[12px] 2xl:text-[16px] 3xl:text-[24px] 4xl:text-[24px] 5xl:text-[24px] min-h-[100px] max-h-[160px] z-50 overflow-y-auto'
                                 />
                             </div>
                             <button
                                 onClick={handleSignupform}
-                                className=" text-sm rounded-md px-4 py-2  bg-[#ffd119] w-full">
+                                className="text-[#FFFFFF] font-[600] text-[12px]  md:text-[12px] xl:text-[12px] lg:text-[12px] 2xl:text-[16px] 3xl:text-[24px] 4xl:text-[24px] 5xl:text-[24px] rounded-md px-4 mt-8 py-2 xl:py-[2%] 2xl:py-[3%] bg-[#1D3A76] w-full">
                                 Register
                             </button>
                         </div>
                     </form>
+                    <LoadingOverlay isLoading={isLoadingEffect} />
                 </div>
                 <div className='flex flex-row items-center justify-center bg-[#1D3A76] rounded-full'>
-                    <p className='text-sm text-[#ffffff]'>Existing user?</p>
+                    <p className='text-[12px]  md:text-[12px] xl:text-[12px] lg:text-[12px] 2xl:text-[16px] 3xl:text-[24px] 4xl:text-[24px] 5xl:text-[24px] text-[#ffffff] font-[600] py-[8px]'>Existing user?</p>
                     <Link href="/"
-                        className=" text-sm px-1 py-1 text-[#FBAF01] ">
+                        className=" text-[12px]  md:text-[12px] xl:text-[12px] lg:text-[12px] 2xl:text-[16px] 3xl:text-[28px] px-1 py-1 2xl:py-[3%] text-[#FBAF01] ">
                         Login
                     </Link>
                 </div>
             </div>
-            <LoadingOverlay isLoading={isLoadingEffect} />
             {
                 otpModal &&
                 <Modal
@@ -276,7 +290,7 @@ function SignupForm({ usertypedata, cities }) {
                     />
                 </Modal>
             }
-        </>
+        </div>
     );
 }
 

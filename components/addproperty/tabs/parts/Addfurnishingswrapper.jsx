@@ -220,7 +220,7 @@ function Addfurnishingswrapper({ closeFurnishingModal }) {
             </div>
 
             <div className='flex flex-row justify-end items-center mt-10 mb-5'>
-                <div className='border border-[#1D3A76] bg-[#1D3A76] px-8 py-2 rounded-md cursor-pointer'>
+                <div onClick={closeFurnishingModal} className='border border-[#1D3A76] bg-[#1D3A76] px-8 py-2 rounded-md cursor-pointer'>
                     <p className='text-white text-[12px]'>Save</p>
                 </div>
             </div>

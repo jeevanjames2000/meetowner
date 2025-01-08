@@ -1,5 +1,5 @@
 'use client'
-import { IconChevronDown, IconCircle, IconTrash } from '@tabler/icons-react';
+import { IconChevronDown, IconCircle, IconFilter, IconMenu2, IconTrash, IconX } from '@tabler/icons-react';
 import Link from 'next/link';
 import React, { useCallback, useEffect, useState } from 'react';
 import listingApi from '../api/listingApi';
@@ -9,6 +9,7 @@ import Propertylists from './parts/Propertylists';
 import Propertyapi from '../api/Propertyapi';
 import Errorpanel from '../shared/Errorpanel';
 import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
 
 function Listingswrapper({ occupancyList }) {
     const userInfo = useUserDetails((state) => state.userInfo)
@@ -136,7 +137,6 @@ function Listingswrapper({ occupancyList }) {
                     let finalresponse = {
                         'message': data.message,
                     }
-                    console.log('finalresponse', finalresponse)
                     setErrorMessages(finalresponse);
                     setErrorModalOpen(true);
                     return false;
@@ -256,6 +256,7 @@ function Listingswrapper({ occupancyList }) {
                 setDeleteModal(false)
                 toast.success('Property deleted successfully')
                 refreshListings()
+                getPropertiesCount()
             }
             )
             .catch((error) => {
@@ -268,14 +269,25 @@ function Listingswrapper({ occupancyList }) {
             });
     }
 
+    const [isShowCategoryFilter, setIsShowCategoryFilter] = useState(false);
+    const openCategoryFilter = () => {
+        setIsShowCategoryFilter(!isShowCategoryFilter);
+    }
+    const closeCategoryFilter = () => {
+        setIsShowCategoryFilter(false);
+    }
+
     return (
         <>
-            <div className="px-[80px] w-full my-16">
-                <div className="flex w-full gap-8">
-                    {/* 20% Width Div */}
-                    <div className="w-[18%] h-fit bg-[#FFFFFF] p-3 flex flex-col space-y-2 rounded-md">
-                        <p className="text-[#240000] text-[13px] font-[600]">Show</p>
-                        <div className="flex flex-col mx-auto w-full max-w-md border-b border-[#D7D8D9] pb-4">
+            <div className={`px-4 md:px-[4vw] lg:px-[6vw] w-full my-5 md:my-16 flex flex-col md:flex-row gap-4 lg:gap-8 ${isShowCategoryFilter ? 'overflow-hidden h-[calc(100vh-120px)] md:overflow-auto' : 'overflow-auto'}`}>
+                {/* 20% Width Div */}
+                <div className={`${isShowCategoryFilter ? 'absolute w-full h-full bg-black/20 z-50 bottom-0 right-0' : 'hidden'} md:flex md:relative md:w-[25%] lg:w-[18%] h-fit md:bg-transparent`}>
+                    <div className={`${isShowCategoryFilter ? 'flex absolute right-0 bottom-0 w-full z-50 max-h-[80%] md:max-h-full overflow-y-auto' : 'hidden'} md:flex md:relative w-full md:h-fit bg-[#FFFFFF] p-3 flex-col space-y-2 md:rounded-md`}>
+                        <div className="flex justify-between items-center">
+                            <p className="text-[#240000] text-[11px] xs:text-[13px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] font-[600]">Show</p>
+                            <IconX size={20} onClick={closeCategoryFilter} className='md:hidden' />
+                        </div>
+                        <div className="flex flex-col mx-auto w-full border-b border-[#D7D8D9] pb-4">
                             <label className="w-full group relative flex cursor-pointer rounded-sm py-2 text-[#1b1b1b] transition focus:outline-none">
                                 <input
                                     type="radio"
@@ -291,12 +303,7 @@ function Listingswrapper({ occupancyList }) {
                                     ) : (
                                         <IconCircle size={16} color="#b9b9b9" />
                                     )}
-                                    <p
-                                        className={`text-[12px] font-[500] ${propertyIn === "Residential"
-                                            ? "text-[#1D3A76]"
-                                            : "text-[#969595]"
-                                            }`}
-                                    >
+                                    <p className={`text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] font-[500] ${propertyIn === "Residential" ? "text-[#1D3A76]" : "text-[#969595]"}`}>
                                         Residential  Properties
                                     </p>
                                 </div>
@@ -317,7 +324,7 @@ function Listingswrapper({ occupancyList }) {
                                         <IconCircle size={16} color="#b9b9b9" />
                                     )}
                                     <p
-                                        className={`text-[12px] font-[500] ${propertyIn === "Commercial"
+                                        className={`text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] font-[500] ${propertyIn === "Commercial"
                                             ? "text-[#1D3A76]"
                                             : "text-[#969595]"
                                             }`}
@@ -327,7 +334,7 @@ function Listingswrapper({ occupancyList }) {
                                 </div>
                             </label>
                         </div>
-                        <p className="text-[#240000] text-[13px] font-[500] pt-2">Sub - Category</p>
+                        <p className="text-[#240000] text-[11px] xs:text-[13px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] font-[500] pt-2">Sub - Category</p>
                         <div>
                             <div
                                 className={`flex items-center justify-between cursor-pointer h-7 px-1 ${isOpen.buy
@@ -336,9 +343,9 @@ function Listingswrapper({ occupancyList }) {
                                     }`}
                                 onClick={() => toggleAccordion("buy")}
                             >
-                                <p className="text-[12px] font-bold">Buy</p>
+                                <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] font-bold">Buy</p>
                                 <div className="flex flex-row gap-14">
-                                    <p className="font-bold text-[12px]">({propertiesCount?.properties_for_sell})</p>
+                                    <p className="font-bold text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px]">({propertiesCount?.properties_for_sell})</p>
                                     <IconChevronDown
                                         stroke={1.5}
                                         size={16}
@@ -348,14 +355,32 @@ function Listingswrapper({ occupancyList }) {
                             </div>
                             {isOpen.buy && (
                                 <div className="mt-2 flex flex-col gap-2 pl-3 pb-2">
-                                    <Link href="#" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                    {/* <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
                                         Apartment({propertiesCount?.apartments})
                                     </Link>
-                                    <Link href="#" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                    <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
                                         Independent House({propertiesCount?.independent_house})
                                     </Link>
-                                    <Link href="#" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                    <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
                                         Villa({propertiesCount?.independent_villa})
+                                    </Link> */}
+                                    <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
+                                        Reported (0)
+                                    </Link>
+                                    <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
+                                        Active (0)
+                                    </Link>
+                                    <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
+                                        Expired (0)
+                                    </Link>
+                                    <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
+                                        Rejected (0)
+                                    </Link>
+                                    <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
+                                        Deleted (0)
+                                    </Link>
+                                    <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
+                                        Expiring Soon (0)
                                     </Link>
                                 </div>
                             )}
@@ -367,9 +392,9 @@ function Listingswrapper({ occupancyList }) {
                                     }`}
                                 onClick={() => toggleAccordion("rent")}
                             >
-                                <p className="text-[12px] font-bold">Rent</p>
+                                <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] font-bold">Rent</p>
                                 <div className="flex flex-row gap-14">
-                                    <p className="font-bold text-[12px]">({propertiesCount?.properties_for_rent})</p>
+                                    <p className="font-bold text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px]">({propertiesCount?.properties_for_rent})</p>
                                     <IconChevronDown
                                         stroke={1.5}
                                         size={16}
@@ -379,22 +404,22 @@ function Listingswrapper({ occupancyList }) {
                             </div>
                             {isOpen.rent && (
                                 <div className="mt-2 flex flex-col gap-2 pl-3 pb-2">
-                                    <Link href="#" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                    <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
                                         Reported (0)
                                     </Link>
-                                    <Link href="#" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                    <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
                                         Active (0)
                                     </Link>
-                                    <Link href="#" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                    <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
                                         Expired (0)
                                     </Link>
-                                    <Link href="#" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                    <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
                                         Rejected (0)
                                     </Link>
-                                    <Link href="#" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                    <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
                                         Deleted (0)
                                     </Link>
-                                    <Link href="#" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                    <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
                                         Expiring Soon (0)
                                     </Link>
                                 </div>
@@ -407,9 +432,9 @@ function Listingswrapper({ occupancyList }) {
                                     }`}
                                 onClick={() => toggleAccordion("pg")}
                             >
-                                <p className="text-[12px] font-bold">PG</p>
+                                <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] font-bold">PG</p>
                                 <div className="flex flex-row gap-14">
-                                    <p className="font-bold text-[12px]">({propertiesCount?.properties_for_pg})</p>
+                                    <p className="font-bold text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px]">({propertiesCount?.properties_for_pg})</p>
                                     <IconChevronDown
                                         stroke={1.5}
                                         size={16}
@@ -419,61 +444,60 @@ function Listingswrapper({ occupancyList }) {
                             </div>
                             {isOpen.pg && (
                                 <div className="mt-2 flex flex-col gap-2 pl-3 pb-3">
-                                    <Link href="#" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                    <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
                                         All(0)
                                     </Link>
-                                    <Link href="#" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                    <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
                                         Reported (0)
                                     </Link>
-                                    <Link href="#" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                    <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
                                         Active (0)
                                     </Link>
-                                    <Link href="#" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                    <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
                                         Expired (0)
                                     </Link>
-                                    <Link href="#" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                    <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
                                         Rejected (0)
                                     </Link>
-                                    <Link href="#" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                    <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
                                         Deleted (0)
                                     </Link>
-                                    <Link href="#" className="text-gray-400 text-[12px] hover:text-[#1D3A76]">
+                                    <Link href="#" className="text-gray-400 text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] hover:text-[#1D3A76]">
                                         Under Review (0)
                                     </Link>
                                 </div>
                             )}
                         </div>
-
                     </div>
-                    {/* 80% Width Div */}
-                    <Propertylists
-                        totalPages={totalPages}
-                        totalProperties={totalProperties}
-                        allListings={allListings}
-                        handlePageChange={handlePageChange}
-                        limit={limit}
-                        isLoadingEffect={isLoadingEffect}
-                        openDeleteModal={openDeleteModal}
-                        propertyIn={propertyIn}
-                        propertySubtype={propertySubtype}
-                        updatePropertySubtype={updatePropertySubtype}
-                        locality={locality}
-                        updateLocality={updateLocality}
-                        bhkhide={bhkhide}
-                        bhk={bhk}
-                        updateBhk={updateBhk}
-                        propertyFor={propertyFor}
-                        updatePropertyFor={updatePropertyFor}
-                        occupancyList={occupancyList}
-                        occupancy={occupancy}
-                        updateOccupancy={updateOccupancy}
-                        propertyId={propertyId}
-                        updatePropertyId={updatePropertyId}
-                        handleResetFilters={handleResetFilters}
-                        priceRange={priceRange}
-                        handlePriceRange={handlePriceRange}
-                    />
                 </div>
+                {/* 80% Width Div */}
+                <Propertylists
+                    totalPages={totalPages}
+                    totalProperties={totalProperties}
+                    allListings={allListings}
+                    handlePageChange={handlePageChange}
+                    limit={limit}
+                    isLoadingEffect={isLoadingEffect}
+                    openDeleteModal={openDeleteModal}
+                    propertyIn={propertyIn}
+                    propertySubtype={propertySubtype}
+                    updatePropertySubtype={updatePropertySubtype}
+                    locality={locality}
+                    updateLocality={updateLocality}
+                    bhkhide={bhkhide}
+                    bhk={bhk}
+                    updateBhk={updateBhk}
+                    propertyFor={propertyFor}
+                    updatePropertyFor={updatePropertyFor}
+                    occupancyList={occupancyList}
+                    occupancy={occupancy}
+                    updateOccupancy={updateOccupancy}
+                    propertyId={propertyId}
+                    updatePropertyId={updatePropertyId}
+                    handleResetFilters={handleResetFilters}
+                    priceRange={priceRange}
+                    handlePriceRange={handlePriceRange}
+                />
             </div >
             {errorModalOpen &&
                 <Modal
@@ -499,7 +523,7 @@ function Listingswrapper({ occupancyList }) {
                 >
                     <div className="flex flex-col items-center justify-center gap-2 p-4">
                         <IconTrash size={40} stroke={1.5} color="#1D3A76" />
-                        <p className="text-[#706e6e] text-[14px] font-[600]">Are you sure you want to delete this property {singlePropertyId}?</p>
+                        <p className="text-[#706e6e] text-[14px] font-[600]">Are you sure you want to delete this Property {singlePropertyId}?</p>
                         <div className="flex gap-4 pt-4">
                             <button onClick={() => handleDeleteProperty(singlePropertyId)} className="py-2 px-4 bg-[#038AC9] text-white font-[700] text-[14px] rounded-lg">Yes, I'm sure</button>
                             <button onClick={closeDeleteModal} className="py-2 px-4 bg-[#A5413F] text-white font-[700] text-[14px] rounded-lg">No, Cancel</button>
@@ -507,6 +531,9 @@ function Listingswrapper({ occupancyList }) {
                     </div>
                 </Modal>
             }
+            <div className='fixed bottom-5 right-5 bg-[#31539A] p-1 rounded-full md:hidden justify-end z-50'>
+                <IconFilter size={20} color='#FEFDF8' onClick={openCategoryFilter} />
+            </div>
 
         </>
     );
