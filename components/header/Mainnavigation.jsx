@@ -18,10 +18,9 @@ const Mainnavigation = () => {
         setTimeout(() => {
             setIsLoadingEffect(false);
             // resetAuthdetails();
-            // router.push('/');
             sessionStorage.clear();
             localStorage.clear();
-            // window.location.href = '/';
+            router.push('/');
         }, 1000);
     }
     return (
