@@ -48,6 +48,7 @@ function Loginform() {
     }
 
     const [otpNumber, setOtpNumber] = useState('');
+    const [otpError, setOtpError] = useState('');
     const updateOtpNumber = (value) => {
         setOtpNumber(value);
     }
@@ -58,6 +59,7 @@ function Loginform() {
     const closeErrorModal = () => {
         setErrorModalOpen(false);
     }
+    const [genratedOtp, setGenratedOtp] = useState('');
 
     const handleLoginform = (e) => {
         setIsLoadingEffect(true);
@@ -74,58 +76,102 @@ function Loginform() {
 
         Authapi.post('/login', {
             mobile: mobile
-        }).then((response) => {
-            const data = response.data
-            if (data.status === 'error') {
-                let finalresponse = {
-                    'message': data.message,
-                }
-                setErrorMessages(finalresponse);
-                setErrorModalOpen(true);
-                setIsLoadingEffect(false);
-                return false;
-            } else if (data.status === 'error_user_not_found') {
-                let finalresponse = {
-                    'message': data.message,
-                }
-                setErrorMessages(finalresponse);
-                setErrorModalOpen(true);
-                setIsLoadingEffect(false);
-                return false;
-            } else {
-                openOtpModal()
-                setTimeout(() => {
-                    setIsLoadingEffect(false);
-                }, 3000);
-                setUserDetails(data?.user_details);
-                setAccessToken(data?.accessToken);
-                setOtpNumber(data?.user_details?.otpNumber);
-                return false;
-            }
-        }).catch((error) => {
-            console.log(error)
-            let finalresponse;
-            if (error.response !== undefined) {
-                finalresponse = {
-                    'message': error.message,
-                    'server_res': error.response.data
-                };
-            } else {
-                finalresponse = {
-                    'message': error.message,
-                    'server_res': null
-                };
-            }
-            setErrorMessages(finalresponse);
-            setErrorModalOpen(true);
-            setIsLoadingEffect(false);
-            return false;
         })
+            .then((response) => {
+                const data = response.data
+                if (data.status === 'error') {
+                    let finalresponse = {
+                        'message': data.message,
+                    }
+                    setErrorMessages(finalresponse);
+                    setErrorModalOpen(true);
+                    setIsLoadingEffect(false);
+                    return false;
+                } else if (data.status === 'error_user_not_found') {
+                    let finalresponse = {
+                        'message': data.message,
+                    }
+                    setErrorMessages(finalresponse);
+                    setErrorModalOpen(true);
+                    setIsLoadingEffect(false);
+                    return false;
+                } else {
+                    // openOtpModal()
+                    sendOTP(mobile);
+                    setTimeout(() => {
+                        setIsLoadingEffect(false);
+                    }, 3000);
+                    setUserDetails(data?.user_details);
+                    setAccessToken(data?.accessToken);
+                    // setOtpNumber(data?.user_details?.otpNumber);
+                    return false;
+                }
+            }).catch((error) => {
+                console.log(error)
+                let finalresponse;
+                if (error.response !== undefined) {
+                    finalresponse = {
+                        'message': error.message,
+                        'server_res': error.response.data
+                    };
+                } else {
+                    finalresponse = {
+                        'message': error.message,
+                        'server_res': null
+                    };
+                }
+                setErrorMessages(finalresponse);
+                setErrorModalOpen(true);
+                setIsLoadingEffect(false);
+                return false;
+            })
+    }
+
+    async function sendOTP(mobile_number) {
+        Authapi.get('/sendOtp', {
+            params: {
+                mobile: mobile_number
+            }
+        })
+            .then((response) => {
+                const data = response.data
+                if (data.status === 'error') {
+                    let finalresponse = {
+                        'message': data.message,
+                    }
+                    setErrorMessages(finalresponse);
+                    setErrorModalOpen(true);
+                    setIsLoadingEffect(false);
+                    return false;
+                } else {
+                    openOtpModal()
+                    setGenratedOtp(data?.otp.toString());
+                    setOtpNumber(data?.otp.toString()); // for testing purpose
+                    setTimeout(() => {
+                        setIsLoadingEffect(false);
+                    }, 3000);
+                    return false;
+                }
+            })
+            .catch((error) => {
+                console.log(error)
+                let finalresponse = {
+                    'message': error.message,
+                };
+                setErrorMessages(finalresponse);
+                setErrorModalOpen(true);
+                setIsLoadingEffect(false);
+                return false;
+            })
     }
 
     const handleVerifyOtp = () => {
         if (otpNumber === '') {
-            alert('Please enter OTP number')
+            setOtpError('Please enter OTP number')
+            return false;
+        }
+        if (otpNumber !== genratedOtp) {
+            alert('Please enter correct OTP number')
             return false;
         }
         closeOtpModal()
@@ -142,25 +188,6 @@ function Loginform() {
         router.push('/dashboard');
     }
 
-    const sendSMS = async (req, res) => {
-        const user_id = 'meetowner2023'; // Your Username
-        const pwd = 'Meet@123'; // Your Password
-        const sender_id = 'METOWR'; // 6-char Sender ID, e.g., HDFCBK
-        const mobile_num = '7093608698'; // Recipient's mobile number
-        const message = 'Dear customer, 123456 is the OTP for Login it will expire in 2 minutes. Don\'t share to anyone -MEET OWNER';
-        const peid = '1101542890000073814'; // Principal Entity ID
-        const tpid = '1107169859354543707'; // Template ID
-        // Construct the URL with all parameters
-        const url = `http://tra.bulksmshyderabad.co.in/websms/sendsms.aspx?userid=${user_id}&password=${pwd}&sender=${sender_id}&mobileno=${encodeURIComponent(mobile_num)}&msg=${encodeURIComponent(message)}&peid=${peid}&tpid=${tpid}`;
-        try {
-            // Make the API request
-            const response = await axios.get(url);
-            res.status(200).send({ success: true, data: response.data });
-        } catch (error) {
-            console.error('Error:', error.message);
-            res.status(500).send({ success: false, error: error.message });
-        }
-    };
 
     useEffect(() => {
         setIsLoadingEffect(true);
@@ -233,6 +260,8 @@ function Loginform() {
                         otpNumber={otpNumber}
                         updateOtpNumber={updateOtpNumber}
                         handleVerifyOtp={handleVerifyOtp}
+                        genratedOtp={genratedOtp}
+                        otpError={otpError}
                     />
                 </Modal>
             }

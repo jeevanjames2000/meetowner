@@ -59,9 +59,11 @@ function SignupForm({ usertypedata, cities }) {
     }
 
     const [otpNumber, setOtpNumber] = useState('');
+    const [otpError, setOtpError] = useState('');
     const updateOtpNumber = (value) => {
         setOtpNumber(value);
     }
+    const [genratedOtp, setGenratedOtp] = useState('');
     const [userDetails, setUserDetails] = useState({});
     const [accessToken, setAccessToken] = useState('');
     const [errorModalOpen, setErrorModalOpen] = useState(false);
@@ -119,10 +121,9 @@ function SignupForm({ usertypedata, cities }) {
                     setIsLoadingEffect(false);
                     return false;
                 } else {
-                    openOtpModal()
+                    sendOTP(mobile);
                     setUserDetails(data?.user_details);
                     setAccessToken(data?.accessToken);
-                    setOtpNumber(data?.user_details?.otpNumber);
                     setTimeout(() => {
                         setIsLoadingEffect(false);
                     }, 3000);
@@ -150,9 +151,47 @@ function SignupForm({ usertypedata, cities }) {
             })
     }
 
+    async function sendOTP(mobile_number) {
+        Authapi.get('/sendOtp', {
+            params: {
+                mobile: mobile_number
+            }
+        })
+            .then((response) => {
+                const data = response.data
+                if (data.status === 'error') {
+                    let finalresponse = {
+                        'message': data.message,
+                    }
+                    setErrorMessages(finalresponse);
+                    setErrorModalOpen(true);
+                    setIsLoadingEffect(false);
+                    return false;
+                } else {
+                    openOtpModal()
+                    setGenratedOtp(data?.otp.toString());
+                    setOtpNumber(data?.otp.toString()); // for testing purpose
+                    setTimeout(() => {
+                        setIsLoadingEffect(false);
+                    }, 3000);
+                    return false;
+                }
+            })
+            .catch((error) => {
+                console.log(error)
+                let finalresponse = {
+                    'message': error.message,
+                };
+                setErrorMessages(finalresponse);
+                setErrorModalOpen(true);
+                setIsLoadingEffect(false);
+                return false;
+            })
+    }
+
     const handleVerifyOtp = () => {
         if (otpNumber === '') {
-            alert('Please enter OTP number')
+            setOtpError('Please enter OTP number')
             return false;
         }
         closeOtpModal()
@@ -272,6 +311,8 @@ function SignupForm({ usertypedata, cities }) {
                         otpNumber={otpNumber}
                         updateOtpNumber={updateOtpNumber}
                         handleVerifyOtp={handleVerifyOtp}
+                        genratedOtp={genratedOtp}
+                        otpError={otpError}
                     />
                 </Modal>
             }
