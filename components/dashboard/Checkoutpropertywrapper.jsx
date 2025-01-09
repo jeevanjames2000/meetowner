@@ -68,7 +68,7 @@ function Checkoutpropertywrapper() {
     useEffect(() => {
         setIsLoadingEffect(true);
         getPropertyList();
-    }, [user_id])
+    }, [])
 
     return (
         <div className="bg-[#FFFFFF] rounded-md mt-12 pt-4 pb-6 px-6 relative">

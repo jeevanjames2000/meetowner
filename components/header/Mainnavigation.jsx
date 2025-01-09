@@ -21,7 +21,7 @@ const Mainnavigation = () => {
             sessionStorage.clear();
             localStorage.clear();
             router.push('/');
-        }, 1000);
+        }, 2000);
     }
     return (
         <>
