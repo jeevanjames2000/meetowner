@@ -1,11 +1,11 @@
 import { Pininput } from '@nayeshdaggula/tailify';
 import React from 'react'
 
-function OtpModal({ otpNumber, updateOtpNumber, handleVerifyOtp }) {
+function OtpModal({ otpNumber, updateOtpNumber, handleVerifyOtp, genratedOtp, otpError }) {
     return (
         <>
             <div className='space-y-3 py-3'>
-                <p className=''>Temparay Otp: {otpNumber}</p>
+                <p className=''>Temparay Otp: {genratedOtp}</p>
                 <Pininput
                     numberOfInputs={6}
                     value={otpNumber}
@@ -13,6 +13,7 @@ function OtpModal({ otpNumber, updateOtpNumber, handleVerifyOtp }) {
                     label="OTP Pin"
                     description="Please enter your pin"
                     placeholder="*"
+                    error={otpError}
                 />
                 <button
                     onClick={handleVerifyOtp}
