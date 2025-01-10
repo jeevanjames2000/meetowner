@@ -62,6 +62,7 @@ function SignupForm({ usertypedata, cities }) {
     const [otpError, setOtpError] = useState('');
     const updateOtpNumber = (value) => {
         setOtpNumber(value);
+        setOtpError('')
     }
     const [genratedOtp, setGenratedOtp] = useState('');
     const [userDetails, setUserDetails] = useState({});
@@ -191,8 +192,15 @@ function SignupForm({ usertypedata, cities }) {
 
     const handleVerifyOtp = (e) => {
         e.preventDefault();
+        setIsLoadingEffect(true);
         if (otpNumber === '') {
+            setIsLoadingEffect(false);
             setOtpError('Please enter OTP number')
+            return false;
+        }
+        if (otpNumber !== genratedOtp) {
+            setIsLoadingEffect(false);
+            setOtpError('Please enter correct OTP number')
             return false;
         }
         closeOtpModal()
@@ -206,6 +214,9 @@ function SignupForm({ usertypedata, cities }) {
             draggable: true,
             progress: undefined,
         });
+        setTimeout(() => {
+            setIsLoadingEffect(false);
+        }, 3000);
         router.push('/dashboard');
     }
 
