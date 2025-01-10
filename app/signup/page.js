@@ -47,52 +47,27 @@ async function page() {
       <div className="overflow-hidden flex  justify-center items-center h-[calc(100vh-65px)] 3xl:h-[calc(100vh-120px)]">
         <div className=" grid grid-cols-12 w-full gap-[5%] md:px-10 xl:px-32 lg:px-32 3xl:px-60 items-center justify-between">
           {/* Left Column */}
-          <div className="col-span-6 space-y-4 hidden md:block">
-            <p className="heading1  text-[#ffffff] font-[600] font-sans">
-              Lorem Ipsum is simply dummy text
+          <div className="col-span-6 space-y-3 hidden md:block">
+            <p className="heading1  text-[#ffffff] text-md font-[600] font-sans">
+              Free Listings for Builders & Partners!
             </p>
-            <ul className="space-y-[3%] ">
-              {/* First List Item */}
-              <li className="flex items-center gap-[1.5%]">
-                <Image
-                  src={signup_list}
-                  alt="Image 1"
-                  className="imageList rounded-full"
-                />
-                <span className="lists text-[#ffffff] font-[600] font-sans">
-                  Lorem Ipsum1
-                </span>
-              </li>
-              {/* Second List Item */}
-              <li className="flex items-center gap-[1.5%]">
-                <Image
-                  src={signup_list}
-                  alt="Image 1"
-                  className="imageList rounded-full"
-                />
-                <span className="lists text-[#ffffff] font-[600] font-sans">
-                  Lorem Ipsum2
-                </span>
-              </li>
-              {/* Third List Item */}
-              <li className="flex items-center gap-[1.5%]">
-                <Image
-                  src={signup_list}
-                  alt="Image 1"
-                  className="imageList rounded-full"
-                />
-                <span className="lists text-[#ffffff] font-[600] font-sans">
-                  Lorem Ipsum3
-                </span>
-              </li>
-            </ul>
+            <div className='space-y-2'>
+              <p className="heading2 text-[#ffffff] font-[400] font-sans text-[13px]"> 📢 Attention Builders & Channel Partners! </p>
+              <p className="heading3 text-[#ffffff] font-[400] font-sans text-[13px]"> MeetOwner is offering FREE PROPERTY LISTINGS to help you showcase your projects to the right audience. </p>
+            </div>
+            <div className='space-y-1'>
+              <p className="heading3 text-[#ffffff] font-[400] font-sans text-[13px]"> 🔑 Why Choose MeetOwner? </p>
+              <p className="heading3 text-[#ffffff] text-[13px] font-[400] font-sans"> ✅ Direct connections with buyers & tenants</p>
+              <p className="heading3 text-[#ffffff] text-[13px] font-[400] font-sans"> ✅ Showcase your properties with ease</p>
+              <p className="heading3 text-[#ffffff] text-[13px] font-[400] font-sans"> 🏡 Don’t wait! Start listing your properties today!</p>
+            </div>
             <div className='pt-0 2xl:pt-[4%]'>
               <Image
                 src={person_with_laptop}
                 alt="Person with Laptop"
-                className="mt-4  2xl:h-fit 2xl:w-[90%] 3xl:h-fit 3xl:w-[80%] object-cover"
-                height={400}
-                width={400}
+                className="mt-6 md:w-[70%] 2xl:h-fit 2xl:w-[90%] 3xl:h-fit 3xl:w-[80%] object-cover"
+                height={200}
+                width={300}
               />
             </div>
           </div>
