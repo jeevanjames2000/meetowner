@@ -51,6 +51,7 @@ function Loginform() {
     const [otpError, setOtpError] = useState('');
     const updateOtpNumber = (value) => {
         setOtpNumber(value);
+        setOtpError('');
     }
     const [userDetails, setUserDetails] = useState({});
     const [accessToken, setAccessToken] = useState('');
@@ -167,12 +168,15 @@ function Loginform() {
 
     const handleVerifyOtp = (e) => {
         e.preventDefault();
+        setIsLoadingEffect(true);
         if (otpNumber === '') {
+            setIsLoadingEffect(false);
             setOtpError('Please enter OTP number')
             return false;
         }
         if (otpNumber !== genratedOtp) {
-            alert('Please enter correct OTP number')
+            setIsLoadingEffect(false);
+            setOtpError('Please enter correct OTP number')
             return false;
         }
         closeOtpModal()
@@ -186,6 +190,11 @@ function Loginform() {
             draggable: true,
             progress: undefined,
         });
+
+        setTimeout(() => {
+            setIsLoadingEffect(false);
+        }, 3000);
+
         router.push('/dashboard');
     }
 
