@@ -146,7 +146,7 @@ function Loginform() {
                 } else {
                     openOtpModal()
                     setGenratedOtp(data?.otp.toString());
-                    setOtpNumber(data?.otp.toString()); // for testing purpose
+                    // setOtpNumber(data?.otp.toString()); // for testing purpose
                     setTimeout(() => {
                         setIsLoadingEffect(false);
                     }, 3000);
@@ -165,7 +165,8 @@ function Loginform() {
             })
     }
 
-    const handleVerifyOtp = () => {
+    const handleVerifyOtp = (e) => {
+        e.preventDefault();
         if (otpNumber === '') {
             setOtpError('Please enter OTP number')
             return false;
