@@ -26,6 +26,11 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
   const updateCity = (value) => {
     setCity(value)
     setCityError(false)
+    if (value !== '') {
+      setIsLoadingLocality(true)
+      getAllLocalities(value)
+    }
+    setLocality('')
   }
 
   const [propertyName, setPropertyName] = useState('')
@@ -37,9 +42,20 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
 
   const [locality, setLocality] = useState('')
   const [localityError, setLocalityError] = useState('')
-  const updateLocality = (e) => {
-    setLocality(e.target.value)
+  const [localitiesData, setLocalitiesData] = useState([])
+  const updateLocality = (value) => {
     setLocalityError('')
+    if (value.length > 2) {
+      searchLocality(value)
+      setShowDropdown(true)
+    } else {
+      setLocalitiesData([])
+    }
+    if (value === '') {
+      setLocalitiesData([])
+      setShowDropdown(false)
+    }
+    setLocality(value)
   }
 
   const [flatNo, setFlatNo] = useState('')
@@ -295,6 +311,10 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
   useEffect(() => {
     if (addressDetails !== null) {
       setCity(addressDetails?.city_id || '')
+      if (addressDetails?.city_id) {
+        setIsLoadingLocality(true)
+        getAllLocalities(addressDetails?.city_id || '')
+      }
       setPropertyName(addressDetails?.property_name || '')
       setFlatNo(addressDetails?.unit_flat_house_no || '')
       setFloorNo(addressDetails?.floors || '')
@@ -320,6 +340,7 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
             'server_res': data
           }
           setErrorMessages(finalResponse)
+          setErrorModalOpen(true)
         }
         if (data.status === 'success') {
           setAllCities(data?.cities || [])
@@ -341,8 +362,66 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
           };
         }
         setErrorMessages(finalresponse);
+        setErrorModalOpen(true)
         return false;
       })
+  }
+
+  const [isLoadingLocality, setIsLoadingLocality] = useState(false)
+  const [allLocalities, setAllLocalities] = useState([])
+  const getAllLocalities = (city_id) => {
+    Generalapi.get('getlocalitiesbycity', {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${access_token}`
+      },
+      params: {
+        city_id: city_id
+      }
+    })
+
+      .then((response) => {
+        setIsLoadingLocality(false)
+        let data = response.data
+        if (data.status === 'error') {
+          let finalResponse = {
+            'message': data.message,
+            'server_res': data
+          }
+          setErrorMessages(finalResponse)
+          setErrorModalOpen(true)
+        }
+        if (data.status === 'success') {
+          setAllLocalities(data?.localities || [])
+          return false;
+        }
+      })
+      .catch((error) => {
+        setIsLoadingLocality(false)
+        console.log(error)
+        let finalresponse;
+        if (error.response !== undefined) {
+          finalresponse = {
+            'message': error.message,
+          }
+        } else {
+          finalresponse = {
+            'message': error.message,
+          }
+        }
+        setErrorMessages(finalresponse);
+        setErrorModalOpen(true)
+        return false;
+      })
+  }
+
+  function searchLocality(searchTerm) {
+    const localities = allLocalities.filter(item => item.value.toLowerCase().includes(searchTerm.toLowerCase()));
+    if (localities.length === 0) {
+      setLocalitiesData([{ label: 'No results found', value: '' }])
+    } else {
+      setLocalitiesData(localities)
+    }
   }
 
   useEffect(() => {
@@ -355,6 +434,12 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
   useEffect(() => {
     getAllCities()
   }, [])
+
+  const [showDropdown, setShowDropdown] = useState(false);
+  const handleLocationSelect = (localityName) => {
+    setLocality(localityName);
+    setShowDropdown(false);
+  };
 
   return (
     <>
@@ -398,7 +483,7 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
             />
             {propertyNameError && <p className='text-[#FF0000] text-xs font-sans'>Please enter Property name</p>}
           </div>
-          <div className='my-4'>
+          {/* <div className='my-4'>
             <div className='flex gap-1'>
               <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Locality</p>
               <IconAsterisk size={8} color='#FF0000' />
@@ -410,7 +495,51 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
               onChange={updateLocality}
             />
             {localityError && <p className='text-[#FF0000] text-xs font-sans'>Please enter locality</p>}
+          </div> */}
+          <div className='my-4'>
+            <div className='flex gap-1'>
+              <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Locality</p>
+              <IconAsterisk size={8} color='#FF0000' />
+            </div>
+
           </div>
+          {
+            isLoadingLocality ?
+              <div className='w-full flex justify-center items-center'>
+                <div className='w-5 h-5 border-2 border-t-2 border-[#1D3A76] rounded-full animate-spin'></div>
+                <p className='text-[#1D3A76] text-[13px] font-medium font-sans ml-2'>Fetching localities...</p>
+              </div>
+              :
+              <>
+                <div className='flex flex-row items-center  my-4 h-2 sm:h-4 '>
+                  <input
+                    type='text'
+                    value={locality}
+                    onChange={(e) => updateLocality(e.target.value)}
+                    placeholder='Search location'
+                    className='w-full border border-l-0 border-r-0 border-t-0 border-b-[#dcdada] text-[13px] rounded-r-md py-[5px]  focus:outline-none'
+                  />
+                </div>
+                {localityError && <p className='text-red-500 text-[10px] mt-2'>{localityError}</p>}
+              </>
+          }
+          {
+            showDropdown &&
+              localitiesData.length > 0 ?
+              <ul className='w-full bg-white border border-[#1D3A76] rounded-md shadow-lg max-h-48 overflow-auto z-50'>
+                {localitiesData.map((loc, index) => (
+                  <li
+                    key={index}
+                    onClick={() => handleLocationSelect(loc.value)}
+                    className='px-4 py-2 cursor-pointer hover:bg-[#1D3A76] hover:text-white'
+                  >
+                    {loc.label}
+                  </li>
+                ))}
+              </ul>
+              :
+              null
+          }
           {
             !(getpropertyDetails?.property_sub_type === "Plot" || getpropertyDetails?.property_sub_type === "Land") ?
               <>

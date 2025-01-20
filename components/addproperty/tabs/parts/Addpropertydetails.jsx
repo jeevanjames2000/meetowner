@@ -1197,49 +1197,51 @@ function Addpropertydetails({
           return false;
         }
       }
-      if (!carpetArea) {
-        setIsLoadingEffect(false)
-        toast.error('Please enter carpet area', {
-          position: "top-right",
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-        })
-        setCarpetAreaError('Please enter carpet area')
-        return false;
-      }
+      // if (!carpetArea) {
+      //   setIsLoadingEffect(false)
+      //   toast.error('Please enter carpet area', {
+      //     position: "top-right",
+      //     autoClose: 3000,
+      //     hideProgressBar: true,
+      //     closeOnClick: true,
+      //     pauseOnHover: true,
+      //     draggable: true,
+      //     progress: undefined,
+      //   })
+      //   setCarpetAreaError('Please enter carpet area')
+      //   return false;
+      // }
       if (getpropertyDetails?.property_in === "Commercial") {
-        if (carpetArea < 100 || carpetArea > 2000000) {
-          setIsLoadingEffect(false)
-          toast.error('Carpet area should be between 100 to 200,00,00', {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          })
-          setCarpetAreaError('Carpet area should be between 100 to 200,00,00')
-          return false;
-        }
-      } else if (getpropertyDetails?.property_in === "Residential") {
-        if (carpetArea < 150 || carpetArea > 20000) {
-          setIsLoadingEffect(false)
-          toast.error('Carpet area should be between 150 to 20,000', {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          })
-          setCarpetAreaError('Carpet area should be between 150 to 20,000')
-          return false;
+        if (carpetArea) {
+          if (carpetArea < 100 || carpetArea > 2000000) {
+            setIsLoadingEffect(false)
+            toast.error('Carpet area should be between 100 to 200,00,00', {
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: true,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            })
+            setCarpetAreaError('Carpet area should be between 100 to 200,00,00')
+            return false;
+          }
+        } else if (getpropertyDetails?.property_in === "Residential") {
+          if (carpetArea < 150 || carpetArea > 20000) {
+            setIsLoadingEffect(false)
+            toast.error('Carpet area should be between 150 to 20,000', {
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: true,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+            })
+            setCarpetAreaError('Carpet area should be between 150 to 20,000')
+            return false;
+          }
         }
       }
     }

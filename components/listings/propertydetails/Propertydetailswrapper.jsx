@@ -181,7 +181,8 @@ function Propertydetailswrapper({ propertyDetails }) {
                 size="md"
                 zIndex={9999}
             >
-                <div className='grid grid-cols-2'>
+                {/* need scrolling */}
+                <div className='grid grid-cols-3 gap-2'>
                     {images?.slice(2).map((img, index) => (
                         <Image
                             key={index}

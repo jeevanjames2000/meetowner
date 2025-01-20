@@ -19,7 +19,8 @@ function Listingcard({
     expiry_date,
     facing,
     property_for,
-    monthly_rent
+    monthly_rent,
+    property_status,
 }) {
     const formatPrice = (price) => {
         if (price >= 10000000) {
@@ -115,9 +116,16 @@ function Listingcard({
                                 Low <span className="text-[#6d6c6c] font-[600]">(Freeplan)</span>
                             </span>
                         </p>
-                        <p className='flex items-center text-[7px] xs:text-[9px] 2xl:text-[13px] 3xl:text-[15px] 4xl:text-[17px] font-[700] justify-end text-[#ffffff] bg-[#038AC9] h-4 2xl:h-5 3xl:h-6 4xl:h-7 px-2 2xl:px-3 3xl:px-4 4xl:px-5 rounded-l-full rounded-r-full'>
-                            Active
-                        </p>
+                        {
+                            property_status === 1 ?
+                                <p className='flex items-center text-[7px] xs:text-[9px] 2xl:text-[13px] 3xl:text-[15px] 4xl:text-[17px] font-[700] justify-end text-[#ffffff] bg-[#038AC9] h-4 2xl:h-5 3xl:h-6 4xl:h-7 px-2 2xl:px-3 3xl:px-4 4xl:px-5 rounded-l-full rounded-r-full'>
+                                    Active
+                                </p>
+                                :
+                                <p className='flex items-center text-[7px] xs:text-[9px] 2xl:text-[13px] 3xl:text-[15px] 4xl:text-[17px] font-[700] justify-end text-[#ffffff] bg-[#BC405E] h-4 2xl:h-5 3xl:h-6 4xl:h-7 px-2 2xl:px-3 3xl:px-4 4xl:px-5 rounded-l-full rounded-r-full'>
+                                    In Active
+                                </p>
+                        }
                     </div>
                     {/* <p className='text-sm py-2 pr-6'>{description?.length > 300 ? description.slice(0, 80) + '......' : ''}</p> */}
 
