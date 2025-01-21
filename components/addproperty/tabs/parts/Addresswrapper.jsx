@@ -35,9 +35,19 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
 
   const [propertyName, setPropertyName] = useState('')
   const [propertyNameError, setPropertyNameError] = useState('')
-  const updatePropertyName = (e) => {
-    setPropertyName(e.target.value)
+  const updatePropertyName = (value) => {
     setPropertyNameError('')
+    if (value.length > 2) {
+      searchProjects(value)
+      setProjectDropdown(true)
+    } else {
+      setProjectsData([])
+    }
+    if (value === '') {
+      setProjectsData([])
+      setProjectDropdown(false)
+    }
+    setPropertyName(value)
   }
 
   const [locality, setLocality] = useState('')
@@ -47,13 +57,13 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
     setLocalityError('')
     if (value.length > 2) {
       searchLocality(value)
-      setShowDropdown(true)
+      setLocalityDropdown(true)
     } else {
       setLocalitiesData([])
     }
     if (value === '') {
       setLocalitiesData([])
-      setShowDropdown(false)
+      setLocalityDropdown(false)
     }
     setLocality(value)
   }
@@ -414,7 +424,6 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
         return false;
       })
   }
-
   function searchLocality(searchTerm) {
     const localities = allLocalities.filter(item => item.value.toLowerCase().includes(searchTerm.toLowerCase()));
     if (localities.length === 0) {
@@ -423,6 +432,72 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
       setLocalitiesData(localities)
     }
   }
+
+  const [localityDropdown, setLocalityDropdown] = useState(false);
+  const handleLocalitySelect = (localityName) => {
+    setLocality(localityName);
+    setLocalityDropdown(false);
+  };
+
+  const [isLoadingProjects, setIsLoadingProjects] = useState(false)
+  const [allProjects, setAllProjects] = useState([])
+  const getAllProjects = () => {
+    setIsLoadingProjects(true)
+    Propertyapi.get('getprojects', {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${access_token}`
+      }
+    })
+      .then((response) => {
+        setIsLoadingProjects(false)
+        let data = response.data
+        if (data.status === 'error') {
+          let finalResponse = {
+            'message': data.message,
+            'server_res': data
+          }
+          setErrorMessages(finalResponse)
+          setErrorModalOpen(true)
+        }
+        if (data.status === 'success') {
+          setAllProjects(data?.projects || [])
+          return false;
+        }
+      })
+      .catch((error) => {
+        setIsLoadingProjects(false)
+        console.log(error)
+        let finalresponse = {
+          'message': error.message,
+        }
+        setErrorMessages(finalresponse);
+        setErrorModalOpen(true)
+        return false;
+      })
+  }
+
+  function searchProjects(searchTerm) {
+    const projects = allProjects.filter(item => item.value.toLowerCase().includes(searchTerm.toLowerCase()));
+    if (projects.length === 0) {
+      setProjectsData([])
+    } else {
+      setProjectsData(projects)
+    }
+  }
+
+  const [projectsData, setProjectsData] = useState([])
+  const [projectDropdown, setProjectDropdown] = useState(false);
+  const handleProjectSelect = (projectName) => {
+    setPropertyName(projectName);
+    setProjectDropdown(false);
+  };
+
+  const handleSelectNewProject = (value) => {
+    setProjectDropdown(false);
+    setPropertyName(value)
+  }
+
 
   useEffect(() => {
     if (getpropertyDetails?.property_in !== "Commercial" && getpropertyDetails?.property_for !== "Sell") {
@@ -433,13 +508,9 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
 
   useEffect(() => {
     getAllCities()
+    getAllProjects()
   }, [])
 
-  const [showDropdown, setShowDropdown] = useState(false);
-  const handleLocationSelect = (localityName) => {
-    setLocality(localityName);
-    setShowDropdown(false);
-  };
 
   return (
     <>
@@ -470,7 +541,7 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
             </div>
             {cityError && <p className='text-[#FF0000] text-xs font-sans'>Please select one</p>}
           </div>
-          <div className='my-4'>
+          {/* <div className='my-4'>
             <div className='flex gap-1'>
               <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Property/project Name</p>
               <IconAsterisk size={8} color='#FF0000' />
@@ -482,7 +553,63 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
               onChange={updatePropertyName}
             />
             {propertyNameError && <p className='text-[#FF0000] text-xs font-sans'>Please enter Property name</p>}
+          </div> */}
+          <div className='my-4'>
+            <div className='flex gap-1'>
+              <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Property/Project Name</p>
+              <IconAsterisk size={8} color='#FF0000' />
+            </div>
+
           </div>
+          {
+            isLoadingProjects ?
+              <div className='w-full flex justify-center items-center'>
+                <div className='w-5 h-5 border-2 border-t-2 border-[#1D3A76] rounded-full animate-spin'></div>
+                <p className='text-[#1D3A76] text-[13px] font-medium font-sans ml-2'>Fetching Projects...</p>
+              </div>
+              :
+              <>
+                <div className='flex flex-row items-center  my-4 h-2 sm:h-4 '>
+                  <input
+                    type='text'
+                    value={propertyName}
+                    onChange={(e) => updatePropertyName(e.target.value)}
+                    placeholder='Search Projects'
+                    className='w-full border border-l-0 border-r-0 border-t-0 border-b-[#dcdada] text-[13px] rounded-r-md py-[5px]  focus:outline-none'
+                  />
+                </div>
+                {propertyNameError && <p className='text-red-500 text-[10px] mt-2'>{propertyNameError}</p>}
+              </>
+          }
+          {
+            projectDropdown && (
+              <>
+                {projectsData.length > 0 ? (
+                  <ul className="w-full bg-white border border-[#1D3A76] rounded-md shadow-lg max-h-48 overflow-auto z-50">
+                    {projectsData.map((loc, index) => (
+                      <li
+                        key={index}
+                        onClick={() => handleProjectSelect(loc.value)}
+                        className="px-4 py-2 cursor-pointer hover:bg-[#1D3A76] hover:text-white"
+                      >
+                        {loc.label}
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <ul className="w-full bg-white border border-[#1D3A76] rounded-md shadow-lg max-h-48 overflow-auto z-50">
+                    <li
+                      className="px-4 py-2 cursor-pointer hover:bg-[#1D3A76] hover:text-white"
+                      onClick={() => handleSelectNewProject(propertyName)}
+                    >
+                      Add - {propertyName}
+                    </li>
+                  </ul>
+                )}
+              </>
+            )
+          }
+
           {/* <div className='my-4'>
             <div className='flex gap-1'>
               <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Locality</p>
@@ -524,13 +651,13 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
               </>
           }
           {
-            showDropdown &&
+            localityDropdown &&
               localitiesData.length > 0 ?
               <ul className='w-full bg-white border border-[#1D3A76] rounded-md shadow-lg max-h-48 overflow-auto z-50'>
                 {localitiesData.map((loc, index) => (
                   <li
                     key={index}
-                    onClick={() => handleLocationSelect(loc.value)}
+                    onClick={() => handleLocalitySelect(loc.value)}
                     className='px-4 py-2 cursor-pointer hover:bg-[#1D3A76] hover:text-white'
                   >
                     {loc.label}

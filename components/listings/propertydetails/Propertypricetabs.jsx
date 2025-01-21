@@ -65,10 +65,10 @@ function Propertyprice({ propertyDetails }) {
                         (propertyDetails?.sub_type === "Plot" || propertyDetails?.sub_type === "Land") &&
                         <div className='w-full md:w-[20%] custom-apartmentshadow py-2 flex flex-col items-center justify-center rounded-sm'>
                             <p className='text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[22px] text-[#434343] font-[700] font-Montserrat'>
-                                Possession Starts
+                                Possession Status
                             </p>
                             <p className='text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[22px] text-[#1d3a76] font-[600] font-Montserrat'>
-                                {propertyDetails?.possession_status}
+                                {propertyDetails?.possession_status || 'N/A'}
                             </p>
                         </div>
                     }

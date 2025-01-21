@@ -3,7 +3,7 @@ import LoadingOverlay from '@/components/shared/LoadingOverlay'
 import { Modal, Select, Textarea, Textinput } from '@nayeshdaggula/tailify'
 import React, { useEffect, useState } from 'react'
 import Addfurnishingswrapper from './Addfurnishingswrapper';
-import { IconArrowNarrowLeft, IconAsterisk } from '@tabler/icons-react';
+import { IconArrowNarrowLeft, IconAsterisk, IconPlus, IconTrash } from '@tabler/icons-react';
 import { useUserDetails } from '@/components/zustand/useUserDetails';
 import Propertyapi from '@/components/api/Propertyapi';
 import { useSearchParams } from 'next/navigation';
@@ -11,6 +11,7 @@ import Errorpanel from '@/components/shared/Errorpanel';
 import { toast } from 'react-toastify';
 import { usePropertyDetails } from '@/components/zustand/usePropertyDetails';
 import NumberToWords from '@/components/shared/NumberToWords';
+import DistanceToWords from '@/components/shared/DistnaceToWords';
 function Addpropertydetails({
   updateActiveTab, propertyDetails, preferedTenantList,
   bacloniesList, bedroomtypesList, businesstypesList,
@@ -732,6 +733,112 @@ function Addpropertydetails({
     setPantryRoomError('')
   }
 
+  const [totalProjectArea, setTotalProjectArea] = useState('')
+  const [totalProjectAreaError, setTotalProjectAreaError] = useState('')
+  const updateTotalProjectArea = (e) => {
+    let value = e.target.value;
+    if (isNaN(value)) {
+      return false;
+    }
+    setTotalProjectArea(value)
+    setTotalProjectAreaError('')
+  }
+
+  const [totalPlacesaroundProperty, setTotalPlacesaroundProperty] = useState([])
+  const [placearoundProperty, setPlacearoundProperty] = useState('')
+  const [placearoundPropertyError, setPlacearoundPropertyError] = useState('')
+  const updatePlacearoundProperty = (e) => {
+    setPlacearoundProperty(e.target.value)
+    setPlacearoundPropertyError('')
+  }
+
+  const [distancefromProperty, setDistancefromProperty] = useState('')
+  const [distancefromPropertyError, setDistancefromPropertyError] = useState('')
+  const updateDistancefromProperty = (e) => {
+    let value = e.target.value;
+    if (isNaN(value)) {
+      return false;
+    }
+    setDistancefromProperty(value)
+    setDistancefromPropertyError('')
+  }
+
+  const handleAddaroundProperty = () => {
+    if (!placearoundProperty) {
+      toast.error('Please enter place around property', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      })
+      setPlacearoundPropertyError('Please enter place around property')
+      return false;
+    }
+    if (!distancefromProperty) {
+      toast.error('Please enter distance from property', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      })
+      setDistancefromPropertyError('Please enter distance from property')
+      return false;
+    }
+    setTotalPlacesaroundProperty([...totalPlacesaroundProperty, { placeid: null, place: placearoundProperty, distance: distancefromProperty }])
+    setPlacearoundProperty('')
+    setDistancefromProperty('')
+  }
+
+  const removeAroundproperty = (index, placeid) => {
+    if (placeid) {
+      deletePlaceAroundProperty(placeid)
+    } else {
+      const newPlaces = totalPlacesaroundProperty.filter((place, i) => i !== index)
+      setTotalPlacesaroundProperty(newPlaces)
+    }
+  }
+
+  async function deletePlaceAroundProperty(placeid) {
+    Propertyapi.post('deleteplacesaroundproperty', {
+      placeid: placeid,
+      user_id: user_id,
+      unique_property_id: unique_property_id
+    })
+
+      .then((response) => {
+        const data = response.data;
+        if (data.status === 'error') {
+          const finalResponse = {
+            message: data.message,
+            server_res: data.server_res
+          };
+          setErrorMessages(finalResponse);
+          setErrorModalOpen(true);
+          setIsLoadingEffect(false);
+          return;
+        }
+
+        const newPlaces = totalPlacesaroundProperty.filter((place) => place.placeid !== placeid)
+        setTotalPlacesaroundProperty(newPlaces)
+        toast.success('Place removed successfully');
+
+      })
+      .catch((error) => {
+        let finalResponse = {
+          'message': error.message,
+        }
+        setErrorMessages(finalResponse)
+        setErrorModalOpen(true)
+        setIsLoadingEffect(false)
+      });
+  }
+
   const [furnishingModal, setFurnishingModal] = useState(false)
   const openFurnishingModal = () => {
     setFurnishingModal(true)
@@ -1197,20 +1304,6 @@ function Addpropertydetails({
           return false;
         }
       }
-      // if (!carpetArea) {
-      //   setIsLoadingEffect(false)
-      //   toast.error('Please enter carpet area', {
-      //     position: "top-right",
-      //     autoClose: 3000,
-      //     hideProgressBar: true,
-      //     closeOnClick: true,
-      //     pauseOnHover: true,
-      //     draggable: true,
-      //     progress: undefined,
-      //   })
-      //   setCarpetAreaError('Please enter carpet area')
-      //   return false;
-      // }
       if (getpropertyDetails?.property_in === "Commercial") {
         if (carpetArea) {
           if (carpetArea < 100 || carpetArea > 2000000) {
@@ -1290,6 +1383,20 @@ function Addpropertydetails({
         setPlotAreaError('Please enter plot area')
         return false;
       }
+    }
+    if (!totalProjectArea) {
+      setIsLoadingEffect(false)
+      toast.error('Please enter total project area', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      })
+      setTotalProjectAreaError('Please enter total project area')
+      return false;
     }
     if (propertySubType === "Independent House" || propertySubType === "Independent Villa") {
       if (!pentHouse) {
@@ -1519,7 +1626,7 @@ function Addpropertydetails({
       setFacingError('Please select facing')
       return false;
     }
-    if (!propertySubType === "Plot") {
+    if (propertySubType !== "Plot") {
       if (!carParking) {
         setIsLoadingEffect(false)
         toast.error('Please select car parking', {
@@ -1640,6 +1747,21 @@ function Addpropertydetails({
         }
       }
     }
+    if (totalPlacesaroundProperty.length === 0) {
+      setIsLoadingEffect(false)
+      toast.error('Please add places around property', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      })
+      setPlacearoundPropertyError('Please add places around property')
+      // setDistancefromPropertyError('Please add Distance around property')
+      return false;
+    }
     if (!propertyDescription) {
       setIsLoadingEffect(false)
       toast.error('Please enter Property description', {
@@ -1751,6 +1873,7 @@ function Addpropertydetails({
       width_area: parseFloat(widthArea) || null,
 
       plot_area: plotArea || null,
+      total_project_area: totalProjectArea || null,
       pent_house: pentHouse || null,
       builtup_unit: unitCost || null,
       property_cost: propertyCost || null,
@@ -1773,6 +1896,7 @@ function Addpropertydetails({
       servant_room: servantRoom || null,
       description: propertyDescription || null,
       pantry_room: pantryRoom || null,
+      total_places_around_property: totalPlacesaroundProperty || null,
 
       user_id: parseInt(user_id),
       unique_property_id: unique_property_id,
@@ -1932,6 +2056,7 @@ function Addpropertydetails({
       setLengthArea(propertyDetails?.length_area?.toString() || '')
       setWidthArea(propertyDetails?.width_area?.toString() || '')
       setSuitableFor(propertyDetails?.business_types || '')
+      setTotalProjectArea(propertyDetails?.total_project_area || '')
       setPentHouse(propertyDetails?.pent_house || '')
       setPreferredTenantType(propertyDetails?.types || '')
       setPossessionStatus(propertyDetails?.possession_status || '')
@@ -1940,6 +2065,11 @@ function Addpropertydetails({
       setBuilderPlot(propertyDetails?.builder_plot || '')
       setLoanFacility(propertyDetails?.loan_facility || '')
       setPantryRoom(propertyDetails?.pantry_room || '')
+      if (propertyDetails?.total_places_around_property) {
+        setTotalPlacesaroundProperty(propertyDetails?.total_places_around_property)
+      } else {
+        setTotalPlacesaroundProperty([])
+      }
     }
   }, [propertyDetails])
 
@@ -2784,6 +2914,20 @@ function Addpropertydetails({
               {plotAreaError && <p className='text-[#FF0000] text-xs font-sans'>Please enter plot area</p>}
             </div>
           }
+          <div className='my-3'>
+            <div className='flex gap-1'>
+              <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Total Project Area (Acres)</p>
+              <IconAsterisk size={8} color='#FF0000' />
+            </div>
+            <Textinput
+              type='number'
+              placeholder="Enter Total Project Area"
+              inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
+              value={totalProjectArea}
+              onChange={updateTotalProjectArea}
+            />
+            {totalProjectAreaError && <p className='text-[#FF0000] text-xs font-sans'>Please enter total project area</p>}
+          </div>
           {
             (propertySubType === "Independent House" || propertySubType === "Independent Villa") &&
             <div className='mb-3'>
@@ -3067,7 +3211,7 @@ function Addpropertydetails({
           {facingError && <p className='text-[#FF0000] text-xs font-sans'>Please select facing</p>}
         </div>
         {
-          !propertySubType === "Plot" &&
+          (propertySubType !== "Plot") &&
           <>
             <div className='my-4'>
               <div className='flex gap-1 mb-2'>
@@ -3193,6 +3337,65 @@ function Addpropertydetails({
             </div>
           </>
         }
+        <div className='my-6'>
+          <div className='flex gap-1'>
+            <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Around This Property</p>
+            <IconAsterisk size={8} color='#FF0000' />
+          </div>
+          <div className='flex flex-row items-center gap-2 my-2'>
+            <div className='basis-[40%]'>
+              <Textinput
+                placeholder="Place around Property"
+                inputClassName='text-xs border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
+                value={placearoundProperty}
+                onChange={updatePlacearoundProperty}
+              />
+              {placearoundPropertyError && <p className='text-[#FF0000] text-xs font-sans'>{placearoundPropertyError}</p>}
+            </div>
+            <div className='basis-[40%]'>
+              <Textinput
+                type='number'
+                placeholder="Distance from property"
+                inputClassName='text-xs border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
+                value={distancefromProperty}
+                onChange={updateDistancefromProperty}
+              />
+              {
+                distancefromProperty &&
+                <DistanceToWords
+                  value={distancefromProperty}
+                />
+              }
+              {distancefromPropertyError && <p className='text-[#FF0000] text-xs font-sans'>Please enter distance from property</p>}
+            </div>
+            <div onClick={handleAddaroundProperty} className='flex items-center justify-center basis-[8%] h-8 bg-[#1D3A76] rounded-md cursor-pointer'>
+              <IconPlus size={12} color='#fff' />
+              <p className='text-white text-[10px] font-sans'>Add</p>
+            </div>
+          </div>
+          <div className="grid grid-cols-3 gap-2">
+            {totalPlacesaroundProperty.map((item, index) => (
+              <div
+                key={index}
+                className="bg-[#eaeaea] rounded-md p-[10px] gap-2"
+              >
+                <div className='flex flex-row items-center justify-between gap-2'>
+                  <p className="text-[12px] text-[#000] font-semibold">{item.place}</p>
+                  <div className='flex items-center gap-2 '>
+                    <div className="text-[#ffffff] text-center text-[10px]  bg-[#1F3C88] font-[600] px-3 py-[4px] rounded-md ml-auto">
+                      <DistanceToWords
+                        value={item.distance}
+                      />
+                    </div>
+                    <div onClick={() => removeAroundproperty(index, item.placeid)} className='flex items-center justify-center h-6 w-6 rounded-full bg-[#FF0000] cursor-pointer'>
+                      <IconTrash size={12} color='#fff' />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
         {
           getpropertyDetails?.property_in === "Commercial" ?
             (propertySubType === "Office" || propertySubType === "Show Room" || !(propertySubType === "Retail Shop" || propertySubType === "Warehouse" || propertySubType === "Plot")) &&

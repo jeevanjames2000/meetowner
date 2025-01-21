@@ -231,6 +231,7 @@ function Propertyoverview({ propertyDetails }) {
                     }
                     {
                         propertyDetails?.property_for === "Sell" &&
+                        (propertyDetails?.sub_type === "Plot" || propertyDetails?.sub_type === "Land") &&
                         <div className="flex items-center p-[10px] gap-4" >
                             <Image src={possession_status} alt={`possession_status`} className="w-5 h-5" />
                             <div>
@@ -251,40 +252,44 @@ function Propertyoverview({ propertyDetails }) {
                     }
                     {
                         propertyDetails?.property_in === "Commercial" &&
-                            (propertyDetails?.sub_type === "Warehouse" || propertyDetails?.sub_type === "Plot" || propertyDetails?.sub_type === "Others") ?
-                            <div className="flex items-center p-[10px] gap-4" >
-                                <Image src={house} alt={`house`} className="w-5 h-5" />
-                                <div>
-                                    <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Plot No</p>
-                                    <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.plot_number || '----'}</p>
-                                </div>
-                            </div>
-                            :
-                            <div className="flex items-center p-[10px] gap-4" >
-                                <Image src={house} alt={`house`} className="w-5 h-5" />
-                                <div>
-                                    <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Flat No</p>
-                                    <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.unit_flat_house_no || '----'}</p>
-                                </div>
-                            </div>
-                    }
-                    {
-                        (propertyDetails?.sub_type === "Retail Shop" || propertyDetails?.sub_type === "Show Room" || propertyDetails?.sub_type === "Plot" || propertyDetails?.sub_type === "Others") ?
-                            <div className="flex items-center p-[10px] gap-4" >
-                                <Image src={suitablefor} alt={`suitablefor`} className="w-5 h-5" />
-                                <div>
-                                    <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Suitable For</p>
-                                    <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.business_types || '----'}</p>
-                                </div>
-                            </div>
-                            :
-                            <div className="flex items-center p-[10px] gap-4" >
-                                <Image src={zone_type} alt={`zone_type`} className="w-5 h-5" />
-                                <div>
-                                    <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Zone Type</p>
-                                    <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.zone_types || '----'}</p>
-                                </div>
-                            </div>
+                        <>
+                            {
+                                (propertyDetails?.sub_type === "Warehouse" || propertyDetails?.sub_type === "Plot" || propertyDetails?.sub_type === "Others") ?
+                                    <div className="flex items-center p-[10px] gap-4" >
+                                        <Image src={house} alt={`house`} className="w-5 h-5" />
+                                        <div>
+                                            <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Plot No</p>
+                                            <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.plot_number || '----'}</p>
+                                        </div>
+                                    </div>
+                                    :
+                                    <div className="flex items-center p-[10px] gap-4" >
+                                        <Image src={house} alt={`house`} className="w-5 h-5" />
+                                        <div>
+                                            <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Flat No</p>
+                                            <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.unit_flat_house_no || '----'}</p>
+                                        </div>
+                                    </div>
+                            }
+                            {
+                                (propertyDetails?.sub_type === "Retail Shop" || propertyDetails?.sub_type === "Show Room" || propertyDetails?.sub_type === "Plot" || propertyDetails?.sub_type === "Others") ?
+                                    <div className="flex items-center p-[10px] gap-4" >
+                                        <Image src={suitablefor} alt={`suitablefor`} className="w-5 h-5" />
+                                        <div>
+                                            <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Suitable For</p>
+                                            <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.business_types || '----'}</p>
+                                        </div>
+                                    </div>
+                                    :
+                                    <div className="flex items-center p-[10px] gap-4" >
+                                        <Image src={zone_type} alt={`zone_type`} className="w-5 h-5" />
+                                        <div>
+                                            <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Zone Type</p>
+                                            <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.zone_types || '----'}</p>
+                                        </div>
+                                    </div>
+                            }
+                        </>
                     }
                     {
                         propertyDetails?.property_for === "Sell" &&
@@ -354,15 +359,15 @@ function Propertyoverview({ propertyDetails }) {
                                 </div>
                             </div>
                     }
-                    {/* <div className=" flex items-center p-[10px] gap-4"
+                    <div className=" flex items-center p-[10px] gap-4"
                     >
                         <Image src={project_area} alt={`project_area`} className="w-5 h-5 object-cover" />
                         <div>
                             <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Project Area</p>
-                            <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">10.5 Acres</p>
+                            <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.total_project_area || '----'} Acres</p>
                         </div>
                     </div>
-                    <div className=" flex items-center p-[10px] gap-4"
+                    {/* <div className=" flex items-center p-[10px] gap-4"
                     >
                         <Image
                             src={project_size}
