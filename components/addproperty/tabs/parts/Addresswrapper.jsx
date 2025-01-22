@@ -427,7 +427,7 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
   function searchLocality(searchTerm) {
     const localities = allLocalities.filter(item => item.value.toLowerCase().includes(searchTerm.toLowerCase()));
     if (localities.length === 0) {
-      setLocalitiesData([{ label: 'No results found', value: '' }])
+      setLocalitiesData([])
     } else {
       setLocalitiesData(localities)
     }
@@ -498,7 +498,6 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
     setPropertyName(value)
   }
 
-
   useEffect(() => {
     if (getpropertyDetails?.property_in !== "Commercial" && getpropertyDetails?.property_for !== "Sell") {
       setFloorNo('')
@@ -510,7 +509,6 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
     getAllCities()
     getAllProjects()
   }, [])
-
 
   return (
     <>
@@ -541,19 +539,7 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
             </div>
             {cityError && <p className='text-[#FF0000] text-xs font-sans'>Please select one</p>}
           </div>
-          {/* <div className='my-4'>
-            <div className='flex gap-1'>
-              <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Property/project Name</p>
-              <IconAsterisk size={8} color='#FF0000' />
-            </div>
-            <Textinput
-              placeholder="Building /Apartment/Society Name"
-              inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
-              value={propertyName}
-              onChange={updatePropertyName}
-            />
-            {propertyNameError && <p className='text-[#FF0000] text-xs font-sans'>Please enter Property name</p>}
-          </div> */}
+
           <div className='my-4'>
             <div className='flex gap-1'>
               <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Property/Project Name</p>
@@ -609,26 +595,11 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
               </>
             )
           }
-
-          {/* <div className='my-4'>
-            <div className='flex gap-1'>
-              <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Locality</p>
-              <IconAsterisk size={8} color='#FF0000' />
-            </div>
-            <Textinput
-              placeholder="Locality"
-              inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
-              value={locality}
-              onChange={updateLocality}
-            />
-            {localityError && <p className='text-[#FF0000] text-xs font-sans'>Please enter locality</p>}
-          </div> */}
           <div className='my-4'>
             <div className='flex gap-1'>
               <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Locality</p>
               <IconAsterisk size={8} color='#FF0000' />
             </div>
-
           </div>
           {
             isLoadingLocality ?
@@ -651,21 +622,32 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
               </>
           }
           {
-            localityDropdown &&
-              localitiesData.length > 0 ?
-              <ul className='w-full bg-white border border-[#1D3A76] rounded-md shadow-lg max-h-48 overflow-auto z-50'>
-                {localitiesData.map((loc, index) => (
-                  <li
-                    key={index}
-                    onClick={() => handleLocalitySelect(loc.value)}
-                    className='px-4 py-2 cursor-pointer hover:bg-[#1D3A76] hover:text-white'
-                  >
-                    {loc.label}
-                  </li>
-                ))}
-              </ul>
-              :
-              null
+            localityDropdown && (
+              <>
+                {localitiesData.length > 0 ? (
+                  <ul className="w-full bg-white border border-[#1D3A76] rounded-md shadow-lg max-h-48 overflow-auto z-50">
+                    {localitiesData.map((loc, index) => (
+                      <li
+                        key={index}
+                        onClick={() => handleLocalitySelect(loc.value)}
+                        className="px-4 py-2 cursor-pointer hover:bg-[#1D3A76] hover:text-white"
+                      >
+                        {loc.label}
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <ul className="w-full bg-white border border-[#1D3A76] rounded-md shadow-lg max-h-48 overflow-auto z-50">
+                    <li
+                      className="px-4 py-2 cursor-pointer hover:bg-[#1D3A76] hover:text-white"
+                      onClick={() => handleLocalitySelect(locality)}
+                    >
+                      Add - {locality}
+                    </li>
+                  </ul>
+                )}
+              </>
+            )
           }
           {
             !(getpropertyDetails?.property_sub_type === "Plot" || getpropertyDetails?.property_sub_type === "Land") ?

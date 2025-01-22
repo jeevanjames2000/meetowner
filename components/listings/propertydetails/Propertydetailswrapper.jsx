@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import Propertybanner from './Propertybanner'
 import Propertyamenities from './Propertyamenities'
-import Propertypricetabs from './Propertypricetabs'
+import Propertfloorplan from './Propertfloorplan'
 import Propertylocation from './Propertylocation'
 import Propertyoverview from './Propertyoverview'
 import PropertySpecifications from './PropertySpecifications'
@@ -88,7 +88,7 @@ function Propertydetailswrapper({ propertyDetails }) {
                     <Propertybanner
                         propertyDetails={propertyDetails}
                     />
-                    <Propertypricetabs
+                    <Propertfloorplan
                         propertyDetails={propertyDetails}
                     />
                     <Propertyamenities
@@ -182,19 +182,20 @@ function Propertydetailswrapper({ propertyDetails }) {
                 size="md"
                 zIndex={9999}
             >
-                {/* need scrolling */}
-                <div className='grid grid-cols-3 gap-2'>
-                    {images?.slice(2).map((img, index) => (
-                        <Image
-                            key={index}
-                            src={img || placeholderimage}
-                            alt={`Modal property image ${index + 1}`}
-                            className='rounded-lg'
-                            width={150}
-                            height={150}
-                            style={{ height: '100px' }}
-                        />
-                    ))}
+                <div className='w-full overflow-y-auto pr-3 h-[calc(100vh-280px)] sm:h-[calc(100vh-220px)]'>
+                    <div className='grid grid-cols-3 gap-2'>
+                        {images?.slice(2).map((img, index) => (
+                            <Image
+                                key={index}
+                                src={img || placeholderimage}
+                                alt={`Modal property image ${index + 1}`}
+                                className='rounded-lg'
+                                width={150}
+                                height={150}
+                                style={{ height: '100px' }}
+                            />
+                        ))}
+                    </div>
                 </div>
             </Modal>
             {

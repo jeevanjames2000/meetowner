@@ -3373,7 +3373,7 @@ function Addpropertydetails({
               <p className='text-white text-[10px] font-sans'>Add</p>
             </div>
           </div>
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
             {totalPlacesaroundProperty.map((item, index) => (
               <div
                 key={index}

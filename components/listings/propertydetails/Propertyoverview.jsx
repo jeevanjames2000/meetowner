@@ -3,7 +3,7 @@ import amenitiesaskdetailslike from '@/public/assets/amenities-askdetails-like.p
 import Image from 'next/image';
 import { IconCheck, IconCheckbox, IconHeart } from '@tabler/icons-react';
 import project_area from '@/public/assets/project_area.svg';
-import project_size from '@/public/assets/project_size.svg'
+import project_size from '@/public/assets/projectsize.png'
 import sizes from '@/public/assets/sizes.svg'
 import launch_date from '@/public/assets/launch_date.svg'
 import possession_starts from '@/public/assets/possession_starts.svg'
@@ -58,19 +58,6 @@ function Propertyoverview({ propertyDetails }) {
         <div className="propertyprice space-y-6">
             <p className="text-[#1d3a76] text-[22px] xs:text-[25px] 2xl:text-[28px] 3xl:text-[30px] 4xl:text-[32px] font-[600]">{propertyDetails?.property_name?.toUpperCase()} Overview</p>
             <div className="custom-shadow p-6 space-y-8 bg-[#F3F3F3] rounded-md">
-                <div className="flex items-center justify-end gap-[14px]">
-                    <IconHeart stroke={2} color="#E28B6D" className="h-5 w-5 2xl:h-6 2xl:w-6 3xl:h-7 3xl:w-7 4xl:w-8 4xl:h-8" />
-                    <Image
-                        src={amenitiesaskdetailslike}
-                        alt="amenities-askdetails-like"
-                        className="h-5 w-5 2xl:h-6 2xl:w-6 3xl:h-7 3xl:w-7 4xl:w-8 4xl:h-8 object-contain"
-                    />
-                    <button
-                        className="bg-[#079E9E] text-[#ffffff] text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] font-[600] py-1 px-3 rounded-[5px]"
-                    >
-                        Ask for Details
-                    </button>
-                </div>
                 <div className="grid grid-cols-2 sm:grid-cols-3">
                     {
                         (propertyDetails?.sub_type === "Apartment" || propertyDetails?.sub_type === "Flat") &&
@@ -367,19 +354,80 @@ function Propertyoverview({ propertyDetails }) {
                             <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.total_project_area || '----'} Acres</p>
                         </div>
                     </div>
-                    {/* <div className=" flex items-center p-[10px] gap-4"
-                    >
-                        <Image
-                            src={project_size}
-                            alt={`project_size`}
-                            className="w-5 h-5 object-cover"
-                        />
-                        <div>
-                            <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Project Size</p>
-                            <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">1 Building to 500 untis.</p>
+                    {
+                        (propertyDetails?.sub_type === "Apartment" || propertyDetails?.sub_type === "Flat" || propertyDetails?.sub_type === "Land" || propertyDetails?.sub_type === "Office" || propertyDetails?.sub_type === "Retail Shop" || propertyDetails?.sub_type === "Show Room" || propertyDetails?.sub_type === "Independent House" || propertyDetails?.sub_type === "Independent Villa") &&
+                        <>
+                            <div className=" flex items-center p-[10px] gap-4"
+                            >
+                                <Image
+                                    src={project_size}
+                                    alt={`project_size`}
+                                    className="w-5 h-5 object-cover"
+                                />
+                                <div>
+                                    <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Built Up Area</p>
+                                    <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.builtup_area ? `${propertyDetails?.builtup_area} ${propertyDetails?.area_units}` : '' || 'N/A'}</p>
+                                </div>
+                            </div>
+                            <div className=" flex items-center p-[10px] gap-4"
+                            >
+                                <Image
+                                    src={project_size}
+                                    alt={`project_size`}
+                                    className="w-5 h-5 object-cover"
+                                />
+                                <div>
+                                    <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Carpet Area</p>
+                                    <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.carpet_area ? `${propertyDetails?.carpet_area} ${propertyDetails?.area_units}` : '' || 'N/A'}</p>
+                                </div>
+                            </div>
+                        </>
+                    }
+                    {
+                        (propertyDetails?.sub_type === "Plot" || propertyDetails?.sub_type === "Land") &&
+                        <>
+                            <div className=" flex items-center p-[10px] gap-4"
+                            >
+                                <Image
+                                    src={project_size}
+                                    alt={`project_size`}
+                                    className="w-5 h-5 object-cover"
+                                />
+                                <div>
+                                    <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Length Area</p>
+                                    <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.length_area ? `${propertyDetails?.length_area} ${propertyDetails?.area_units}` : '' || 'N/A'}</p>
+                                </div>
+                            </div>
+                            <div className=" flex items-center p-[10px] gap-4"
+                            >
+                                <Image
+                                    src={project_size}
+                                    alt={`project_size`}
+                                    className="w-5 h-5 object-cover"
+                                />
+                                <div>
+                                    <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Width Area</p>
+                                    <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.width_area ? `${propertyDetails?.width_area} ${propertyDetails?.area_units}` : '' || 'N/A'}</p>
+                                </div>
+                            </div>
+                        </>
+                    }
+                    {
+                        (propertyDetails?.sub_type === "Independent House" || propertyDetails?.sub_type === "Independent Villa" || propertyDetails?.sub_type === "Plot" || propertyDetails?.sub_type === "Warehouse" || propertyDetails?.sub_type === "Others") &&
+                        <div className=" flex items-center p-[10px] gap-4"
+                        >
+                            <Image
+                                src={project_size}
+                                alt={`project_size`}
+                                className="w-5 h-5 object-cover"
+                            />
+                            <div>
+                                <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Plot Area</p>
+                                <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.plot_area ? `${propertyDetails?.plot_area} ${propertyDetails?.area_units}` : '' || 'N/A'}</p>
+                            </div>
                         </div>
-                    </div>
-                    <div className=" flex items-center justify-start  p-[10px] gap-4"
+                    }
+                    {/* <div className=" flex items-center justify-start  p-[10px] gap-4"
                     >
                         <Image
                             src={sizes}
