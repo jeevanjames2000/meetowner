@@ -26,20 +26,46 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
   const updateCity = (value) => {
     setCity(value)
     setCityError(false)
+    if (value !== '') {
+      setIsLoadingLocality(true)
+      getAllLocalities(value)
+    }
+    setLocality('')
   }
 
   const [propertyName, setPropertyName] = useState('')
   const [propertyNameError, setPropertyNameError] = useState('')
-  const updatePropertyName = (e) => {
-    setPropertyName(e.target.value)
+  const updatePropertyName = (value) => {
     setPropertyNameError('')
+    if (value.length > 2) {
+      searchProjects(value)
+      setProjectDropdown(true)
+    } else {
+      setProjectsData([])
+    }
+    if (value === '') {
+      setProjectsData([])
+      setProjectDropdown(false)
+    }
+    setPropertyName(value)
   }
 
   const [locality, setLocality] = useState('')
   const [localityError, setLocalityError] = useState('')
-  const updateLocality = (e) => {
-    setLocality(e.target.value)
+  const [localitiesData, setLocalitiesData] = useState([])
+  const updateLocality = (value) => {
     setLocalityError('')
+    if (value.length > 2) {
+      searchLocality(value)
+      setLocalityDropdown(true)
+    } else {
+      setLocalitiesData([])
+    }
+    if (value === '') {
+      setLocalitiesData([])
+      setLocalityDropdown(false)
+    }
+    setLocality(value)
   }
 
   const [flatNo, setFlatNo] = useState('')
@@ -295,6 +321,10 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
   useEffect(() => {
     if (addressDetails !== null) {
       setCity(addressDetails?.city_id || '')
+      if (addressDetails?.city_id) {
+        setIsLoadingLocality(true)
+        getAllLocalities(addressDetails?.city_id || '')
+      }
       setPropertyName(addressDetails?.property_name || '')
       setFlatNo(addressDetails?.unit_flat_house_no || '')
       setFloorNo(addressDetails?.floors || '')
@@ -320,6 +350,7 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
             'server_res': data
           }
           setErrorMessages(finalResponse)
+          setErrorModalOpen(true)
         }
         if (data.status === 'success') {
           setAllCities(data?.cities || [])
@@ -341,8 +372,130 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
           };
         }
         setErrorMessages(finalresponse);
+        setErrorModalOpen(true)
         return false;
       })
+  }
+
+  const [isLoadingLocality, setIsLoadingLocality] = useState(false)
+  const [allLocalities, setAllLocalities] = useState([])
+  const getAllLocalities = (city_id) => {
+    Generalapi.get('getlocalitiesbycity', {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${access_token}`
+      },
+      params: {
+        city_id: city_id
+      }
+    })
+
+      .then((response) => {
+        setIsLoadingLocality(false)
+        let data = response.data
+        if (data.status === 'error') {
+          let finalResponse = {
+            'message': data.message,
+            'server_res': data
+          }
+          setErrorMessages(finalResponse)
+          setErrorModalOpen(true)
+        }
+        if (data.status === 'success') {
+          setAllLocalities(data?.localities || [])
+          return false;
+        }
+      })
+      .catch((error) => {
+        setIsLoadingLocality(false)
+        console.log(error)
+        let finalresponse;
+        if (error.response !== undefined) {
+          finalresponse = {
+            'message': error.message,
+          }
+        } else {
+          finalresponse = {
+            'message': error.message,
+          }
+        }
+        setErrorMessages(finalresponse);
+        setErrorModalOpen(true)
+        return false;
+      })
+  }
+  function searchLocality(searchTerm) {
+    const localities = allLocalities.filter(item => item.value.toLowerCase().includes(searchTerm.toLowerCase()));
+    if (localities.length === 0) {
+      setLocalitiesData([])
+    } else {
+      setLocalitiesData(localities)
+    }
+  }
+
+  const [localityDropdown, setLocalityDropdown] = useState(false);
+  const handleLocalitySelect = (localityName) => {
+    setLocality(localityName);
+    setLocalityDropdown(false);
+  };
+
+  const [isLoadingProjects, setIsLoadingProjects] = useState(false)
+  const [allProjects, setAllProjects] = useState([])
+  const getAllProjects = () => {
+    setIsLoadingProjects(true)
+    Propertyapi.get('getprojects', {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${access_token}`
+      }
+    })
+      .then((response) => {
+        setIsLoadingProjects(false)
+        let data = response.data
+        if (data.status === 'error') {
+          let finalResponse = {
+            'message': data.message,
+            'server_res': data
+          }
+          setErrorMessages(finalResponse)
+          setErrorModalOpen(true)
+        }
+        if (data.status === 'success') {
+          setAllProjects(data?.projects || [])
+          return false;
+        }
+      })
+      .catch((error) => {
+        setIsLoadingProjects(false)
+        console.log(error)
+        let finalresponse = {
+          'message': error.message,
+        }
+        setErrorMessages(finalresponse);
+        setErrorModalOpen(true)
+        return false;
+      })
+  }
+
+  function searchProjects(searchTerm) {
+    const projects = allProjects.filter(item => item.value.toLowerCase().includes(searchTerm.toLowerCase()));
+    if (projects.length === 0) {
+      setProjectsData([])
+    } else {
+      setProjectsData(projects)
+    }
+  }
+
+  const [projectsData, setProjectsData] = useState([])
+  const [projectDropdown, setProjectDropdown] = useState(false);
+  const handleProjectSelect = (projectName) => {
+    setPropertyName(projectName);
+    setProjectDropdown(false);
+  };
+
+  const handleSelectNewProject = (value) => {
+    setProjectDropdown(false);
+    setPropertyName(value)
   }
 
   useEffect(() => {
@@ -354,6 +507,7 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
 
   useEffect(() => {
     getAllCities()
+    getAllProjects()
   }, [])
 
   return (
@@ -385,32 +539,116 @@ function Addresswrapper({ updateActiveTab, addressDetails }) {
             </div>
             {cityError && <p className='text-[#FF0000] text-xs font-sans'>Please select one</p>}
           </div>
+
           <div className='my-4'>
             <div className='flex gap-1'>
-              <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Property/project Name</p>
+              <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Property/Project Name</p>
               <IconAsterisk size={8} color='#FF0000' />
             </div>
-            <Textinput
-              placeholder="Building /Apartment/Society Name"
-              inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
-              value={propertyName}
-              onChange={updatePropertyName}
-            />
-            {propertyNameError && <p className='text-[#FF0000] text-xs font-sans'>Please enter Property name</p>}
+
           </div>
+          {
+            isLoadingProjects ?
+              <div className='w-full flex justify-center items-center'>
+                <div className='w-5 h-5 border-2 border-t-2 border-[#1D3A76] rounded-full animate-spin'></div>
+                <p className='text-[#1D3A76] text-[13px] font-medium font-sans ml-2'>Fetching Projects...</p>
+              </div>
+              :
+              <>
+                <div className='flex flex-row items-center  my-4 h-2 sm:h-4 '>
+                  <input
+                    type='text'
+                    value={propertyName}
+                    onChange={(e) => updatePropertyName(e.target.value)}
+                    placeholder='Search Projects'
+                    className='w-full border border-l-0 border-r-0 border-t-0 border-b-[#dcdada] text-[13px] rounded-r-md py-[5px]  focus:outline-none'
+                  />
+                </div>
+                {propertyNameError && <p className='text-red-500 text-[10px] mt-2'>{propertyNameError}</p>}
+              </>
+          }
+          {
+            projectDropdown && (
+              <>
+                {projectsData.length > 0 ? (
+                  <ul className="w-full bg-white border border-[#1D3A76] rounded-md shadow-lg max-h-48 overflow-auto z-50">
+                    {projectsData.map((loc, index) => (
+                      <li
+                        key={index}
+                        onClick={() => handleProjectSelect(loc.value)}
+                        className="px-4 py-2 cursor-pointer hover:bg-[#1D3A76] hover:text-white"
+                      >
+                        {loc.label}
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <ul className="w-full bg-white border border-[#1D3A76] rounded-md shadow-lg max-h-48 overflow-auto z-50">
+                    <li
+                      className="px-4 py-2 cursor-pointer hover:bg-[#1D3A76] hover:text-white"
+                      onClick={() => handleSelectNewProject(propertyName)}
+                    >
+                      Add - {propertyName}
+                    </li>
+                  </ul>
+                )}
+              </>
+            )
+          }
           <div className='my-4'>
             <div className='flex gap-1'>
               <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Locality</p>
               <IconAsterisk size={8} color='#FF0000' />
             </div>
-            <Textinput
-              placeholder="Locality"
-              inputClassName='text-sm border-0 border-b border-[#D9D9D9] rounded-none focus:outline-none focus:ring-0 focus:border-b-[#D9D9D9]'
-              value={locality}
-              onChange={updateLocality}
-            />
-            {localityError && <p className='text-[#FF0000] text-xs font-sans'>Please enter locality</p>}
           </div>
+          {
+            isLoadingLocality ?
+              <div className='w-full flex justify-center items-center'>
+                <div className='w-5 h-5 border-2 border-t-2 border-[#1D3A76] rounded-full animate-spin'></div>
+                <p className='text-[#1D3A76] text-[13px] font-medium font-sans ml-2'>Fetching localities...</p>
+              </div>
+              :
+              <>
+                <div className='flex flex-row items-center  my-4 h-2 sm:h-4 '>
+                  <input
+                    type='text'
+                    value={locality}
+                    onChange={(e) => updateLocality(e.target.value)}
+                    placeholder='Search location'
+                    className='w-full border border-l-0 border-r-0 border-t-0 border-b-[#dcdada] text-[13px] rounded-r-md py-[5px]  focus:outline-none'
+                  />
+                </div>
+                {localityError && <p className='text-red-500 text-[10px] mt-2'>{localityError}</p>}
+              </>
+          }
+          {
+            localityDropdown && (
+              <>
+                {localitiesData.length > 0 ? (
+                  <ul className="w-full bg-white border border-[#1D3A76] rounded-md shadow-lg max-h-48 overflow-auto z-50">
+                    {localitiesData.map((loc, index) => (
+                      <li
+                        key={index}
+                        onClick={() => handleLocalitySelect(loc.value)}
+                        className="px-4 py-2 cursor-pointer hover:bg-[#1D3A76] hover:text-white"
+                      >
+                        {loc.label}
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <ul className="w-full bg-white border border-[#1D3A76] rounded-md shadow-lg max-h-48 overflow-auto z-50">
+                    <li
+                      className="px-4 py-2 cursor-pointer hover:bg-[#1D3A76] hover:text-white"
+                      onClick={() => handleLocalitySelect(locality)}
+                    >
+                      Add - {locality}
+                    </li>
+                  </ul>
+                )}
+              </>
+            )
+          }
           {
             !(getpropertyDetails?.property_sub_type === "Plot" || getpropertyDetails?.property_sub_type === "Land") ?
               <>
