@@ -28,6 +28,16 @@ function Listingswrapper({ occupancyList }) {
             setBhkhide(true)
             setBhk('')
         }
+        setPage(1)
+        setLimit(2)
+        setPropertySubtype('')
+        setLocality('')
+        setBhkhide(true)
+        setBhk('')
+        setPropertyFor('')
+        setOccupancy('')
+        setPropertyId('')
+        setPriceRange([0, 100000000])
     }
     const [bhkhide, setBhkhide] = useState(true)
     const [propertySubtype, setPropertySubtype] = useState('')
@@ -68,16 +78,6 @@ function Listingswrapper({ occupancyList }) {
     const updatePropertyId = (e) => {
         setPropertyId(e.currentTarget.value)
     }
-
-    // const [minPriceRange, setMinPriceRange] = useState(0)
-    // const updateMinPriceRange = (e) => {
-    //     setMinPriceRange(Number(e.currentTarget.value))
-    // }
-
-    // const [maxPriceRange, setMaxPriceRange] = useState(100000000)
-    // const updateMaxPriceRange = (e) => {
-    //     setMaxPriceRange(Number(e.currentTarget.value))
-    // }
 
     const [priceRange, setPriceRange] = useState([0, 100000000]);
     const handlePriceRange = (value) => {
@@ -122,7 +122,7 @@ function Listingswrapper({ occupancyList }) {
                 bedrooms: newBhk,
                 occupancy: newOccupancy,
                 unique_property_id: newPropertyId,
-                min_price_range: priceRange[0],
+                min_price_range: priceRange[0] === 0 ? null : priceRange[0],
                 max_price_range: priceRange[1]
             },
             headers: {

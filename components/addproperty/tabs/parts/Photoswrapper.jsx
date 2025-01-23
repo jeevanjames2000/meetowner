@@ -9,6 +9,7 @@ import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import uploadimage from '@/public/assets/uploadimage.png'
 
 function Photoswrapper({ updateActiveTab }) {
   const userInfo = useUserDetails((state) => state.userInfo)
@@ -238,44 +239,118 @@ function Photoswrapper({ updateActiveTab }) {
       });
   }
 
+  const [floorPlanFiles, setFloorPlanFiles] = useState([]);
+  const [floorPlanPreviews, setFloorPlanPreviews] = useState([]);
+  const handleFloorPlanUpload = (event) => {
+    // Allow only jpg, jpeg, png, gif extensions
+    const allowedExtensions = /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+    const uploadedFiles = Array.from(event.target.files);
+
+    // Filter invalid files by extension
+    const invalidFiles = uploadedFiles.filter((file) => !allowedExtensions.test(file.name));
+    if (invalidFiles.length > 0) {
+      toast.error('Please upload only jpg, jpeg, png, gif files', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+      return;
+    }
+
+    // Filter valid files (size <= 10MB)
+    const validFiles = uploadedFiles.filter((file) => file.size <= 10 * 1024 * 1024);
+
+    // Notify about oversized files
+    const oversizedFiles = uploadedFiles.filter((file) => file.size > 10 * 1024 * 1024);
+    if (oversizedFiles.length > 0) {
+      toast.error('Some files were not uploaded because they exceed 10MB', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+
+    // Map uploaded files to include the videotype key
+    const filesWithImageId = validFiles.map((file) => ({
+      file,
+      image_id: null,
+      url: null
+    }));
+
+    // Update state with the new file objects
+    setFloorPlanFiles((prevFiles) => [...prevFiles, ...filesWithImageId]);
+
+    // Create previews for valid files
+    const newPreviews = validFiles.map((file) => URL.createObjectURL(file));
+    setFloorPlanPreviews((prevPreviews) => [...prevPreviews, ...newPreviews]);
+
+  }
+
+  const removeFloorPlanPreview = (index, image_id) => {
+    if (image_id) {
+      deletePropertyFloorPlan(image_id);
+    } else {
+      const newPreviews = [...floorPlanPreviews];
+      const filteredPreviews = newPreviews.filter((_, i) => i !== index);
+      setFloorPlanPreviews(filteredPreviews);
+
+      const newFiles = [...floorPlanFiles];
+      const filteredFiles = newFiles.filter((_, i) => i !== index);
+      setFloorPlanFiles(filteredFiles);
+    }
+  }
+
+  async function deletePropertyFloorPlan(image_id) {
+    Propertyapi.post('deletepropertyfloorplan', {
+      photo_id: image_id,
+      user_id: user_id,
+      unique_property_id: unique_property_id
+    })
+
+      .then((response) => {
+        const data = response.data;
+        if (data.status === 'error') {
+          const finalResponse = {
+            message: data.message,
+            server_res: data.server_res
+          };
+          setErrorMessages(finalResponse);
+          setErrorModalOpen(true);
+          setIsLoadingEffect(false);
+          return;
+        }
+
+        getPropertyFloorPlans();
+        toast.success('Floorplan removed successfully');
+
+      })
+      .catch((error) => {
+        let finalResponse = {
+          'message': error.message,
+        }
+        setErrorMessages(finalResponse)
+        setErrorModalOpen(true)
+        setIsLoadingEffect(false)
+      });
+  }
+
   const [errorModalOpen, setErrorModalOpen] = useState(false);
   const closeErrorModal = () => setErrorModalOpen(false);
   const [errorMessages, setErrorMessages] = useState('');
   const [isLoadingEffect, setIsLoadingEffect] = useState(false);
 
-  const handleSubmitPhotosVideos = () => {
-    setIsLoadingEffect(true);
-    if (previews.length === 0) {
-      setIsLoadingEffect(false);
-      toast.error('Please upload atleast one photo', {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      })
-      return false;
-    }
-    if (featuredIndex === null || featuredIndex === -1) {
-      setIsLoadingEffect(false);
-      toast.error('Please select a featured image', {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-      })
-      return;
-    }
-
+  async function submitPhotosVideos() {
     const formData = new FormData();
     formData.append('user_id', user_id);
     formData.append('unique_property_id', unique_property_id);
-    // formData.append("featured_image", files[featuredIndex]);
     files.forEach((file) => {
       formData.append("photo", file.file);
       formData.append("image_id", file.image_id);
@@ -319,6 +394,76 @@ function Photoswrapper({ updateActiveTab }) {
         setErrorModalOpen(true);
         setIsLoadingEffect(false);
       });
+  }
+
+  async function submitFloorPlans() {
+    const formData = new FormData();
+    formData.append('user_id', user_id);
+    formData.append('unique_property_id', unique_property_id);
+    floorPlanFiles.forEach((file) => {
+      formData.append("photo", file.file);
+      formData.append("image_id", file.image_id);
+    });
+
+    Propertyapi.post('addpropertyfloorplans', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    })
+      .then((response) => {
+        const data = response.data;
+        if (data.status === 'error') {
+          const finalResponse = {
+            message: data.message,
+          };
+          setErrorMessages(finalResponse)
+          setErrorModalOpen(true);
+          setIsLoadingEffect(false);
+          return;
+        }
+        updateActiveTab('review', 'inprogress', unique_property_id)
+        toast.success('Floorplans uploaded successfully');
+        setIsLoadingEffect(false);
+      })
+      .catch(error => {
+        const errorDetails = {
+          message: error.message,
+          server_res: error.response ? error.response.data : null
+        };
+        setErrorMessages(errorDetails);
+        setErrorModalOpen(true);
+        setIsLoadingEffect(false);
+      });
+  }
+
+  const handlePhotosSubmit = () => {
+    setIsLoadingEffect(true);
+    if (previews.length === 0) {
+      setIsLoadingEffect(false);
+      toast.error('Please upload atleast one Property photo', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      })
+      return false;
+    }
+    if (featuredIndex === null || featuredIndex === -1) {
+      setIsLoadingEffect(false);
+      toast.error('Please select a featured image', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      })
+      return;
+    }
+    submitPhotosVideos();
+    submitFloorPlans();
   }
 
   async function getPropertyPhotos() {
@@ -413,10 +558,84 @@ function Photoswrapper({ updateActiveTab }) {
       )
   }
 
+  async function getPropertyFloorPlans() {
+    Propertyapi.get('getfloorplansphotos', {
+      params: {
+        unique_property_id: unique_property_id,
+        user_id: user_id
+      },
+    })
+      .then((response) => {
+        const data = response.data;
+        if (data.status === 'error') {
+          const finalResponse = {
+            message: data.message,
+            server_res: data.server_res
+          };
+          setErrorMessages(finalResponse);
+          setErrorModalOpen(true);
+          setIsLoadingEffect(false);
+          return;
+        }
+        const floorPlanFilesData = data.images.map((image) => ({
+          file: new File([], image.url.split('/').pop()),
+          url: image.url,
+          image_id: image.id
+        }));
+        setFloorPlanFiles(floorPlanFilesData);
+        const floorPlanPreviews = data.images.map((image) => ({
+          url: image.url,
+          image_id: image.id
+        }
+        ));
+        setFloorPlanPreviews(floorPlanPreviews);
+      }
+      )
+      .catch((error) => {
+        let finalResponse = {
+          'message': error.message,
+        }
+        setErrorMessages(finalResponse)
+        setErrorModalOpen(true)
+        setIsLoadingEffect(false)
+      }
+      )
+  }
+
   useEffect(() => {
     getPropertyPhotos();
-    getPropertyVideos()
+    getPropertyVideos();
+    getPropertyFloorPlans();
   }, []);
+
+  const handlewithoutphotos = () => {
+    Propertyapi.post('propertywithoutphotos', {
+      user_id: user_id,
+      unique_property_id: unique_property_id
+    })
+      .then((response) => {
+        const data = response.data;
+        if (data.status === 'error') {
+          const finalResponse = {
+            message: data.message,
+            server_res: data.server_res
+          };
+          setErrorMessages(finalResponse);
+          setErrorModalOpen(true);
+          setIsLoadingEffect(false);
+          return;
+        }
+        updateActiveTab('review', 'inprogress', unique_property_id)
+      })
+      .catch((error) => {
+        let finalResponse = {
+          'message': error.message,
+        }
+        setErrorMessages(finalResponse)
+        setErrorModalOpen(true)
+        setIsLoadingEffect(false)
+      });
+  }
 
   return (
     <>
@@ -583,19 +802,69 @@ function Photoswrapper({ updateActiveTab }) {
                 ))
               }
             </div>
+            {/* add floor plans */}
+            <label
+              htmlFor="dropzone-floor-plan-file"
+              className="flex flex-col items-center justify-center w-full h-50 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer"
+            >
+              <div className="flex flex-col items-center justify-center py-5 h-[180px]">
+                <Image
+                  src={uploadimage}
+                  alt="floor-plan"
+                  className="object-cover"
+                  width={150}
+                  height={150}
+                />
+                <p className="text-sm text-[#1D3A76] py-2 font-bold font-sans">+ Add Floor Plans</p>
+                <p className="text-[11px] text-gray-500 text-center px-3">
+                  Upload photos of max size 10 MB in format JPG, JPEG & PNG
+                </p>
+              </div>
+              <input
+                id="dropzone-floor-plan-file"
+                type="file"
+                accept="image/*"
+                multiple
+                onChange={handleFloorPlanUpload}
+                className="hidden"
+              />
+            </label>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-4 mt-4">
+              {
+                floorPlanPreviews.length > 0 &&
+                floorPlanPreviews.map((preview, index) => (
+                  <div
+                    key={index}
+                    className="relative group border border-gray-300 p-2 rounded"
+                  >
+                    <Image
+                      src={preview?.url || preview}
+                      alt={`Preview ${index}`}
+                      className="w-full h-32 object-cover rounded"
+                      height={140}
+                      width={140}
+                    />
+                    <div
+                      className="absolute top-2 right-2 bg-[#1D3A76] text-white rounded-full p-1 text-xs cursor-pointer"
+                      onClick={() => removeFloorPlanPreview(index, preview?.image_id)}
+                    >
+                      <IconX size={12} />
+                    </div>
+                  </div>
+                ))
+              }
+            </div>
           </div>
         </div>
+
         <div className='flex flex-row justify-end items-center  px-6 py-3'>
-          {/* <div onClick={() => updateActiveTab('address', 'completed', unique_property_id)} className='bg-[#000] px-8 py-2 rounded-md cursor-pointer'>
-            <p className='text-white text-[10px]'>Back</p>
-          </div> */}
           {
-            (previews.length > 0 || videoPreviews.length > 0) ?
-              <div onClick={handleSubmitPhotosVideos} className='border border-[#1D3A76] bg-[#1D3A76] px-8 py-2 rounded-md cursor-pointer'>
+            (previews.length > 0 || videoPreviews.length > 0 || floorPlanPreviews.length > 0) ?
+              <div onClick={handlePhotosSubmit} className='border border-[#1D3A76] bg-[#1D3A76] px-8 py-2 rounded-md cursor-pointer'>
                 <p className='text-white text-[10px] font-bold'>Next: Review</p>
               </div>
               :
-              <div onClick={() => updateActiveTab('review', 'inprogress', unique_property_id)} className='text-center cursor-pointer'>
+              <div onClick={handlewithoutphotos} className='text-center cursor-pointer'>
                 <p className='text-[#757575] text-xs underline pb-2 font-semibold'>Continue without photos</p>
               </div>
           }

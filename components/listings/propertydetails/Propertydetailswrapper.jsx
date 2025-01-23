@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import Propertybanner from './Propertybanner'
 import Propertyamenities from './Propertyamenities'
-import Propertypricetabs from './Propertypricetabs'
+import Propertfloorplan from './Propertfloorplan'
 import Propertylocation from './Propertylocation'
 import Propertyoverview from './Propertyoverview'
 import PropertySpecifications from './PropertySpecifications'
@@ -16,6 +16,7 @@ import { useRouter } from 'next/navigation'
 import listingApi from '@/components/api/listingApi'
 import Errorpanel from '@/components/shared/Errorpanel'
 import LoadingOverlay from '@/components/shared/LoadingOverlay'
+import placeholderimage from '@/public/assets/imgeplaceholder.jpg'
 
 function Propertydetailswrapper({ propertyDetails }) {
     const userInfo = useUserDetails((state) => state.userInfo)
@@ -87,7 +88,7 @@ function Propertydetailswrapper({ propertyDetails }) {
                     <Propertybanner
                         propertyDetails={propertyDetails}
                     />
-                    <Propertypricetabs
+                    <Propertfloorplan
                         propertyDetails={propertyDetails}
                     />
                     <Propertyamenities
@@ -123,7 +124,7 @@ function Propertydetailswrapper({ propertyDetails }) {
                         {images?.slice(0, 2).map((img, index) => (
                             <Image
                                 key={index}
-                                src={img}
+                                src={img || placeholderimage}
                                 alt={`Property image ${index + 1}`}
                                 className='rounded-lg'
                                 width={100}
@@ -145,7 +146,7 @@ function Propertydetailswrapper({ propertyDetails }) {
                                     propertyList.map((item, index) => (
                                         <div key={index} className='flex flex-row border border-[#1d3a76] h-auto w-full rounded-md overflow-hidden'>
                                             <Image
-                                                src={item.image}
+                                                src={item?.image || placeholderimage}
                                                 alt='property owner'
                                                 className='h-[100%] w-[60%]'
                                                 width={100}
@@ -181,18 +182,20 @@ function Propertydetailswrapper({ propertyDetails }) {
                 size="md"
                 zIndex={9999}
             >
-                <div className='grid grid-cols-2'>
-                    {images?.slice(2).map((img, index) => (
-                        <Image
-                            key={index}
-                            src={img}
-                            alt={`Modal property image ${index + 1}`}
-                            className='rounded-lg'
-                            width={150}
-                            height={150}
-                            style={{ height: '100px' }}
-                        />
-                    ))}
+                <div className='w-full overflow-y-auto pr-3 h-[calc(100vh-280px)] sm:h-[calc(100vh-220px)]'>
+                    <div className='grid grid-cols-3 gap-2'>
+                        {images?.slice(2).map((img, index) => (
+                            <Image
+                                key={index}
+                                src={img || placeholderimage}
+                                alt={`Modal property image ${index + 1}`}
+                                className='rounded-lg'
+                                width={150}
+                                height={150}
+                                style={{ height: '100px' }}
+                            />
+                        ))}
+                    </div>
                 </div>
             </Modal>
             {

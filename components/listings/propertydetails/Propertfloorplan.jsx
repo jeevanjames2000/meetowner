@@ -1,8 +1,9 @@
 'use client'
 import React, { useState } from 'react'
 import Floorplan from './tabs/Floorplan';
+import Image from 'next/image';
 
-function Propertyprice({ propertyDetails }) {
+function Propertfloorplan({ propertyDetails }) {
     const [activetab, setactivetab] = useState("plan1");
 
     const updateSetactivetab = (value) => {
@@ -38,12 +39,15 @@ function Propertyprice({ propertyDetails }) {
         new_price = ` ₹ ${formatPrice(propertyDetails?.monthly_rent)} Rent`;
     }
     return (
-        <div className='propertyprice space-y-6'>
-            <p className="text-[#1d3a76] text-[22px] xs:text-[25px] 2xl:text-[28px] 3xl:text-[30px] 4xl:text-[32px] font-[600]">
-                {propertyDetails?.property_name?.toUpperCase()} Price & Floor Plan
-            </p>
-            <div className='custom-shadow bg-[#F3F3F3] p-6 space-y-8'>
-                <div className='flex flex-col xxm:flex-row items-center gap-6'>
+        <>
+            {
+                propertyDetails?.floorplans_images.length > 0 &&
+                <div className='propertyprice space-y-6'>
+                    <p className="text-[#1d3a76] text-[22px] xs:text-[25px] 2xl:text-[28px] 3xl:text-[30px] 4xl:text-[32px] font-[600]">
+                        {propertyDetails?.property_name?.toUpperCase()} Floor Plan
+                    </p>
+                    <div className='custom-shadow bg-[#F3F3F3] p-6 space-y-8'>
+                        {/* <div className='flex flex-col xxm:flex-row items-center gap-6'>
                     <div className='w-full md:w-[20%] custom-apartmentshadow py-2 flex flex-col items-center justify-center rounded-sm'>
                         <p className='text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[22px] text-[#434343] font-[700] font-Montserrat'>
                             {
@@ -65,10 +69,10 @@ function Propertyprice({ propertyDetails }) {
                         (propertyDetails?.sub_type === "Plot" || propertyDetails?.sub_type === "Land") &&
                         <div className='w-full md:w-[20%] custom-apartmentshadow py-2 flex flex-col items-center justify-center rounded-sm'>
                             <p className='text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[22px] text-[#434343] font-[700] font-Montserrat'>
-                                Possession Starts
+                                Possession Status
                             </p>
                             <p className='text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[22px] text-[#1d3a76] font-[600] font-Montserrat'>
-                                {propertyDetails?.possession_status}
+                                {propertyDetails?.possession_status || 'N/A'}
                             </p>
                         </div>
                     }
@@ -144,10 +148,31 @@ function Propertyprice({ propertyDetails }) {
                             type="5"
                         />
                     }
+                </div> */}
+                        <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2'>
+                            {
+                                propertyDetails?.floorplans_images.length > 0 ?
+                                    propertyDetails?.floorplans_images?.map((img, index) => (
+                                        <Image
+                                            key={index}
+                                            src={img || placeholderimage}
+                                            alt={`property image ${index + 1}`}
+                                            className='h-[180px] w-[180px] rounded-lg object-cover'
+                                            width={200}
+                                            height={200}
+                                        />
+                                    ))
+                                    :
+                                    <div className='flex items-center justify-center w-full h-[150px] bg-[#F3F3F3] rounded-lg'>
+                                        <p className='text-[#1d3a76] text-[14px] font-[700] font-Montserrat'>No Floorplan Available</p>
+                                    </div>
+                            }
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
+            }
+        </>
     );
 }
 
-export default Propertyprice;
+export default Propertfloorplan;
