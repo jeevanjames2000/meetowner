@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react'
-import logo from '@/public/assets/logo.png'
+import logo from '@/public/assets/logo.svg'
 import Mainnavigation from './Mainnavigation';
 import { usePathname } from 'next/navigation';
 import { useUserDetails } from '../zustand/useUserDetails';
@@ -28,10 +28,8 @@ function Header() {
             setScrollY(window.scrollY);
         };
 
-
         // Attach scroll event listener
         window.addEventListener('scroll', handleScroll);
-
 
         // Cleanup event listener on unmount
         return () => {
