@@ -58,6 +58,12 @@ function Userdatawrapper({ userDetails, isLoadingEffect, errorModalOpen, closeEr
                         <p className='text-[#1D3A76] font-[600] text-[12px] md:text-[14px]  2xl:text-[16px] 3xl:text-[24px] 4xl:text-[24px] 5xl:text-[24px]'>
                             Pin Code :<span className='pl-1 text-[#252525]/70 font-[600]'>{userDetails?.pincode || 'N/A'}</span>
                         </p>
+                        <p className='text-[#1D3A76] font-[600] text-[12px] md:text-[14px]  2xl:text-[16px] 3xl:text-[24px] 4xl:text-[24px] 5xl:text-[24px]'>
+                            GST Number :<span className='pl-1 text-[#252525]/70 font-[600]'>{userDetails?.gst_number || 'N/A'}</span>
+                        </p>
+                        <p className='text-[#1D3A76] font-[600] text-[12px] md:text-[14px]  2xl:text-[16px] 3xl:text-[24px] 4xl:text-[24px] 5xl:text-[24px]'>
+                            RERA Number :<span className='pl-1 text-[#252525]/70 font-[600]'>{userDetails?.rera_number || 'N/A'}</span>
+                        </p>
                     </div>
                     <Myprofilemodal
                         cityList={cityList}

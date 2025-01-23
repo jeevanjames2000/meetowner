@@ -6,11 +6,8 @@ import Pagination from '@/components/tailifycomponents/Pagination'
 import { Loadingoverlay } from '@/components/tailifycomponents/Loadingoverlay'
 import Propertyapi from '@/components/api/Propertyapi'
 import { useUserDetails } from '@/components/zustand/useUserDetails'
-// import Slider from 'rc-slider'
-// import "rc-slider/assets/index.css";
 import RangeSlider from "react-range-slider-input";
 import "react-range-slider-input/dist/style.css";
-import { IconMenu2 } from '@tabler/icons-react'
 import { toast } from 'react-toastify'
 
 function Propertylists({
@@ -382,6 +379,7 @@ function Propertylists({
                                 property_name={item.property_name}
                                 property_subtype={item.property_subtype}
                                 description={item.description}
+                                property_status={item.property_status}
                                 openDeleteModal={openDeleteModal}
                             />
                         ))

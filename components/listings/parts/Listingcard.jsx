@@ -19,7 +19,8 @@ function Listingcard({
     expiry_date,
     facing,
     property_for,
-    monthly_rent
+    monthly_rent,
+    property_status,
 }) {
     const formatPrice = (price) => {
         if (price >= 10000000) {
@@ -115,12 +116,22 @@ function Listingcard({
                                 Low <span className="text-[#6d6c6c] font-[600]">(Freeplan)</span>
                             </span>
                         </p>
-                        <p className='flex items-center text-[7px] xs:text-[9px] 2xl:text-[13px] 3xl:text-[15px] 4xl:text-[17px] font-[700] justify-end text-[#ffffff] bg-[#038AC9] h-4 2xl:h-5 3xl:h-6 4xl:h-7 px-2 2xl:px-3 3xl:px-4 4xl:px-5 rounded-l-full rounded-r-full'>
-                            Active
-                        </p>
+                        {
+                            property_status === 1 ? (
+                                <p className='flex items-center text-[7px] xs:text-[9px] 2xl:text-[13px] 3xl:text-[15px] 4xl:text-[17px] font-[700] justify-end text-[#ffffff] bg-[#038AC9] h-4 2xl:h-5 3xl:h-6 4xl:h-7 px-2 2xl:px-3 3xl:px-4 4xl:px-5 rounded-l-full rounded-r-full'>
+                                    Active
+                                </p>
+                            ) : property_status === 2 ? (
+                                <p className='flex items-center text-[7px] xs:text-[9px] 2xl:text-[13px] 3xl:text-[15px] 4xl:text-[17px] font-[700] justify-end text-[#ffffff] bg-[#ff8d00] h-4 2xl:h-5 3xl:h-6 4xl:h-7 px-2 2xl:px-3 3xl:px-4 4xl:px-5 rounded-l-full rounded-r-full'>
+                                    Review
+                                </p>
+                            ) : (
+                                <p className='flex items-center text-[7px] xs:text-[9px] 2xl:text-[13px] 3xl:text-[15px] 4xl:text-[17px] font-[700] justify-end text-[#ffffff] bg-[#ea352e] h-4 2xl:h-5 3xl:h-6 4xl:h-7 px-2 2xl:px-3 3xl:px-4 4xl:px-5 rounded-l-full rounded-r-full'>
+                                    Pending
+                                </p>
+                            )
+                        }
                     </div>
-                    {/* <p className='text-sm py-2 pr-6'>{description?.length > 300 ? description.slice(0, 80) + '......' : ''}</p> */}
-
                     <div className='flex px-2 lg:px-0 flex-wrap items-center justify-center pt-1 lg:pt-0 xxm:justify-start gap-4 '>
                         <Link href={`/addproperty?active_step=basicdetails&status=completed&unique_property_id=${unique_property_id}`} className='flex items-center justify-center text-[8px] xs:text-[10px] 2xl:text-[14px] 3xl:text-[16px] 4xl:text-[18px] font-[700] text-[#ffffff] bg-[#038AC9] h-5 2xl:h-6 3xl:h-7 4xl:h-8 px-3 2xl:px-4 3xl:px-5 4xl:px-6 rounded-l-full rounded-r-full gap-2'>
                             Edit<IconEdit size={14} stroke={1.5} />
