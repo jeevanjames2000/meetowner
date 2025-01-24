@@ -148,7 +148,7 @@ function Propertydetailswrapper({ propertyDetails }) {
                                             <Image
                                                 src={item?.image || placeholderimage}
                                                 alt='property owner'
-                                                className='h-[100%] w-[60%]'
+                                                className='h-[100%] w-[60%] object-fit'
                                                 width={100}
                                                 height={100}
                                             />
@@ -166,7 +166,7 @@ function Propertydetailswrapper({ propertyDetails }) {
                                     )
                                     )
                                     :
-                                    <div className=' mt-3 flex items-center justify-center h-[200px] bg-white border border-[#D7D8D9] rounded-md'>
+                                    <div className=' mt-3 flex items-center justify-center h-[100px] bg-white border border-[#D7D8D9] rounded-md p-2'>
                                         <p className='text-[#1D3A76] text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[22px] font-[700]'>No Properties Found</p>
                                     </div>
                             }
