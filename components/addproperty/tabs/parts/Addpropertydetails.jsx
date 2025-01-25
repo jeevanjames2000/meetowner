@@ -2902,7 +2902,7 @@ function Addpropertydetails({
             (propertySubType === "Independent House" || propertySubType === "Independent Villa" || propertySubType === "Plot" || propertySubType === "Warehouse" || propertySubType === "Others") &&
             <div className='my-3'>
               <div className='flex gap-1'>
-                <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Plot Area({areaUnits})</p>
+                <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Plot Area(Sq.Yd)</p>
                 <IconAsterisk size={8} color='#FF0000' />
               </div>
               <Textinput
