@@ -218,7 +218,7 @@ function Loginform() {
                         <div className='rounded-md flex flex-col bg-white h-fit py-4 md:py-4 lg:py-4 xl:py-4  4xl:py-8 px-[3%] gap-2  md:gap-2 lg:gap-4'>
                             <p className='text-[12px] md:text-[12px] xl:text-[16px] lg:text-[16px] 2xl:text-[18px] 3xl:text-[26px] 4xl:text-[28px] font-semibold'>Mobile Number</p>
                             <div className='flex flex-row items-center'>
-                                <div className='w-[20%] sm:w-[10%]'>
+                                <div className='w-[15%] xxxs:w-[20%] sm:w-[10%] md:w-[15%] lg:w-[15%] xl:w-[15%]'>
                                     <Textinput
                                         value='+91'
                                         placeholder="+91"
@@ -226,7 +226,7 @@ function Loginform() {
                                         inputProps={{ readOnly: true }}
                                     />
                                 </div>
-                                <div className='w-[80%] sm:w-[90%]'>
+                                <div className='w-[85%] xxxs:w-[80%] sm:w-[90%] md:w-[85%] lg:w-[85%] xl:w-[85%]'>
                                     <Textinput
                                         type='number'
                                         placeholder="Enter Mobile Number"
