@@ -146,8 +146,8 @@ function Loginform() {
                     return false;
                 } else {
                     openOtpModal()
-                    setGenratedOtp(data?.otp.toString());
-                    // setOtpNumber(data?.otp.toString()); // for testing purpose
+                    console.log(data?.otp)
+                    setGenratedOtp(`${data?.otp}`);
                     setTimeout(() => {
                         setIsLoadingEffect(false);
                     }, 3000);

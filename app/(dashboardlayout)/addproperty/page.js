@@ -137,6 +137,16 @@ async function Page() {
     }
     const zoneList = getZoneTypesData.zoneList;
 
+    const getFacilitiesData = await getFacilities();
+    if (getFacilitiesData.status === 'error') {
+        return (
+            <div>
+                <p>Error fetching facilities</p>
+            </div>
+        );
+    }
+    const facilitiesList = getFacilitiesData.facilitiesList;
+
     return (
         <div className='px-4 md:px-[4vw] lg:px-[6vw] my-5'>
             <div className='p-1 border border-[#699BA0] rounded-md'>
@@ -153,6 +163,7 @@ async function Page() {
                     occupancyList={occupancyList}
                     ownershipList={ownershipList}
                     zoneList={zoneList}
+                    facilitiesList={facilitiesList}
                 />
             </div>
         </div>
@@ -504,6 +515,35 @@ async function getZoneTypes() {
             status: 'error',
             message: 'Error fetching zone types',
             zoneList: [],
+        }
+        return finaldata;
+    }
+}
+
+async function getFacilities() {
+    try {
+        const response = await Propertyapi.get('/getfaclities');
+        const data = response.data;
+        if (data.status === 'error') {
+            let data = {
+                status: 'error',
+                message: 'Error fetching facilities',
+                facilitiesList: {},
+            }
+            return data;
+        }
+        let finaldata = {
+            status: 'success',
+            message: 'facilities fetched successfully',
+            facilitiesList: data.facilities,
+        }
+        return finaldata;
+    } catch (error) {
+        console.error('Error fetching facilities:', error);
+        let finaldata = {
+            status: 'error',
+            message: 'Error fetching facilities',
+            facilitiesList: {},
         }
         return finaldata;
     }

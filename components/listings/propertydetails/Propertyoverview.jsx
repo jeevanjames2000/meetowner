@@ -423,7 +423,7 @@ function Propertyoverview({ propertyDetails }) {
                             />
                             <div>
                                 <p className="text-[12px] xs:text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[24px] text-[#212529] font-[600] font-Montserrat">Plot Area</p>
-                                <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.plot_area ? `${propertyDetails?.plot_area} ${propertyDetails?.area_units}` : '' || 'N/A'}</p>
+                                <p className="text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] text-[#434343] font-[600] font-Montserrat">{propertyDetails?.plot_area ? `${propertyDetails?.plot_area} Sq.Yd` : '' || 'N/A'}</p>
                             </div>
                         </div>
                     }
