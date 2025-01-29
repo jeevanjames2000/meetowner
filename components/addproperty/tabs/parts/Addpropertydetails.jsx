@@ -16,7 +16,7 @@ function Addpropertydetails({
   updateActiveTab, propertyDetails, preferedTenantList,
   bacloniesList, bedroomtypesList, businesstypesList,
   facingList, furnishedtypesList, occupancyList,
-  ownershipList, zoneList
+  ownershipList, zoneList, facilitiesList
 }) {
   const userInfo = useUserDetails((state) => state.userInfo)
   let user_id = userInfo?.user_id || null
@@ -79,35 +79,35 @@ function Addpropertydetails({
     }
     if (!(type === "Apartment" || type === "Independent House" || type === "Independent Villa" || type === "Flat" || type === "Office" || type === "Retail Shop" || type === "Show Room")) {
       setFacilities({
-        Lift: false,
-        CCTV: false,
-        Gym: false,
-        Garden: false,
-        Club_House: false,
-        Sports: false,
-        Swimming_Pool: false,
-        Intercom: false,
-        Power_Backup: false,
-        Gated_Community: false,
-        EntryorExit: false,
-        Regular_Water: false,
-        Community_Hall: false,
-        Pet_Allowed: false,
-        Outdoor_Fitness_Station: false,
-        Half_Basket_Ball_Court: false,
-        Gazebo: false,
-        Badmenton_Court: false,
-        Children_Play_area: false,
-        Ample_Greenery: false,
-        Water_Harvesting_Pit: false,
-        Water_Softner: false,
-        Solar_Fencing: false,
-        Security_Cabin: false,
-        Lawn: false,
-        Transformer_Yard: false,
-        Amphitheatre: false,
-        Lawn_with_Stepping_Stones: false,
-        None: false,
+        'Lift': false,
+        'CCTV': false,
+        'Gym': false,
+        'Garden': false,
+        'Club House': false,
+        'Sports': false,
+        'Swimming Pool': false,
+        'Intercom': false,
+        'Power Backup': false,
+        'Gated Community': false,
+        'Regular Water': false,
+        'Community Hall': false,
+        'Pet Allowed': false,
+        'Entry / Exit': false,
+        'Outdoor Fitness Station': false,
+        'Half Basket Ball Court': false,
+        'Gazebo': false,
+        'Badmenton Court': false,
+        'Children Play area': false,
+        'Ample Greenery': false,
+        'Water Harvesting Pit': false,
+        'Water Softner': false,
+        'Solar Fencing': false,
+        'Security Cabin': false,
+        'Lawn': false,
+        'Transformer Yard': false,
+        'Amphitheatre': false,
+        'Lawn with Stepping Stones': false,
+        'None': false,
       })
     }
     if (!(getpropertyDetails?.property_in === "Commercial")) {
@@ -529,36 +529,36 @@ function Addpropertydetails({
     setOtherInfoError('')
   }
 
-  const [facilities, setFacilities] = useState({
-    Lift: false,
-    CCTV: false,
-    Gym: false,
-    Garden: false,
-    Club_House: false,
-    Sports: false,
-    Swimming_Pool: false,
-    Intercom: false,
-    Power_Backup: false,
-    Gated_Community: false,
-    EntryorExit: false,
-    Regular_Water: false,
-    Community_Hall: false,
-    Pet_Allowed: false,
-    Outdoor_Fitness_Station: false,
-    Half_Basket_Ball_Court: false,
-    Gazebo: false,
-    Badmenton_Court: false,
-    Children_Play_area: false,
-    Ample_Greenery: false,
-    Water_Harvesting_Pit: false,
-    Water_Softner: false,
-    Solar_Fencing: false,
-    Security_Cabin: false,
-    Lawn: false,
-    Transformer_Yard: false,
-    Amphitheatre: false,
-    Lawn_with_Stepping_Stones: false,
-    None: false,
+  const [facilities, setFacilities] = useState(facilitiesList || {
+    'Lift': false,
+    'CCTV': false,
+    'Gym': false,
+    'Garden': false,
+    'Club House': false,
+    'Sports': false,
+    'Swimming Pool': false,
+    'Intercom': false,
+    'Power Backup': false,
+    'Gated Community': false,
+    'Regular Water': false,
+    'Community Hall': false,
+    'Pet Allowed': false,
+    'Entry / Exit': false,
+    'Outdoor Fitness Station': false,
+    'Half Basket Ball Court': false,
+    'Gazebo': false,
+    'Badmenton Court': false,
+    'Children Play area': false,
+    'Ample Greenery': false,
+    'Water Harvesting Pit': false,
+    'Water Softner': false,
+    'Solar Fencing': false,
+    'Security Cabin': false,
+    'Lawn': false,
+    'Transformer Yard': false,
+    'Amphitheatre': false,
+    'Lawn with Stepping Stones': false,
+    'None': false
   });
 
   // Handler function to toggle checkboxes
@@ -2118,90 +2118,47 @@ function Addpropertydetails({
       })
   }
 
-  const [allFloors, setAllFloors] = useState([])
-  const getAllFloors = () => {
-    Propertyapi.get('getfloors', {
-      params: {
-        user_id: user_id
-      },
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${access_token}`
-      }
-    })
-      .then((response) => {
-        let data = response.data
-        if (data.status === 'error') {
-          let finalResponse = {
-            'message': data.message,
-          }
-          setErrorMessages(finalResponse)
-        }
-        if (data.status === 'success') {
-          setAllFloors(data?.floors || [])
-          return false;
-        }
-      }
-      )
-      .catch((error) => {
-        console.log(error)
-        let finalresponse;
-        if (error.response !== undefined) {
-          finalresponse = {
-            'message': error.message,
-          };
-        } else {
-          finalresponse = {
-            'message': error.message,
-          };
-        }
-        setErrorMessages(finalresponse);
-        return false;
-      })
-  }
+  // const getAllFacilities = () => {
+  //   Propertyapi.get('getfaclities', {
+  //     params: {
+  //       user_id: user_id
+  //     },
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       'Authorization': `Bearer ${access_token}`
+  //     }
+  //   })
 
-  const getAllFacilities = () => {
-    Propertyapi.get('getfaclities', {
-      params: {
-        user_id: user_id
-      },
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${access_token}`
-      }
-    })
-
-      .then((response) => {
-        let data = response.data
-        if (data.status === 'error') {
-          let finalResponse = {
-            'message': data.message,
-          }
-          setErrorMessages(finalResponse)
-        }
-        if (data.status === 'success') {
-          setFacilities(data?.facilities)
-          return false;
-        }
-      }
-      )
-      .catch((error) => {
-        console.log(error)
-        let finalresponse;
-        if (error.response !== undefined) {
-          finalresponse = {
-            'message': error.message,
-          };
-        }
-        else {
-          finalresponse = {
-            'message': error.message,
-          };
-        }
-        setErrorMessages(finalresponse);
-        return false;
-      })
-  }
+  //     .then((response) => {
+  //       let data = response.data
+  //       if (data.status === 'error') {
+  //         let finalResponse = {
+  //           'message': data.message,
+  //         }
+  //         setErrorMessages(finalResponse)
+  //       }
+  //       if (data.status === 'success') {
+  //         setFacilities(data?.facilities)
+  //       }
+  //     }
+  //     )
+  //     .catch((error) => {
+  //       console.log(error)
+  //       let finalresponse;
+  //       if (error.response !== undefined) {
+  //         finalresponse = {
+  //           'message': error.message,
+  //         };
+  //       }
+  //       else {
+  //         finalresponse = {
+  //           'message': error.message,
+  //         };
+  //       }
+  //       setErrorMessages(finalresponse);
+  //       return false;
+  //     })
+  // }
 
   useEffect(() => {
     if (getpropertyDetails?.property_for === 'Rent') {
@@ -2238,11 +2195,9 @@ function Addpropertydetails({
 
   useEffect(() => {
     getPropertySubTypes()
-    // getAllFloors()
-    getAllFacilities()
+    // getAllFacilities()
   }, [])
 
-  // const [isFocused, setIsFocused] = useState(false);
   const propertySubTypeIcon = {
     'default': (
       <svg width="28" height="28" viewBox="0 0 53 43" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -2292,16 +2247,6 @@ function Addpropertydetails({
           </div>
           <p className=' w-full text-md sm:text-lg font-bold text-[#1D3A76] text-center font-sans'>ADD PROPERTY DETAILS</p>
         </div>
-        {/* <div className='flex'>
-          <div className='flex items-center gap-1 mt-1 px-5'>
-            <p className=' text-xs font-sans font-bold'>Property Type:</p>
-            <p className=' text-xs font-sans '>{getpropertyDetails?.property_in}</p>
-          </div>
-          <div className='flex items-center gap-1 mt-1 px-5'>
-            <p className=' text-xs font-sans font-bold'>Looking To:</p>
-            <p className=' text-xs font-sans '>{getpropertyDetails?.property_for}</p>
-          </div>
-        </div> */}
       </div>
       <div className='w-full overflow-y-auto px-5 py-3 sm:h-[calc(100vh-240px)] h-[calc(100vh-280px)]'>
         <div className='mb-5'>
@@ -3069,16 +3014,6 @@ function Addpropertydetails({
             </ul>
           </div>
         }
-        {/* <Textarea
-          label="Enter other attractive offers (Max 100 characters)"
-          placeholder="your details of Property"
-          withAsterisk
-          textareaClassName='border-b border-[#c3c3c3] w-full py-2 focus:outline-none text-[13px] font-sans'
-          labelClassName='text-[#1D3A76] text-[12px] font-medium font-sans mt-3'
-          value={otherInfo}
-          onChange={updateOtherInfo}
-          error={otherInfoError}
-        /> */}
         {
           getpropertyDetails?.property_in === "Commercial" &&
           <>
