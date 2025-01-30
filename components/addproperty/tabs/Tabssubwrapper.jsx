@@ -19,7 +19,7 @@ function Tabssubwrapper({
     propertyInList, propertyForList, transactionTypeList,
     preferedTenantList, bacloniesList, bedroomtypesList,
     businesstypesList, facingList, furnishedtypesList,
-    occupancyList, ownershipList, zoneList
+    occupancyList, ownershipList, zoneList, areaunitsList
 }) {
     const userInfo = useUserDetails(state => state.userInfo);
     const access_token = useUserDetails(state => state.access_token);
@@ -545,6 +545,7 @@ function Tabssubwrapper({
                         occupancyList={occupancyList}
                         ownershipList={ownershipList}
                         zoneList={zoneList}
+                        areaunitsList={areaunitsList}
                     />
                 }
                 {
