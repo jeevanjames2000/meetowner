@@ -2,21 +2,21 @@ import React, { Suspense } from 'react'
 import Tabssubwrapper from './Tabssubwrapper'
 
 function Tabswrapper({
-    propertyInList, 
-    propertyForList, 
-    transactionTypeList,
-    preferedTenantList, 
-    bacloniesList, 
-    bedroomtypesList,
-    businesstypesList, 
-    facingList, 
-    furnishedtypesList,
-    occupancyList, 
-    ownershipList, zoneList
+  propertyInList,
+  propertyForList,
+  transactionTypeList,
+  preferedTenantList,
+  bacloniesList,
+  bedroomtypesList,
+  businesstypesList,
+  facingList,
+  furnishedtypesList,
+  occupancyList,
+  ownershipList, zoneList, areaunitsList
 }) {
   return (
     <Suspense>
-      <Tabssubwrapper 
+      <Tabssubwrapper
         propertyInList={propertyInList}
         propertyForList={propertyForList}
         transactionTypeList={transactionTypeList}
@@ -29,6 +29,7 @@ function Tabswrapper({
         occupancyList={occupancyList}
         ownershipList={ownershipList}
         zoneList={zoneList}
+        areaunitsList={areaunitsList}
       />
     </Suspense>
   )

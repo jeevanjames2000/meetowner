@@ -81,6 +81,26 @@ function Propertydetailswrapper({ propertyDetails }) {
         getPropertyList();
     }, [user_id])
 
+    const [blobUrl, setBlobUrl] = useState(null);
+    useEffect(() => {
+        const fetchVideo = async () => {
+            if (!propertyDetails?.videos || propertyDetails?.videos.length === 0) return;
+
+            let videoUrl = propertyDetails.videos[0]; // Define the variable properly
+            try {
+                const response = await fetch(videoUrl);
+                if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+
+                const blob = await response.blob();
+                setBlobUrl(URL.createObjectURL(blob));
+            } catch (error) {
+                console.error('Error loading video:', error);
+            }
+        };
+
+        fetchVideo(); // Call function immediately
+    }, [propertyDetails]);
+
     return (
         <>
             <div className='flex flex-col lg:flex-row bg-[#ffffffe6] px-4 md:px-[4vw] lg:px-[6vw] py-6 gap-3 lg:gap-6'>
@@ -111,7 +131,7 @@ function Propertydetailswrapper({ propertyDetails }) {
                     </div>
                 </div>
                 <div className='w-full lg:w-[25%] lg:fixed lg:right-3 p-2 bg-white h-fit shadow-[0_0px_10px_0px_rgba(0,0,0,0.2)] rounded-lg space-y-4'>
-                    {propertyDetails?.videos[0] ?
+                    {/* {propertyDetails?.videos[0] ?
                         <video
                             src={propertyDetails?.videos[0]}
                             className="w-full h-40 object-cover rounded"
@@ -119,7 +139,14 @@ function Propertydetailswrapper({ propertyDetails }) {
                         />
                         :
                         <p className='text-[#1d3a76] text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] font-bold text-center pt-4'>No Video Available</p>
-                    }
+                    } */}
+                    {blobUrl ? (
+                        <video src={blobUrl} controls className="w-full h-40 object-cover rounded" />
+                    ) : (
+                        <p className='text-[#1d3a76] text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] font-bold text-center pt-4'>
+                            No Video Available
+                        </p>
+                    )}
                     <div className='flex gap-2'>
                         {images?.slice(0, 2).map((img, index) => (
                             <Image
