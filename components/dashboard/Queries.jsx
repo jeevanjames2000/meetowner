@@ -26,7 +26,7 @@ function Queries() {
                     <div className=' flex flex-row items-center justify-center'>
                         <IconPhone size={20} />
                         <p className="text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text[22px] font-[600] text-[#878787] text-center  px-2">
-                            +91 9121314151
+                            +91 9553919919
                         </p>
                     </div>
                     <div className=' flex flex-row items-center justify-center'>

@@ -16,7 +16,7 @@ function Addpropertydetails({
   updateActiveTab, propertyDetails, preferedTenantList,
   bacloniesList, bedroomtypesList, businesstypesList,
   facingList, furnishedtypesList, occupancyList,
-  ownershipList, zoneList, facilitiesList
+  ownershipList, zoneList, facilitiesList, areaunitsList
 }) {
   const userInfo = useUserDetails((state) => state.userInfo)
   let user_id = userInfo?.user_id || null
@@ -489,12 +489,16 @@ function Addpropertydetails({
     setOwnerShipError('')
   }
 
-  const [areaUnits, setAreaUnits] = useState('sq.ft')
+  const [areaUnits, setAreaUnits] = useState(1)
   const [areaUnitsError, setAreaUnitsError] = useState('')
   const updateAreaUnits = (value) => {
     setAreaUnits(value)
+    const areaUnit = areaunitsList.find((unit) => unit.value === value);
+    setAreaUintsName(areaUnit ? areaUnit.label : '');
     setAreaUnitsError('')
   }
+
+  const [areaUintsName, setAreaUintsName] = useState('Sq.ft')
 
   const [pentHouse, setPentHouse] = useState('')
   const [pentHouseError, setPentHouseError] = useState('')
@@ -1985,7 +1989,8 @@ function Addpropertydetails({
       }
       setFurnishType(propertyDetails?.furnished_status || '')
       setAgeofProperty(propertyDetails?.property_age || '')
-      setAreaUnits(propertyDetails?.area_units || 'sq.ft')
+      setAreaUnits(propertyDetails?.area_units || 1)
+      setAreaUintsName(propertyDetails?.area_units_name || 'Sq.ft')
       setBuiltupArea(propertyDetails?.builtup_area || '')
       setCarpetArea(propertyDetails?.carpet_area || '')
       setPropertyCost(propertyDetails?.property_cost || '')
@@ -2764,10 +2769,7 @@ function Addpropertydetails({
           <Select
             label='Area units'
             labelClassName='!text-[#1D3A76] text-[13px] font-medium font-sans'
-            data={[
-              { value: 'sq.ft', label: 'sq.ft' },
-              { value: 'sq.yd', label: 'sq.yd' },
-            ]}
+            data={areaunitsList}
             searchable
             withAsterisk
             value={areaUnits}
@@ -2783,7 +2785,7 @@ function Addpropertydetails({
             <>
               <div className='mt-3'>
                 <div className='flex gap-1'>
-                  <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Built-up Area({areaUnits})</p>
+                  <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Built-up Area({areaUintsName})</p>
                   <IconAsterisk size={8} color='#FF0000' />
                 </div>
                 <Textinput
@@ -2797,7 +2799,7 @@ function Addpropertydetails({
               </div>
               <div className='mt-3'>
                 <div className='flex gap-1'>
-                  <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Carpet Area({areaUnits})</p>
+                  <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Carpet Area({areaUintsName})</p>
                   {/* <IconAsterisk size={8} color='#FF0000' /> */}
                 </div>
                 <Textinput
@@ -2816,7 +2818,7 @@ function Addpropertydetails({
             <>
               <div className='mt-3 '>
                 <div className='flex gap-1'>
-                  <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Length Area({areaUnits})</p>
+                  <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Length Area({areaUintsName})</p>
                   <IconAsterisk size={8} color='#FF0000' />
                 </div>
                 <Textinput
@@ -2830,7 +2832,7 @@ function Addpropertydetails({
               </div>
               <div className='my-3'>
                 <div className='flex gap-1'>
-                  <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Width Area({areaUnits})</p>
+                  <p className='text-[#1D3A76] text-[13px] font-medium font-sans'>Width Area({areaUintsName})</p>
                   <IconAsterisk size={8} color='#FF0000' />
                 </div>
                 <Textinput

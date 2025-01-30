@@ -18,6 +18,7 @@ module.exports = {
         Montserrat: ['Montserrat', 'sans-serif'],
       },
       screens: {
+        'xxxs':'280px', // Extra small phones
         'xxs': '321px', // Extra small phones
         'xxm': '376px', // Small phones
         'xs': '426px', // Small phones

@@ -19,7 +19,7 @@ function Tabssubwrapper({
     propertyInList, propertyForList, transactionTypeList,
     preferedTenantList, bacloniesList, bedroomtypesList,
     businesstypesList, facingList, furnishedtypesList,
-    occupancyList, ownershipList, zoneList
+    occupancyList, ownershipList, zoneList, areaunitsList
 }) {
     const userInfo = useUserDetails(state => state.userInfo);
     const access_token = useUserDetails(state => state.access_token);
@@ -503,7 +503,7 @@ function Tabssubwrapper({
                     <p className='text-[#699BA0] text-xs font-semibold font-sans'>Require Assistance?</p>
                     <div className='flex flex-row items-center gap-1 border-b-2 pb-1 border-[#699BA0]'>
                         <IconPhone size={16} color='#699BA0' />
-                        <p className='text-[#699BA0] text-xs font-sans'>+91 9999999999</p>
+                        <p className='text-[#699BA0] text-xs font-sans'>+91 9553919919</p>
                     </div>
                 </div>
             </div>
@@ -545,6 +545,7 @@ function Tabssubwrapper({
                         occupancyList={occupancyList}
                         ownershipList={ownershipList}
                         zoneList={zoneList}
+                        areaunitsList={areaunitsList}
                     />
                 }
                 {
