@@ -147,6 +147,16 @@ async function Page() {
     }
     const facilitiesList = getFacilitiesData.facilitiesList;
 
+    const getAreaunitsData = await getAreaunits();
+    if (getAreaunitsData.status === 'error') {
+        return (
+            <div>
+                <p>Error fetching area units</p>
+            </div>
+        );
+    }
+    const areaunitsList = getAreaunitsData.areaunitsList;
+
     return (
         <div className='px-4 md:px-[4vw] lg:px-[6vw] my-5'>
             <div className='p-1 border border-[#699BA0] rounded-md'>
@@ -164,6 +174,7 @@ async function Page() {
                     ownershipList={ownershipList}
                     zoneList={zoneList}
                     facilitiesList={facilitiesList}
+                    areaunitsList={areaunitsList}
                 />
             </div>
         </div>
@@ -544,6 +555,35 @@ async function getFacilities() {
             status: 'error',
             message: 'Error fetching facilities',
             facilitiesList: {},
+        }
+        return finaldata;
+    }
+}
+
+async function getAreaunits() {
+    try {
+        const response = await Propertyapi.get('/getareaunits');
+        const data = response.data;
+        if (data.status === 'error') {
+            let data = {
+                status: 'error',
+                message: 'Error fetching area units',
+                areaunitsList: [],
+            }
+            return data;
+        }
+        let finaldata = {
+            status: 'success',
+            message: 'area units fetched successfully',
+            areaunitsList: data.areaunits,
+        }
+        return finaldata;
+    } catch (error) {
+        console.error('Error fetching area units:', error);
+        let finaldata = {
+            status: 'error',
+            message: 'Error fetching area units',
+            areaunitsList: [],
         }
         return finaldata;
     }
