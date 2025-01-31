@@ -15,8 +15,6 @@ function EnquiryModal({ singleEnquiry, closeEnquiryModal }) {
         }
         return price;
     };
-
-    console.log('singleEnquiry?.property_details?.image ', singleEnquiry?.property_details?.image)
     return (
         <div>
             {singleEnquiry &&
@@ -25,9 +23,9 @@ function EnquiryModal({ singleEnquiry, closeEnquiryModal }) {
                         <div className='grid grid-cols-1 md:grid-cols-2 gap-4 p-2'>
                             <div className='flex flex-col space-y-3'>
                                 <p className='font-bold text-[#1D3A76]'>User Details</p>
-                                <p className='text-[#1D3A76] font-semibold text-xs'>Name :<span className='pl-1 text-[#252525]/70 font-semibold'>{singleEnquiry?.user_details?.name || ''}</span></p>
-                                <p className='text-[#1D3A76] font-semibold text-xs'>Phone Number :<span className='pl-1 text-[#252525]/70 font-semibold'>{singleEnquiry?.user_details?.mobile || ''}</span></p>
-                                <p className='text-[#1D3A76] font-semibold text-xs'>Email Address :<span className='pl-1 text-[#252525]/70 font-semibold'>{singleEnquiry?.user_details?.email || ''}</span></p>
+                                <p className='text-[#1D3A76] font-semibold text-xs'>Name :<span className='pl-1 text-[#252525]/70 font-semibold'>{singleEnquiry?.name || ''}</span></p>
+                                <p className='text-[#1D3A76] font-semibold text-xs'>Phone Number :<span className='pl-1 text-[#252525]/70 font-semibold'>{singleEnquiry?.mobile || ''}</span></p>
+                                <p className='text-[#1D3A76] font-semibold text-xs'>Email Address :<span className='pl-1 text-[#252525]/70 font-semibold'>{singleEnquiry?.email || ''}</span></p>
                             </div>
                             <div className='flex flex-col space-y-3'>
                                 <p className='font-bold text-[#1D3A76]'>Property Details</p>
@@ -47,7 +45,7 @@ function EnquiryModal({ singleEnquiry, closeEnquiryModal }) {
                                     singleEnquiry?.property_details?.property_for === 'Sell' ?
                                         <p className='text-[#1D3A76] font-semibold text-xs'>Property Cost :<span className='pl-1 text-[#252525]/70 font-semibold'>{formatPrice(singleEnquiry?.property_details?.property_cost) || ''}</span></p>
                                         :
-                                        <p className='text-[#1D3A76] font-semibold text-xs'>Monthly Rent :<span className='pl-1 text-[#252525]/70 font-semibold'>{formatPrice(singleEnquiry?.property_details?.monthly_rent) || ''} Rent</span></p>
+                                        <p className='text-[#1D3A76] font-semibold text-xs'>Monthly Rent :<span className='pl-1 text-[#252525]/70 font-semibold'>Rs. {formatPrice(singleEnquiry?.property_details?.monthly_rent) || ''} Rent</span></p>
                                 }
                                 <p className='text-[#1D3A76] font-semibold text-xs'>Builtup Area :<span className='pl-1 text-[#252525]/70 font-semibold'>{singleEnquiry?.property_details?.builtup_area || ''} {singleEnquiry?.property_details?.area_units}</span></p>
                             </div>

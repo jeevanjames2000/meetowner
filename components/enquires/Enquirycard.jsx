@@ -3,7 +3,12 @@ import Image from 'next/image'
 import React from 'react'
 import imageplaceholder from '@/public/assets/imgeplaceholder.jpg';
 
-function Enquirycard({ image, property_name, unique_property_id, sub_type, property_for, google_address, builtup_area, property_cost, area_units, monthly_rent, user_name, user_email, user_mobile }) {
+function Enquirycard({
+    image,
+    property_name,
+    unique_property_id,
+    enquiry_from,
+    sub_type, property_for, google_address, builtup_area, property_cost, area_units, monthly_rent, user_name, user_email, user_mobile }) {
     const formatPrice = (price) => {
         if (price >= 10000000) {
             return (price / 10000000).toFixed(2) + ' Cr'; // Crores
@@ -63,9 +68,14 @@ function Enquirycard({ image, property_name, unique_property_id, sub_type, prope
                 </div>
             </div>
             <div className='flex flex-col justify-end col-span-12 xxm:col-span-8 sm:col-span-5 space-y-1 xxm:pl-6'>
-                <p className='text-[10px] xs:text-[11px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text[20px] text-[#252525] font-[700]'>
-                    August-12-2024
-                </p>
+                <div className='flex flex-row justify-end'>
+                    {
+                        enquiry_from !== "undefined" &&
+                        <p className=' flex flex-row items-center justify-center text-[8px] xs:text-[9px] 2xl:text-[12px] 3xl:text-[14px] 4xl:text[16px] font-[600] bg-[#53c0ac] text-white rounded-l-full rounded-r-full px-3 py-[3px]'>
+                            {enquiry_from}
+                        </p>
+                    }
+                </div>
                 <p className=' flex text-[8px] xs:text-[10px] 2xl:text-[14px] 3xl:text-[16px] 4xl:text[18px] text-[#252525] font-[600]'>
                     {sub_type} for {property_for}
                 </p>
@@ -91,11 +101,11 @@ function Enquirycard({ image, property_name, unique_property_id, sub_type, prope
                     {
                         property_for === 'Rent' ?
                             <p className=' flex flex-row items-center justify-center text-[8px] xs:text-[9px] 2xl:text-[12px] 3xl:text-[14px] 4xl:text[16px] font-[600] bg-[#1D3A76] text-white rounded-l-full rounded-r-full px-3 py-[3px]'>
-                                {formatPrice(monthly_rent)} Rent
+                               Rs. {formatPrice(monthly_rent)} Rent
                             </p>
                             :
                             <p className=' flex flex-row items-center justify-center text-[8px] xs:text-[9px] 2xl:text-[12px] 3xl:text-[14px] 4xl:text[16px] font-[600] bg-[#1D3A76] text-white rounded-l-full rounded-r-full px-3 py-[3px]'>
-                                {formatPrice(property_cost)}
+                               Rs. {formatPrice(property_cost)}
                             </p>
                     }
                 </div>

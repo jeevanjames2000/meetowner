@@ -79,7 +79,8 @@ input[type="number"] {
   .heading1 {
     font-size: 18px;
   }
-  .imageList{
+
+  .imageList {
     width: 16px;
     height: 16px;
   }
@@ -89,23 +90,28 @@ input[type="number"] {
   .heading1 {
     font-size: 18px;
   }
-  .lists{
-    font-size:14px ;
+
+  .lists {
+    font-size: 14px;
   }
-  .imageList{
+
+  .imageList {
     width: 16px;
     height: 16px;
   }
 }
+
 /* For screens between 1024px and 1280px (small desktops) */
 @media screen and (min-width: 1024px) and (max-width: 1280px) {
   .heading1 {
     font-size: 22px;
   }
-  .lists{
-    font-size:16px ;
+
+  .lists {
+    font-size: 16px;
   }
-  .imageList{
+
+  .imageList {
     width: 16px;
     height: 16px;
   }
@@ -116,10 +122,12 @@ input[type="number"] {
   .heading1 {
     font-size: 24px;
   }
-  .lists{
-    font-size:16px ;
+
+  .lists {
+    font-size: 16px;
   }
-  .imageList{
+
+  .imageList {
     width: 16px;
     height: 16px;
   }
@@ -130,10 +138,12 @@ input[type="number"] {
   .heading1 {
     font-size: 28px;
   }
-  .lists{
-    font-size:20px ;
+
+  .lists {
+    font-size: 20px;
   }
-  .imageList{
+
+  .imageList {
     width: 24px;
     height: 24px;
   }
@@ -144,8 +154,9 @@ input[type="number"] {
   .heading1 {
     font-size: 32px;
   }
-  .lists{
-    font-size:22px ;
+
+  .lists {
+    font-size: 22px;
   }
 }
 
@@ -154,10 +165,12 @@ input[type="number"] {
   .heading1 {
     font-size: 36px;
   }
-  .lists{
-    font-size:28px ;
+
+  .lists {
+    font-size: 28px;
   }
-  .imageList{
+
+  .imageList {
     width: 32px;
     height: 32px;
   }
@@ -167,10 +180,11 @@ input[type="number"] {
 @media screen and (min-width: 2000px) and (max-width: 2200px) {
   .heading1 {
     font-size: 40px;
-      }
-      .lists{
-        font-size:32px ;
-      }
+  }
+
+  .lists {
+    font-size: 32px;
+  }
 }
 
 /* For screens between 2200px and 2500px (maximum ultra-wide screens) */
@@ -178,8 +192,9 @@ input[type="number"] {
   .heading1 {
     font-size: 44px;
   }
-  .lists{
-    font-size:36px ;
+
+  .lists {
+    font-size: 36px;
   }
 }
 
@@ -188,20 +203,37 @@ input[type="number"] {
   .heading1 {
     font-size: 52px;
   }
-  .lists{
-    font-size:40px ;
+
+  .lists {
+    font-size: 40px;
   }
-  .imageList{
+
+  .imageList {
     width: 40px;
     height: 40px;
   }
 }
 
 .photoswrapper .overflow-y-auto {
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* Internet Explorer 10+ */
 }
 
 .photoswrapper .overflow-y-auto::-webkit-scrollbar {
-  display: none; 
+  display: none;
+}
+
+.listingfilter .range-slider {
+  height: 4px !important;
+}
+
+.listingfilter .range-slider .range-slider__thumb {
+  width: 15px !important;
+  height: 15px !important;
+}
+
+.propertydetails .dropdown-option:hover {
+  background: #1d3a76 !important;
 }
