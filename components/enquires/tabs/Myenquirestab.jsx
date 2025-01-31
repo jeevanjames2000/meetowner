@@ -47,6 +47,7 @@ function Myenquirestab({ allEnquires, handlePageChange, isLoadingEffect, totalPa
                             <Enquirycard
                                 key={`enquiry-${index}${item.id}`}
                                 property_id={index}
+                                enquiry_from={item?.enquiry_from}
                                 image={item?.property_details?.image}
                                 property_name={item?.property_details?.property_name}
                                 unique_property_id={item?.property_details?.unique_property_id}
@@ -60,9 +61,9 @@ function Myenquirestab({ allEnquires, handlePageChange, isLoadingEffect, totalPa
                                 property_cost={item?.property_details?.property_cost}
                                 monthly_rent={item?.property_details?.monthly_rent}
                                 area_units={item?.property_details?.area_units}
-                                user_name={item?.user_details?.name}
-                                user_email={item?.user_details?.email}
-                                user_mobile={item?.user_details?.mobile}
+                                user_name={item?.name}
+                                user_email={item?.email}
+                                user_mobile={item?.mobile}
                             />
                         </div>
                     ))

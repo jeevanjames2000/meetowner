@@ -42,7 +42,7 @@ function Checkoutpropertywrappercard({
                         (property_subtype === "Apartment" || property_subtype === "Flat" || property_subtype === "Independent House" || property_subtype === "Independent Villa") &&
                         <p className="text-[16px] 2xl:text-[20px] 3xl:text-[22px] 4xl:text-[24px] font-bold text-[#6D6C6C]">{`${bhk} BHK`}</p>
                     }
-                    <p className="text-[16px] 2xl:text-[20px] 3xl:text-[22px] 4xl:text-[24px] font-bold text-[#6D6C6C] w-[80%]">
+                    <p className="w-[80%] truncate text-[16px] 2xl:text-[20px] 3xl:text-[22px] 4xl:text-[24px] font-bold text-[#6D6C6C]">
                         {property_subtype} in {google_address}</p>
                 </div>
                 {
@@ -60,7 +60,7 @@ function Checkoutpropertywrappercard({
                     <p className="text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text-[22px] font-[400] text-[#6d6c6c]">Plan upgrade required</p>
                     <Link href="/packages"
                         className="upgrade-btn bg-[#53c0ac] text-[#ffffff] text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] font-[700] py-1 px-3 rounded-[5px] hover:bg-[#53c0ac]/70 focus:outline-none"
-                      >
+                    >
                         Upgrade Now
                     </Link>
                 </div>

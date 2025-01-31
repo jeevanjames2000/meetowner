@@ -503,7 +503,7 @@ function Tabssubwrapper({
                     <p className='text-[#699BA0] text-xs font-semibold font-sans'>Require Assistance?</p>
                     <div className='flex flex-row items-center gap-1 border-b-2 pb-1 border-[#699BA0]'>
                         <IconPhone size={16} color='#699BA0' />
-                        <p className='text-[#699BA0] text-xs font-sans'>+91 9553919919</p>
+                        <Link href="tel:9553919919" className='text-[#699BA0] text-xs font-sans'>+91 9553919919</Link>
                     </div>
                 </div>
             </div>
@@ -519,7 +519,7 @@ function Tabssubwrapper({
                 </div>
             </div>
 
-            <div className='basis-[100%] sm:basis-[75%] lg:basis-[75%] bg-white w-full rounded-t-lg'>
+            <div className='propertydetails basis-[100%] sm:basis-[75%] lg:basis-[75%] bg-white w-full rounded-t-lg'>
                 {
                     activeTab === 'basicdetails' &&
                     <Basicdetailswrapper

@@ -290,30 +290,66 @@ function Propertylists({
                                     </select>
                                 </label>
                             </div>
-                            <button onClick={updateFilters} className='col-span-2 flex items-center justify-center  rounded-sm  h-7 bg-[#E2EAED] text-[8px] xs:text-[10px] 2xl:text-[14px] 3xl:text-[16px] 4xl:text-[18px] font-[700] text-[#37474F]  px-4  '>
-                                {filters ? 'Close Filters' : 'More Filters'}
-                            </button>
+                            <input
+                                type='text'
+                                placeholder='Property ID'
+                                className='col-span-2 px-2 text-[#FEFDF8] text-[8px] xs:text-[10px] 2xl:text-[14px] 3xl:text-[16px] 4xl:text-[18px] font-[700] bg-transparent  h-7 border border-[#FEFDF8] rounded-sm focus:outline-none'
+                                value={propertyId}
+                                onChange={updatePropertyId}
+                            />
+                            {filters && (
+                                <>
+                                    <div className='col-span-3 gap-y-2 flex flex-col w-full'>
+                                        <div className='flex flex-row gap-2 '>
+                                            <div className=' w-[100%] flex items-center justify-between gap-2'>
+                                                <p className='text-[#FEFDF8] text-[8px] xs:text-[10px] 2xl:text-[14px] 3xl:text-[16px] 4xl:text-[18px] font-[700]'>Min: <span className='pl-1'>₹ {formatPrice(priceRange[0])}</span></p>
+                                            </div>
+                                            <div className=' w-[100%] flex items-center justify-between gap-2'>
+                                                <p className='text-[#FEFDF8] text-[8px] xs:text-[10px] 2xl:text-[14px] 3xl:text-[16px] 4xl:text-[18px] font-[700]'>Max: <span className='pl-1'>₹ {formatPrice(priceRange[1])}</span></p>
+                                            </div>
+                                        </div>
+                                        <div className='w-[90%]'>
+                                            <RangeSlider
+                                                min={0}
+                                                max={100000000}
+                                                step={10000}
+                                                value={priceRange}
+                                                onInput={handlePriceRange}
+                                            />
+                                        </div>
+                                    </div>
+                                </>
+                            )}
+                            {
+                                !filters &&
+                                <button onClick={updateFilters} className='col-span-2 flex items-center justify-center  rounded-sm  h-7 bg-[#E2EAED] text-[8px] xs:text-[10px] 2xl:text-[14px] 3xl:text-[16px] 4xl:text-[18px] font-[700] text-[#37474F]  px-4  '>
+                                    More Filters
+                                </button>
+                            }
                         </div>
                         {filters && (
                             <>
-                                <div className='gap-y-4 flex flex-col w-full sm:w-[70%]'>
-                                    <div className='flex flex-row justify-between gap-2 '>
-                                        <div className='border border-[#FEFDF8] rounded-sm h-6 w-[40%] xs:w-[28%] flex items-center justify-between px-2 gap-2'>
-                                            <p className='text-[#FEFDF8] text-[8px] xs:text-[10px] 2xl:text-[14px] 3xl:text-[16px] 4xl:text-[18px] font-[700]'>Min <span className='pl-1'>₹ {formatPrice(priceRange[0])}</span></p>
+                                {/* <div className='gap-y-2 flex flex-col w-full sm:w-[70%]'>
+                                    <div className='flex flex-row gap-2 '>
+                                        <div className=' w-[50%] xs:w-[28%] flex items-center justify-between gap-2'>
+                                            <p className='text-[#FEFDF8] text-[8px] xs:text-[10px] 2xl:text-[14px] 3xl:text-[16px] 4xl:text-[18px] font-[700]'>Min: <span className='pl-1'>₹ {formatPrice(priceRange[0])}</span></p>
                                         </div>
-                                        <div className='border border-[#FEFDF8] rounded-sm h-6 w-[40%] xs:w-[28%] flex items-center justify-between px-2 gap-2'>
-                                            <p className='text-[#FEFDF8] text-[8px] xs:text-[10px] 2xl:text-[14px] 3xl:text-[16px] 4xl:text-[18px] font-[700]'>Max <span className='pl-1'>₹ {formatPrice(priceRange[1])}</span></p>
+                                        <div className=' w-[50%] xs:w-[28%] flex items-center justify-between gap-2'>
+                                            <p className='text-[#FEFDF8] text-[8px] xs:text-[10px] 2xl:text-[14px] 3xl:text-[16px] 4xl:text-[18px] font-[700]'>Max: <span className='pl-1'>₹ {formatPrice(priceRange[1])}</span></p>
                                         </div>
                                     </div>
-                                    <RangeSlider
-                                        min={0}
-                                        max={100000000}
-                                        step={10000}
-                                        value={priceRange}
-                                        onInput={handlePriceRange}
-                                    />
-                                </div>
-                                <div className='grid grid-cols-1 xxm:grid-cols-2 sm:grid-cols-3 gap-3'>
+                                    <div className='w-[50%]'>
+                                        <RangeSlider
+                                            min={0}
+                                            max={100000000}
+                                            step={10000}
+                                            value={priceRange}
+                                            onInput={handlePriceRange}
+
+                                        />
+                                    </div>
+                                </div> */}
+                                <div className='grid grid-cols-1 xxm:grid-cols-2 sm:grid-cols-3 pt-2 gap-3'>
                                     {
                                         parseInt(propertyFor) === 1 &&
                                         <label className="flex w-fit items-center cursor-pointer px-2 border border-[#FEFDF8] rounded-sm">
@@ -335,16 +371,15 @@ function Propertylists({
                                             </select>
                                         </label>
                                     }
-                                    <input
-                                        type='text'
-                                        placeholder='Property ID'
-                                        className='px-2 text-[#FEFDF8] text-[8px] xs:text-[10px] 2xl:text-[14px] 3xl:text-[16px] 4xl:text-[18px] font-[700] bg-transparent  h-7 border border-[#FEFDF8] rounded-sm focus:outline-none'
-                                        value={propertyId}
-                                        onChange={updatePropertyId}
-                                    />
                                     <button onClick={handleResetFilters} className=' rounded-sm  h-7 bg-[#E2EAED] text-[8px] xs:text-[10px] 2xl:text-[14px] 3xl:text-[16px] 4xl:text-[18px] font-[700] text-[#37474F] px-4  '>
                                         Reset
                                     </button>
+                                    {
+                                        filters &&
+                                        <button onClick={updateFilters} className='flex items-center justify-center  rounded-sm  h-7 bg-[#53c0ac] text-[8px] xs:text-[10px] 2xl:text-[14px] 3xl:text-[16px] 4xl:text-[18px] font-[700] text-[#fff]  px-4  '>
+                                            Close Filters
+                                        </button>
+                                    }
                                 </div>
                             </>
                         )}
@@ -372,7 +407,7 @@ function Propertylists({
                                 monthly_rent={item?.monthly_rent || '----'}
                                 furnished_status={item?.furnished_status || '----'}
                                 area="160 sq.ft"
-                                interested_tenants="Two interested tenants"
+                                enquirescount={item?.all_enquires_count || '0'}
                                 last_added_date={item?.last_added_date || '-----'}
                                 expiry_date={item?.expiry_date || '-----'}
                                 facing={item.facing}

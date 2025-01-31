@@ -14,7 +14,7 @@ function Listingcard({
     property_subtype,
     property_name,
     furnished_status,
-    interested_tenants,
+    enquirescount,
     last_added_date,
     expiry_date,
     facing,
@@ -50,13 +50,15 @@ function Listingcard({
                     ID : {unique_property_id}
                 </p>
                 <div className='flex gap-4 lg:gap-10 w-full xs:w-fit justify-between'>
-                    <button className='text-[#1D3A76] text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] font-[600]'>
+                    <Link href={`/enquiry?unique_property_id=${unique_property_id}`} className='text-[#1D3A76] text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] font-[600]'>
                         View Enquiries
-                    </button>
+                    </Link>
                     <button className='text-[#1D3A76] text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] font-[600]'>
                         + Advanced Details
                     </button>
-                    <Image src={list_icon} alt='list_icon' className='h-5 w-5 2xl:h-6 2xl:w-6 3xl:h-7 3xl:w-7 4xl:h-8 4xl:w-8 sm:mr-6' />
+                    <Link href={`/propertydetails/${unique_property_id}`} className='flex items-center gap-2 text-[#1D3A76] text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] font-[600]'>
+                        <Image src={list_icon} alt='list_icon' className='h-5 w-5 2xl:h-6 2xl:w-6 3xl:h-7 3xl:w-7 4xl:h-8 4xl:w-8 sm:mr-6' />
+                    </Link>
                 </div>
             </div>
             <div className='grid grid-cols-6 lg:grid-cols-12 w-full'>
@@ -102,7 +104,7 @@ function Listingcard({
                                 height={100}
                                 width={100}
                             />
-                            <p className='text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] font-[400] text-[#1D3A76] pt-1'>{interested_tenants}</p>
+                            <p className='text-[10px] xs:text-[12px] 2xl:text-[16px] 3xl:text-[18px] 4xl:text-[20px] font-[400] text-[#1D3A76] pt-1'>{enquirescount} Enquires</p>
                         </div>
                     </div>
                 </div>
