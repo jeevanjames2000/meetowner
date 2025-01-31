@@ -1,4 +1,5 @@
 import { IconMail, IconPhone } from '@tabler/icons-react'
+import Link from 'next/link'
 import React from 'react'
 
 function Queries() {
@@ -25,15 +26,15 @@ function Queries() {
                     </p>
                     <div className=' flex flex-row items-center justify-center'>
                         <IconPhone size={20} />
-                        <p className="text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text[22px] font-[600] text-[#878787] text-center  px-2">
+                        <Link href="tel:9553919919" className="text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text[22px] font-[600] text-[#878787] text-center  px-2">
                             +91 9553919919
-                        </p>
+                        </Link>
                     </div>
                     <div className=' flex flex-row items-center justify-center'>
                         <IconMail size={20} />
-                        <p className="text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text[22px] font-[600] text-[#878787] text-center  px-2">
+                        <Link href="mailto:meetowner.in@gmail.com" className="text-[14px] 2xl:text-[18px] 3xl:text-[20px] 4xl:text[22px] font-[600] text-[#878787] text-center  px-2">
                             meetowner.in@gmail.com
-                        </p>
+                        </Link>
                     </div>
 
                 </div>

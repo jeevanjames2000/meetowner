@@ -79,7 +79,7 @@ function Enquirycard({
                 <p className=' flex text-[8px] xs:text-[10px] 2xl:text-[14px] 3xl:text-[16px] 4xl:text[18px] text-[#252525] font-[600]'>
                     {sub_type} for {property_for}
                 </p>
-                <p className=' flex flex-wrap text-[8px] xs:text-[9px] 2xl:text-[12px] 3xl:text-[14px] 4xl:text[16px] text-[#252525] font-[400]'>
+                <p className='w-[80%] truncate flex flex-wrap text-[8px] xs:text-[9px] 2xl:text-[12px] 3xl:text-[14px] 4xl:text[16px] text-[#252525] font-[400]'>
                     {google_address}
                 </p>
                 <div className=' flex flex-wrap gap-1'>
@@ -101,11 +101,11 @@ function Enquirycard({
                     {
                         property_for === 'Rent' ?
                             <p className=' flex flex-row items-center justify-center text-[8px] xs:text-[9px] 2xl:text-[12px] 3xl:text-[14px] 4xl:text[16px] font-[600] bg-[#1D3A76] text-white rounded-l-full rounded-r-full px-3 py-[3px]'>
-                               Rs. {formatPrice(monthly_rent)} Rent
+                                Rs. {formatPrice(monthly_rent)} Rent
                             </p>
                             :
                             <p className=' flex flex-row items-center justify-center text-[8px] xs:text-[9px] 2xl:text-[12px] 3xl:text-[14px] 4xl:text[16px] font-[600] bg-[#1D3A76] text-white rounded-l-full rounded-r-full px-3 py-[3px]'>
-                               Rs. {formatPrice(property_cost)}
+                                Rs. {formatPrice(property_cost)}
                             </p>
                     }
                 </div>
