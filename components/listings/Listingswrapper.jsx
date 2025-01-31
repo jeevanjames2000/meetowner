@@ -29,7 +29,7 @@ function Listingswrapper({ occupancyList }) {
             setBhk('')
         }
         setPage(1)
-        setLimit(2)
+        setLimit(10)
         setPropertySubtype('')
         setLocality('')
         setBhkhide(true)
@@ -39,6 +39,7 @@ function Listingswrapper({ occupancyList }) {
         setPropertyId('')
         setPriceRange([0, 100000000])
     }
+    
     const [bhkhide, setBhkhide] = useState(true)
     const [propertySubtype, setPropertySubtype] = useState('')
     const updatePropertySubtype = (e) => {
@@ -105,7 +106,7 @@ function Listingswrapper({ occupancyList }) {
     }
 
     const [page, setPage] = useState(1);
-    const [limit, setLimit] = useState(2);
+    const [limit, setLimit] = useState(10);
     const [totalPages, setTotalPages] = useState(0);
     const [totalProperties, setTotalProperties] = useState(0);
     const [allListings, setAllListings] = useState([]);

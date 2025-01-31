@@ -7,12 +7,23 @@ import Enquiresapi from '../api/Enquiresapi'
 import { useUserDetails } from '../zustand/useUserDetails'
 import { Modal } from '@nayeshdaggula/tailify'
 import Errorpanel from '../shared/Errorpanel'
-import { useRouter } from 'next/navigation'
-import { toast } from 'react-toastify'
-function Enquirestabswrapper() {
+import { usePathname, useSearchParams } from 'next/navigation'
+function Enquirestabswrapper({ unique_property_id }) {
     const userInfo = useUserDetails((state) => state.userInfo)
     const user_id = userInfo?.user_id;
     const access_token = useUserDetails(state => state.access_token);
+
+    // const searchParams = useSearchParams();
+    // const params = new URLSearchParams(searchParams.toString());
+    // const [unique_property_id, setUnique_property_id] = useState(null);
+
+    // useEffect(() => {
+    //     if (params.has('unique_property_id')) {
+    //         setUnique_property_id(params.get('unique_property_id'));
+    //     } else {
+    //         setUnique_property_id(null);
+    //     }
+    // }, [searchParams]);
 
     const [activeTab, setActivetab] = useState('myenquires')
     const updateActiveTab = (value) => {
@@ -27,16 +38,17 @@ function Enquirestabswrapper() {
     }
 
     const [page, setPage] = useState(1);
-    const [limit, setLimit] = useState(3);
+    const [limit, setLimit] = useState(10);
     const [totalPages, setTotalPages] = useState(0);
     const [totalEnquires, setTotalEnquires] = useState(0);
     const [allEnquires, setAllEnquires] = useState([]);
-    async function getAllEnquires(newPage, newLimit) {
+    async function getAllEnquires(newPage, newLimit, unique_property_id) {
         Enquiresapi.get('/getallenquires', {
             params: {
                 user_id: user_id,
                 page: newPage,
                 limit: newLimit,
+                unique_property_id: unique_property_id || null
             },
             headers: {
                 'Content-Type': 'application/json',
@@ -53,7 +65,6 @@ function Enquirestabswrapper() {
                     console.log('finalresponse', finalresponse)
                     setErrorMessages(finalresponse);
                     setErrorModalOpen(true);
-                    // toast.error(data.message);
                     return false;
                 }
                 setAllEnquires(data?.allEnquires || []);
@@ -66,7 +77,6 @@ function Enquirestabswrapper() {
                     'message': error.message,
                 }
                 console.log('error', error)
-                // toast.error(error.message);
                 setErrorMessages(finalresponse);
                 setErrorModalOpen(true);
             });
@@ -75,13 +85,13 @@ function Enquirestabswrapper() {
     const handlePageChange = (value) => {
         setPage(value);
         setIsLoadingEffect(true);
-        getAllEnquires(value, limit);
+        getAllEnquires(value, limit, unique_property_id);
     };
 
     useEffect(() => {
         setIsLoadingEffect(true);
-        getAllEnquires(page, limit);
-    }, [user_id, page, limit])
+        getAllEnquires(page, limit, unique_property_id);
+    }, [page, limit, unique_property_id])
 
     return (
         <div className='w-full gap-1 grid grid-cols-12'>
