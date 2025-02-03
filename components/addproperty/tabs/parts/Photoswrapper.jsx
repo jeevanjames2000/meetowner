@@ -511,110 +511,110 @@ function Photoswrapper({ updateActiveTab }) {
       )
   }
 
-  async function getPropertyVideos() {
-    Propertyapi.get('getpropertyvideos', {
-      params: {
-        unique_property_id: unique_property_id,
-        user_id: user_id
-      },
-    })
-      .then((response) => {
-        const data = response.data;
-        if (data.status === 'error') {
-          const finalResponse = {
-            message: data.message,
-            server_res: data.server_res
-          };
-          setErrorMessages(finalResponse);
-          setErrorModalOpen(true);
-          setIsLoadingEffect(false);
-          return;
-        }
-
-        const videoFilesData = data.videos.map((video) => ({
-          file: new File([], video.url.split('/').pop()),
-          videotype: video.type,
-          video_id: video.id
-        }));
-        setVideoFiles(videoFilesData);
-        const videoPreviews = data.videos.map((video) => ({
-          url: video.url,
-          type: video.type,
-          video_id: video.id
-        }
-
-        ));
-        setVideoPreviews(videoPreviews);
-      }
-      )
-      .catch((error) => {
-        let finalResponse = {
-          'message': error.message,
-        }
-        setErrorMessages(finalResponse)
-        setErrorModalOpen(true)
-        setIsLoadingEffect(false)
-      }
-      )
-  }
-
   // async function getPropertyVideos() {
-  //   setIsLoadingEffect(true);
-  //   try {
-  //     const response = await Propertyapi.get('getpropertyvideos', {
-  //       params: {
-  //         unique_property_id: unique_property_id,
-  //         user_id: user_id
+  //   Propertyapi.get('getpropertyvideos', {
+  //     params: {
+  //       unique_property_id: unique_property_id,
+  //       user_id: user_id
+  //     },
+  //   })
+  //     .then((response) => {
+  //       const data = response.data;
+  //       if (data.status === 'error') {
+  //         const finalResponse = {
+  //           message: data.message,
+  //           server_res: data.server_res
+  //         };
+  //         setErrorMessages(finalResponse);
+  //         setErrorModalOpen(true);
+  //         setIsLoadingEffect(false);
+  //         return;
   //       }
-  //     });
 
-  //     const data = response.data;
-  //     if (data.status === 'error') {
-  //       setErrorMessages({
-  //         message: data.message,
-  //         server_res: data.server_res
-  //       });
-  //       setErrorModalOpen(true);
-  //       return;
+  //       const videoFilesData = data.videos.map((video) => ({
+  //         file: new File([], video.url.split('/').pop()),
+  //         videotype: video.type,
+  //         video_id: video.id
+  //       }));
+  //       setVideoFiles(videoFilesData);
+  //       const videoPreviews = data.videos.map((video) => ({
+  //         url: video.url,
+  //         type: video.type,
+  //         video_id: video.id
+  //       }
+
+  //       ));
+  //       setVideoPreviews(videoPreviews);
   //     }
-
-  //     const videoFilesData = data.videos.map((video) => ({
-  //       file: new File([], video.url.split('/').pop()),
-  //       videotype: video.type,
-  //       video_id: video.id
-  //     }));
-  //     setVideoFiles(videoFilesData);
-
-  //     // Fetch video blobs from URLs
-  //     const videoBlobs = await Promise.all(
-  //       data.videos.map(async (video) => {
-  //         try {
-  //           const res = await fetch(video.url);
-  //           if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
-
-  //           const blob = await res.blob();
-  //           return {
-  //             url: URL.createObjectURL(blob),  // Convert blob to object URL
-  //             type: video.type,
-  //             video_id: video.id
-  //           };
-  //         } catch (error) {
-  //           console.error("Error fetching video:", error);
-  //           return null; // Return null for failed fetch
-  //         }
-  //       })
-  //     );
-
-  //     // Remove failed video fetches (null values)
-  //     setVideoPreviews(videoBlobs.filter(Boolean));
-
-  //   } catch (error) {
-  //     setErrorMessages({ message: error.message });
-  //     setErrorModalOpen(true);
-  //   } finally {
-  //     setIsLoadingEffect(false);
-  //   }
+  //     )
+  //     .catch((error) => {
+  //       let finalResponse = {
+  //         'message': error.message,
+  //       }
+  //       setErrorMessages(finalResponse)
+  //       setErrorModalOpen(true)
+  //       setIsLoadingEffect(false)
+  //     }
+  //     )
   // }
+
+  async function getPropertyVideos() {
+    setIsLoadingEffect(true);
+    try {
+      const response = await Propertyapi.get('getpropertyvideos', {
+        params: {
+          unique_property_id: unique_property_id,
+          user_id: user_id
+        }
+      });
+
+      const data = response.data;
+      if (data.status === 'error') {
+        setErrorMessages({
+          message: data.message,
+          server_res: data.server_res
+        });
+        setErrorModalOpen(true);
+        return;
+      }
+
+      const videoFilesData = data.videos.map((video) => ({
+        file: new File([], video.url.split('/').pop()),
+        videotype: video.type,
+        video_id: video.id
+      }));
+      setVideoFiles(videoFilesData);
+
+      // Fetch video blobs from URLs
+      const videoBlobs = await Promise.all(
+        data.videos.map(async (video) => {
+          try {
+            const res = await fetch(video.url);
+            if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
+
+            const blob = await res.blob();
+            return {
+              url: URL.createObjectURL(blob),  // Convert blob to object URL
+              type: video.type,
+              video_id: video.id
+            };
+          } catch (error) {
+            console.error("Error fetching video:", error);
+            return null; // Return null for failed fetch
+          }
+        })
+      );
+
+      // Remove failed video fetches (null values)
+      setVideoPreviews(videoBlobs.filter(Boolean));
+
+    } catch (error) {
+      setErrorMessages({ message: error.message });
+      setErrorModalOpen(true);
+    } finally {
+      setIsLoadingEffect(false);
+    }
+  }
 
   async function getPropertyFloorPlans() {
     Propertyapi.get('getfloorplansphotos', {
@@ -841,7 +841,7 @@ function Photoswrapper({ updateActiveTab }) {
                       controls
                     />
                     <Select
-                      value={videoFiles[index].videotype}
+                      value={videoFiles[index]?.videotype }
                       data={[
                         { value: 'video', label: 'Video' },
                         { value: 'short', label: 'Short' }
