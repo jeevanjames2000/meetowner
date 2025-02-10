@@ -39,10 +39,10 @@ export default function RootLayout({ children }) {
         <ToastContainer />
         {children}
         {/* Google Tag Manager (noscript) */}
-        <noscript>
+        {/* <noscript>
           <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P8HMN9BJ"
             height="0" width="0" style="display:none;visibility:hidden"></iframe>
-        </noscript>
+        </noscript> */}
         {/* End Google Tag Manager (noscript) */}
       </body>
     </html>
