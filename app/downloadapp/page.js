@@ -3,11 +3,13 @@ import React from 'react'
 import downloadapp_bg from '@/public/assets/downloadapp_bg.png'
 import qrcode_1 from '@/public/assets/qrcode_1.png'
 import qrcode_2 from '@/public/assets/qrcode_2.png'
-import google_play from '@/public/assets/google_play.png'
+// import google_play from '@/public/assets/google_play.png'
+import google_play from '@/public/assets/playstore.webp'
 import app_store from '@/public/assets/app_store.png'
 import { Button, Text, Textinput } from '@nayeshdaggula/tailify'
 import downloadap_bg from '@/public/assets/downloadapp-pg.png'
 import Header from '@/components/header/Header'
+import Link from 'next/link'
 
 
 function page() {
@@ -26,7 +28,7 @@ function page() {
                     <p className="text-[#5C5C5C] font-[400] text-[12px] sm:text-[16px] 2xl:text-[20px] 3xl:text-[22px] 4xl:text[32px] w-full sm:w-[65%]">Download our top-rated app, made just for you! It’s free, easy and smart.</p>
                     <div className="custom-shadow bg-[#FFFFFF] p-4 rounded-[24px] w-fit space-y-4">
                         <div className="flex space-x-2">
-                            <Image
+                            {/* <Image
                                 src={qrcode_1}
                                 className="h-[100%] w-[100%] object-cover"
                                 alt="qrcode_1"
@@ -35,19 +37,23 @@ function page() {
                                 src={qrcode_2}
                                 className="h-[100%] w-[100%] object-cover"
                                 alt="qrcode_2"
-                            />
+                            /> */}
                         </div>
-                        <div className="flex space-x-4">
-                            <Image
-                                src={google_play}
-                                className="h-full w-full object-cover cursor-pointer"
-                                alt="google_play"
-                            />
-                            <Image
+                        <div className="w-full">
+                            <Link href="https://play.google.com/store/apps/details?id=com.meetowner.app&pcampaignid=web_share">
+                                <Image
+                                    src={google_play}
+                                    className="h-[50%] w-[100%] object-cover cursor-pointer"
+                                    alt="google_play"
+                                    width={100}
+                                    height={100}
+                                />
+                            </Link>
+                            {/* <Image
                                 src={app_store}
                                 className="h-full w-full object-cover cursor-pointer"
                                 alt="app_store"
-                            />
+                            /> */}
                         </div>
                         <div className="flex border-[0.82px] border-[#000000] rounded-[8px]">
                             <Textinput
