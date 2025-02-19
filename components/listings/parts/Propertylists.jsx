@@ -385,7 +385,7 @@ function Propertylists({
                         )}
                     </div>
                     <div className='col-span-2 hidden lg:flex'>
-                        <Getapp />
+                        {/* <Getapp /> */}
                     </div>
                 </div>
                 <div className='w-full'>

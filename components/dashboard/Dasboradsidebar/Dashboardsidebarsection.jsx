@@ -9,7 +9,7 @@ function Dashboardsidebarsection() {
   return (
     <>
       <Agreement />
-      <Getapp />
+      {/* <Getapp /> */}
       <Uploadproperty />
       <Propertyvaluecalculator />
       <Verifykyc />
