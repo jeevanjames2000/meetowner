@@ -19,8 +19,8 @@ function Enquirieswrapper() {
         />
       </div>
       <div className="col-span-12 md:col-span-2 space-y-8">
-        <Unlockpackages />
-        <Getapp />
+        {/* <Unlockpackages /> */}
+        {/* <Getapp /> */}
         <Agreement />
         <Uploadproperty />
         <Propertyvaluecalculator />

@@ -27,8 +27,8 @@ function Dashboardwrapper() {
                 </div>
                 <Checkoutpropertywrapper />
                 <Findplanner />
-                <Housepackage />
-                <Ownersreview />
+                {/* <Housepackage /> */}
+                {/* <Ownersreview /> */}
                 <Queries />
             </div>
 
