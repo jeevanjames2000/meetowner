@@ -27,8 +27,8 @@ function page() {
                     <p className="text-[#1D3A76] font-[700] text-[20px] md:text-[32] ">Meet Owner on the Go!</p>
                     <p className="text-[#5C5C5C] font-[400] text-[12px] sm:text-[16px] 2xl:text-[20px] 3xl:text-[22px] 4xl:text[32px] w-full sm:w-[65%]">Download our top-rated app, made just for you! It’s free, easy and smart.</p>
                     <div className="custom-shadow bg-[#FFFFFF] p-4 rounded-[24px] w-fit space-y-4">
-                        <div className="flex space-x-2">
-                            {/* <Image
+                        {/* <div className="flex space-x-2">
+                             <Image
                                 src={qrcode_1}
                                 className="h-[100%] w-[100%] object-cover"
                                 alt="qrcode_1"
@@ -37,15 +37,15 @@ function page() {
                                 src={qrcode_2}
                                 className="h-[100%] w-[100%] object-cover"
                                 alt="qrcode_2"
-                            /> */}
-                        </div>
+                            /> 
+                        </div> */}
                         <div className="w-full">
                             <Link href="https://play.google.com/store/apps/details?id=com.meetowner.app&pcampaignid=web_share">
                                 <Image
                                     src={google_play}
-                                    className="h-[50%] w-[100%] object-cover cursor-pointer"
+                                    className="w-[180px] object-cover cursor-pointer"
                                     alt="google_play"
-                                    width={100}
+                                    width={200}
                                     height={100}
                                 />
                             </Link>
@@ -55,7 +55,7 @@ function page() {
                                 alt="app_store"
                             /> */}
                         </div>
-                        <div className="flex border-[0.82px] border-[#000000] rounded-[8px]">
+                        {/* <div className="flex border-[0.82px] border-[#000000] rounded-[8px]">
                             <Textinput
                                 placeholder="Enter mobile number"
                                 inputClassName="text-[10px] border-none focus:outline-none focus:ring-0 shadow-none border-0 bg-[#fffffff] rounded-[8px]"
@@ -63,7 +63,7 @@ function page() {
                             <button className="bg-[#1D3A76] text-[#ffffff] ml-auto px-1 md:px-4 rounded-[8px] rounded-tl-none rounded-bl-none">
                                 Send Link
                             </button>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
                 {/* Right Column */}
