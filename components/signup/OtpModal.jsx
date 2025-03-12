@@ -4,7 +4,7 @@ import React from 'react'
 function OtpModal({ otpNumber, updateOtpNumber, handleVerifyOtp, genratedOtp, otpError }) {
     return (
         <>
-            <form onSubmit={handleVerifyOtp} className='space-y-3 py-3'>
+            <form onSubmit={handleVerifyOtp} className='space-y-3 py-3 m-1'>
                 {/* <p className=''>Temparay Otp: {genratedOtp}</p> */}
                 <Pininput
                     numberOfInputs={6}
